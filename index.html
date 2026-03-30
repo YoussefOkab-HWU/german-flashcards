@@ -5025,8 +5025,9 @@ function checkAnswer() {
   let correctDisplay;
   if (langDir === 'en-de') {
     const allCards = buildCards(activeFilter);
+    const targetWords = new Set(parseAnswers(card.english));
     const synonyms = allCards
-      .filter(c => c.english.trim().toLowerCase() === card.english.trim().toLowerCase())
+      .filter(c => parseAnswers(c.english).some(w => targetWords.has(w)))
       .map(c => c.german);
     correctDisplay = [...new Set(synonyms)].join(' / ');
   } else {
@@ -5324,9 +5325,9 @@ function isGermanMatch(input, card) {
   const normInput = input.trim().toLowerCase();
   // Accept any German word in the dataset that shares the same English meaning
   const allCards = buildCards(activeFilter);
-  const englishTarget = card.english.trim().toLowerCase();
+  const targetWords = new Set(parseAnswers(card.english));
   return allCards.some(c => {
-    if (c.english.trim().toLowerCase() !== englishTarget) return false;
+    if (!parseAnswers(c.english).some(w => targetWords.has(w))) return false;
     return normInput === c.german.trim().toLowerCase();
   });
 }

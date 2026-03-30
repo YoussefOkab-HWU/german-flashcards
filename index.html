@@ -4923,7 +4923,10 @@ function showCard() {
 
   const card = deck[deckPos];
   // Show German or English depending on direction
-  elWord.textContent = langDir === 'en-de' ? card.english : card.german;
+  const displayWord = langDir === 'en-de'
+    ? (card.category === 'nouns' ? 'the ' + card.english : card.english)
+    : card.german;
+  elWord.textContent = displayWord;
   elBadge.textContent = activeFilter === 'all' ? '' : card.category;
   const remaining = getUnlearnedCards().length;
   elCounter.textContent = `${remaining} remaining`;

@@ -5072,16 +5072,7 @@ function checkAnswer() {
 
   // What to show as the "correct answer" — in EN→DE show all synonyms
   let correctDisplay;
-  if (langDir === 'en-de') {
-    const allCards = buildCards(activeFilter);
-    const targetWords = new Set(parseAnswers(card.english));
-    const synonyms = allCards
-      .filter(c => parseAnswers(c.english).some(w => targetWords.has(w)))
-      .map(c => c.german);
-    correctDisplay = [...new Set(synonyms)].join(' / ');
-  } else {
-    correctDisplay = card.english;
-  }
+  correctDisplay = langDir === 'en-de' ? card.german : card.english;
 
   if (isCorrect) {
     markCorrect(card.german);
@@ -5369,16 +5360,9 @@ function normalizeGerman(s) {
 }
 
 function isGermanMatch(input, card) {
-  // Exact match only — article and spelling must both be correct
-  // Do NOT strip articles: wrong article = wrong answer
-  const normInput = input.trim().toLowerCase();
-  // Accept any German word in the dataset that shares the same English meaning
-  const allCards = buildCards(activeFilter);
-  const targetWords = new Set(parseAnswers(card.english));
-  return allCards.some(c => {
-    if (!parseAnswers(c.english).some(w => targetWords.has(w))) return false;
-    return normInput === c.german.trim().toLowerCase();
-  });
+  // Exact match only — must match this specific card's German word
+  // Wrong article = wrong answer
+  return input.trim().toLowerCase() === card.german.trim().toLowerCase();
 }
 
 // ── Init ─────────────────────────────────────────────────────────────────────

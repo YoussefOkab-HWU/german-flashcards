@@ -334,6 +334,21 @@
     font-size: 0.8rem;
   }
 
+  /* Speaker button */
+  .btn-speak {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px 6px;
+    font-size: 1.1rem;
+    opacity: 0.7;
+    vertical-align: middle;
+    line-height: 1;
+    border-radius: 6px;
+    transition: opacity 0.15s;
+  }
+  .btn-speak:hover { opacity: 1; background: rgba(255,255,255,0.08); }
+
   /* Progress bar */
   .progress-wrap {
     width: 100%;
@@ -613,6 +628,7 @@
     <span class="tense-badge" id="tense-badge" style="display:none"></span>
     <span class="category-badge" id="category-badge"></span>
     <div class="german-word" id="german-word"></div>
+    <button class="btn-speak" id="btn-speak-word" style="display:none" title="Pronounce">🔊</button>
     <div class="sentence-de" id="sentence-de" style="display:none"></div>
     <div class="sentence-en" id="sentence-en" style="display:none"></div>
     <div class="mastery-dots" id="mastery-dots"></div>
@@ -5103,6 +5119,15 @@ function showCard() {
   elCounter.textContent = pq > 0 ? `${remaining} remaining · ${pq} to retry` : `${remaining} remaining`;
   elProgress.style.width = '0%';
   renderDots(card.german);
+
+  // In DE→EN mode, show speaker button next to the German word on the card
+  const speakWordBtn = document.getElementById('btn-speak-word');
+  if (langDir === 'de-en') {
+    speakWordBtn.style.display = '';
+    speakWordBtn.onclick = () => speakGerman(card.german);
+  } else {
+    speakWordBtn.style.display = 'none';
+  }
 }
 
 function advanceCard() {
@@ -5196,6 +5221,8 @@ function checkAnswer() {
   let correctDisplay;
   correctDisplay = langDir === 'en-de' ? card.german : card.english;
 
+  const speakBtn = `<button class="btn-speak" onclick="speakGerman('${card.german.replace(/'/g, "\\'")}')" title="Pronounce">🔊</button>`;
+
   if (isCorrect) {
     markCorrect(card.german);
     const consecutive = getWordState(card.german).consecutive;
@@ -5203,7 +5230,8 @@ function checkAnswer() {
     elCard.classList.add('correct');
     elFeedback.className = 'feedback correct';
     const suffix = learned ? ' 🎓 Mastered!' : ` (${consecutive}/5)`;
-    elFeedback.innerHTML = `<span class="feedback-icon">✓</span> Correct! &nbsp;<strong>${correctDisplay}</strong><span style="opacity:.7;font-size:.9em;margin-left:6px">${suffix}</span>`;
+    const speakInline = langDir === 'en-de' ? speakBtn : '';
+    elFeedback.innerHTML = `<span class="feedback-icon">✓</span> Correct! &nbsp;<strong>${correctDisplay}</strong>${speakInline}<span style="opacity:.7;font-size:.9em;margin-left:6px">${suffix}</span>`;
     renderDots(card.german);
   } else {
     markWrong(card.german);
@@ -5213,7 +5241,8 @@ function checkAnswer() {
     const acceptBtn = langDir === 'de-en'
       ? `<button id="btn-accept" style="margin-left:12px;padding:3px 12px;border-radius:8px;border:1px solid rgba(255,255,255,0.4);background:rgba(255,255,255,0.12);color:#fff;font-size:0.82rem;font-weight:600;cursor:pointer">Accept my answer</button>`
       : '';
-    elFeedback.innerHTML = `<span class="feedback-icon">✗</span> Wrong! Correct: <strong style="margin-left:4px">${correctDisplay}</strong>${acceptBtn}`;
+    const speakInline = langDir === 'en-de' ? speakBtn : '';
+    elFeedback.innerHTML = `<span class="feedback-icon">✗</span> Wrong! Correct: <strong style="margin-left:4px">${correctDisplay}</strong>${speakInline}${acceptBtn}`;
     renderDots(card.german);
     if (langDir === 'de-en') {
       document.getElementById('btn-accept').addEventListener('click', () => acceptAnswer(card, input.toLowerCase()));
@@ -5255,7 +5284,8 @@ function skipCard() {
   elCard.classList.add('wrong');
   elFeedback.className = 'feedback wrong';
   const skipAnswer = langDir === 'en-de' ? card.german : card.english;
-  elFeedback.innerHTML = `<span class="feedback-icon">↷</span> Skipped — <strong>${skipAnswer}</strong>`;
+  const skipSpeak = langDir === 'en-de' ? ` <button class="btn-speak" onclick="speakGerman('${card.german.replace(/'/g, "\\'")}')" title="Pronounce">🔊</button>` : '';
+  elFeedback.innerHTML = `<span class="feedback-icon">↷</span> Skipped — <strong>${skipAnswer}</strong>${skipSpeak}`;
   renderDots(card.german);
 
   updateMasteryBar();
@@ -5712,6 +5742,16 @@ function showBreakdown(german) {
 
 function hideBreakdown() {
   document.getElementById('word-breakdown').style.display = 'none';
+}
+
+// ── Text-to-speech ────────────────────────────────────────────────────────────
+function speakGerman(text) {
+  if (!window.speechSynthesis) return;
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = 'de-DE';
+  u.rate = 0.9;
+  speechSynthesis.speak(u);
 }
 
 // ── Service Worker registration ───────────────────────────────────────────────

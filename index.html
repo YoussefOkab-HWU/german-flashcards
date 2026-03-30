@@ -4966,7 +4966,7 @@ function showCard() {
   elInput.disabled = false;
   elInput.focus();
   elCheck.disabled = false;
-  elNext.classList.remove('visible'); showCustomKb();
+  elNext.classList.remove('visible'); if(typeof showCustomKb==="function")showCustomKb();
   elCard.className = 'card';
   elFeedback.className = 'feedback hidden';
   elFeedback.textContent = '';
@@ -5006,7 +5006,7 @@ function showAllLearned() {
   elFeedback.textContent = 'You\'ve learned all words in this category!';
   elInput.disabled = true;
   elCheck.disabled = true;
-  elNext.classList.remove('visible'); showCustomKb();
+  elNext.classList.remove('visible'); if(typeof showCustomKb==="function")showCustomKb();
   updateMasteryBar();
 }
 
@@ -5096,7 +5096,7 @@ function checkAnswer() {
   }
 
   updateMasteryBar();
-  elNext.classList.add('visible'); hideCustomKb();
+  elNext.classList.add('visible'); if(typeof hideCustomKb==="function")hideCustomKb();
 }
 
 function acceptAnswer(card, input) {
@@ -5133,7 +5133,7 @@ function skipCard() {
   renderDots(card.german);
 
   updateMasteryBar();
-  elNext.classList.add('visible'); hideCustomKb();
+  elNext.classList.add('visible'); if(typeof hideCustomKb==="function")hideCustomKb();
 }
 
 // ── Event listeners ──────────────────────────────────────────────────────────
@@ -5216,7 +5216,7 @@ function showSentenceCard() {
   elInput.disabled = false;
   elInput.focus();
   elCheck.disabled = false;
-  elNext.classList.remove('visible'); showCustomKb();
+  elNext.classList.remove('visible'); if(typeof showCustomKb==="function")showCustomKb();
   elCard.className = 'card';
   elFeedback.className = 'feedback hidden';
   elFeedback.textContent = '';
@@ -5286,7 +5286,7 @@ function checkSentenceAnswer() {
     elFeedback.className = 'feedback wrong';
     elFeedback.innerHTML = `<span class="feedback-icon">✗</span> Correct: <strong style="margin-left:4px">${target}</strong><button onclick="acceptSentence()" style="margin-left:12px;padding:3px 12px;border-radius:8px;border:1px solid rgba(255,255,255,0.4);background:rgba(255,255,255,0.12);color:#fff;font-size:0.82rem;font-weight:600;cursor:pointer">Accept my answer</button>`;
   }
-  elNext.classList.add('visible'); hideCustomKb();
+  elNext.classList.add('visible'); if(typeof hideCustomKb==="function")hideCustomKb();
 }
 
 function acceptSentence() {
@@ -5428,12 +5428,13 @@ customKb.addEventListener('click', e => {
 
 // Show keyboard when input is activated
 elInput.addEventListener('focus', showCustomKb);
-elInput.addEventListener('click', () => { elInput.removeAttribute('readonly'); showCustomKb(); });
+elInput.addEventListener('click', () => { elInput.removeAttribute('readonly'); if(typeof showCustomKb==="function")showCustomKb(); });
 
-// On mobile make input readonly to suppress native keyboard, re-enable on desktop
+// On mobile: suppress native keyboard, show custom keyboard immediately
 if (window.innerWidth <= 480) {
   elInput.setAttribute('inputmode', 'none');
   elInput.setAttribute('readonly', '');
+  customKb.style.display = '';
 } else {
   elInput.removeAttribute('inputmode');
   elInput.removeAttribute('readonly');

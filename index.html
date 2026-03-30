@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ich lerne deutsch</title>
 <link rel="manifest" href="manifest.json">
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="ich lerne deutsch">
@@ -4789,14 +4791,86 @@ function isFuzzyMatch(input, accepted, german) {
 }
 
 // ── Progress persistence ──────────────────────────────────────────────────────
+// ── Firebase sync ─────────────────────────────────────────────────────────────
+const firebaseConfig = {
+  apiKey: "AIzaSyDYPpPd6QkHfUuHom1dE0tfDtvdw3-mJQM",
+  authDomain: "ich-lerne-deutsch-e50aa.firebaseapp.com",
+  projectId: "ich-lerne-deutsch-e50aa",
+  storageBucket: "ich-lerne-deutsch-e50aa.firebasestorage.app",
+  messagingSenderId: "507798813874",
+  appId: "1:507798813874:web:7c4ac844e1ea357efc1dab"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+const CLOUD_DOC = db.collection('gfc').doc('youssef');
+
+let syncTimer = null;
+function scheduleCloudSync() {
+  clearTimeout(syncTimer);
+  syncTimer = setTimeout(pushToCloud, 3000);
+}
+
+function pushToCloud() {
+  CLOUD_DOC.set({
+    progress: progress,
+    sentenceProgress: sentenceProgress,
+    priorityQueue: priorityQueue,
+    cardsSinceStart: cardsSinceStart,
+    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+  }, { merge: true }).catch(() => {});
+}
+
+// Merge: take higher consecutive, preserve learned=true
+function mergeProgress(local, remote) {
+  const merged = Object.assign({}, local);
+  for (const [k, rv] of Object.entries(remote)) {
+    const lv = local[k];
+    if (!lv) { merged[k] = rv; continue; }
+    merged[k] = {
+      consecutive: Math.max(lv.consecutive || 0, rv.consecutive || 0),
+      learned: lv.learned || rv.learned
+    };
+  }
+  return merged;
+}
+
+async function pullFromCloud() {
+  try {
+    const snap = await CLOUD_DOC.get();
+    if (!snap.exists) return;
+    const data = snap.data();
+    if (data.progress) {
+      progress = mergeProgress(progress, data.progress);
+      saveProgressLocal(progress);
+    }
+    if (data.sentenceProgress) {
+      sentenceProgress = Object.assign(data.sentenceProgress, sentenceProgress);
+      saveSentenceProgressLocal();
+    }
+    if (data.priorityQueue && data.priorityQueue.length > priorityQueue.length) {
+      priorityQueue = data.priorityQueue;
+      savePriorityQueueLocal();
+    }
+    if (data.cardsSinceStart && data.cardsSinceStart > cardsSinceStart) {
+      cardsSinceStart = data.cardsSinceStart;
+      localStorage.setItem('gfc_cards_count', cardsSinceStart);
+    }
+  } catch(e) {}
+}
+
+// ── Progress ─────────────────────────────────────────────────────────────────
 // progress[key] = { consecutive: 0..5, learned: false }
 // key = german word (unique enough across categories)
 function loadProgress() {
   try { return JSON.parse(localStorage.getItem('gfc_progress') || '{}'); }
   catch { return {}; }
 }
-function saveProgress(p) {
+function saveProgressLocal(p) {
   localStorage.setItem('gfc_progress', JSON.stringify(p));
+}
+function saveProgress(p) {
+  saveProgressLocal(p);
+  scheduleCloudSync();
 }
 
 // sentenceProgress[key] = { consecutive: 0..3, learned: false }
@@ -4805,8 +4879,12 @@ function loadSentenceProgress() {
   try { return JSON.parse(localStorage.getItem('gfc_sent_progress') || '{}'); }
   catch { return {}; }
 }
-function saveSentenceProgress() {
+function saveSentenceProgressLocal() {
   localStorage.setItem('gfc_sent_progress', JSON.stringify(sentenceProgress));
+}
+function saveSentenceProgress() {
+  saveSentenceProgressLocal();
+  scheduleCloudSync();
 }
 function getSentenceKey(card) { return `${card.german}|${card.tense}|${card.pronoun}`; }
 function getSentenceState(card) { return sentenceProgress[getSentenceKey(card)] || { consecutive: 0, learned: false }; }
@@ -4930,9 +5008,13 @@ function loadPriorityQueue() {
   try { return JSON.parse(localStorage.getItem('gfc_pq') || '[]'); }
   catch { return []; }
 }
-function savePriorityQueue() {
+function savePriorityQueueLocal() {
   localStorage.setItem('gfc_pq', JSON.stringify(priorityQueue));
   localStorage.setItem('gfc_cards_count', cardsSinceStart);
+}
+function savePriorityQueue() {
+  savePriorityQueueLocal();
+  scheduleCloudSync();
 }
 let cardsSinceStart = parseInt(localStorage.getItem('gfc_cards_count') || '0');
 let priorityQueue = loadPriorityQueue();
@@ -5383,7 +5465,8 @@ function startApp(dir) {
   elInput.placeholder = dir === 'en-de' ? 'Schreib das deutsche Wort…' : 'Type English translation…';
   buildFilters();
   buildTenseFilters();
-  resetDeck();
+  // Pull cloud progress then start (fall back immediately if offline)
+  pullFromCloud().finally(() => resetDeck());
 }
 
 function insertUmlaut(char) {

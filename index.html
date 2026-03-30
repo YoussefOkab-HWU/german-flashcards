@@ -4867,13 +4867,47 @@ function markCorrect(german) {
   if (s.consecutive >= 5) s.learned = true;
   progress[german] = s;
   saveProgress(progress);
+  // Remove from priority queue if answered correctly
+  priorityQueue = priorityQueue.filter(e => e.german !== german);
 }
 
 function markWrong(german) {
   const s = getWordState(german);
   s.consecutive = 0;
+  // If was mastered, un-master it and return to active pool
+  s.learned = false;
   progress[german] = s;
   saveProgress(progress);
+  // Add/reset in priority queue — reappear after 15 cards
+  priorityQueue = priorityQueue.filter(e => e.german !== german);
+  priorityQueue.push({ german, dueAt: cardsSinceStart + 15 });
+}
+
+// ── Priority queue (wrong answers reappear after 15 cards) ───────────────────
+let cardsSinceStart = 0;
+let priorityQueue = []; // [{ german, dueAt }]
+
+function getNextCard() {
+  cardsSinceStart++;
+  // Check if any priority card is due
+  const due = priorityQueue.find(e => cardsSinceStart >= e.dueAt);
+  if (due) {
+    const allCards = buildCards(activeFilter);
+    const card = allCards.find(c => c.german === due.german);
+    if (card) return card;
+    // Card no longer in pool (e.g. filter changed), drop it
+    priorityQueue = priorityQueue.filter(e => e.german !== due.german);
+  }
+  // 1 in 50 chance: show a mastered word as ghost
+  const allCards = buildCards(activeFilter);
+  const mastered = allCards.filter(c => getWordState(c.german).learned);
+  if (mastered.length > 0 && Math.random() < 1/50) {
+    return mastered[Math.floor(Math.random() * mastered.length)];
+  }
+  // Normal random unlearned card
+  const active = allCards.filter(c => !getWordState(c.german).learned);
+  if (active.length === 0) return null;
+  return active[Math.floor(Math.random() * active.length)];
 }
 
 // ── Deck management ──────────────────────────────────────────────────────────
@@ -4898,8 +4932,6 @@ function resetDeck() {
     showAllLearned();
     return;
   }
-  deck = cards; // keep pool, pick randomly
-  deckPos = Math.floor(Math.random() * deck.length);
   // Show flashcard-only elements
   elWord.style.display = '';
   document.getElementById('category-badge').style.display = '';
@@ -4907,6 +4939,10 @@ function resetDeck() {
   elSentenceEn.style.display = 'none';
   elTenseBadge.style.display = 'none';
   updateMasteryBar();
+  const nextCard = getNextCard();
+  if (!nextCard) { showAllLearned(); return; }
+  deck = [nextCard];
+  deckPos = 0;
   showCard();
 }
 
@@ -4929,7 +4965,8 @@ function showCard() {
   elWord.textContent = displayWord;
   elBadge.textContent = activeFilter === 'all' ? '' : card.category;
   const remaining = getUnlearnedCards().length;
-  elCounter.textContent = `${remaining} remaining`;
+  const pq = priorityQueue.length;
+  elCounter.textContent = pq > 0 ? `${remaining} remaining · ${pq} to retry` : `${remaining} remaining`;
   elProgress.style.width = '0%';
   renderDots(card.german);
 }
@@ -4941,10 +4978,10 @@ function advanceCard() {
     showSentenceCard();
     return;
   }
-  const cards = getUnlearnedCards();
-  if (cards.length === 0) { showAllLearned(); return; }
-  deck = cards;
-  deckPos = Math.floor(Math.random() * deck.length);
+  const nextCard = getNextCard();
+  if (!nextCard) { showAllLearned(); return; }
+  deck = [nextCard];
+  deckPos = 0;
   updateMasteryBar();
   showCard();
 }

@@ -505,6 +505,21 @@
 <body>
 
 <!-- Language direction selection screen -->
+<!-- Password screen -->
+<div class="lang-select-screen" id="pw-screen">
+  <h2>German Flashcards</h2>
+  <div style="display:flex;flex-direction:column;align-items:center;gap:12px;width:100%;max-width:320px">
+    <input type="password" id="pw-input" placeholder="Enter password…" autocomplete="off"
+      style="width:100%;padding:14px 18px;border-radius:12px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:1.1rem;outline:none;text-align:center"
+      onkeydown="if(event.key==='Enter')checkPassword()" />
+    <button onclick="checkPassword()"
+      style="width:100%;padding:14px;border-radius:12px;background:var(--accent-dim);border:1px solid var(--accent);color:var(--text);font-size:1rem;font-weight:600;cursor:pointer">
+      Unlock
+    </button>
+    <div id="pw-error" style="color:var(--red);font-size:0.9rem;min-height:1.2em"></div>
+  </div>
+</div>
+
 <div class="lang-select-screen" id="lang-select-screen">
   <h2>Choose direction</h2>
   <div class="lang-options">
@@ -5230,6 +5245,34 @@ function acceptSentence() {
 }
 
 // ── Language direction ────────────────────────────────────────────────────────
+// ── Password gate ─────────────────────────────────────────────────────────────
+const PASSWORD = "ich lerne deutsch"; // ← change this to your password
+const AUTH_KEY = "gfc_auth";
+
+function checkPassword() {
+  const input = document.getElementById('pw-input').value;
+  if (input === PASSWORD) {
+    localStorage.setItem(AUTH_KEY, 'true');
+    document.getElementById('pw-screen').style.display = 'none';
+    document.getElementById('lang-select-screen').style.display = '';
+  } else {
+    document.getElementById('pw-error').textContent = 'Wrong password';
+    document.getElementById('pw-input').value = '';
+    document.getElementById('pw-input').focus();
+  }
+}
+
+// On load: skip password if already authenticated on this device
+(function() {
+  if (localStorage.getItem(AUTH_KEY) === 'true') {
+    document.getElementById('pw-screen').style.display = 'none';
+    document.getElementById('lang-select-screen').style.display = '';
+  } else {
+    document.getElementById('lang-select-screen').style.display = 'none';
+    setTimeout(() => document.getElementById('pw-input').focus(), 100);
+  }
+})();
+
 function startApp(dir) {
   langDir = dir;
   elLangScreen.style.display = 'none';

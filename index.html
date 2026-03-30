@@ -4869,6 +4869,7 @@ function markCorrect(german) {
   saveProgress(progress);
   // Remove from priority queue if answered correctly
   priorityQueue = priorityQueue.filter(e => e.german !== german);
+  savePriorityQueue();
 }
 
 function markWrong(german) {
@@ -4880,15 +4881,26 @@ function markWrong(german) {
   saveProgress(progress);
   // Add/reset in priority queue — reappear after 15 cards
   priorityQueue = priorityQueue.filter(e => e.german !== german);
-  priorityQueue.push({ german, dueAt: cardsSinceStart + 15 });
+  const delay = 15 + Math.floor(Math.random() * 36); // 15–50
+  priorityQueue.push({ german, dueAt: cardsSinceStart + delay });
+  savePriorityQueue();
 }
 
-// ── Priority queue (wrong answers reappear after 15 cards) ───────────────────
-let cardsSinceStart = 0;
-let priorityQueue = []; // [{ german, dueAt }]
+// ── Priority queue (wrong answers reappear after 15-50 cards) ────────────────
+function loadPriorityQueue() {
+  try { return JSON.parse(localStorage.getItem('gfc_pq') || '[]'); }
+  catch { return []; }
+}
+function savePriorityQueue() {
+  localStorage.setItem('gfc_pq', JSON.stringify(priorityQueue));
+  localStorage.setItem('gfc_cards_count', cardsSinceStart);
+}
+let cardsSinceStart = parseInt(localStorage.getItem('gfc_cards_count') || '0');
+let priorityQueue = loadPriorityQueue();
 
 function getNextCard() {
   cardsSinceStart++;
+  localStorage.setItem('gfc_cards_count', cardsSinceStart);
   // Check if any priority card is due
   const due = priorityQueue.find(e => cardsSinceStart >= e.dueAt);
   if (due) {

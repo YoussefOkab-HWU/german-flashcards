@@ -636,7 +636,7 @@
 </div>
 
 <div class="input-area">
-  <input type="text" id="answer-input" placeholder="Type English translation…" autocomplete="off" autocorrect="off" spellcheck="false" autocapitalize="none" inputmode="none" readonly />
+  <input type="text" id="answer-input" placeholder="Type English translation…" autocomplete="off" autocorrect="off" spellcheck="false" autocapitalize="none" />
   <div class="input-buttons-row">
     <button class="btn" id="btn-check">Check</button>
     <button class="btn btn-skip" id="btn-skip">Skip</button>
@@ -4864,6 +4864,7 @@ const elCounter     = document.getElementById('card-counter');
 const elFeedback    = document.getElementById('feedback');
 const elCard        = document.getElementById('card');
 const elInput       = document.getElementById('answer-input');
+const customKb      = document.getElementById('custom-kb');
 const elCheck       = document.getElementById('btn-check');
 const elSkip        = document.getElementById('btn-skip');
 const elNext        = document.getElementById('btn-next');
@@ -5374,7 +5375,6 @@ function isGermanMatch(input, card) {
 
 
 // ── Custom keyboard logic ──────────────────────────────────────────────────
-const customKb = document.getElementById('custom-kb');
 let kbShift = false;
 
 function showCustomKb() {

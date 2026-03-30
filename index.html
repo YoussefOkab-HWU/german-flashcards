@@ -5527,11 +5527,74 @@ const PREFIXES = {
   'ge': '(together)',
 };
 
+// Common German roots not in the main dataset
+const ROOTS = {
+  'kleben': 'to glue / stick',
+  'stecken': 'to put / stick / plug',
+  'hängen': 'to hang',
+  'halten': 'to hold',
+  'fallen': 'to fall',
+  'fangen': 'to catch',
+  'geben': 'to give',
+  'nehmen': 'to take',
+  'rufen': 'to call / shout',
+  'brechen': 'to break',
+  'schneiden': 'to cut',
+  'binden': 'to bind / tie',
+  'ziehen': 'to pull / move',
+  'drücken': 'to press / push',
+  'schlagen': 'to hit / beat',
+  'werfen': 'to throw',
+  'legen': 'to lay / put',
+  'setzen': 'to set / place',
+  'stellen': 'to place / put',
+  'treten': 'to step / kick',
+  'fahren': 'to drive / travel',
+  'fließen': 'to flow',
+  'führen': 'to lead / guide',
+  'tragen': 'to carry / wear',
+  'laden': 'to load / invite',
+  'schaffen': 'to create / manage',
+  'schalten': 'to switch',
+  'bauen': 'to build',
+  'räumen': 'to clear / tidy',
+  'ordnen': 'to order / sort',
+  'machen': 'to make / do',
+  'schließen': 'to close',
+  'öffnen': 'to open',
+  'packen': 'to pack / grab',
+  'decken': 'to cover',
+  'reißen': 'to tear / rip',
+  'steigen': 'to climb / rise',
+  'biegen': 'to bend',
+  'wenden': 'to turn',
+  'richten': 'to direct / aim',
+  'schieben': 'to push / slide',
+  'stoßen': 'to push / bump',
+  'greifen': 'to grab / reach',
+  'halten': 'to hold / stop',
+  'wachsen': 'to grow',
+  'spielen': 'to play',
+  'treiben': 'to drive / do',
+  'dringen': 'to penetrate / urge',
+  'schreiten': 'to stride / step',
+  'kommen': 'to come',
+  'gehen': 'to go',
+  'laufen': 'to run / walk',
+  'stehen': 'to stand',
+  'sehen': 'to see',
+};
+
 // Build a map: lowercase core word (no article) → { german, english }
 let wordCoreMap = null;
 function getWordCoreMap() {
   if (wordCoreMap) return wordCoreMap;
   wordCoreMap = {};
+  // First add roots as fallback entries
+  for (const [root, meaning] of Object.entries(ROOTS)) {
+    wordCoreMap[root] = { german: root, english: meaning };
+  }
+  // Dataset entries override roots
   for (const cat of Object.values(DATA)) {
     for (const entry of cat) {
       const core = entry.german.replace(/^(der|die|das|ein|eine|zu)\s+/i, '').toLowerCase();

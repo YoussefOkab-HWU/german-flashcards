@@ -501,61 +501,6 @@
     .lang-options { flex-direction: column; }
     .learned-panel { max-height: 40vh; overflow-y: auto; }
   }
-
-  /* ── Custom keyboard ── */
-  .custom-kb {
-    width: 100%;
-    background: #1c1c1e;
-    padding: 6px 3px 10px;
-    border-top: 1px solid #3a3a3c;
-    flex-shrink: 0;
-  }
-  .kb-row {
-    display: flex;
-    justify-content: center;
-    gap: 5px;
-    margin-bottom: 5px;
-  }
-  .kb-key {
-    flex: 1;
-    max-width: 36px;
-    height: 42px;
-    background: #3a3a3c;
-    border: none;
-    border-radius: 8px;
-    color: #fff;
-    font-size: 1rem;
-    font-weight: 500;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    -webkit-tap-highlight-color: transparent;
-    user-select: none;
-    transition: background 0.08s;
-  }
-  .kb-key:active { background: #636366; }
-  .kb-spec {
-    background: #2c2c2e;
-    color: #6c7dff;
-    font-weight: 700;
-    border: 1px solid #6c7dff44;
-  }
-  .kb-action {
-    background: #2c2c2e;
-    max-width: none;
-    font-size: 0.85rem;
-  }
-  .kb-wide { flex: 3; max-width: none; }
-  .kb-check {
-    flex: 2;
-    background: #4c5fd5;
-    color: #fff;
-    font-weight: 700;
-    font-size: 0.9rem;
-  }
-  .kb-check:active { background: #6c7dff; }
-  .kb-shift-on { background: #6c7dff !important; color: #fff !important; }
 </style>
 </head>
 <body>
@@ -4864,7 +4809,6 @@ const elCounter     = document.getElementById('card-counter');
 const elFeedback    = document.getElementById('feedback');
 const elCard        = document.getElementById('card');
 const elInput       = document.getElementById('answer-input');
-const customKb      = document.getElementById('custom-kb');
 const elCheck       = document.getElementById('btn-check');
 const elSkip        = document.getElementById('btn-skip');
 const elNext        = document.getElementById('btn-next');
@@ -4967,7 +4911,7 @@ function showCard() {
   elInput.disabled = false;
   elInput.focus();
   elCheck.disabled = false;
-  elNext.classList.remove('visible'); if(typeof showCustomKb==="function")showCustomKb();
+  elNext.classList.remove('visible');
   elCard.className = 'card';
   elFeedback.className = 'feedback hidden';
   elFeedback.textContent = '';
@@ -5007,7 +4951,7 @@ function showAllLearned() {
   elFeedback.textContent = 'You\'ve learned all words in this category!';
   elInput.disabled = true;
   elCheck.disabled = true;
-  elNext.classList.remove('visible'); if(typeof showCustomKb==="function")showCustomKb();
+  elNext.classList.remove('visible');
   updateMasteryBar();
 }
 
@@ -5097,7 +5041,7 @@ function checkAnswer() {
   }
 
   updateMasteryBar();
-  elNext.classList.add('visible'); if(typeof hideCustomKb==="function")hideCustomKb();
+  elNext.classList.add('visible');
 }
 
 function acceptAnswer(card, input) {
@@ -5134,7 +5078,7 @@ function skipCard() {
   renderDots(card.german);
 
   updateMasteryBar();
-  elNext.classList.add('visible'); if(typeof hideCustomKb==="function")hideCustomKb();
+  elNext.classList.add('visible');
 }
 
 // ── Event listeners ──────────────────────────────────────────────────────────
@@ -5217,7 +5161,7 @@ function showSentenceCard() {
   elInput.disabled = false;
   elInput.focus();
   elCheck.disabled = false;
-  elNext.classList.remove('visible'); if(typeof showCustomKb==="function")showCustomKb();
+  elNext.classList.remove('visible');
   elCard.className = 'card';
   elFeedback.className = 'feedback hidden';
   elFeedback.textContent = '';
@@ -5287,7 +5231,7 @@ function checkSentenceAnswer() {
     elFeedback.className = 'feedback wrong';
     elFeedback.innerHTML = `<span class="feedback-icon">✗</span> Correct: <strong style="margin-left:4px">${target}</strong><button onclick="acceptSentence()" style="margin-left:12px;padding:3px 12px;border-radius:8px;border:1px solid rgba(255,255,255,0.4);background:rgba(255,255,255,0.12);color:#fff;font-size:0.82rem;font-weight:600;cursor:pointer">Accept my answer</button>`;
   }
-  elNext.classList.add('visible'); if(typeof hideCustomKb==="function")hideCustomKb();
+  elNext.classList.add('visible');
 }
 
 function acceptSentence() {
@@ -5373,121 +5317,6 @@ function isGermanMatch(input, card) {
 // ── Init ─────────────────────────────────────────────────────────────────────
 // Show language selection screen — don't init until user picks
 
-
-// ── Custom keyboard logic ──────────────────────────────────────────────────
-let kbShift = false;
-
-function showCustomKb() {
-  if (window.innerWidth <= 480) customKb.style.display = '';
-}
-function hideCustomKb() {
-  customKb.style.display = 'none';
-}
-
-function kbInsert(char) {
-  const input = elInput;
-  const start = input.selectionStart || input.value.length;
-  const end = input.selectionEnd || input.value.length;
-  const ch = kbShift ? char.toUpperCase() : char;
-  input.value = input.value.slice(0, start) + ch + input.value.slice(end);
-  input.selectionStart = input.selectionEnd = start + 1;
-  if (kbShift) { kbShift = false; document.getElementById('kb-shift').classList.remove('kb-shift-on'); updateKbLabels(); }
-}
-
-function updateKbLabels() {
-  document.querySelectorAll('#custom-kb .kb-key[data-char]').forEach(btn => {
-    const c = btn.dataset.char;
-    if (c && c.length === 1 && c.match(/[a-z]/)) btn.textContent = kbShift ? c.toUpperCase() : c;
-  });
-}
-
-customKb.addEventListener('mousedown', e => e.preventDefault()); // prevent input blur
-customKb.addEventListener('touchstart', e => e.preventDefault(), {passive: false});
-
-customKb.addEventListener('click', e => {
-  const btn = e.target.closest('.kb-key');
-  if (!btn) return;
-  const char = btn.dataset.char;
-
-  if (btn.id === 'kb-del') {
-    const input = elInput;
-    const start = input.selectionStart || input.value.length;
-    if (start > 0) input.value = input.value.slice(0, start - 1) + input.value.slice(start);
-    return;
-  }
-  if (btn.id === 'kb-shift') {
-    kbShift = !kbShift;
-    btn.classList.toggle('kb-shift-on', kbShift);
-    updateKbLabels();
-    return;
-  }
-  if (btn.id === 'kb-space') { kbInsert(' '); return; }
-  if (btn.id === 'kb-check') { checkAnswer(); return; }
-  if (char) kbInsert(char);
-});
-
-// Show keyboard when input is activated
-elInput.addEventListener('focus', showCustomKb);
-elInput.addEventListener('click', () => { elInput.removeAttribute('readonly'); if(typeof showCustomKb==="function")showCustomKb(); });
-
-// On mobile: suppress native keyboard, show custom keyboard immediately
-if (window.innerWidth <= 480) {
-  elInput.setAttribute('inputmode', 'none');
-  elInput.setAttribute('readonly', '');
-  customKb.style.display = '';
-} else {
-  elInput.removeAttribute('inputmode');
-  elInput.removeAttribute('readonly');
-}
-
 </script>
-
-<!-- Custom mobile keyboard -->
-<div id="custom-kb" class="custom-kb" style="display:none">
-  <div class="kb-row">
-    <button class="kb-key kb-spec" data-char="ä">ä</button>
-    <button class="kb-key kb-spec" data-char="ö">ö</button>
-    <button class="kb-key kb-spec" data-char="ü">ü</button>
-    <button class="kb-key kb-spec" data-char="ß">ß</button>
-  </div>
-  <div class="kb-row">
-    <button class="kb-key" data-char="q">q</button>
-    <button class="kb-key" data-char="w">w</button>
-    <button class="kb-key" data-char="e">e</button>
-    <button class="kb-key" data-char="r">r</button>
-    <button class="kb-key" data-char="t">t</button>
-    <button class="kb-key" data-char="y">y</button>
-    <button class="kb-key" data-char="u">u</button>
-    <button class="kb-key" data-char="i">i</button>
-    <button class="kb-key" data-char="o">o</button>
-    <button class="kb-key" data-char="p">p</button>
-  </div>
-  <div class="kb-row">
-    <button class="kb-key" data-char="a">a</button>
-    <button class="kb-key" data-char="s">s</button>
-    <button class="kb-key" data-char="d">d</button>
-    <button class="kb-key" data-char="f">f</button>
-    <button class="kb-key" data-char="g">g</button>
-    <button class="kb-key" data-char="h">h</button>
-    <button class="kb-key" data-char="j">j</button>
-    <button class="kb-key" data-char="k">k</button>
-    <button class="kb-key" data-char="l">l</button>
-  </div>
-  <div class="kb-row">
-    <button class="kb-key kb-action" id="kb-shift">⇧</button>
-    <button class="kb-key" data-char="z">z</button>
-    <button class="kb-key" data-char="x">x</button>
-    <button class="kb-key" data-char="c">c</button>
-    <button class="kb-key" data-char="v">v</button>
-    <button class="kb-key" data-char="b">b</button>
-    <button class="kb-key" data-char="n">n</button>
-    <button class="kb-key" data-char="m">m</button>
-    <button class="kb-key kb-action" id="kb-del">⌫</button>
-  </div>
-  <div class="kb-row">
-    <button class="kb-key kb-action kb-wide" id="kb-space">space</button>
-    <button class="kb-key kb-action kb-check" id="kb-check">Check</button>
-  </div>
-</div>
 </body>
 </html>

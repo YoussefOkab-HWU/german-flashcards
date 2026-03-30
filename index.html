@@ -5018,8 +5018,17 @@ function checkAnswer() {
   elInput.disabled = true;
   elCheck.disabled = true;
 
-  // What to show as the "correct answer"
-  const correctDisplay = langDir === 'en-de' ? card.german : card.english;
+  // What to show as the "correct answer" — in EN→DE show all synonyms
+  let correctDisplay;
+  if (langDir === 'en-de') {
+    const allCards = buildCards(activeFilter);
+    const synonyms = allCards
+      .filter(c => c.english.trim().toLowerCase() === card.english.trim().toLowerCase())
+      .map(c => c.german);
+    correctDisplay = [...new Set(synonyms)].join(' / ');
+  } else {
+    correctDisplay = card.english;
+  }
 
   if (isCorrect) {
     markCorrect(card.german);

@@ -294,6 +294,44 @@
   }
   .btn-next.visible { display: block; }
 
+  .word-breakdown {
+    width: 100%;
+    max-width: 600px;
+    margin-top: 10px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px 16px;
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+  .word-breakdown .wb-title {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+  .word-breakdown .wb-part {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin-bottom: 4px;
+  }
+  .word-breakdown .wb-de {
+    font-weight: 700;
+    color: var(--text);
+    font-size: 0.95rem;
+  }
+  .word-breakdown .wb-en {
+    color: var(--muted);
+  }
+  .word-breakdown .wb-arrow {
+    color: var(--border);
+    font-size: 0.8rem;
+  }
+
   /* Progress bar */
   .progress-wrap {
     width: 100%;
@@ -601,6 +639,7 @@
 </div>
 
 <button class="btn btn-next" id="btn-next">Next card →</button>
+<div id="word-breakdown" class="word-breakdown" style="display:none"></div>
 
 <script>
 const DATA = {
@@ -4968,6 +5007,7 @@ function showCard() {
   elCard.className = 'card';
   elFeedback.className = 'feedback hidden';
   elFeedback.textContent = '';
+  hideBreakdown();
 
   const card = deck[deckPos];
   // Show German or English depending on direction
@@ -5100,6 +5140,7 @@ function checkAnswer() {
 
   updateMasteryBar();
   elNext.classList.add('visible');
+  showBreakdown(card.german);
 }
 
 function acceptAnswer(card, input) {
@@ -5137,6 +5178,7 @@ function skipCard() {
 
   updateMasteryBar();
   elNext.classList.add('visible');
+  showBreakdown(card.german);
 }
 
 // ── Event listeners ──────────────────────────────────────────────────────────
@@ -5367,6 +5409,124 @@ function isGermanMatch(input, card) {
 
 // ── Init ─────────────────────────────────────────────────────────────────────
 // Show language selection screen — don't init until user picks
+
+// ── Word breakdown ────────────────────────────────────────────────────────────
+const PREFIXES = {
+  'vor': 'before / in front of',
+  'nach': 'after / following',
+  'über': 'over / above / across',
+  'unter': 'under / below',
+  'auf': 'up / on / open',
+  'ab': 'off / away / down',
+  'an': 'on / at / to',
+  'aus': 'out / from',
+  'bei': 'by / near / at',
+  'ein': 'in / into',
+  'mit': 'with / along',
+  'um': 'around / about',
+  'weg': 'away',
+  'zurück': 'back',
+  'zusammen': 'together',
+  'durch': 'through',
+  'fort': 'away / forth',
+  'her': 'here',
+  'hin': 'there / toward',
+  'los': 'loose / off',
+  'nieder': 'down',
+  'weiter': 'further / on',
+  'ver': 'away / wrongly',
+  'be': '(onto/about)',
+  'er': '(completion)',
+  'ent': 'away / un-',
+  'zer': 'apart / to pieces',
+  'miss': 'wrongly / badly',
+  'un': 'not / un-',
+  'ge': '(together)',
+};
+
+// Build a map: lowercase core word (no article) → { german, english }
+let wordCoreMap = null;
+function getWordCoreMap() {
+  if (wordCoreMap) return wordCoreMap;
+  wordCoreMap = {};
+  for (const cat of Object.values(DATA)) {
+    for (const entry of cat) {
+      const core = entry.german.replace(/^(der|die|das|ein|eine|zu)\s+/i, '').toLowerCase();
+      wordCoreMap[core] = entry;
+    }
+  }
+  return wordCoreMap;
+}
+
+function decomposeWord(german) {
+  const map = getWordCoreMap();
+  // Strip article
+  const core = german.replace(/^(der|die|das|ein|eine)\s+/i, '').toLowerCase();
+  const parts = [];
+
+  // Try each prefix
+  for (const [prefix, prefixMeaning] of Object.entries(PREFIXES)) {
+    if (core.startsWith(prefix) && core.length > prefix.length + 2) {
+      const remainder = core.slice(prefix.length);
+      // Check if remainder (or capitalized) exists in dataset
+      const match = map[remainder] || map[remainder.charAt(0).toUpperCase() + remainder.slice(1)];
+      if (match) {
+        parts.push({ de: prefix, en: prefixMeaning });
+        parts.push({ de: match.german, en: match.english });
+        return parts;
+      }
+      // Try remainder with common articles
+      for (const art of ['der ', 'die ', 'das ']) {
+        const withArt = map[art + remainder] || map[art + remainder.charAt(0).toUpperCase() + remainder.slice(1)];
+        if (withArt) {
+          parts.push({ de: prefix, en: prefixMeaning });
+          parts.push({ de: withArt.german, en: withArt.english });
+          return parts;
+        }
+      }
+    }
+  }
+
+  // Try splitting compound noun: find longest matching first half
+  for (let i = Math.floor(core.length * 0.4); i <= Math.floor(core.length * 0.7); i++) {
+    const first = core.slice(0, i);
+    const second = core.slice(i);
+    const m1 = map[first] || map[first.charAt(0).toUpperCase() + first.slice(1)];
+    const m2 = map[second] || map[second.charAt(0).toUpperCase() + second.slice(1)];
+    if (m1 && m2) {
+      return [
+        { de: m1.german, en: m1.english },
+        { de: m2.german, en: m2.english },
+      ];
+    }
+  }
+
+  return null;
+}
+
+function showBreakdown(german) {
+  const el = document.getElementById('word-breakdown');
+  const parts = decomposeWord(german);
+  if (!parts) { el.style.display = 'none'; return; }
+  el.style.display = '';
+  el.innerHTML = `<div class="wb-title">Word breakdown</div>` +
+    parts.map((p, i) =>
+      `<div class="wb-part">
+        <span class="wb-de">${p.de}</span>
+        <span class="wb-arrow">→</span>
+        <span class="wb-en">${p.en}</span>
+      </div>` +
+      (i < parts.length - 1 ? '' : '')
+    ).join('<div class="wb-arrow" style="margin:2px 0;font-size:1rem;text-align:center">+</div>'.replace('</div><div', '</div>+<div').split('+').join(''))
+    ;
+  // Simpler render
+  el.innerHTML = `<div class="wb-title">Word breakdown</div>` +
+    parts.map(p => `<div class="wb-part"><span class="wb-de">${p.de}</span><span class="wb-arrow">→</span><span class="wb-en">${p.en}</span></div>`).join('');
+}
+
+function hideBreakdown() {
+  document.getElementById('word-breakdown').style.display = 'none';
+}
 
 // ── Service Worker registration ───────────────────────────────────────────────
 if ('serviceWorker' in navigator) {

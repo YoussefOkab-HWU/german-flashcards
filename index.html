@@ -334,6 +334,23 @@
     font-size: 0.8rem;
   }
 
+  /* Breakdown explorer */
+  #breakdown-search {
+    width: 100%; box-sizing: border-box; padding: 10px 14px;
+    border-radius: 10px; border: 1px solid var(--border);
+    background: var(--surface); color: var(--text);
+    font-size: 1rem; margin-bottom: 10px;
+  }
+  #breakdown-list { display: flex; flex-direction: column; gap: 8px; max-height: 65vh; overflow-y: auto; }
+  .be-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 12px 14px; }
+  .be-header { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; font-size: 1rem; }
+  .be-en { color: var(--muted); font-size: 0.85rem; }
+  .be-row { display: flex; gap: 8px; align-items: baseline; font-size: 0.88rem; }
+  .be-de { font-weight: 700; color: var(--text); min-width: 90px; }
+  .be-arrow { color: var(--border); }
+  .be-meaning { color: var(--muted); }
+  .be-empty { color: var(--muted); font-size: 0.9rem; padding: 12px 0; }
+
   /* Speaker button */
   .btn-speak {
     background: none;
@@ -610,9 +627,8 @@
 </div>
 
 <div id="breakdown-explorer" style="display:none;width:100%;max-width:600px;margin-top:12px;">
-  <input type="text" id="breakdown-search" placeholder="Search words…" autocomplete="off"
-    style="width:100%;box-sizing:border-box;padding:10px 14px;border-radius:10px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:1rem;margin-bottom:10px;" />
-  <div id="breakdown-list" style="display:flex;flex-direction:column;gap:8px;max-height:65vh;overflow-y:auto;"></div>
+  <input type="text" id="breakdown-search" placeholder="Search words…" autocomplete="off" />
+  <div id="breakdown-list"></div>
 </div>
 
 <div class="masterybar">
@@ -5225,7 +5241,7 @@ function checkAnswer() {
   let correctDisplay;
   correctDisplay = langDir === 'en-de' ? card.german : card.english;
 
-  const speakBtn = `<button class="btn-speak" onclick="speakGerman('${card.german.replace(/'/g, "\\'")}')" title="Pronounce">🔊</button>`;
+  const speakBtn = buildSpeakBtn(card.german);
 
   if (isCorrect) {
     markCorrect(card.german);
@@ -5288,7 +5304,7 @@ function skipCard() {
   elCard.classList.add('wrong');
   elFeedback.className = 'feedback wrong';
   const skipAnswer = langDir === 'en-de' ? card.german : card.english;
-  const skipSpeak = langDir === 'en-de' ? ` <button class="btn-speak" onclick="speakGerman('${card.german.replace(/'/g, "\\'")}')" title="Pronounce">🔊</button>` : '';
+  const skipSpeak = langDir === 'en-de' ? ' ' + buildSpeakBtn(card.german) : '';
   elFeedback.innerHTML = `<span class="feedback-icon">↷</span> Skipped — <strong>${skipAnswer}</strong>${skipSpeak}`;
   renderDots(card.german);
 
@@ -5339,55 +5355,64 @@ function setMode(mode) {
 
   if (isBreakdown) {
     elTenseFilters.classList.remove('visible');
-    renderBreakdownExplorer('');
+    elBreakdownSearch.value = '';
+    elBreakdownList.innerHTML = '';
     elBreakdownSearch.focus();
     return;
   }
 
-  // Show/hide filter rows
-  document.getElementById('filters').style.display = mode === 'flashcards' ? '' : 'none';
   elTenseFilters.classList.toggle('visible', mode === 'sentences');
+  document.getElementById('filters').style.display = mode === 'flashcards' ? '' : 'none';
   document.querySelector('.masterybar').style.display = mode === 'flashcards' ? '' : 'none';
   elInput.placeholder = mode === 'sentences' ? 'Type the English translation…' : (langDir === 'en-de' ? 'Schreib das deutsche Wort...' : 'Type English translation…');
 
   resetDeck();
 }
 
-function renderBreakdownExplorer(query) {
-  const allCards = buildCards('all');
-  const q = query.trim().toLowerCase();
-  const results = [];
-  for (const card of allCards) {
+// Cache decomposition results so repeated searches don't recompute
+let decomposeCache = null;
+function getDecomposeCache() {
+  if (decomposeCache) return decomposeCache;
+  decomposeCache = [];
+  for (const card of buildCards('all')) {
     const parts = decomposeWord(card.german);
-    if (!parts) continue;
-    if (q && !card.german.toLowerCase().includes(q) && !card.english.toLowerCase().includes(q)) continue;
-    results.push({ card, parts });
+    if (parts) decomposeCache.push({ card, parts });
   }
+  return decomposeCache;
+}
+
+function renderBreakdownExplorer(query) {
+  const q = query.trim().toLowerCase();
+  const all = getDecomposeCache();
+  const results = q
+    ? all.filter(({ card }) => card.german.toLowerCase().includes(q) || card.english.toLowerCase().includes(q))
+    : all;
+
   elBreakdownList.innerHTML = '';
   if (results.length === 0) {
-    elBreakdownList.innerHTML = `<div style="color:var(--muted);font-size:0.9rem;padding:12px 0">No compound words found.</div>`;
+    elBreakdownList.innerHTML = `<div class="be-empty">No compound words found.</div>`;
     return;
   }
   for (const { card, parts } of results) {
     const div = document.createElement('div');
-    div.style.cssText = 'background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:12px 14px;';
+    div.className = 'be-card';
     div.innerHTML = `
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
-        <strong style="font-size:1rem">${card.german}</strong>
-        <button class="btn-speak" onclick="speakGerman('${card.german.replace(/'/g,"\\'")}')">🔊</button>
-        <span style="color:var(--muted);font-size:0.85rem">= ${card.english}</span>
+      <div class="be-header">
+        <strong>${card.german}</strong>
+        ${buildSpeakBtn(card.german)}
+        <span class="be-en">= ${card.english}</span>
       </div>
-      ${parts.map(p => `<div style="display:flex;gap:8px;align-items:baseline;font-size:0.88rem;">
-        <span style="font-weight:700;color:var(--text);min-width:90px">${p.de}</span>
-        <span style="color:var(--border)">→</span>
-        <span style="color:var(--muted)">${p.en}</span>
-      </div>`).join('')}
+      ${parts.map(p => `<div class="be-row"><span class="be-de">${p.de}</span><span class="be-arrow">→</span><span class="be-meaning">${p.en}</span></div>`).join('')}
     `;
     elBreakdownList.appendChild(div);
   }
 }
 
-elBreakdownSearch.addEventListener('input', () => renderBreakdownExplorer(elBreakdownSearch.value));
+let breakdownDebounce = null;
+elBreakdownSearch.addEventListener('input', () => {
+  clearTimeout(breakdownDebounce);
+  breakdownDebounce = setTimeout(() => renderBreakdownExplorer(elBreakdownSearch.value), 200);
+});
 
 elModeFlashcards.addEventListener('click', () => setMode('flashcards'));
 elModeSentences.addEventListener('click', () => setMode('sentences'));
@@ -5835,16 +5860,16 @@ function stripSuffix(word) {
   return null;
 }
 
+function lookupInMap(map, s) {
+  return map[s] || map[s.charAt(0).toUpperCase() + s.slice(1)] || null;
+}
+
 function decomposeWord(german) {
   const map = getWordCoreMap();
   // Strip article and reflexive pronoun
   const core = german.replace(/^(der|die|das|ein|eine)\s+/i, '').replace(/^sich\s+/i, '').toLowerCase();
   const parts = [];
-
-  // Helper: look up a string in map with various forms
-  function lookup(s) {
-    return map[s] || map[s.charAt(0).toUpperCase() + s.slice(1)] || null;
-  }
+  const lookup = s => lookupInMap(map, s);
 
   // Try each prefix
   for (const [prefix, prefixMeaning] of Object.entries(PREFIXES)) {
@@ -5927,6 +5952,10 @@ function hideBreakdown() {
 }
 
 // ── Text-to-speech ────────────────────────────────────────────────────────────
+function buildSpeakBtn(german) {
+  return `<button class="btn-speak" onclick="speakGerman('${german.replace(/'/g, "\\'")}')" title="Pronounce">🔊</button>`;
+}
+
 function speakGerman(text) {
   if (!window.speechSynthesis) return;
   speechSynthesis.cancel();

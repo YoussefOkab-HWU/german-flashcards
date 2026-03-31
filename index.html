@@ -606,6 +606,13 @@
 <div class="mode-toggle">
   <button class="mode-btn active" id="mode-flashcards">Flashcards</button>
   <button class="mode-btn" id="mode-sentences">Sentences</button>
+  <button class="mode-btn" id="mode-breakdown">Breakdown</button>
+</div>
+
+<div id="breakdown-explorer" style="display:none;width:100%;max-width:600px;margin-top:12px;">
+  <input type="text" id="breakdown-search" placeholder="Search words…" autocomplete="off"
+    style="width:100%;box-sizing:border-box;padding:10px 14px;border-radius:10px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:1rem;margin-bottom:10px;" />
+  <div id="breakdown-list" style="display:flex;flex-direction:column;gap:8px;max-height:65vh;overflow-y:auto;"></div>
 </div>
 
 <div class="masterybar">
@@ -622,7 +629,7 @@
   <div class="progress-bar" id="progress-bar"></div>
 </div>
 
-<div class="card-wrap">
+<div class="card-wrap" id="card-wrap">
   <div class="card" id="card">
     <span class="card-counter" id="card-counter"></span>
     <span class="tense-badge" id="tense-badge" style="display:none"></span>
@@ -641,7 +648,7 @@
   <div class="learned-list" id="learned-list"></div>
 </div>
 
-<div class="input-area">
+<div class="input-area" id="input-area">
   <input type="text" id="answer-input" placeholder="Type English translation…" autocomplete="off" autocorrect="off" spellcheck="false" autocapitalize="none" />
   <div class="input-buttons-row">
     <button class="btn" id="btn-check">Check</button>
@@ -5303,26 +5310,88 @@ document.addEventListener('keydown', e => {
 });
 
 // ── Mode switching ────────────────────────────────────────────────────────────
+const elBreakdownExplorer = document.getElementById('breakdown-explorer');
+const elBreakdownList     = document.getElementById('breakdown-list');
+const elBreakdownSearch   = document.getElementById('breakdown-search');
+const elModeBreakdown     = document.getElementById('mode-breakdown');
+
+// Main app elements to hide/show
+const elMainApp = [
+  document.getElementById('filters'),
+  document.getElementById('card-wrap'),
+  document.getElementById('learned-panel'),
+  document.getElementById('input-area'),
+  document.getElementById('umlaut-bar'),
+  document.getElementById('btn-next'),
+  document.getElementById('word-breakdown'),
+  document.querySelector('.masterybar'),
+];
+
 function setMode(mode) {
   appMode = mode;
   elModeFlashcards.classList.toggle('active', mode === 'flashcards');
   elModeSentences.classList.toggle('active', mode === 'sentences');
+  elModeBreakdown.classList.toggle('active', mode === 'breakdown');
+
+  const isBreakdown = mode === 'breakdown';
+  elBreakdownExplorer.style.display = isBreakdown ? '' : 'none';
+  elMainApp.forEach(el => { if (el) el.style.display = isBreakdown ? 'none' : ''; });
+
+  if (isBreakdown) {
+    elTenseFilters.classList.remove('visible');
+    renderBreakdownExplorer('');
+    elBreakdownSearch.focus();
+    return;
+  }
 
   // Show/hide filter rows
   document.getElementById('filters').style.display = mode === 'flashcards' ? '' : 'none';
   elTenseFilters.classList.toggle('visible', mode === 'sentences');
-
-  // Show/hide mastery bar (only relevant for flashcards)
   document.querySelector('.masterybar').style.display = mode === 'flashcards' ? '' : 'none';
-
-  // Update input placeholder
   elInput.placeholder = mode === 'sentences' ? 'Type the English translation…' : (langDir === 'en-de' ? 'Schreib das deutsche Wort...' : 'Type English translation…');
 
   resetDeck();
 }
 
+function renderBreakdownExplorer(query) {
+  const allCards = buildCards('all');
+  const q = query.trim().toLowerCase();
+  const results = [];
+  for (const card of allCards) {
+    const parts = decomposeWord(card.german);
+    if (!parts) continue;
+    if (q && !card.german.toLowerCase().includes(q) && !card.english.toLowerCase().includes(q)) continue;
+    results.push({ card, parts });
+  }
+  elBreakdownList.innerHTML = '';
+  if (results.length === 0) {
+    elBreakdownList.innerHTML = `<div style="color:var(--muted);font-size:0.9rem;padding:12px 0">No compound words found.</div>`;
+    return;
+  }
+  for (const { card, parts } of results) {
+    const div = document.createElement('div');
+    div.style.cssText = 'background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:12px 14px;';
+    div.innerHTML = `
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+        <strong style="font-size:1rem">${card.german}</strong>
+        <button class="btn-speak" onclick="speakGerman('${card.german.replace(/'/g,"\\'")}')">🔊</button>
+        <span style="color:var(--muted);font-size:0.85rem">= ${card.english}</span>
+      </div>
+      ${parts.map(p => `<div style="display:flex;gap:8px;align-items:baseline;font-size:0.88rem;">
+        <span style="font-weight:700;color:var(--text);min-width:90px">${p.de}</span>
+        <span style="color:var(--border)">→</span>
+        <span style="color:var(--muted)">${p.en}</span>
+      </div>`).join('')}
+    `;
+    elBreakdownList.appendChild(div);
+  }
+}
+
+elBreakdownSearch.addEventListener('input', () => renderBreakdownExplorer(elBreakdownSearch.value));
+
 elModeFlashcards.addEventListener('click', () => setMode('flashcards'));
 elModeSentences.addEventListener('click', () => setMode('sentences'));
+elModeBreakdown.addEventListener('click', () => setMode('breakdown'));
 
 // ── Tense filters ─────────────────────────────────────────────────────────────
 function buildTenseFilters() {
@@ -5652,6 +5721,49 @@ const ROOTS = {
   'keit': '-ness / -ity',
   'ung': '-ing / -tion',
   'nis': '-ness / -ment',
+  // More verb roots
+  'schwenden': 'to waste / squander',
+  'schwinden': 'to disappear / dwindle',
+  'schalten': 'to switch',
+  'walten': 'to rule / govern',
+  'wirken': 'to work / have effect',
+  'weichen': 'to yield / soften',
+  'heben': 'to lift / raise',
+  'gleiten': 'to glide / slide',
+  'klingen': 'to sound / ring',
+  'bringen': 'to bring',
+  'denken': 'to think',
+  'kennen': 'to know',
+  'nennen': 'to name / call',
+  'rennen': 'to run',
+  'senden': 'to send',
+  'wenden': 'to turn',
+  'brennen': 'to burn',
+  'sprechen': 'to speak',
+  'schreiben': 'to write',
+  'reiben': 'to rub',
+  'scheinen': 'to seem / shine',
+  'bleiben': 'to stay',
+  'treffen': 'to meet / hit',
+  'helfen': 'to help',
+  'gelten': 'to be valid / count',
+  'sterben': 'to die',
+  'werben': 'to advertise / recruit',
+  'finden': 'to find',
+  'binden': 'to bind',
+  'singen': 'to sing',
+  'springen': 'to jump',
+  'trinken': 'to drink',
+  'sinken': 'to sink',
+  'zwingen': 'to force',
+  'ringen': 'to wrestle / struggle',
+  'fliegen': 'to fly',
+  'bieten': 'to offer',
+  'scheiden': 'to separate / divorce',
+  'leiden': 'to suffer',
+  'meiden': 'to avoid',
+  'schneiden': 'to cut',
+  'streiten': 'to argue',
 };
 
 // Build a map: lowercase core word (no article) → { german, english }
@@ -5673,31 +5785,51 @@ function getWordCoreMap() {
   return wordCoreMap;
 }
 
+// Suffixes to strip when looking up roots (longest first)
+const SUFFIXES = ['erisch', 'isch', 'lich', 'heit', 'keit', 'ung', 'nis', 'sam', 'bar', 'ig', 'er', 'en', 'e'];
+
+function stripSuffix(word) {
+  for (const s of SUFFIXES) {
+    if (word.endsWith(s) && word.length - s.length >= 3) {
+      return word.slice(0, word.length - s.length);
+    }
+  }
+  return null;
+}
+
 function decomposeWord(german) {
   const map = getWordCoreMap();
   // Strip article
   const core = german.replace(/^(der|die|das|ein|eine)\s+/i, '').toLowerCase();
   const parts = [];
 
+  // Helper: look up a string in map with various forms
+  function lookup(s) {
+    return map[s] || map[s.charAt(0).toUpperCase() + s.slice(1)] || null;
+  }
+
   // Try each prefix
   for (const [prefix, prefixMeaning] of Object.entries(PREFIXES)) {
     if (core.startsWith(prefix) && core.length > prefix.length + 2) {
       const remainder = core.slice(prefix.length);
-      // Check if remainder (or capitalized) exists in dataset
-      const match = map[remainder] || map[remainder.charAt(0).toUpperCase() + remainder.slice(1)];
+      // Direct match
+      let match = lookup(remainder);
+      if (!match) {
+        // Try with articles
+        for (const art of ['der ', 'die ', 'das ']) {
+          match = lookup(art + remainder);
+          if (match) break;
+        }
+      }
+      // Try stripping suffix from remainder
+      if (!match) {
+        const stripped = stripSuffix(remainder);
+        if (stripped) match = lookup(stripped) || lookup(stripped + 'en') || lookup(stripped + 'en'.slice(0,2));
+      }
       if (match) {
         parts.push({ de: prefix, en: prefixMeaning });
         parts.push({ de: match.german, en: match.english });
         return parts;
-      }
-      // Try remainder with common articles
-      for (const art of ['der ', 'die ', 'das ']) {
-        const withArt = map[art + remainder] || map[art + remainder.charAt(0).toUpperCase() + remainder.slice(1)];
-        if (withArt) {
-          parts.push({ de: prefix, en: prefixMeaning });
-          parts.push({ de: withArt.german, en: withArt.english });
-          return parts;
-        }
       }
     }
   }

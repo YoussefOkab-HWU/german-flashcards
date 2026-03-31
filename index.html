@@ -5038,17 +5038,14 @@ let priorityQueue = loadPriorityQueue();
 function getNextCard() {
   cardsSinceStart++;
   localStorage.setItem('gfc_cards_count', cardsSinceStart);
-  // Check if any priority card is due
-  const due = priorityQueue.find(e => cardsSinceStart >= e.dueAt);
+  // Check if any priority card is due AND in the current filter
+  const allCards = buildCards(activeFilter);
+  const due = priorityQueue.find(e => cardsSinceStart >= e.dueAt && allCards.some(c => c.german === e.german));
   if (due) {
-    const allCards = buildCards(activeFilter);
     const card = allCards.find(c => c.german === due.german);
     if (card) return card;
-    // Card no longer in pool (e.g. filter changed), drop it
-    priorityQueue = priorityQueue.filter(e => e.german !== due.german);
   }
   // 1 in 50 chance: show a mastered word as ghost
-  const allCards = buildCards(activeFilter);
   const mastered = allCards.filter(c => getWordState(c.german).learned);
   if (mastered.length > 0 && Math.random() < 1/50) {
     return mastered[Math.floor(Math.random() * mastered.length)];

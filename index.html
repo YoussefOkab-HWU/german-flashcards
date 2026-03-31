@@ -5605,6 +5605,7 @@ const PREFIXES = {
   'um': 'around / about',
   'voran': 'forward / ahead',
   'voraus': 'ahead / in advance',
+  'gut': 'good / to credit',
   'weg': 'away',
   'zurück': 'back',
   'zusammen': 'together',
@@ -5764,6 +5765,43 @@ const ROOTS = {
   'meiden': 'to avoid',
   'schneiden': 'to cut',
   'streiten': 'to argue',
+  // More missing roots
+  'schnitt': 'cut / slice',
+  'bau': 'construction / building',
+  'lassen': 'to let / allow / leave',
+  'haupt': 'head / main / chief',
+  'trauen': 'to trust / dare / marry',
+  'würdig': 'worthy / dignified',
+  'irren': 'to err / be mistaken',
+  'suchen': 'to search / look for',
+  'nehmen': 'to take',
+  'geben': 'to give',
+  'halten': 'to hold / keep',
+  'stellen': 'to place / put',
+  'setzen': 'to set / place',
+  'legen': 'to lay / put',
+  'sagen': 'to say',
+  'zeigen': 'to show',
+  'lesen': 'to read',
+  'leben': 'to live',
+  'liegen': 'to lie / be located',
+  'sitzen': 'to sit',
+  'wissen': 'to know',
+  'fühlen': 'to feel',
+  'glauben': 'to believe',
+  'meinen': 'to mean / think',
+  'scheinen': 'to seem / shine',
+  'heißen': 'to be called / mean',
+  'zahlen': 'to pay / count',
+  'nutzen': 'to use / benefit',
+  'lösen': 'to solve / dissolve',
+  'leiten': 'to lead / conduct',
+  'bilden': 'to form / educate',
+  'teilen': 'to share / divide',
+  'wählen': 'to choose / vote',
+  'starten': 'to start',
+  'enden': 'to end',
+  'hören': 'to hear / listen',
 };
 
 // Build a map: lowercase core word (no article) → { german, english }
@@ -5799,8 +5837,8 @@ function stripSuffix(word) {
 
 function decomposeWord(german) {
   const map = getWordCoreMap();
-  // Strip article
-  const core = german.replace(/^(der|die|das|ein|eine)\s+/i, '').toLowerCase();
+  // Strip article and reflexive pronoun
+  const core = german.replace(/^(der|die|das|ein|eine)\s+/i, '').replace(/^sich\s+/i, '').toLowerCase();
   const parts = [];
 
   // Helper: look up a string in map with various forms
@@ -5824,7 +5862,20 @@ function decomposeWord(german) {
       // Try stripping suffix from remainder
       if (!match) {
         const stripped = stripSuffix(remainder);
-        if (stripped) match = lookup(stripped) || lookup(stripped + 'en') || lookup(stripped + 'en'.slice(0,2));
+        if (stripped) {
+          match = lookup(stripped) || lookup(stripped + 'en') || lookup(stripped + 'n');
+        }
+      }
+      // Try stripping binding -s- or -en- before suffix (e.g. trauenswürdig → trauen)
+      if (!match) {
+        for (const binding of ['ens', 'es', 's']) {
+          const idx = remainder.indexOf(binding, 3);
+          if (idx > 2) {
+            const base = remainder.slice(0, idx);
+            match = lookup(base) || lookup(base + 'en') || lookup(base + 'n');
+            if (match) break;
+          }
+        }
       }
       if (match) {
         parts.push({ de: prefix, en: prefixMeaning });
@@ -5835,7 +5886,7 @@ function decomposeWord(german) {
   }
 
   // Try splitting compound noun: find longest matching first half
-  for (let i = Math.floor(core.length * 0.4); i <= Math.floor(core.length * 0.7); i++) {
+  for (let i = Math.floor(core.length * 0.25); i <= Math.floor(core.length * 0.75); i++) {
     const first = core.slice(0, i);
     const second = core.slice(i);
     const m1 = map[first] || map[first.charAt(0).toUpperCase() + first.slice(1)];

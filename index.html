@@ -5446,20 +5446,27 @@ async function loadSentences() {
   if (SENTENCES) return true;
   if (sentencesLoading) return false;
   sentencesLoading = true;
-  elCard.className = 'card';
-  elWord.textContent = 'Loading sentences…';
-  elCounter.textContent = '';
-  elMasteryDots.innerHTML = '';
-  elFeedback.className = 'feedback hidden';
-  elInput.disabled = true;
-  elCheck.disabled = true;
-  elNext.classList.remove('visible');
+  // Only show loading UI if fetch takes >150ms (i.e. not served from cache)
+  let showedLoading = false;
+  const loadingTimer = setTimeout(() => {
+    showedLoading = true;
+    elCard.className = 'card';
+    elWord.textContent = 'Loading sentences…';
+    elCounter.textContent = '';
+    elMasteryDots.innerHTML = '';
+    elFeedback.className = 'feedback hidden';
+    elInput.disabled = true;
+    elCheck.disabled = true;
+    elNext.classList.remove('visible');
+  }, 150);
   try {
     const res = await fetch('sentences.json');
     SENTENCES = await res.json();
+    clearTimeout(loadingTimer);
     sentencesLoading = false;
     return true;
   } catch(e) {
+    clearTimeout(loadingTimer);
     elWord.textContent = 'Failed to load sentences. Check your connection.';
     sentencesLoading = false;
     return false;

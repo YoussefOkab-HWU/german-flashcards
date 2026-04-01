@@ -5489,8 +5489,19 @@ function buildSentenceDeck() {
   const tenses = activeTense === 'all' ? ['present', 'past', 'future'] : [activeTense];
   const pronouns = ['ich', 'du', 'er/sie', 'wir', 'ihr'];
   const cards = [];
+  // Build a map from lowercased word → actual progress key used in DATA
+  if (!buildSentenceDeck._keyMap) {
+    const map = {};
+    for (const cat of Object.values(DATA)) {
+      for (const entry of cat) map[entry.german.toLowerCase()] = entry.german;
+    }
+    buildSentenceDeck._keyMap = map;
+  }
+  const keyMap = buildSentenceDeck._keyMap;
+
   for (const [word, data] of Object.entries(SENTENCES)) {
-    if (!getWordState(word).learned) continue; // word not yet mastered in flashcards
+    const progressKey = keyMap[word.toLowerCase()] || word;
+    if (!getWordState(progressKey).learned) continue; // word not yet mastered in flashcards
     for (const tense of tenses) {
       if (!data[tense]) continue;
       for (const pronoun of pronouns) {

@@ -4766,6 +4766,7 @@ const DATA = {
 
 let SENTENCES = null; // loaded lazily from sentences.json
 let QUESTIONS = null; // loaded lazily from questions.json
+let BREAKDOWNS = null; // loaded lazily from breakdowns.json
 
 // ── Build flat card list with category tags ──────────────────────────────────
 function buildCards(filter) {
@@ -5516,6 +5517,14 @@ async function loadQuestions() {
   }
 }
 
+async function loadBreakdowns() {
+  if (BREAKDOWNS) return;
+  try {
+    const res = await fetch('breakdowns.json');
+    BREAKDOWNS = await res.json();
+  } catch(e) { BREAKDOWNS = {}; }
+}
+
 async function loadSentencesAndQuestions() {
   const loadingTimer = setTimeout(() => {
     elCard.className = 'card';
@@ -5716,6 +5725,7 @@ function startApp(dir) {
   buildFilters();
   buildTenseFilters();
   // Pull cloud progress then start (fall back immediately if offline)
+  loadBreakdowns(); // fire and forget — available before first card is answered
   pullFromCloud().finally(() => resetDeck());
 }
 
@@ -6054,20 +6064,19 @@ function decomposeWord(german) {
 
 function showBreakdown(german) {
   const el = document.getElementById('word-breakdown');
-  const parts = decomposeWord(german);
-  if (!parts) { el.style.display = 'none'; return; }
+  // Use Ollama-generated breakdowns first, fall back to algorithm
+  const core = german.replace(/^(der|die|das|ein|eine)\s+/i, '').replace(/^sich\s+/i, '').trim();
+  let parts = null;
+  if (BREAKDOWNS) {
+    // Try exact match, then case-insensitive
+    parts = BREAKDOWNS[german] || BREAKDOWNS[core] ||
+      BREAKDOWNS[Object.keys(BREAKDOWNS).find(k => k.toLowerCase() === german.toLowerCase())] ||
+      BREAKDOWNS[Object.keys(BREAKDOWNS).find(k => k.toLowerCase() === core.toLowerCase())] ||
+      null;
+  }
+  if (!parts) parts = decomposeWord(german);
+  if (!parts || parts.length < 2) { el.style.display = 'none'; return; }
   el.style.display = '';
-  el.innerHTML = `<div class="wb-title">Word breakdown</div>` +
-    parts.map((p, i) =>
-      `<div class="wb-part">
-        <span class="wb-de">${p.de}</span>
-        <span class="wb-arrow">→</span>
-        <span class="wb-en">${p.en}</span>
-      </div>` +
-      (i < parts.length - 1 ? '' : '')
-    ).join('<div class="wb-arrow" style="margin:2px 0;font-size:1rem;text-align:center">+</div>'.replace('</div><div', '</div>+<div').split('+').join(''))
-    ;
-  // Simpler render
   el.innerHTML = `<div class="wb-title">Word breakdown</div>` +
     parts.map(p => `<div class="wb-part"><span class="wb-de">${p.de}</span><span class="wb-arrow">→</span><span class="wb-en">${p.en}</span></div>`).join('');
 }

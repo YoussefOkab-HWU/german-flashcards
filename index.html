@@ -5089,6 +5089,17 @@ function resetDeck() {
     loadSentences().then(ok => {
       if (!ok) return;
       const cards = buildSentenceDeck();
+      if (cards.length === 0) {
+        elCard.className = 'card';
+        elWord.style.display = '';
+        elWord.textContent = '🔒';
+        elCounter.textContent = 'Master words in Flashcards to unlock sentences';
+        elMasteryDots.innerHTML = '';
+        elFeedback.className = 'feedback hidden';
+        elInput.disabled = true;
+        elCheck.disabled = true;
+        return;
+      }
       deck = shuffle(cards);
       deckPos = 0;
       elWord.style.display = 'none';
@@ -5479,13 +5490,14 @@ function buildSentenceDeck() {
   const pronouns = ['ich', 'du', 'er/sie', 'wir', 'ihr'];
   const cards = [];
   for (const [word, data] of Object.entries(SENTENCES)) {
+    if (!getWordState(word).learned) continue; // word not yet mastered in flashcards
     for (const tense of tenses) {
       if (!data[tense]) continue;
       for (const pronoun of pronouns) {
         const list = data[tense][pronoun];
         if (!list || !list.length) continue;
         const stub = { german: word, tense, pronoun };
-        if (getSentenceState(stub).learned) continue; // skip mastered
+        if (getSentenceState(stub).learned) continue; // skip mastered sentences
         const pick = list[Math.floor(Math.random() * list.length)];
         cards.push({ german: word, tense, pronoun, de: pick.de, en: pick.en });
       }
@@ -5521,7 +5533,8 @@ function showSentenceCard() {
   elTenseBadge.style.display = 'none';
   elTenseBadge.className = `tense-badge ${card.tense}`;
   elTenseBadge.textContent = card.tense.charAt(0).toUpperCase() + card.tense.slice(1) + ' · ' + card.pronoun;
-  elCounter.textContent = `${deckPos + 1} / ${deck.length}`;
+  const unlockedWords = SENTENCES ? Object.keys(SENTENCES).filter(w => getWordState(w).learned).length : 0;
+  elCounter.textContent = `${deckPos + 1} / ${deck.length} · ${unlockedWords} words unlocked`;
   elProgress.style.width = `${((deckPos + 1) / deck.length) * 100}%`;
 }
 

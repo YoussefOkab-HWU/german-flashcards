@@ -1,4 +1,4 @@
-const CACHE = 'gfc-v1';
+const CACHE = 'gfc-v2';
 const ASSETS = [
   '/german-flashcards/',
   '/german-flashcards/index.html',

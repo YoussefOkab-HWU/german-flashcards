@@ -1050,7 +1050,6 @@ const DATA = {
     {"german": "auskommen", "english": "to get by/manage"},
     {"german": "ausleihen", "english": "to lend/borrow"},
     {"german": "ausmachen", "english": "to turn off/agree"},
-    {"german": "auspackung", "english": "to unpack"},
     {"german": "ausruhen", "english": "to rest"},
     {"german": "ausschalten", "english": "to switch off"},
     {"german": "ausschlafen", "english": "to sleep in"},
@@ -4766,6 +4765,7 @@ const DATA = {
 };
 
 let SENTENCES = null; // loaded lazily from sentences.json
+let QUESTIONS = null; // loaded lazily from questions.json
 
 // ── Build flat card list with category tags ──────────────────────────────────
 function buildCards(filter) {
@@ -4886,8 +4886,13 @@ async function pullFromCloud() {
       sentenceProgress = Object.assign(data.sentenceProgress, sentenceProgress);
       saveSentenceProgressLocal();
     }
-    if (data.priorityQueue && data.priorityQueue.length > priorityQueue.length) {
-      priorityQueue = data.priorityQueue;
+    if (data.priorityQueue) {
+      // Union local + cloud queues; for duplicate words keep the entry with higher dueAt.
+      const merged = new Map();
+      for (const e of [...priorityQueue, ...data.priorityQueue]) {
+        if (!merged.has(e.german) || e.dueAt > merged.get(e.german).dueAt) merged.set(e.german, e);
+      }
+      priorityQueue = cleanPriorityQueue(Array.from(merged.values()));
       savePriorityQueueLocal();
     }
     if (data.cardsSinceStart && data.cardsSinceStart > cardsSinceStart) {
@@ -5047,6 +5052,12 @@ function loadPriorityQueue() {
   try { return JSON.parse(localStorage.getItem('gfc_pq') || '[]'); }
   catch { return []; }
 }
+// Remove entries for words that have been answered correctly since being queued.
+// If consecutive > 0, markCorrect should have removed the entry — if it's still
+// here it's a stale entry from a sync or a previous session.
+function cleanPriorityQueue(queue) {
+  return queue.filter(e => getWordState(e.german).consecutive === 0);
+}
 function savePriorityQueueLocal() {
   localStorage.setItem('gfc_pq', JSON.stringify(priorityQueue));
   localStorage.setItem('gfc_cards_count', cardsSinceStart);
@@ -5056,7 +5067,7 @@ function savePriorityQueue() {
   scheduleCloudSync();
 }
 let cardsSinceStart = parseInt(localStorage.getItem('gfc_cards_count') || '0');
-let priorityQueue = loadPriorityQueue();
+let priorityQueue = cleanPriorityQueue(loadPriorityQueue());
 
 function getNextCard() {
   cardsSinceStart++;
@@ -5065,6 +5076,8 @@ function getNextCard() {
   const allCards = buildCards(activeFilter);
   const due = priorityQueue.find(e => cardsSinceStart >= e.dueAt && allCards.some(c => c.german === e.german));
   if (due) {
+    priorityQueue = priorityQueue.filter(e => e !== due);
+    savePriorityQueueLocal();
     const card = allCards.find(c => c.german === due.german);
     if (card) return card;
   }
@@ -5073,8 +5086,9 @@ function getNextCard() {
   if (mastered.length > 0 && Math.random() < 1/50) {
     return mastered[Math.floor(Math.random() * mastered.length)];
   }
-  // Normal random unlearned card
-  const active = allCards.filter(c => !getWordState(c.german).learned);
+  // Normal random unlearned card — skip words already queued for retry
+  const queuedWords = new Set(priorityQueue.map(e => e.german));
+  const active = allCards.filter(c => !getWordState(c.german).learned && !queuedWords.has(c.german));
   if (active.length === 0) return null;
   return active[Math.floor(Math.random() * active.length)];
 }
@@ -5086,7 +5100,7 @@ function getUnlearnedCards() {
 
 function resetDeck() {
   if (appMode === 'sentences') {
-    loadSentences().then(ok => {
+    loadSentencesAndQuestions().then(ok => {
       if (!ok) return;
       const cards = buildSentenceDeck();
       if (cards.length === 0) {
@@ -5165,7 +5179,7 @@ function showCard() {
 
 function advanceCard() {
   if (appMode === 'sentences') {
-    // SENTENCES already loaded if we got here
+    // sentences + questions already loaded if we got here
     deck = shuffle(buildSentenceDeck());
     deckPos = 0;
     showSentenceCard();
@@ -5269,6 +5283,7 @@ function checkAnswer() {
     renderDots(card.german);
   } else {
     markWrong(card.german);
+    { const _r = getUnlearnedCards().length, _p = priorityQueue.length; elCounter.textContent = _p > 0 ? `${_r} remaining · ${_p} to retry` : `${_r} remaining`; }
     elCard.classList.add('wrong');
     elFeedback.className = 'feedback wrong';
     // No "Accept my answer" in EN→DE mode — spelling must be correct
@@ -5311,6 +5326,7 @@ function skipCard() {
   if (answered) return;
   const card = deck[deckPos];
   markWrong(card.german);
+  { const _r = getUnlearnedCards().length, _p = priorityQueue.length; elCounter.textContent = _p > 0 ? `${_r} remaining · ${_p} to retry` : `${_r} remaining`; }
 
   answered = true;
   elInput.disabled = true;
@@ -5484,6 +5500,38 @@ async function loadSentences() {
   }
 }
 
+let questionsLoading = false;
+async function loadQuestions() {
+  if (QUESTIONS) return true;
+  if (questionsLoading) return false;
+  questionsLoading = true;
+  try {
+    const res = await fetch('questions.json');
+    QUESTIONS = await res.json();
+    questionsLoading = false;
+    return true;
+  } catch(e) {
+    questionsLoading = false;
+    return false;
+  }
+}
+
+async function loadSentencesAndQuestions() {
+  const loadingTimer = setTimeout(() => {
+    elCard.className = 'card';
+    elWord.textContent = 'Loading…';
+    elCounter.textContent = '';
+    elMasteryDots.innerHTML = '';
+    elFeedback.className = 'feedback hidden';
+    elInput.disabled = true;
+    elCheck.disabled = true;
+    elNext.classList.remove('visible');
+  }, 150);
+  const [s, q] = await Promise.all([loadSentences(), loadQuestions()]);
+  clearTimeout(loadingTimer);
+  return s || q; // ok if at least one loaded
+}
+
 // ── Sentences deck ────────────────────────────────────────────────────────────
 function buildSentenceDeck() {
   const tenses = activeTense === 'all' ? ['present', 'past', 'future'] : [activeTense];
@@ -5499,21 +5547,39 @@ function buildSentenceDeck() {
   }
   const keyMap = buildSentenceDeck._keyMap;
 
-  for (const [word, data] of Object.entries(SENTENCES)) {
-    const progressKey = keyMap[word.toLowerCase()] || word;
-    if (!getWordState(progressKey).learned) continue; // word not yet mastered in flashcards
-    for (const tense of tenses) {
-      if (!data[tense]) continue;
-      for (const pronoun of pronouns) {
-        const list = data[tense][pronoun];
-        if (!list || !list.length) continue;
-        const stub = { german: word, tense, pronoun };
-        if (getSentenceState(stub).learned) continue; // skip mastered sentences
-        const pick = list[Math.floor(Math.random() * list.length)];
-        cards.push({ german: word, tense, pronoun, de: pick.de, en: pick.en });
+  if (SENTENCES) {
+    for (const [word, data] of Object.entries(SENTENCES)) {
+      const progressKey = keyMap[word.toLowerCase()] || word;
+      if (!getWordState(progressKey).learned) continue;
+      for (const tense of tenses) {
+        if (!data[tense]) continue;
+        for (const pronoun of pronouns) {
+          const list = data[tense][pronoun];
+          if (!list || !list.length) continue;
+          const stub = { german: word, tense, pronoun };
+          if (getSentenceState(stub).learned) continue;
+          const pick = list[Math.floor(Math.random() * list.length)];
+          cards.push({ german: word, tense, pronoun, de: pick.de, en: pick.en });
+        }
       }
     }
   }
+
+  // Add question cards (pronoun = 'question' sentinel)
+  if (QUESTIONS) {
+    for (const [word, data] of Object.entries(QUESTIONS)) {
+      const progressKey = keyMap[word.toLowerCase()] || word;
+      if (!getWordState(progressKey).learned) continue;
+      for (const tense of tenses) {
+        if (!data[tense] || !data[tense].length) continue;
+        const stub = { german: word, tense, pronoun: 'question' };
+        if (getSentenceState(stub).learned) continue;
+        const pick = data[tense][Math.floor(Math.random() * data[tense].length)];
+        cards.push({ german: word, tense, pronoun: 'question', de: pick.de, en: pick.en });
+      }
+    }
+  }
+
   return cards;
 }
 
@@ -5543,15 +5609,18 @@ function showSentenceCard() {
   if (!showDe) { elSentenceDe.style.display = ''; }
   elTenseBadge.style.display = 'none';
   elTenseBadge.className = `tense-badge ${card.tense}`;
-  elTenseBadge.textContent = card.tense.charAt(0).toUpperCase() + card.tense.slice(1) + ' · ' + card.pronoun;
-  const unlockedWords = SENTENCES ? Object.keys(SENTENCES).filter(w => getWordState(w).learned).length : 0;
+  const tenseLabel = card.tense.charAt(0).toUpperCase() + card.tense.slice(1);
+  elTenseBadge.textContent = card.pronoun === 'question' ? tenseLabel : tenseLabel + ' · ' + card.pronoun;
+  const sentenceWords = SENTENCES ? Object.keys(SENTENCES).filter(w => getWordState(w).learned).length : 0;
+  const questionWords = QUESTIONS ? Object.keys(QUESTIONS).filter(w => getWordState(w).learned).length : 0;
+  const unlockedWords = Math.max(sentenceWords, questionWords);
   elCounter.textContent = `${deckPos + 1} / ${deck.length} · ${unlockedWords} words unlocked`;
   elProgress.style.width = `${((deckPos + 1) / deck.length) * 100}%`;
 }
 
 // Word-overlap fuzzy check for full sentences
 function isSentenceFuzzyMatch(input, reference) {
-  const norm = s => s.toLowerCase().replace(/[^\w\s]/g, '').trim();
+  const norm = s => s.toLowerCase().replace(/[.,!?;:"'()[\]{}\-–—]/g, '').trim();
   const words = s => norm(s).split(/\s+/).filter(w => w.length > 2);
   const inputWords = new Set(words(input));
   const refWords = words(reference);
@@ -5924,65 +5993,61 @@ function lookupInMap(map, s) {
   return map[s] || map[s.charAt(0).toUpperCase() + s.slice(1)] || null;
 }
 
+// Resolve a segment into 1+ parts (used inside decomposition only)
+function resolveSegment(word, map, depth) {
+  if (depth <= 0 || word.length < 2) return null;
+  // Direct match
+  let m = lookupInMap(map, word);
+  if (!m) {
+    for (const art of ['der ', 'die ', 'das ']) { m = lookupInMap(map, art + word); if (m) break; }
+  }
+  if (!m) {
+    const stripped = stripSuffix(word);
+    if (stripped) m = lookupInMap(map, stripped) || lookupInMap(map, stripped + 'en') || lookupInMap(map, stripped + 'n');
+  }
+  if (m) return [{ de: m.german, en: m.english }];
+  // Recurse: try splitting this segment further
+  return splitSegment(word, map, depth);
+}
+
+// Split a segment into 2+ parts recursively
+function splitSegment(word, map, depth) {
+  if (depth <= 1 || word.length < 4) return null;
+  for (let i = 3; i <= word.length - 3; i++) {
+    const first = word.slice(0, i);
+    const m1 = lookupInMap(map, first);
+    if (!m1) continue;
+    const second = word.slice(i);
+    // Direct recursion
+    const rest = resolveSegment(second, map, depth - 1);
+    if (rest) return [{ de: m1.german, en: m1.english }, ...rest];
+    // Try stripping binding morpheme at junction (e.g. Arbeit-s-platz, Kind-er-garten)
+    for (const b of ['ens', 'es', 'er', 's', 'en', 'n']) {
+      if (second.startsWith(b) && second.length > b.length + 2) {
+        const rest2 = resolveSegment(second.slice(b.length), map, depth - 1);
+        if (rest2) return [{ de: m1.german, en: m1.english }, ...rest2];
+      }
+    }
+  }
+  return null;
+}
+
 function decomposeWord(german) {
   const map = getWordCoreMap();
-  // Strip article and reflexive pronoun
   const core = german.replace(/^(der|die|das|ein|eine)\s+/i, '').replace(/^sich\s+/i, '').toLowerCase();
-  const parts = [];
-  const lookup = s => lookupInMap(map, s);
 
-  // Try each prefix
+  // Try prefix + recursive remainder (up to 3 more parts = 4 total)
   for (const [prefix, prefixMeaning] of Object.entries(PREFIXES)) {
     if (core.startsWith(prefix) && core.length > prefix.length + 2) {
       const remainder = core.slice(prefix.length);
-      // Direct match
-      let match = lookup(remainder);
-      if (!match) {
-        // Try with articles
-        for (const art of ['der ', 'die ', 'das ']) {
-          match = lookup(art + remainder);
-          if (match) break;
-        }
-      }
-      // Try stripping suffix from remainder
-      if (!match) {
-        const stripped = stripSuffix(remainder);
-        if (stripped) {
-          match = lookup(stripped) || lookup(stripped + 'en') || lookup(stripped + 'n');
-        }
-      }
-      // Try stripping binding -s- or -en- before suffix (e.g. trauenswürdig → trauen)
-      if (!match) {
-        for (const binding of ['ens', 'es', 's']) {
-          const idx = remainder.indexOf(binding, 3);
-          if (idx > 2) {
-            const base = remainder.slice(0, idx);
-            match = lookup(base) || lookup(base + 'en') || lookup(base + 'n');
-            if (match) break;
-          }
-        }
-      }
-      if (match) {
-        parts.push({ de: prefix, en: prefixMeaning });
-        parts.push({ de: match.german, en: match.english });
-        return parts;
-      }
+      const rest = resolveSegment(remainder, map, 3);
+      if (rest) return [{ de: prefix, en: prefixMeaning }, ...rest];
     }
   }
 
-  // Try splitting compound noun: find longest matching first half
-  for (let i = Math.floor(core.length * 0.25); i <= Math.floor(core.length * 0.75); i++) {
-    const first = core.slice(0, i);
-    const second = core.slice(i);
-    const m1 = map[first] || map[first.charAt(0).toUpperCase() + first.slice(1)];
-    const m2 = map[second] || map[second.charAt(0).toUpperCase() + second.slice(1)];
-    if (m1 && m2) {
-      return [
-        { de: m1.german, en: m1.english },
-        { de: m2.german, en: m2.english },
-      ];
-    }
-  }
+  // Try compound split (up to 4 parts)
+  const parts = splitSegment(core, map, 4);
+  if (parts && parts.length >= 2) return parts;
 
   return null;
 }

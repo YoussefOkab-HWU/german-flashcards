@@ -6061,6 +6061,9 @@ function decomposeWord(german) {
   return null;
 }
 
+// Words where the algorithm gives misleading results — suppress breakdown entirely
+const BREAKDOWN_BLOCKLIST = new Set(['gehören', 'erinnern', 'beginnen', 'vergessen', 'scheitern', 'verlieren', 'hoffen', 'schwimmen', 'rennen', 'kämpfen']);
+
 function showBreakdown(german) {
   const el = document.getElementById('word-breakdown');
   // Use Ollama-generated breakdowns first, fall back to algorithm
@@ -6073,7 +6076,7 @@ function showBreakdown(german) {
       BREAKDOWNS[Object.keys(BREAKDOWNS).find(k => k.toLowerCase() === core.toLowerCase())] ||
       null;
   }
-  if (!parts) parts = decomposeWord(german);
+  if (!parts && !BREAKDOWN_BLOCKLIST.has(core.toLowerCase())) parts = decomposeWord(german);
   if (!parts || parts.length < 2) { el.style.display = 'none'; return; }
   el.style.display = '';
   el.innerHTML = `<div class="wb-title">Word breakdown</div>` +

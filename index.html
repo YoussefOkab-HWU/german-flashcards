@@ -5795,6 +5795,10 @@ function startAppWithTier(tier) {
 
 function startApp(dir) {
   langDir = dir;
+  // Reset retry queue on every fresh start
+  priorityQueue = [];
+  cardsSinceStart = 0;
+  savePriorityQueue();
   elLangScreen.style.display = 'none';
   document.getElementById('tier-select-screen').style.display = 'none';
   // Show/hide umlaut bar

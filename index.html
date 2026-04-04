@@ -4951,19 +4951,7 @@ async function pullFromCloud() {
       sentenceProgress = Object.assign(data.sentenceProgress, sentenceProgress);
       saveSentenceProgressLocal();
     }
-    if (data.priorityQueue) {
-      // Union local + cloud queues; for duplicate words keep the entry with higher dueAt.
-      const merged = new Map();
-      for (const e of [...priorityQueue, ...data.priorityQueue]) {
-        if (!merged.has(e.german) || e.dueAt > merged.get(e.german).dueAt) merged.set(e.german, e);
-      }
-      priorityQueue = cleanPriorityQueue(Array.from(merged.values()));
-      savePriorityQueueLocal();
-    }
-    if (data.cardsSinceStart && data.cardsSinceStart > cardsSinceStart) {
-      cardsSinceStart = data.cardsSinceStart;
-      localStorage.setItem('gfc_cards_count', cardsSinceStart);
-    }
+    // Don't restore the retry queue from cloud — it resets on every fresh start
   } catch(e) {}
 }
 

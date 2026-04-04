@@ -5625,6 +5625,7 @@ function buildSentenceDeck() {
     for (const [word, data] of Object.entries(SENTENCES)) {
       const progressKey = keyMap[word.toLowerCase()] || word;
       if (!getWordState(progressKey).learned) continue;
+      if (activeTier > 0 && TIERS[progressKey] !== activeTier) continue;
       for (const tense of tenses) {
         if (!data[tense]) continue;
         for (const pronoun of pronouns) {
@@ -5644,6 +5645,7 @@ function buildSentenceDeck() {
     for (const [word, data] of Object.entries(QUESTIONS)) {
       const progressKey = keyMap[word.toLowerCase()] || word;
       if (!getWordState(progressKey).learned) continue;
+      if (activeTier > 0 && TIERS[progressKey] !== activeTier) continue;
       for (const tense of tenses) {
         if (!data[tense] || !data[tense].length) continue;
         const stub = { german: word, tense, pronoun: 'question' };

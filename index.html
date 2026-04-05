@@ -5843,19 +5843,23 @@ function showSentenceCard() {
 // Word-overlap fuzzy check for full sentences
 function isSentenceFuzzyMatch(input, reference) {
   const norm = s => s.toLowerCase().replace(/[.,!?;:"'()[\]{}\-–—]/g, '').trim();
-  const words = s => norm(s).split(/\s+/).filter(w => w.length > 2);
+  // Include 2-char words (du, er, es) so pronoun/article mistakes are caught
+  const words = s => norm(s).split(/\s+/).filter(w => w.length > 1);
   const inputWords = new Set(words(input));
   const refWords = words(reference);
   if (refWords.length === 0) return false;
   const matches = refWords.filter(w => {
     if (inputWords.has(w)) return true;
-    // allow 1 typo per word for words 5+ chars
-    for (const iw of inputWords) {
-      if (Math.abs(iw.length - w.length) <= 2 && levenshtein(iw, w) <= (w.length >= 5 ? 1 : 0)) return true;
+    // Only allow 1 typo for long words (8+ chars) — short words like verb endings,
+    // articles and pronouns must be spelled exactly to catch grammar mistakes
+    if (w.length >= 8) {
+      for (const iw of inputWords) {
+        if (Math.abs(iw.length - w.length) <= 2 && levenshtein(iw, w) <= 1) return true;
+      }
     }
     return false;
   });
-  return matches.length / refWords.length >= 0.65;
+  return matches.length / refWords.length >= 0.85;
 }
 
 function checkSentenceAnswer() {

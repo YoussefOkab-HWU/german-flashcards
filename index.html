@@ -5101,8 +5101,20 @@ function markWrong(german) {
 }
 
 // ── Priority queue (wrong answers reappear after 15-50 cards) ────────────────
+// Each tier has its own queue: gfc_pq_1 … gfc_pq_4. Tier 0 ("all") is the
+// union of all tier queues plus its own (gfc_pq_0) for de-en mode.
 function loadPriorityQueue() {
-  try { return JSON.parse(localStorage.getItem('gfc_pq') || '[]'); }
+  if (activeTier === 0) {
+    const merged = [], seen = new Set();
+    for (let t = 0; t <= 4; t++) {
+      try {
+        const q = JSON.parse(localStorage.getItem(`gfc_pq_${t}`) || '[]');
+        for (const e of q) { if (!seen.has(e.german)) { seen.add(e.german); merged.push(e); } }
+      } catch {}
+    }
+    return merged;
+  }
+  try { return JSON.parse(localStorage.getItem(`gfc_pq_${activeTier}`) || '[]'); }
   catch { return []; }
 }
 // Remove entries for words that have been answered correctly since being queued.
@@ -5112,14 +5124,14 @@ function cleanPriorityQueue(queue) {
   return queue.filter(e => getWordState(e.german).consecutive === 0);
 }
 function savePriorityQueueLocal() {
-  localStorage.setItem('gfc_pq', JSON.stringify(priorityQueue));
-  localStorage.setItem('gfc_cards_count', cardsSinceStart);
+  localStorage.setItem(`gfc_pq_${activeTier}`, JSON.stringify(priorityQueue));
+  localStorage.setItem(`gfc_cards_count_${activeTier}`, cardsSinceStart);
 }
 function savePriorityQueue() {
   savePriorityQueueLocal();
   scheduleCloudSync();
 }
-let cardsSinceStart = parseInt(localStorage.getItem('gfc_cards_count') || '0');
+let cardsSinceStart = parseInt(localStorage.getItem(`gfc_cards_count_${activeTier}`) || '0');
 let priorityQueue = cleanPriorityQueue(loadPriorityQueue());
 
 function getNextCard() {
@@ -5798,10 +5810,10 @@ function startAppWithTier(tier) {
 
 function startApp(dir) {
   langDir = dir;
-  // Reset retry queue on every fresh start
-  priorityQueue = [];
-  cardsSinceStart = 0;
-  savePriorityQueue();
+  if (dir === 'de-en') activeTier = 0;
+  // Load persisted tier-specific queue
+  priorityQueue = cleanPriorityQueue(loadPriorityQueue());
+  cardsSinceStart = parseInt(localStorage.getItem(`gfc_cards_count_${activeTier}`) || '0');
   elLangScreen.style.display = 'none';
   document.getElementById('tier-select-screen').style.display = 'none';
   // Show/hide umlaut bar

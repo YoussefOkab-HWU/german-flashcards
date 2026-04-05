@@ -5162,7 +5162,9 @@ function getNextCard() {
   const allCards = buildCards(activeFilter);
   const due = priorityQueue.find(e => cardsSinceStart >= e.dueAt && allCards.some(c => c.german === e.german));
   if (due) {
-    priorityQueue = priorityQueue.filter(e => e !== due);
+    // Push dueAt forward so it won't trigger again immediately if unanswered.
+    // It stays in the queue — markCorrect removes it, markWrong resets the delay.
+    due.dueAt = cardsSinceStart + 20;
     savePriorityQueueLocal();
     const card = allCards.find(c => c.german === due.german);
     if (card) return card;

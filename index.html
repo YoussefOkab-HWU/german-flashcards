@@ -5245,7 +5245,11 @@ function showCard() {
   clearExtraInputs();
   if (langDir === 'en-de') {
     const englishKey = card.english.trim().toLowerCase();
-    const siblings = buildCards(activeFilter).filter(c =>
+    // Search across all tiers so a Tier-2 sibling appears alongside a Tier-1 card
+    const savedTier = activeTier; activeTier = 0;
+    const allCards = buildCards(activeFilter);
+    activeTier = savedTier;
+    const siblings = allCards.filter(c =>
       c.english.trim().toLowerCase() === englishKey && c.german !== card.german
     );
     currentSiblings = siblings;
@@ -6266,7 +6270,7 @@ function decomposeWord(german) {
 }
 
 // Words where the algorithm gives misleading results — suppress breakdown entirely
-const BREAKDOWN_BLOCKLIST = new Set(['gehören', 'erinnern', 'beginnen', 'vergessen', 'scheitern', 'verlieren', 'hoffen', 'schwimmen', 'rennen', 'kämpfen']);
+const BREAKDOWN_BLOCKLIST = new Set(['gehören', 'erinnern', 'beginnen', 'vergessen', 'scheitern', 'verlieren', 'hoffen', 'schwimmen', 'rennen', 'kämpfen', 'bereits']);
 
 function showBreakdown(german) {
   const el = document.getElementById('word-breakdown');

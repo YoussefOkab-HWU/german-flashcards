@@ -5850,9 +5850,9 @@ function isSentenceFuzzyMatch(input, reference) {
   if (refWords.length === 0) return false;
   const matches = refWords.filter(w => {
     if (inputWords.has(w)) return true;
-    // Only allow 1 typo for long words (8+ chars) — short words like verb endings,
+    // Only allow 1 typo for longer words (6+ chars) — short words like verb endings,
     // articles and pronouns must be spelled exactly to catch grammar mistakes
-    if (w.length >= 8) {
+    if (w.length >= 6) {
       for (const iw of inputWords) {
         if (Math.abs(iw.length - w.length) <= 2 && levenshtein(iw, w) <= 1) return true;
       }

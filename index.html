@@ -5241,6 +5241,14 @@ function showCard() {
 
   const card = deck[deckPos];
 
+  // Noun hint: disable Check until article is typed
+  if (langDir === 'en-de' && card.category === 'nouns') {
+    elInput.placeholder = 'der / die / das + Noun…';
+    elCheck.disabled = true;
+  } else {
+    elInput.placeholder = langDir === 'en-de' ? 'Schreib das deutsche Wort…' : 'Type English translation…';
+  }
+
   // Build extra inputs for en-de multi-answer cards (same English, multiple Germans)
   clearExtraInputs();
   if (langDir === 'en-de') {
@@ -5535,9 +5543,23 @@ elCheck.addEventListener('click', checkAnswer);
 elSkip.addEventListener('click', skipCard);
 elNext.addEventListener('click', advanceCard);
 
+// Disable Check for noun cards until an article is typed
+function hasArticle(val) {
+  return /^(der|die|das)\s+\S/i.test(val.trim());
+}
+function updateCheckState() {
+  if (!deck || !deck[deckPos]) return;
+  const card = deck[deckPos];
+  if (langDir === 'en-de' && card.category === 'nouns' && !answered) {
+    elCheck.disabled = !hasArticle(elInput.value);
+  }
+}
+elInput.addEventListener('input', updateCheckState);
+
 document.addEventListener('keydown', e => {
   if (e.key === 'Enter') {
     if (answered) advanceCard();
+    else if (langDir === 'en-de' && deck && deck[deckPos] && deck[deckPos].category === 'nouns' && !hasArticle(elInput.value)) return;
     else checkAnswer();
   }
 });

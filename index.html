@@ -5379,6 +5379,21 @@ function acceptAnswer(card, input) {
 function skipCard() {
   if (answered) return;
   const card = deck[deckPos];
+
+  if (appMode === 'sentences') {
+    markSentenceWrong(card);
+    answered = true;
+    elInput.disabled = true;
+    elCheck.disabled = true;
+    elTenseBadge.style.display = '';
+    elCard.classList.add('wrong');
+    elFeedback.className = 'feedback wrong';
+    const target = langDir === 'en-de' ? card.de : card.en;
+    elFeedback.innerHTML = `<span class="feedback-icon">↷</span> Skipped — <strong>${target}</strong>`;
+    elNext.classList.add('visible');
+    return;
+  }
+
   markWrong(card.german);
   { const _r = getUnlearnedCards().length, _p = priorityQueue.length; elCounter.textContent = _p > 0 ? `${_r} remaining · ${_p} to retry` : `${_r} remaining`; }
 

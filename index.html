@@ -5260,7 +5260,9 @@ function showCard() {
     const allCards = buildCards(activeFilter);
     activeTier = savedTier;
     const siblings = allCards.filter(c =>
-      c.english.trim().toLowerCase() === englishKey && c.german !== card.german
+      c.english.trim().toLowerCase() === englishKey &&
+      c.german !== card.german &&
+      c.category === card.category
     );
     currentSiblings = siblings;
     if (siblings.length > 0) {

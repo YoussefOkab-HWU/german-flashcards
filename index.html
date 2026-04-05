@@ -245,6 +245,9 @@
     display: flex;
     gap: 10px;
   }
+  .input-area.has-multi-inputs { flex-direction: column; gap: 8px; }
+  #extra-inputs { display: flex; flex-direction: column; gap: 8px; }
+  #extra-inputs input { width: 100%; box-sizing: border-box; }
   input[type="text"] {
     flex: 1;
     background: var(--surface);
@@ -723,6 +726,7 @@
 
 <div class="input-area" id="input-area">
   <input type="text" id="answer-input" placeholder="Type English translation…" autocomplete="off" autocorrect="off" spellcheck="false" autocapitalize="none" />
+  <div id="extra-inputs"></div>
   <div class="input-buttons-row">
     <button class="btn" id="btn-check">Check</button>
     <button class="btn btn-skip" id="btn-skip">Skip</button>
@@ -5047,6 +5051,23 @@ const elTenseBadge      = document.getElementById('tense-badge');
 const elTenseFilters    = document.getElementById('tense-filters');
 const elModeFlashcards  = document.getElementById('mode-flashcards');
 const elModeSentences   = document.getElementById('mode-sentences');
+const elExtraInputs     = document.getElementById('extra-inputs');
+
+// Current card's sibling cards (same English, different German) in en-de mode
+let currentSiblings = [];
+
+// Returns [elInput, ...extra inputs] for the current multi-card
+function getAllInputs() {
+  return [elInput, ...elExtraInputs.querySelectorAll('input')];
+}
+
+// Clear extra inputs and remove multi-input layout class
+function clearExtraInputs() {
+  elExtraInputs.innerHTML = '';
+  document.getElementById('input-area').classList.remove('has-multi-inputs');
+  elInput.placeholder = 'Type English translation…';
+  currentSiblings = [];
+}
 
 // ── Build filter buttons dynamically ────────────────────────────────────────
 function buildFilters() {
@@ -5211,7 +5232,6 @@ function showCard() {
   answered = false;
   elInput.value = '';
   elInput.disabled = false;
-  elInput.focus();
   elCheck.disabled = false;
   elNext.classList.remove('visible');
   elCard.className = 'card';
@@ -5220,6 +5240,33 @@ function showCard() {
   hideBreakdown();
 
   const card = deck[deckPos];
+
+  // Build extra inputs for en-de multi-answer cards (same English, multiple Germans)
+  clearExtraInputs();
+  if (langDir === 'en-de') {
+    const englishKey = card.english.trim().toLowerCase();
+    const siblings = buildCards(activeFilter).filter(c =>
+      c.english.trim().toLowerCase() === englishKey && c.german !== card.german
+    );
+    currentSiblings = siblings;
+    if (siblings.length > 0) {
+      document.getElementById('input-area').classList.add('has-multi-inputs');
+      elInput.placeholder = 'German word 1…';
+      siblings.forEach((sib, i) => {
+        const inp = document.createElement('input');
+        inp.type = 'text';
+        inp.autocomplete = 'off';
+        inp.autocorrect = 'off';
+        inp.spellcheck = false;
+        inp.setAttribute('autocapitalize', 'none');
+        inp.placeholder = `German word ${i + 2}…`;
+        inp.addEventListener('keydown', e => { if (e.key === 'Enter') { if (answered) advanceCard(); else checkAnswer(); } });
+        elExtraInputs.appendChild(inp);
+      });
+    }
+  }
+  elInput.focus();
+
   // Show German or English depending on direction
   const displayWord = langDir === 'en-de'
     ? (card.category === 'nouns' ? 'the ' + card.english : card.english)
@@ -5323,18 +5370,65 @@ function checkAnswer() {
   const input = elInput.value.trim();
   if (!input) return;
 
+  answered = true;
+  getAllInputs().forEach(i => { i.disabled = true; });
+  elCheck.disabled = true;
+
+  // ── Multi-answer: en-de with sibling cards (same English, multiple Germans) ──
+  if (langDir === 'en-de' && currentSiblings.length > 0) {
+    const allCards = [card, ...currentSiblings];
+    const inputs = getAllInputs().map(i => i.value.trim());
+
+    // Match each input to a German word (any order, greedy)
+    const matchedCards = new Set();
+    const usedInputIdx = new Set();
+    for (const c of allCards) {
+      for (let i = 0; i < inputs.length; i++) {
+        if (!usedInputIdx.has(i) && isGermanMatch(inputs[i], c)) {
+          matchedCards.add(c.german);
+          usedInputIdx.add(i);
+          break;
+        }
+      }
+    }
+
+    const allCorrect = allCards.every(c => matchedCards.has(c.german));
+
+    // Mark each word individually
+    for (const c of allCards) {
+      if (matchedCards.has(c.german)) markCorrect(c.german);
+      else markWrong(c.german);
+    }
+
+    const correctDisplay = allCards.map(c => `<strong>${c.german}</strong> ${buildSpeakBtn(c.german)}`).join(' / ');
+
+    if (allCorrect) {
+      const state = getWordState(card.german);
+      const suffix = state.learned ? ' 🎓 Mastered!' : ` (${state.consecutive}/5)`;
+      elCard.classList.add('correct');
+      elFeedback.className = 'feedback correct';
+      elFeedback.innerHTML = `<span class="feedback-icon">✓</span> Correct! &nbsp;${correctDisplay}<span style="opacity:.7;font-size:.9em;margin-left:6px">${suffix}</span>`;
+    } else {
+      { const _r = getUnlearnedCards().length, _p = priorityQueue.length; elCounter.textContent = _p > 0 ? `${_r} remaining · ${_p} to retry` : `${_r} remaining`; }
+      elCard.classList.add('wrong');
+      elFeedback.className = 'feedback wrong';
+      const wrongList = allCards.filter(c => !matchedCards.has(c.german)).map(c => `<strong>${c.german}</strong>`).join(', ');
+      elFeedback.innerHTML = `<span class="feedback-icon">✗</span> Missing: ${wrongList} &nbsp;·&nbsp; All: ${correctDisplay}`;
+    }
+    renderDots(card.german);
+    updateMasteryBar();
+    elNext.classList.add('visible');
+    showBreakdown(card.german);
+    return;
+  }
+
+  // ── Single answer ─────────────────────────────────────────────────────────────
   const isCorrect = langDir === 'en-de'
     ? isGermanMatch(input, card)
     : isFuzzyMatch(input.toLowerCase(), parseAnswers(card.english), card.german);
 
-  answered = true;
-  elInput.disabled = true;
-  elCheck.disabled = true;
-
   // What to show as the "correct answer" — in EN→DE show all synonyms
-  let correctDisplay;
-  correctDisplay = langDir === 'en-de' ? card.german : card.english;
-
+  const correctDisplay = langDir === 'en-de' ? card.german : card.english;
   const speakBtn = buildSpeakBtn(card.german);
 
   if (isCorrect) {
@@ -5406,17 +5500,25 @@ function skipCard() {
     return;
   }
 
-  markWrong(card.german);
+  // Multi-answer skip: mark all siblings wrong
+  if (langDir === 'en-de' && currentSiblings.length > 0) {
+    for (const c of [card, ...currentSiblings]) markWrong(c.german);
+  } else {
+    markWrong(card.german);
+  }
   { const _r = getUnlearnedCards().length, _p = priorityQueue.length; elCounter.textContent = _p > 0 ? `${_r} remaining · ${_p} to retry` : `${_r} remaining`; }
 
   answered = true;
-  elInput.disabled = true;
+  getAllInputs().forEach(i => { i.disabled = true; });
   elCheck.disabled = true;
   elCard.classList.add('wrong');
   elFeedback.className = 'feedback wrong';
-  const skipAnswer = langDir === 'en-de' ? card.german : card.english;
-  const skipSpeak = langDir === 'en-de' ? ' ' + buildSpeakBtn(card.german) : '';
-  elFeedback.innerHTML = `<span class="feedback-icon">↷</span> Skipped — <strong>${skipAnswer}</strong>${skipSpeak}`;
+  const skipAnswer = langDir === 'en-de'
+    ? (currentSiblings.length > 0
+        ? [card, ...currentSiblings].map(c => `<strong>${c.german}</strong> ${buildSpeakBtn(c.german)}`).join(' / ')
+        : `<strong>${card.german}</strong> ${buildSpeakBtn(card.german)}`)
+    : card.english;
+  elFeedback.innerHTML = `<span class="feedback-icon">↷</span> Skipped — ${skipAnswer}`;
   renderDots(card.german);
 
   updateMasteryBar();
@@ -5676,6 +5778,7 @@ function buildSentenceDeck() {
 
 function showSentenceCard() {
   answered = false;
+  clearExtraInputs();
   elInput.value = '';
   elInput.disabled = false;
   elInput.focus();
@@ -5828,12 +5931,14 @@ function startApp(dir) {
 }
 
 function insertUmlaut(char) {
-  const start = elInput.selectionStart;
-  const end   = elInput.selectionEnd;
-  const val   = elInput.value;
-  elInput.value = val.slice(0, start) + char + val.slice(end);
-  elInput.selectionStart = elInput.selectionEnd = start + 1;
-  elInput.focus();
+  const target = (document.activeElement && document.activeElement.tagName === 'INPUT' && document.activeElement !== elInput)
+    ? document.activeElement : elInput;
+  const start = target.selectionStart;
+  const end   = target.selectionEnd;
+  const val   = target.value;
+  target.value = val.slice(0, start) + char + val.slice(end);
+  target.selectionStart = target.selectionEnd = start + 1;
+  target.focus();
 }
 
 // ── Strict German matching (EN→DE mode) ──────────────────────────────────────

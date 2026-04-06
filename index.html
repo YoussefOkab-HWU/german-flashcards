@@ -5158,16 +5158,22 @@ function markWrong(german) {
 }
 
 // How often to serve retries: 1 in every 4 cards
-let newCardsSinceRetry = 0;
+let cardCount = 0; // total cards served this session
+const lastShownAt = {}; // german -> cardCount when last shown
+const RETRY_COOLDOWN = 15; // min cards before a retry reappears
 
 function getNextCard() {
+  cardCount++;
   const allCards = buildCards(activeFilter);
-  const retries = getRetryCards(allCards);
+  const retries = getRetryCards(allCards).filter(c =>
+    !lastShownAt[c.german] || cardCount - lastShownAt[c.german] >= RETRY_COOLDOWN
+  );
 
-  // Serve a retry every 4 new cards (if any exist)
-  if (retries.length > 0 && newCardsSinceRetry >= 4) {
-    newCardsSinceRetry = 0;
-    return retries[Math.floor(Math.random() * retries.length)];
+  // Serve a retry roughly every 4 new cards (if any are cooled down)
+  if (retries.length > 0 && cardCount % 5 === 0) {
+    const pick = retries[Math.floor(Math.random() * retries.length)];
+    lastShownAt[pick.german] = cardCount;
+    return pick;
   }
 
   // 1 in 50 chance: show a mastered word as ghost
@@ -5177,17 +5183,21 @@ function getNextCard() {
   }
 
   // Normal new/unlearned card (not a retry)
-  const retryWords = new Set(retries.map(c => c.german));
-  const active = allCards.filter(c => !getWordState(c.german).learned && !retryWords.has(c.german));
+  const allRetryWords = new Set(getRetryCards(allCards).map(c => c.german));
+  const active = allCards.filter(c => !getWordState(c.german).learned && !allRetryWords.has(c.german));
   if (active.length > 0) {
-    newCardsSinceRetry++;
-    return active[Math.floor(Math.random() * active.length)];
+    const pick = active[Math.floor(Math.random() * active.length)];
+    lastShownAt[pick.german] = cardCount;
+    return pick;
   }
 
-  // Only retries left
-  if (retries.length > 0) {
-    newCardsSinceRetry = 0;
-    return retries[Math.floor(Math.random() * retries.length)];
+  // Only retries left — serve whichever has been waiting longest
+  const allRetries = getRetryCards(allCards);
+  if (allRetries.length > 0) {
+    allRetries.sort((a, b) => (lastShownAt[a.german] || 0) - (lastShownAt[b.german] || 0));
+    const pick = allRetries[0];
+    lastShownAt[pick.german] = cardCount;
+    return pick;
   }
 
   return null;
@@ -5970,7 +5980,8 @@ function startAppWithTier(tier) {
 function startApp(dir) {
   langDir = dir;
   if (dir === 'de-en') activeTier = 0;
-  newCardsSinceRetry = 0;
+  cardCount = 0;
+  Object.keys(lastShownAt).forEach(k => delete lastShownAt[k]);
   elLangScreen.style.display = 'none';
   document.getElementById('tier-select-screen').style.display = 'none';
   // Show/hide umlaut bar

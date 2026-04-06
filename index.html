@@ -5468,6 +5468,7 @@ function checkAnswer() {
   // What to show as the "correct answer" — in EN→DE show all synonyms
   const correctDisplay = langDir === 'en-de' ? card.german : card.english;
   const speakBtn = buildSpeakBtn(card.german);
+  const consecutiveBeforeAnswer = getWordState(card.german).consecutive;
 
   if (isCorrect) {
     markCorrect(card.german);
@@ -5499,7 +5500,7 @@ function checkAnswer() {
     elFeedback.innerHTML = `<span class="feedback-icon">✗</span> Wrong! Correct: <strong style="margin-left:4px">${correctDisplay}</strong>${speakInline}${typoBtn}${acceptBtn}`;
     renderDots(card.german);
     if (isTypo) {
-      document.getElementById('btn-typo').addEventListener('click', () => acceptAnswer(card, card.german));
+      document.getElementById('btn-typo').addEventListener('click', () => fixTypo(card, consecutiveBeforeAnswer));
     }
     if (langDir === 'de-en') {
       document.getElementById('btn-accept').addEventListener('click', () => acceptAnswer(card, input.toLowerCase()));
@@ -5509,6 +5510,22 @@ function checkAnswer() {
   updateMasteryBar();
   elNext.classList.add('visible');
   showBreakdown(card.german);
+}
+
+function fixTypo(card, prevConsecutive) {
+  // Undo the wrong, restore previous consecutive then increment
+  const s = getWordState(card.german);
+  s.consecutive = prevConsecutive + 1;
+  s.learned = s.consecutive >= 5;
+  s.attempted = true;
+  progress[card.german] = s;
+  saveProgress(progress);
+  elCard.className = 'card correct';
+  elFeedback.className = 'feedback correct';
+  const suffix = s.learned ? ' 🎓 Mastered!' : ` (${s.consecutive}/5)`;
+  elFeedback.innerHTML = `<span class="feedback-icon">✓</span> Typo accepted! &nbsp;<strong>${card.german}</strong> ${buildSpeakBtn(card.german)}<span style="opacity:.7;font-size:.9em;margin-left:6px">${suffix}</span>`;
+  renderDots(card.german);
+  updateMasteryBar();
 }
 
 function acceptAnswer(card, input) {

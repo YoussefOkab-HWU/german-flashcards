@@ -5515,7 +5515,7 @@ function checkAnswer() {
 function fixTypo(card, prevConsecutive) {
   // Undo the wrong, restore previous consecutive then increment
   const s = getWordState(card.german);
-  s.consecutive = prevConsecutive + 1;
+  s.consecutive = Math.min(5, prevConsecutive + 1);
   s.learned = s.consecutive >= 5;
   s.attempted = true;
   progress[card.german] = s;

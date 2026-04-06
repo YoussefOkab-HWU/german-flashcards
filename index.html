@@ -5132,14 +5132,6 @@ function getRetryCards(allCards) {
   });
 }
 
-function markAttempted(german) {
-  const s = getWordState(german);
-  if (!s.attempted) {
-    s.attempted = true;
-    progress[german] = s;
-    saveProgress(progress);
-  }
-}
 
 function markCorrect(german) {
   const s = getWordState(german);
@@ -5279,7 +5271,6 @@ function showCard() {
       c.category === card.category
     );
     currentSiblings = siblings;
-    siblings.forEach(s => markAttempted(s.german));
     if (siblings.length > 0) {
       document.getElementById('input-area').classList.add('has-multi-inputs');
       elInput.placeholder = 'German word 1…';
@@ -5297,9 +5288,6 @@ function showCard() {
     }
   }
   elInput.focus();
-
-  // Mark as attempted so it becomes a retry if skipped/failed
-  markAttempted(card.german);
 
   // Show German or English depending on direction
   const displayWord = langDir === 'en-de'

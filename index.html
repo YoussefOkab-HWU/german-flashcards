@@ -4962,16 +4962,26 @@ async function pullFromCloud() {
       sentenceProgress = Object.assign(data.sentenceProgress, sentenceProgress);
       saveSentenceProgressLocal();
     }
-    // Merge per-tier retry queues from cloud into localStorage
+    // Merge per-tier retry queues from cloud into localStorage.
+    // Normalize remote dueAt to local counter space so cross-device delays make sense.
+    const remoteCards = data.cardsSinceStart || 0;
+    const localCards = parseInt(localStorage.getItem(`gfc_cards_count_${activeTier}`) || '0');
     for (let t = 0; t <= 4; t++) {
       const cloudQ = data[`pq_${t}`];
       if (cloudQ && Array.isArray(cloudQ)) {
         let localQ = [];
         try { localQ = JSON.parse(localStorage.getItem(`gfc_pq_${t}`) || '[]'); } catch {}
         const merged = new Map();
-        for (const e of [...localQ, ...cloudQ]) {
+        // Add local entries as-is
+        for (const e of localQ) merged.set(e.german, e);
+        // Add remote entries, normalizing dueAt to local counter
+        for (const e of cloudQ) {
+          const remoteDelay = Math.max(0, e.dueAt - remoteCards); // remaining cards on remote
+          const normalizedDueAt = localCards + remoteDelay;
+          const normalized = { german: e.german, dueAt: normalizedDueAt };
           const existing = merged.get(e.german);
-          if (!existing || e.dueAt < existing.dueAt) merged.set(e.german, e);
+          // Keep whichever is due sooner
+          if (!existing || normalizedDueAt < existing.dueAt) merged.set(e.german, normalized);
         }
         localStorage.setItem(`gfc_pq_${t}`, JSON.stringify(cleanPriorityQueue([...merged.values()])));
       }

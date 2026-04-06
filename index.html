@@ -5468,13 +5468,23 @@ function checkAnswer() {
     { const _r = getUnlearnedCards().length, _p = getRetryCards(buildCards(activeFilter)).length; elCounter.textContent = _p > 0 ? `${_r} remaining · ${_p} to retry` : `${_r} remaining`; }
     elCard.classList.add('wrong');
     elFeedback.className = 'feedback wrong';
-    // No "Accept my answer" in EN→DE mode — spelling must be correct
+    const speakInline = langDir === 'en-de' ? speakBtn : '';
+    // Show "Typo" button in EN→DE if answer is close (≤2 chars off, ignoring article)
+    const isTypo = langDir === 'en-de' && levenshtein(
+      input.trim().toLowerCase().replace(/^(der|die|das)\s+/i, ''),
+      card.german.trim().toLowerCase().replace(/^(der|die|das)\s+/i, '')
+    ) <= 2;
+    const typoBtn = isTypo
+      ? `<button id="btn-typo" style="margin-left:12px;padding:3px 12px;border-radius:8px;border:1px solid rgba(255,255,255,0.4);background:rgba(255,255,255,0.12);color:#fff;font-size:0.82rem;font-weight:600;cursor:pointer">Typo</button>`
+      : '';
     const acceptBtn = langDir === 'de-en'
       ? `<button id="btn-accept" style="margin-left:12px;padding:3px 12px;border-radius:8px;border:1px solid rgba(255,255,255,0.4);background:rgba(255,255,255,0.12);color:#fff;font-size:0.82rem;font-weight:600;cursor:pointer">Accept my answer</button>`
       : '';
-    const speakInline = langDir === 'en-de' ? speakBtn : '';
-    elFeedback.innerHTML = `<span class="feedback-icon">✗</span> Wrong! Correct: <strong style="margin-left:4px">${correctDisplay}</strong>${speakInline}${acceptBtn}`;
+    elFeedback.innerHTML = `<span class="feedback-icon">✗</span> Wrong! Correct: <strong style="margin-left:4px">${correctDisplay}</strong>${speakInline}${typoBtn}${acceptBtn}`;
     renderDots(card.german);
+    if (isTypo) {
+      document.getElementById('btn-typo').addEventListener('click', () => acceptAnswer(card, card.german));
+    }
     if (langDir === 'de-en') {
       document.getElementById('btn-accept').addEventListener('click', () => acceptAnswer(card, input.toLowerCase()));
     }

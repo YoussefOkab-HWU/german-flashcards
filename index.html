@@ -4919,17 +4919,18 @@ function scheduleCloudSync() {
 }
 
 function pushToCloud() {
-  // Collect all tier queues to sync
-  const allTierQueues = {};
+  // Collect all tier queues and counters to sync
+  const allTierData = {};
   for (let t = 0; t <= 4; t++) {
-    try { allTierQueues[`pq_${t}`] = JSON.parse(localStorage.getItem(`gfc_pq_${t}`) || '[]'); }
-    catch { allTierQueues[`pq_${t}`] = []; }
+    try { allTierData[`pq_${t}`] = JSON.parse(localStorage.getItem(`gfc_pq_${t}`) || '[]'); }
+    catch { allTierData[`pq_${t}`] = []; }
+    allTierData[`cc_${t}`] = parseInt(localStorage.getItem(`gfc_cards_count_${t}`) || '0');
   }
   CLOUD_DOC.set({
     progress: progress,
     sentenceProgress: sentenceProgress,
     priorityQueue: priorityQueue,
-    ...allTierQueues,
+    ...allTierData,
     cardsSinceStart: cardsSinceStart,
     updatedAt: firebase.firestore.FieldValue.serverTimestamp()
   }, { merge: true }).catch(() => {});
@@ -4964,23 +4965,21 @@ async function pullFromCloud() {
     }
     // Merge per-tier retry queues from cloud into localStorage.
     // Normalize remote dueAt to local counter space so cross-device delays make sense.
-    const remoteCards = data.cardsSinceStart || 0;
-    const localCards = parseInt(localStorage.getItem(`gfc_cards_count_${activeTier}`) || '0');
     for (let t = 0; t <= 4; t++) {
       const cloudQ = data[`pq_${t}`];
       if (cloudQ && Array.isArray(cloudQ)) {
+        // Use per-tier counters for accurate normalization
+        const remoteCards = data[`cc_${t}`] ?? data.cardsSinceStart ?? 0;
+        const localCards = parseInt(localStorage.getItem(`gfc_cards_count_${t}`) || '0');
         let localQ = [];
         try { localQ = JSON.parse(localStorage.getItem(`gfc_pq_${t}`) || '[]'); } catch {}
         const merged = new Map();
-        // Add local entries as-is
         for (const e of localQ) merged.set(e.german, e);
-        // Add remote entries, normalizing dueAt to local counter
         for (const e of cloudQ) {
-          const remoteDelay = Math.max(0, e.dueAt - remoteCards); // remaining cards on remote
+          const remoteDelay = Math.max(0, e.dueAt - remoteCards);
           const normalizedDueAt = localCards + remoteDelay;
           const normalized = { german: e.german, dueAt: normalizedDueAt };
           const existing = merged.get(e.german);
-          // Keep whichever is due sooner
           if (!existing || normalizedDueAt < existing.dueAt) merged.set(e.german, normalized);
         }
         localStorage.setItem(`gfc_pq_${t}`, JSON.stringify(cleanPriorityQueue([...merged.values()])));

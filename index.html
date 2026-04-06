@@ -4913,30 +4913,22 @@ const db = firebase.firestore();
 const CLOUD_DOC = db.collection('gfc').doc('youssef');
 
 let syncTimer = null;
+let cloudListenerActive = false;
+
 function scheduleCloudSync() {
   clearTimeout(syncTimer);
   syncTimer = setTimeout(pushToCloud, 3000);
 }
 
 function pushToCloud() {
-  // Collect all tier queues and counters to sync
-  const allTierData = {};
-  for (let t = 0; t <= 4; t++) {
-    try { allTierData[`pq_${t}`] = JSON.parse(localStorage.getItem(`gfc_pq_${t}`) || '[]'); }
-    catch { allTierData[`pq_${t}`] = []; }
-    allTierData[`cc_${t}`] = parseInt(localStorage.getItem(`gfc_cards_count_${t}`) || '0');
-  }
   CLOUD_DOC.set({
     progress: progress,
     sentenceProgress: sentenceProgress,
-    priorityQueue: priorityQueue,
-    ...allTierData,
-    cardsSinceStart: cardsSinceStart,
     updatedAt: firebase.firestore.FieldValue.serverTimestamp()
   }, { merge: true }).catch(() => {});
 }
 
-// Merge: take higher consecutive, preserve learned=true
+// Merge: take higher consecutive, preserve learned=true, preserve attempted=true
 function mergeProgress(local, remote) {
   const merged = Object.assign({}, local);
   for (const [k, rv] of Object.entries(remote)) {
@@ -4944,15 +4936,18 @@ function mergeProgress(local, remote) {
     if (!lv) { merged[k] = rv; continue; }
     merged[k] = {
       consecutive: Math.max(lv.consecutive || 0, rv.consecutive || 0),
-      learned: lv.learned || rv.learned
+      learned: lv.learned || rv.learned,
+      attempted: lv.attempted || rv.attempted || false
     };
   }
   return merged;
 }
 
-async function pullFromCloud() {
-  try {
-    const snap = await CLOUD_DOC.get();
+// Start real-time listener — fires immediately with current data, then on every change
+function startCloudListener() {
+  if (cloudListenerActive) return;
+  cloudListenerActive = true;
+  CLOUD_DOC.onSnapshot(snap => {
     if (!snap.exists) return;
     const data = snap.data();
     if (data.progress) {
@@ -4960,34 +4955,36 @@ async function pullFromCloud() {
       saveProgressLocal(progress);
     }
     if (data.sentenceProgress) {
-      sentenceProgress = Object.assign(data.sentenceProgress, sentenceProgress);
+      // Merge: keep higher consecutive per key
+      for (const [k, rv] of Object.entries(data.sentenceProgress)) {
+        const lv = sentenceProgress[k];
+        if (!lv || rv.consecutive > lv.consecutive) sentenceProgress[k] = rv;
+      }
       saveSentenceProgressLocal();
     }
-    // Merge per-tier retry queues from cloud into localStorage.
-    // Normalize remote dueAt to local counter space so cross-device delays make sense.
-    for (let t = 0; t <= 4; t++) {
-      const cloudQ = data[`pq_${t}`];
-      if (cloudQ && Array.isArray(cloudQ)) {
-        // Use per-tier counters for accurate normalization
-        const remoteCards = data[`cc_${t}`] ?? data.cardsSinceStart ?? 0;
-        const localCards = parseInt(localStorage.getItem(`gfc_cards_count_${t}`) || '0');
-        let localQ = [];
-        try { localQ = JSON.parse(localStorage.getItem(`gfc_pq_${t}`) || '[]'); } catch {}
-        const merged = new Map();
-        for (const e of localQ) merged.set(e.german, e);
-        for (const e of cloudQ) {
-          const remoteDelay = Math.max(0, e.dueAt - remoteCards);
-          const normalizedDueAt = localCards + remoteDelay;
-          const normalized = { german: e.german, dueAt: normalizedDueAt };
-          const existing = merged.get(e.german);
-          if (!existing || normalizedDueAt < existing.dueAt) merged.set(e.german, normalized);
+  }, () => {}); // ignore permission errors
+}
+
+// Initial load: get current cloud state once, then start live listener
+async function pullFromCloud() {
+  try {
+    const snap = await CLOUD_DOC.get();
+    if (snap.exists) {
+      const data = snap.data();
+      if (data.progress) {
+        progress = mergeProgress(progress, data.progress);
+        saveProgressLocal(progress);
+      }
+      if (data.sentenceProgress) {
+        for (const [k, rv] of Object.entries(data.sentenceProgress)) {
+          const lv = sentenceProgress[k];
+          if (!lv || rv.consecutive > lv.consecutive) sentenceProgress[k] = rv;
         }
-        localStorage.setItem(`gfc_pq_${t}`, JSON.stringify(cleanPriorityQueue([...merged.values()])));
+        saveSentenceProgressLocal();
       }
     }
-    // Reload active tier queue after merge
-    priorityQueue = cleanPriorityQueue(loadPriorityQueue());
   } catch(e) {}
+  startCloudListener();
 }
 
 // ── Progress ─────────────────────────────────────────────────────────────────
@@ -5124,92 +5121,78 @@ function setFilter(filter) {
 
 // ── Progress helpers ─────────────────────────────────────────────────────────
 function getWordState(german) {
-  return progress[german] || { consecutive: 0, learned: false };
+  return progress[german] || { consecutive: 0, learned: false, attempted: false };
+}
+
+// A retry = attempted before AND currently at 0 consecutive (failed or un-mastered)
+function getRetryCards(allCards) {
+  return allCards.filter(c => {
+    const s = getWordState(c.german);
+    return s.attempted && !s.learned && s.consecutive === 0;
+  });
+}
+
+function markAttempted(german) {
+  const s = getWordState(german);
+  if (!s.attempted) {
+    s.attempted = true;
+    progress[german] = s;
+    saveProgress(progress);
+  }
 }
 
 function markCorrect(german) {
   const s = getWordState(german);
+  s.attempted = true;
   s.consecutive = (s.consecutive || 0) + 1;
   if (s.consecutive >= 5) s.learned = true;
   progress[german] = s;
   saveProgress(progress);
-  // Remove from priority queue if answered correctly
-  priorityQueue = priorityQueue.filter(e => e.german !== german);
-  savePriorityQueue();
 }
 
 function markWrong(german) {
   const s = getWordState(german);
+  s.attempted = true;
   s.consecutive = 0;
-  // If was mastered, un-master it and return to active pool
   s.learned = false;
   progress[german] = s;
   saveProgress(progress);
-  // Add/reset in priority queue — reappear after 15 cards
-  priorityQueue = priorityQueue.filter(e => e.german !== german);
-  const delay = 15 + Math.floor(Math.random() * 36); // 15–50
-  priorityQueue.push({ german, dueAt: cardsSinceStart + delay });
-  savePriorityQueue();
 }
 
-// ── Priority queue (wrong answers reappear after 15-50 cards) ────────────────
-// Each tier has its own queue: gfc_pq_1 … gfc_pq_4. Tier 0 ("all") is the
-// union of all tier queues plus its own (gfc_pq_0) for de-en mode.
-function loadPriorityQueue() {
-  if (activeTier === 0) {
-    const merged = [], seen = new Set();
-    for (let t = 0; t <= 4; t++) {
-      try {
-        const q = JSON.parse(localStorage.getItem(`gfc_pq_${t}`) || '[]');
-        for (const e of q) { if (!seen.has(e.german)) { seen.add(e.german); merged.push(e); } }
-      } catch {}
-    }
-    return merged;
-  }
-  try { return JSON.parse(localStorage.getItem(`gfc_pq_${activeTier}`) || '[]'); }
-  catch { return []; }
-}
-// Remove entries for words that have been answered correctly since being queued.
-// If consecutive > 0, markCorrect should have removed the entry — if it's still
-// here it's a stale entry from a sync or a previous session.
-function cleanPriorityQueue(queue) {
-  return queue.filter(e => getWordState(e.german).consecutive === 0);
-}
-function savePriorityQueueLocal() {
-  localStorage.setItem(`gfc_pq_${activeTier}`, JSON.stringify(priorityQueue));
-  localStorage.setItem(`gfc_cards_count_${activeTier}`, cardsSinceStart);
-}
-function savePriorityQueue() {
-  savePriorityQueueLocal();
-  scheduleCloudSync();
-}
-let cardsSinceStart = parseInt(localStorage.getItem(`gfc_cards_count_${activeTier}`) || '0');
-let priorityQueue = cleanPriorityQueue(loadPriorityQueue());
+// How often to serve retries: 1 in every 4 cards
+let newCardsSinceRetry = 0;
 
 function getNextCard() {
-  cardsSinceStart++;
-  localStorage.setItem('gfc_cards_count', cardsSinceStart);
-  // Check if any priority card is due AND in the current filter
   const allCards = buildCards(activeFilter);
-  const due = priorityQueue.find(e => cardsSinceStart >= e.dueAt && allCards.some(c => c.german === e.german));
-  if (due) {
-    // Push dueAt forward so it won't trigger again immediately if unanswered.
-    // It stays in the queue — markCorrect removes it, markWrong resets the delay.
-    due.dueAt = cardsSinceStart + 20;
-    savePriorityQueueLocal();
-    const card = allCards.find(c => c.german === due.german);
-    if (card) return card;
+  const retries = getRetryCards(allCards);
+
+  // Serve a retry every 4 new cards (if any exist)
+  if (retries.length > 0 && newCardsSinceRetry >= 4) {
+    newCardsSinceRetry = 0;
+    return retries[Math.floor(Math.random() * retries.length)];
   }
+
   // 1 in 50 chance: show a mastered word as ghost
   const mastered = allCards.filter(c => getWordState(c.german).learned);
   if (mastered.length > 0 && Math.random() < 1/50) {
     return mastered[Math.floor(Math.random() * mastered.length)];
   }
-  // Normal random unlearned card — skip words already queued for retry
-  const queuedWords = new Set(priorityQueue.map(e => e.german));
-  const active = allCards.filter(c => !getWordState(c.german).learned && !queuedWords.has(c.german));
-  if (active.length === 0) return null;
-  return active[Math.floor(Math.random() * active.length)];
+
+  // Normal new/unlearned card (not a retry)
+  const retryWords = new Set(retries.map(c => c.german));
+  const active = allCards.filter(c => !getWordState(c.german).learned && !retryWords.has(c.german));
+  if (active.length > 0) {
+    newCardsSinceRetry++;
+    return active[Math.floor(Math.random() * active.length)];
+  }
+
+  // Only retries left
+  if (retries.length > 0) {
+    newCardsSinceRetry = 0;
+    return retries[Math.floor(Math.random() * retries.length)];
+  }
+
+  return null;
 }
 
 // ── Deck management ──────────────────────────────────────────────────────────
@@ -5296,6 +5279,7 @@ function showCard() {
       c.category === card.category
     );
     currentSiblings = siblings;
+    siblings.forEach(s => markAttempted(s.german));
     if (siblings.length > 0) {
       document.getElementById('input-area').classList.add('has-multi-inputs');
       elInput.placeholder = 'German word 1…';
@@ -5314,6 +5298,9 @@ function showCard() {
   }
   elInput.focus();
 
+  // Mark as attempted so it becomes a retry if skipped/failed
+  markAttempted(card.german);
+
   // Show German or English depending on direction
   const displayWord = langDir === 'en-de'
     ? (card.category === 'nouns' ? 'the ' + card.english : card.english)
@@ -5321,7 +5308,7 @@ function showCard() {
   elWord.textContent = displayWord;
   elBadge.textContent = activeFilter === 'all' ? '' : card.category;
   const remaining = getUnlearnedCards().length;
-  const pq = priorityQueue.length;
+  const pq = getRetryCards(buildCards(activeFilter)).length;
   const tierLabel = activeTier > 0 ? ` · Tier ${activeTier}` : '';
   elCounter.textContent = pq > 0 ? `${remaining} remaining · ${pq} to retry${tierLabel}` : `${remaining} remaining${tierLabel}`;
   elProgress.style.width = '0%';
@@ -5456,7 +5443,7 @@ function checkAnswer() {
       elFeedback.className = 'feedback correct';
       elFeedback.innerHTML = `<span class="feedback-icon">✓</span> Correct! &nbsp;${correctDisplay}<span style="opacity:.7;font-size:.9em;margin-left:6px">${suffix}</span>`;
     } else {
-      { const _r = getUnlearnedCards().length, _p = priorityQueue.length; elCounter.textContent = _p > 0 ? `${_r} remaining · ${_p} to retry` : `${_r} remaining`; }
+      { const _r = getUnlearnedCards().length, _p = getRetryCards(buildCards(activeFilter)).length; elCounter.textContent = _p > 0 ? `${_r} remaining · ${_p} to retry` : `${_r} remaining`; }
       elCard.classList.add('wrong');
       elFeedback.className = 'feedback wrong';
       const wrongList = allCards.filter(c => !matchedCards.has(c.german)).map(c => `<strong>${c.german}</strong>`).join(', ');
@@ -5490,7 +5477,7 @@ function checkAnswer() {
     renderDots(card.german);
   } else {
     markWrong(card.german);
-    { const _r = getUnlearnedCards().length, _p = priorityQueue.length; elCounter.textContent = _p > 0 ? `${_r} remaining · ${_p} to retry` : `${_r} remaining`; }
+    { const _r = getUnlearnedCards().length, _p = getRetryCards(buildCards(activeFilter)).length; elCounter.textContent = _p > 0 ? `${_r} remaining · ${_p} to retry` : `${_r} remaining`; }
     elCard.classList.add('wrong');
     elFeedback.className = 'feedback wrong';
     // No "Accept my answer" in EN→DE mode — spelling must be correct
@@ -5553,7 +5540,7 @@ function skipCard() {
   } else {
     markWrong(card.german);
   }
-  { const _r = getUnlearnedCards().length, _p = priorityQueue.length; elCounter.textContent = _p > 0 ? `${_r} remaining · ${_p} to retry` : `${_r} remaining`; }
+  { const _r = getUnlearnedCards().length, _p = getRetryCards(buildCards(activeFilter)).length; elCounter.textContent = _p > 0 ? `${_r} remaining · ${_p} to retry` : `${_r} remaining`; }
 
   answered = true;
   getAllInputs().forEach(i => { i.disabled = true; });
@@ -5979,9 +5966,7 @@ function startAppWithTier(tier) {
 function startApp(dir) {
   langDir = dir;
   if (dir === 'de-en') activeTier = 0;
-  // Load persisted tier-specific queue
-  priorityQueue = cleanPriorityQueue(loadPriorityQueue());
-  cardsSinceStart = parseInt(localStorage.getItem(`gfc_cards_count_${activeTier}`) || '0');
+  newCardsSinceRetry = 0;
   elLangScreen.style.display = 'none';
   document.getElementById('tier-select-screen').style.display = 'none';
   // Show/hide umlaut bar

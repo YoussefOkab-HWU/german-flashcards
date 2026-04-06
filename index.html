@@ -4919,10 +4919,17 @@ function scheduleCloudSync() {
 }
 
 function pushToCloud() {
+  // Collect all tier queues to sync
+  const allTierQueues = {};
+  for (let t = 0; t <= 4; t++) {
+    try { allTierQueues[`pq_${t}`] = JSON.parse(localStorage.getItem(`gfc_pq_${t}`) || '[]'); }
+    catch { allTierQueues[`pq_${t}`] = []; }
+  }
   CLOUD_DOC.set({
     progress: progress,
     sentenceProgress: sentenceProgress,
     priorityQueue: priorityQueue,
+    ...allTierQueues,
     cardsSinceStart: cardsSinceStart,
     updatedAt: firebase.firestore.FieldValue.serverTimestamp()
   }, { merge: true }).catch(() => {});
@@ -4955,7 +4962,22 @@ async function pullFromCloud() {
       sentenceProgress = Object.assign(data.sentenceProgress, sentenceProgress);
       saveSentenceProgressLocal();
     }
-    // Don't restore the retry queue from cloud — it resets on every fresh start
+    // Merge per-tier retry queues from cloud into localStorage
+    for (let t = 0; t <= 4; t++) {
+      const cloudQ = data[`pq_${t}`];
+      if (cloudQ && Array.isArray(cloudQ)) {
+        let localQ = [];
+        try { localQ = JSON.parse(localStorage.getItem(`gfc_pq_${t}`) || '[]'); } catch {}
+        const merged = new Map();
+        for (const e of [...localQ, ...cloudQ]) {
+          const existing = merged.get(e.german);
+          if (!existing || e.dueAt < existing.dueAt) merged.set(e.german, e);
+        }
+        localStorage.setItem(`gfc_pq_${t}`, JSON.stringify(cleanPriorityQueue([...merged.values()])));
+      }
+    }
+    // Reload active tier queue after merge
+    priorityQueue = cleanPriorityQueue(loadPriorityQueue());
   } catch(e) {}
 }
 

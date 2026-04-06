@@ -5043,6 +5043,12 @@ function saveSynonyms(s) {
 
 // ── State ────────────────────────────────────────────────────────────────────
 let progress = loadProgress();
+// One-time fix: mark Das Haus as mastered
+if (!localStorage.getItem('fix_dashaus')) {
+  progress['Das Haus'] = { consecutive: 5, learned: true, attempted: true };
+  saveProgressLocal(progress);
+  localStorage.setItem('fix_dashaus', '1');
+}
 let sentenceProgress = loadSentenceProgress();
 let synonyms = loadSynonyms();
 let deck = [];

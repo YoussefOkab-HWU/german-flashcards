@@ -454,6 +454,19 @@
   .tense-badge.past    { color: var(--yellow); background: #2a2000; }
   .tense-badge.future  { color: #b47fff; background: #1e0d33; }
   .tense-badge.question { color: var(--green); background: var(--green-dim); }
+  .gender-hint {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 3px 10px;
+    border-radius: 10px;
+    margin-left: 6px;
+  }
+  .gender-hint.der { color: #6cf; background: #0d2233; }
+  .gender-hint.die { color: #f8a; background: #2a0018; }
+  .gender-hint.das { color: #aed; background: #0a2318; }
 
   /* Language selection screen */
   .lang-select-screen {
@@ -709,6 +722,7 @@
   <div class="card" id="card">
     <span class="card-counter" id="card-counter"></span>
     <span class="tense-badge" id="tense-badge" style="display:none"></span>
+    <span class="gender-hint" id="gender-hint" style="display:none"></span>
     <span class="category-badge" id="category-badge"></span>
     <div class="german-word" id="german-word"></div>
     <button class="btn-speak" id="btn-speak-word" style="display:none" title="Pronounce">🔊</button>
@@ -5270,6 +5284,7 @@ function resetDeck() {
   elSentenceDe.style.display = 'none';
   elSentenceEn.style.display = 'none';
   elTenseBadge.style.display = 'none';
+  document.getElementById('gender-hint').style.display = 'none';
   updateMasteryBar();
   const nextCard = getNextCard();
   if (!nextCard) { showAllLearned(); return; }
@@ -5906,10 +5921,21 @@ function showSentenceCard() {
   elSentenceDe.textContent = showDe ? card.de : card.en;
   // Reuse elSentenceDe for EN sentence display in en-de mode
   if (!showDe) { elSentenceDe.style.display = ''; }
-  elTenseBadge.style.display = 'none';
   elTenseBadge.className = `tense-badge ${card.tense}`;
   const tenseLabel = card.tense.charAt(0).toUpperCase() + card.tense.slice(1);
   elTenseBadge.textContent = card.pronoun === 'question' ? tenseLabel : tenseLabel + ' · ' + card.pronoun;
+  elTenseBadge.style.display = '';
+  // Gender hint: show der/die/das badge if word has an article
+  const elGenderHint = document.getElementById('gender-hint');
+  const articleMatch = card.german.match(/^(Der|Die|Das)\s/i);
+  if (articleMatch) {
+    const art = articleMatch[1].toLowerCase();
+    elGenderHint.className = `gender-hint ${art}`;
+    elGenderHint.textContent = art;
+    elGenderHint.style.display = '';
+  } else {
+    elGenderHint.style.display = 'none';
+  }
   const sentenceWords = SENTENCES ? Object.keys(SENTENCES).filter(w => getWordState(w).learned).length : 0;
   const questionWords = QUESTIONS ? Object.keys(QUESTIONS).filter(w => getWordState(w).learned).length : 0;
   const unlockedWords = Math.max(sentenceWords, questionWords);
@@ -5948,7 +5974,6 @@ function checkSentenceAnswer() {
   answered = true;
   elInput.disabled = true;
   elCheck.disabled = true;
-  elTenseBadge.style.display = '';
 
   const target = langDir === 'en-de' ? card.de : card.en;
   const isCorrect = isSentenceFuzzyMatch(input, target);

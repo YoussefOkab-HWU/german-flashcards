@@ -4955,21 +4955,38 @@ function startCloudListener() {
   CLOUD_DOC.onSnapshot(snap => {
     if (!snap.exists) return;
     const data = snap.data();
+    let changed = false;
     if (data.progress) {
-      progress = mergeProgress(progress, data.progress);
-      saveProgressLocal(progress);
+      const merged = mergeProgress(progress, data.progress);
+      // Only update if something actually changed
+      if (JSON.stringify(merged) !== JSON.stringify(progress)) {
+        progress = merged;
+        saveProgressLocal(progress);
+        changed = true;
+      }
     }
     if (data.sentenceProgress) {
       for (const [k, rv] of Object.entries(data.sentenceProgress)) {
         const lv = sentenceProgress[k];
-        if (!lv) { sentenceProgress[k] = rv; continue; }
+        if (!lv) { sentenceProgress[k] = rv; changed = true; continue; }
         const bothAttempted = (lv.consecutive > 0 || lv.learned) && (rv.consecutive > 0 || rv.learned);
         const consecutive = bothAttempted
           ? Math.min(lv.consecutive || 0, rv.consecutive || 0)
           : Math.max(lv.consecutive || 0, rv.consecutive || 0);
-        sentenceProgress[k] = { consecutive, learned: consecutive >= 3 };
+        if (consecutive !== lv.consecutive) {
+          sentenceProgress[k] = { consecutive, learned: consecutive >= 3 };
+          changed = true;
+        }
       }
-      saveSentenceProgressLocal();
+      if (changed) saveSentenceProgressLocal();
+    }
+    // Refresh UI counters if something changed and app is active
+    if (changed && appMode === 'flashcards' && !answered) {
+      updateMasteryBar();
+      const remaining = getUnlearnedCards().length;
+      const retries = getRetryCards(buildCards(activeFilter)).length;
+      const tierLabel = activeTier > 0 ? ` · Tier ${activeTier}` : '';
+      elCounter.textContent = retries > 0 ? `${remaining} remaining · ${retries} to retry${tierLabel}` : `${remaining} remaining${tierLabel}`;
     }
   }, () => {}); // ignore permission errors
 }

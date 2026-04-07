@@ -5160,19 +5160,21 @@ function markWrong(german) {
 // How often to serve retries: 1 in every 4 cards
 let cardCount = 0; // total cards served this session
 const lastShownAt = {}; // german -> cardCount when last shown
-const RETRY_COOLDOWN = 15; // min cards before a retry reappears
+const retryCooldownFor = {}; // german -> assigned cooldown (15-50)
 
 function getNextCard() {
   cardCount++;
   const allCards = buildCards(activeFilter);
-  const retries = getRetryCards(allCards).filter(c =>
-    !lastShownAt[c.german] || cardCount - lastShownAt[c.german] >= RETRY_COOLDOWN
-  );
+  const retries = getRetryCards(allCards).filter(c => {
+    if (!lastShownAt[c.german]) return true;
+    const cooldown = retryCooldownFor[c.german] || 15;
+    return cardCount - lastShownAt[c.german] >= cooldown;
+  });
 
   // Serve a retry roughly every 4 new cards (if any are cooled down)
   if (retries.length > 0 && cardCount % 5 === 0) {
     const pick = retries[Math.floor(Math.random() * retries.length)];
-    lastShownAt[pick.german] = cardCount;
+    lastShownAt[pick.german] = cardCount; retryCooldownFor[pick.german] = 15 + Math.floor(Math.random() * 36);
     return pick;
   }
 
@@ -5187,7 +5189,7 @@ function getNextCard() {
   const active = allCards.filter(c => !getWordState(c.german).learned && !allRetryWords.has(c.german));
   if (active.length > 0) {
     const pick = active[Math.floor(Math.random() * active.length)];
-    lastShownAt[pick.german] = cardCount;
+    lastShownAt[pick.german] = cardCount; retryCooldownFor[pick.german] = 15 + Math.floor(Math.random() * 36);
     return pick;
   }
 
@@ -5196,7 +5198,7 @@ function getNextCard() {
   if (allRetries.length > 0) {
     allRetries.sort((a, b) => (lastShownAt[a.german] || 0) - (lastShownAt[b.german] || 0));
     const pick = allRetries[0];
-    lastShownAt[pick.german] = cardCount;
+    lastShownAt[pick.german] = cardCount; retryCooldownFor[pick.german] = 15 + Math.floor(Math.random() * 36);
     return pick;
   }
 
@@ -5999,6 +6001,7 @@ function startApp(dir) {
   if (dir === 'de-en') activeTier = 0;
   cardCount = 0;
   Object.keys(lastShownAt).forEach(k => delete lastShownAt[k]);
+  Object.keys(retryCooldownFor).forEach(k => delete retryCooldownFor[k]);
   elLangScreen.style.display = 'none';
   document.getElementById('tier-select-screen').style.display = 'none';
   // Show/hide umlaut bar

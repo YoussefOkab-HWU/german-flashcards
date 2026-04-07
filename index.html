@@ -4925,7 +4925,7 @@ function pushToCloud() {
     progress: progress,
     sentenceProgress: sentenceProgress,
     updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-  }, { merge: true }).catch(() => {});
+  }, { merge: true }).catch(e => console.warn('Firestore write error:', e));
 }
 
 // Merge: brutal only when both devices have attempted the word.
@@ -4955,40 +4955,33 @@ function startCloudListener() {
   CLOUD_DOC.onSnapshot(snap => {
     if (!snap.exists) return;
     const data = snap.data();
-    let changed = false;
     if (data.progress) {
-      const merged = mergeProgress(progress, data.progress);
-      // Only update if something actually changed
-      if (JSON.stringify(merged) !== JSON.stringify(progress)) {
-        progress = merged;
-        saveProgressLocal(progress);
-        changed = true;
-      }
+      progress = mergeProgress(progress, data.progress);
+      saveProgressLocal(progress);
     }
     if (data.sentenceProgress) {
       for (const [k, rv] of Object.entries(data.sentenceProgress)) {
         const lv = sentenceProgress[k];
-        if (!lv) { sentenceProgress[k] = rv; changed = true; continue; }
+        if (!lv) { sentenceProgress[k] = rv; continue; }
         const bothAttempted = (lv.consecutive > 0 || lv.learned) && (rv.consecutive > 0 || rv.learned);
         const consecutive = bothAttempted
           ? Math.min(lv.consecutive || 0, rv.consecutive || 0)
           : Math.max(lv.consecutive || 0, rv.consecutive || 0);
-        if (consecutive !== lv.consecutive) {
-          sentenceProgress[k] = { consecutive, learned: consecutive >= 3 };
-          changed = true;
-        }
+        sentenceProgress[k] = { consecutive, learned: consecutive >= 3 };
       }
-      if (changed) saveSentenceProgressLocal();
+      saveSentenceProgressLocal();
     }
-    // Refresh UI counters if something changed and app is active
-    if (changed && appMode === 'flashcards' && !answered) {
+    // Always refresh UI when cloud data arrives
+    if (appMode === 'flashcards') {
       updateMasteryBar();
-      const remaining = getUnlearnedCards().length;
-      const retries = getRetryCards(buildCards(activeFilter)).length;
-      const tierLabel = activeTier > 0 ? ` · Tier ${activeTier}` : '';
-      elCounter.textContent = retries > 0 ? `${remaining} remaining · ${retries} to retry${tierLabel}` : `${remaining} remaining${tierLabel}`;
+      if (!answered) {
+        const remaining = getUnlearnedCards().length;
+        const retries = getRetryCards(buildCards(activeFilter)).length;
+        const tierLabel = activeTier > 0 ? ` · Tier ${activeTier}` : '';
+        elCounter.textContent = retries > 0 ? `${remaining} remaining · ${retries} to retry${tierLabel}` : `${remaining} remaining${tierLabel}`;
+      }
     }
-  }, () => {}); // ignore permission errors
+  }, (err) => { console.warn('Firestore listener error:', err); });
 }
 
 // Initial load: get current cloud state once, then start live listener

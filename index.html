@@ -4928,13 +4928,17 @@ function pushToCloud() {
   }, { merge: true }).catch(() => {});
 }
 
-// Merge: take lower consecutive (a mistake on any device counts everywhere)
+// Merge: brutal only when both devices have attempted the word.
+// If only one device has seen it, trust that device's value.
 function mergeProgress(local, remote) {
   const merged = Object.assign({}, local);
   for (const [k, rv] of Object.entries(remote)) {
     const lv = local[k];
     if (!lv) { merged[k] = rv; continue; }
-    const consecutive = Math.min(lv.consecutive || 0, rv.consecutive || 0);
+    const bothAttempted = lv.attempted && rv.attempted;
+    const consecutive = bothAttempted
+      ? Math.min(lv.consecutive || 0, rv.consecutive || 0)
+      : Math.max(lv.consecutive || 0, rv.consecutive || 0);
     merged[k] = {
       consecutive,
       learned: consecutive >= 5,
@@ -4956,11 +4960,13 @@ function startCloudListener() {
       saveProgressLocal(progress);
     }
     if (data.sentenceProgress) {
-      // Merge: take lower consecutive (mistakes count on all devices)
       for (const [k, rv] of Object.entries(data.sentenceProgress)) {
         const lv = sentenceProgress[k];
         if (!lv) { sentenceProgress[k] = rv; continue; }
-        const consecutive = Math.min(lv.consecutive || 0, rv.consecutive || 0);
+        const bothAttempted = (lv.consecutive > 0 || lv.learned) && (rv.consecutive > 0 || rv.learned);
+        const consecutive = bothAttempted
+          ? Math.min(lv.consecutive || 0, rv.consecutive || 0)
+          : Math.max(lv.consecutive || 0, rv.consecutive || 0);
         sentenceProgress[k] = { consecutive, learned: consecutive >= 3 };
       }
       saveSentenceProgressLocal();
@@ -4982,7 +4988,10 @@ async function pullFromCloud() {
         for (const [k, rv] of Object.entries(data.sentenceProgress)) {
           const lv = sentenceProgress[k];
           if (!lv) { sentenceProgress[k] = rv; continue; }
-          const consecutive = Math.min(lv.consecutive || 0, rv.consecutive || 0);
+          const bothAttempted = (lv.consecutive > 0 || lv.learned) && (rv.consecutive > 0 || rv.learned);
+          const consecutive = bothAttempted
+            ? Math.min(lv.consecutive || 0, rv.consecutive || 0)
+            : Math.max(lv.consecutive || 0, rv.consecutive || 0);
           sentenceProgress[k] = { consecutive, learned: consecutive >= 3 };
         }
         saveSentenceProgressLocal();

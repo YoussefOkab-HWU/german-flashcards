@@ -4997,26 +4997,20 @@ function startCloudListener() {
   }, (err) => { console.warn('Firestore listener error:', err); });
 }
 
-// Initial load: get current cloud state once, then start live listener
+// Initial load: Firebase is source of truth — overwrite local entirely.
+// Don't merge on startup (stale local data would corrupt learned counts).
+// Brutal merge only happens in the live onSnapshot during active sessions.
 async function pullFromCloud() {
   try {
     const snap = await CLOUD_DOC.get();
     if (snap.exists) {
       const data = snap.data();
       if (data.progress) {
-        progress = mergeProgress(progress, data.progress);
+        progress = data.progress;
         saveProgressLocal(progress);
       }
       if (data.sentenceProgress) {
-        for (const [k, rv] of Object.entries(data.sentenceProgress)) {
-          const lv = sentenceProgress[k];
-          if (!lv) { sentenceProgress[k] = rv; continue; }
-          const bothAttempted = (lv.consecutive > 0 || lv.learned) && (rv.consecutive > 0 || rv.learned);
-          const consecutive = bothAttempted
-            ? Math.min(lv.consecutive || 0, rv.consecutive || 0)
-            : Math.max(lv.consecutive || 0, rv.consecutive || 0);
-          sentenceProgress[k] = { consecutive, learned: consecutive >= 3 };
-        }
+        sentenceProgress = data.sentenceProgress;
         saveSentenceProgressLocal();
       }
     }

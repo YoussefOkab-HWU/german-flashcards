@@ -4928,15 +4928,16 @@ function pushToCloud() {
   }, { merge: true }).catch(() => {});
 }
 
-// Merge: take higher consecutive, preserve learned=true, preserve attempted=true
+// Merge: take lower consecutive (a mistake on any device counts everywhere)
 function mergeProgress(local, remote) {
   const merged = Object.assign({}, local);
   for (const [k, rv] of Object.entries(remote)) {
     const lv = local[k];
     if (!lv) { merged[k] = rv; continue; }
+    const consecutive = Math.min(lv.consecutive || 0, rv.consecutive || 0);
     merged[k] = {
-      consecutive: Math.max(lv.consecutive || 0, rv.consecutive || 0),
-      learned: lv.learned || rv.learned,
+      consecutive,
+      learned: consecutive >= 5,
       attempted: lv.attempted || rv.attempted || false
     };
   }
@@ -4955,10 +4956,12 @@ function startCloudListener() {
       saveProgressLocal(progress);
     }
     if (data.sentenceProgress) {
-      // Merge: keep higher consecutive per key
+      // Merge: take lower consecutive (mistakes count on all devices)
       for (const [k, rv] of Object.entries(data.sentenceProgress)) {
         const lv = sentenceProgress[k];
-        if (!lv || rv.consecutive > lv.consecutive) sentenceProgress[k] = rv;
+        if (!lv) { sentenceProgress[k] = rv; continue; }
+        const consecutive = Math.min(lv.consecutive || 0, rv.consecutive || 0);
+        sentenceProgress[k] = { consecutive, learned: consecutive >= 3 };
       }
       saveSentenceProgressLocal();
     }
@@ -4978,7 +4981,9 @@ async function pullFromCloud() {
       if (data.sentenceProgress) {
         for (const [k, rv] of Object.entries(data.sentenceProgress)) {
           const lv = sentenceProgress[k];
-          if (!lv || rv.consecutive > lv.consecutive) sentenceProgress[k] = rv;
+          if (!lv) { sentenceProgress[k] = rv; continue; }
+          const consecutive = Math.min(lv.consecutive || 0, rv.consecutive || 0);
+          sentenceProgress[k] = { consecutive, learned: consecutive >= 3 };
         }
         saveSentenceProgressLocal();
       }

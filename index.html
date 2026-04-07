@@ -464,9 +464,8 @@
     border-radius: 10px;
     margin-left: 6px;
   }
-  .gender-hint.der { color: #6cf; background: #0d2233; }
-  .gender-hint.die { color: #f8a; background: #2a0018; }
-  .gender-hint.das { color: #aed; background: #0a2318; }
+  .gender-hint.male   { color: #6cf; background: #0d2233; }
+  .gender-hint.female { color: #f8a; background: #2a0018; }
 
   /* Language selection screen */
   .lang-select-screen {
@@ -5054,6 +5053,27 @@ function saveSentenceProgress() {
   scheduleCloudSync();
 }
 function getSentenceKey(card) { return `${card.german}|${card.tense}|${card.pronoun}`; }
+
+// Returns 'male'/'female' if this word is a person noun with both gendered forms in SENTENCES, else null.
+// e.g. "Der Student" → 'male' if "Die Studentin" also exists; "Die Studentin" → 'female' if "Der Student" exists.
+function getPersonGender(word) {
+  if (!SENTENCES) return null;
+  const femSuffix = /^Die\s(.+)in$/i;
+  const mascMatch = word.match(/^Der\s(.+)$/i);
+  const femMatch  = word.match(femSuffix);
+  if (femMatch) {
+    // This is feminine form — check if masculine (Der [stem]) exists
+    const stem = femMatch[1];
+    const masc = `Der ${stem}`;
+    return SENTENCES[masc] ? 'female' : null;
+  }
+  if (mascMatch) {
+    // This is masculine — check if feminine (Die [word]in) exists
+    const fem = `Die ${mascMatch[1]}in`;
+    return SENTENCES[fem] ? 'male' : null;
+  }
+  return null;
+}
 function getSentenceState(card) { return sentenceProgress[getSentenceKey(card)] || { consecutive: 0, learned: false }; }
 function markSentenceCorrect(card) {
   const key = getSentenceKey(card);
@@ -5925,13 +5945,13 @@ function showSentenceCard() {
   const tenseLabel = card.tense.charAt(0).toUpperCase() + card.tense.slice(1);
   elTenseBadge.textContent = card.pronoun === 'question' ? tenseLabel : tenseLabel + ' · ' + card.pronoun;
   elTenseBadge.style.display = '';
-  // Gender hint: show der/die/das badge if word has an article
+  // Gender hint: only for person nouns where both male+female forms exist in SENTENCES
+  // e.g. "Der Student" and "Die Studentin" both present → show (male) or (female)
   const elGenderHint = document.getElementById('gender-hint');
-  const articleMatch = card.german.match(/^(Der|Die|Das)\s/i);
-  if (articleMatch) {
-    const art = articleMatch[1].toLowerCase();
-    elGenderHint.className = `gender-hint ${art}`;
-    elGenderHint.textContent = art;
+  const genderPair = SENTENCES ? getPersonGender(card.german) : null;
+  if (genderPair) {
+    elGenderHint.className = `gender-hint ${genderPair}`;
+    elGenderHint.textContent = genderPair === 'male' ? 'male' : 'female';
     elGenderHint.style.display = '';
   } else {
     elGenderHint.style.display = 'none';

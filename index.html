@@ -6408,10 +6408,14 @@ function startApp(dir) {
   loadBreakdowns(); // fire and forget — available before first card is answered
   pullFromCloud().finally(() => {
     // One-time post-cloud fixes (run after Firebase overwrites local)
-    if (!localStorage.getItem('fix_weise_cloud2')) {
+    if (!localStorage.getItem('fix_weise_cloud3')) {
       progress['weise'] = { consecutive: 5, learned: true, attempted: true };
-      saveProgress(progress); // saves local + pushes to Firebase
-      localStorage.setItem('fix_weise_cloud2', '1');
+      saveProgressLocal(progress);
+      // Push directly and immediately — don't use the debounced timer
+      // which would get overwritten by onSnapshot before it fires
+      CLOUD_DOC.set({ progress: progress }, { merge: true })
+        .then(() => localStorage.setItem('fix_weise_cloud3', '1'))
+        .catch(() => {});
     }
     resetDeck();
   });

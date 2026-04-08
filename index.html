@@ -467,6 +467,61 @@
   .gender-hint.male   { color: #6cf; background: #0d2233; }
   .gender-hint.female { color: #f8a; background: #2a0018; }
 
+  /* ── Grammar mode ── */
+  .grammar-prompt {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 6px;
+    text-align: center;
+  }
+  .grammar-prompt .grammar-en-label {
+    display: block;
+    font-size: 0.88rem;
+    font-weight: 400;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+  .grammar-fields {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 14px;
+  }
+  .grammar-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .grammar-label {
+    min-width: 90px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--muted);
+    text-align: right;
+    flex-shrink: 0;
+  }
+  .grammar-input {
+    flex: 1;
+    background: var(--surface2);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 8px;
+    color: var(--text);
+    font-size: 0.95rem;
+    padding: 7px 12px;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .grammar-input:focus { border-color: var(--accent); }
+  .grammar-input.correct { border-color: var(--green); background: var(--green-dim); }
+  .grammar-input.wrong   { border-color: var(--red);   background: var(--red-dim); }
+  .grammar-input:disabled { opacity: 0.85; }
+  @media (max-width: 480px) {
+    .grammar-label { min-width: 70px; font-size: 0.76rem; }
+    .grammar-input { font-size: 0.88rem; padding: 6px 9px; }
+  }
+
   /* Language selection screen */
   .lang-select-screen {
     position: fixed;
@@ -695,6 +750,7 @@
 <div class="mode-toggle">
   <button class="mode-btn active" id="mode-flashcards">Flashcards</button>
   <button class="mode-btn" id="mode-sentences">Sentences</button>
+  <button class="mode-btn" id="mode-grammar">Grammar</button>
   <button class="mode-btn" id="mode-breakdown">Breakdown</button>
 </div>
 
@@ -727,6 +783,8 @@
     <button class="btn-speak" id="btn-speak-word" style="display:none" title="Pronounce">🔊</button>
     <div class="sentence-de" id="sentence-de" style="display:none"></div>
     <div class="sentence-en" id="sentence-en" style="display:none"></div>
+    <div class="grammar-prompt" id="grammar-prompt" style="display:none"></div>
+    <div class="grammar-fields" id="grammar-fields" style="display:none"></div>
     <div class="mastery-dots" id="mastery-dots"></div>
     <div class="feedback hidden" id="feedback"></div>
   </div>
@@ -4937,6 +4995,7 @@ function pushToCloud() {
   CLOUD_DOC.set({
     progress: progress,
     sentenceProgress: sentenceProgress,
+    grammarProgress: grammarProgress,
     updatedAt: firebase.firestore.FieldValue.serverTimestamp()
   }, { merge: true }).catch(e => console.warn('Firestore write error:', e));
 }
@@ -4984,6 +5043,18 @@ function startCloudListener() {
       }
       saveSentenceProgressLocal();
     }
+    if (data.grammarProgress) {
+      for (const [k, rv] of Object.entries(data.grammarProgress)) {
+        const lv = grammarProgress[k];
+        if (!lv) { grammarProgress[k] = rv; continue; }
+        const bothAttempted = (lv.consecutive > 0 || lv.learned) && (rv.consecutive > 0 || rv.learned);
+        const consecutive = bothAttempted
+          ? Math.min(lv.consecutive || 0, rv.consecutive || 0)
+          : Math.max(lv.consecutive || 0, rv.consecutive || 0);
+        grammarProgress[k] = { consecutive, learned: consecutive >= 3 };
+      }
+      saveGrammarProgressLocal();
+    }
     // Always refresh UI when cloud data arrives
     if (appMode === 'flashcards') {
       updateMasteryBar();
@@ -5012,6 +5083,10 @@ async function pullFromCloud() {
       if (data.sentenceProgress) {
         sentenceProgress = data.sentenceProgress;
         saveSentenceProgressLocal();
+      }
+      if (data.grammarProgress) {
+        grammarProgress = data.grammarProgress;
+        saveGrammarProgressLocal();
       }
     }
   } catch(e) {}
@@ -5085,6 +5160,34 @@ function markSentenceWrong(card) {
   saveSentenceProgress();
 }
 
+// grammarProgress[key] = { consecutive: 0..3, learned: false }
+// key = german word (verb infinitive or full noun e.g. "der Aal")
+function loadGrammarProgress() {
+  try { return JSON.parse(localStorage.getItem('gfc_grammar_progress') || '{}'); }
+  catch { return {}; }
+}
+function saveGrammarProgressLocal() {
+  localStorage.setItem('gfc_grammar_progress', JSON.stringify(grammarProgress));
+}
+function saveGrammarProgress() {
+  saveGrammarProgressLocal();
+  scheduleCloudSync();
+}
+function getGrammarState(key) { return grammarProgress[key] || { consecutive: 0, learned: false }; }
+function markGrammarCorrect(key) {
+  const s = getGrammarState(key);
+  s.consecutive = (s.consecutive || 0) + 1;
+  if (s.consecutive >= 3) s.learned = true;
+  grammarProgress[key] = s;
+  saveGrammarProgress();
+}
+function markGrammarWrong(key) {
+  const s = getGrammarState(key);
+  s.consecutive = 0;
+  grammarProgress[key] = s;
+  saveGrammarProgress();
+}
+
 function loadSynonyms() {
   try { return JSON.parse(localStorage.getItem('gfc_synonyms') || '{}'); }
   catch { return {}; }
@@ -5102,6 +5205,7 @@ if (!localStorage.getItem('fix_dashaus')) {
   localStorage.setItem('fix_dashaus', '1');
 }
 let sentenceProgress = loadSentenceProgress();
+let grammarProgress = loadGrammarProgress();
 let synonyms = loadSynonyms();
 let deck = [];
 let deckPos = 0;
@@ -5263,6 +5367,40 @@ function getUnlearnedCards() {
 }
 
 function resetDeck() {
+  if (appMode === 'grammar') {
+    loadGrammar().then(ok => {
+      if (!ok) {
+        elWord.style.display = '';
+        elWord.textContent = '⚠ grammar.json not found';
+        elCounter.textContent = '';
+        elInput.style.display = 'none';
+        elCheck.disabled = true;
+        return;
+      }
+      const cards = buildGrammarDeck();
+      if (cards.length === 0) {
+        elCard.className = 'card';
+        elWord.style.display = '';
+        elWord.textContent = '🔒';
+        elCounter.textContent = 'Master words in Flashcards to unlock grammar';
+        document.getElementById('grammar-prompt').style.display = 'none';
+        document.getElementById('grammar-fields').style.display = 'none';
+        elMasteryDots.innerHTML = '';
+        elFeedback.className = 'feedback hidden';
+        elInput.style.display = 'none';
+        elCheck.disabled = true;
+        return;
+      }
+      deck = shuffle(cards);
+      deckPos = 0;
+      elWord.style.display = 'none';
+      document.getElementById('category-badge').style.display = 'none';
+      elMasteryDots.innerHTML = '';
+      elInput.style.display = 'none';
+      showGrammarCard();
+    });
+    return;
+  }
   if (appMode === 'sentences') {
     loadSentencesAndQuestions().then(ok => {
       if (!ok) return;
@@ -5299,6 +5437,8 @@ function resetDeck() {
   elSentenceEn.style.display = 'none';
   elTenseBadge.style.display = 'none';
   document.getElementById('gender-hint').style.display = 'none';
+  document.getElementById('grammar-prompt').style.display = 'none';
+  document.getElementById('grammar-fields').style.display = 'none';
   updateMasteryBar();
   const nextCard = getNextCard();
   if (!nextCard) { showAllLearned(); return; }
@@ -5310,6 +5450,7 @@ function resetDeck() {
 function showCard() {
   answered = false;
   elInput.value = '';
+  elInput.style.display = '';
   elInput.disabled = false;
   elCheck.disabled = false;
   elNext.classList.remove('visible');
@@ -5384,6 +5525,24 @@ function showCard() {
 }
 
 function advanceCard() {
+  if (appMode === 'grammar') {
+    deck = shuffle(buildGrammarDeck());
+    deckPos = 0;
+    if (deck.length === 0) {
+      elCard.className = 'card correct';
+      elWord.style.display = '';
+      elWord.textContent = '🎓';
+      document.getElementById('grammar-prompt').style.display = 'none';
+      document.getElementById('grammar-fields').style.display = 'none';
+      elCounter.textContent = '';
+      elFeedback.className = 'feedback correct';
+      elFeedback.textContent = 'All grammar mastered!';
+      elNext.classList.remove('visible');
+      return;
+    }
+    showGrammarCard();
+    return;
+  }
   if (appMode === 'sentences') {
     // sentences + questions already loaded if we got here
     deck = shuffle(buildSentenceDeck());
@@ -5458,6 +5617,7 @@ elBtnViewLearned.addEventListener('click', () => {
 // ── Checking ─────────────────────────────────────────────────────────────────
 function checkAnswer() {
   if (appMode === 'sentences') { checkSentenceAnswer(); return; }
+  if (appMode === 'grammar') { checkGrammarAnswer(); return; }
   if (answered) return;
   const card = deck[deckPos];
   const input = elInput.value.trim();
@@ -5677,6 +5837,7 @@ const elBreakdownExplorer = document.getElementById('breakdown-explorer');
 const elBreakdownList     = document.getElementById('breakdown-list');
 const elBreakdownSearch   = document.getElementById('breakdown-search');
 const elModeBreakdown     = document.getElementById('mode-breakdown');
+const elModeGrammar       = document.getElementById('mode-grammar');
 
 // Main app elements to hide/show
 const elMainApp = [
@@ -5694,6 +5855,7 @@ function setMode(mode) {
   appMode = mode;
   elModeFlashcards.classList.toggle('active', mode === 'flashcards');
   elModeSentences.classList.toggle('active', mode === 'sentences');
+  elModeGrammar.classList.toggle('active', mode === 'grammar');
   elModeBreakdown.classList.toggle('active', mode === 'breakdown');
 
   const isBreakdown = mode === 'breakdown';
@@ -5711,6 +5873,8 @@ function setMode(mode) {
   elTenseFilters.classList.toggle('visible', mode === 'sentences');
   document.getElementById('filters').style.display = mode === 'flashcards' ? '' : 'none';
   document.querySelector('.masterybar').style.display = mode === 'flashcards' ? '' : 'none';
+  // Grammar mode hides the main text input (uses its own fields), others show it
+  elInput.style.display = mode === 'grammar' ? 'none' : '';
   elInput.placeholder = mode === 'sentences' ? 'Type the English translation…' : (langDir === 'en-de' ? 'Schreib das deutsche Wort...' : 'Type English translation…');
 
   resetDeck();
@@ -5763,6 +5927,7 @@ elBreakdownSearch.addEventListener('input', () => {
 
 elModeFlashcards.addEventListener('click', () => setMode('flashcards'));
 elModeSentences.addEventListener('click', () => setMode('sentences'));
+elModeGrammar.addEventListener('click', () => setMode('grammar'));
 elModeBreakdown.addEventListener('click', () => setMode('breakdown'));
 
 // ── Tense filters ─────────────────────────────────────────────────────────────
@@ -5857,6 +6022,169 @@ async function loadSentencesAndQuestions() {
   return s || q; // ok if at least one loaded
 }
 
+// ── Grammar mode ──────────────────────────────────────────────────────────────
+let GRAMMAR = null;
+let grammarLoading = false;
+
+async function loadGrammar() {
+  if (GRAMMAR) return true;
+  if (grammarLoading) return false;
+  grammarLoading = true;
+  try {
+    const res = await fetch('grammar.json');
+    GRAMMAR = await res.json();
+    grammarLoading = false;
+    return true;
+  } catch(e) {
+    grammarLoading = false;
+    return false;
+  }
+}
+
+function buildGrammarDeck() {
+  if (!GRAMMAR) return [];
+  const cards = [];
+  for (const [key, data] of Object.entries(GRAMMAR)) {
+    if (data.error) continue;
+    // Check if word is mastered in flashcards
+    if (!getWordState(key).learned) continue;
+    // Tier filter
+    if (activeTier > 0 && TIERS[key] !== activeTier) continue;
+    // Skip already grammar-mastered
+    if (getGrammarState(key).learned) continue;
+    cards.push({ key, ...data });
+  }
+  return cards;
+}
+
+const VERB_PRONOUNS = ['ich', 'du', 'er/sie/es', 'wir', 'ihr', 'Sie'];
+
+function showGrammarCard() {
+  answered = false;
+  elInput.style.display = 'none';
+  elCheck.disabled = false;
+  elNext.classList.remove('visible');
+  elCard.className = 'card';
+  elFeedback.className = 'feedback hidden';
+  elFeedback.textContent = '';
+
+  // Hide all non-grammar elements
+  elWord.style.display = 'none';
+  document.getElementById('category-badge').style.display = 'none';
+  document.getElementById('gender-hint').style.display = 'none';
+  elTenseBadge.style.display = 'none';
+  elMasteryDots.innerHTML = '';
+  elSentenceDe.style.display = 'none';
+  elSentenceEn.style.display = 'none';
+
+  const elPrompt = document.getElementById('grammar-prompt');
+  const elFields = document.getElementById('grammar-fields');
+  elPrompt.style.display = '';
+  elFields.style.display = '';
+
+  const card = deck[deckPos];
+  const state = getGrammarState(card.key);
+
+  // Find English meaning from DATA
+  let englishMeaning = '';
+  if (card.type === 'verb') {
+    const entry = DATA.verbs.find(v => v.german === card.key);
+    if (entry) englishMeaning = entry.english;
+  } else {
+    const entry = DATA.nouns.find(n => n.german === card.key);
+    if (entry) englishMeaning = entry.english;
+  }
+
+  elPrompt.innerHTML = `${card.key}<span class="grammar-en-label">${englishMeaning}</span>`;
+
+  // Build input rows
+  elFields.innerHTML = '';
+  if (card.type === 'verb') {
+    for (const pronoun of VERB_PRONOUNS) {
+      const row = document.createElement('div');
+      row.className = 'grammar-row';
+      row.innerHTML = `<span class="grammar-label">${pronoun}:</span><input class="grammar-input" data-field="${pronoun}" autocomplete="off" autocorrect="off" spellcheck="false" autocapitalize="none" placeholder="…">`;
+      elFields.appendChild(row);
+    }
+    // Präteritum row
+    const pastRow = document.createElement('div');
+    pastRow.className = 'grammar-row';
+    pastRow.innerHTML = `<span class="grammar-label">ich (past):</span><input class="grammar-input" data-field="prateritum_ich" autocomplete="off" autocorrect="off" spellcheck="false" autocapitalize="none" placeholder="…">`;
+    elFields.appendChild(pastRow);
+    // Focus first input
+    elFields.querySelector('.grammar-input').focus();
+  } else {
+    const row = document.createElement('div');
+    row.className = 'grammar-row';
+    row.innerHTML = `<span class="grammar-label">Plural:</span><input class="grammar-input" data-field="plural" autocomplete="off" autocorrect="off" spellcheck="false" autocapitalize="none" placeholder="die …">`;
+    elFields.appendChild(row);
+    elFields.querySelector('.grammar-input').focus();
+  }
+
+  // Enter key on last input triggers check
+  const inputs = elFields.querySelectorAll('.grammar-input');
+  inputs.forEach((inp, i) => {
+    inp.addEventListener('keydown', e => {
+      if (e.key === 'Enter') {
+        if (i < inputs.length - 1) inputs[i + 1].focus();
+        else checkGrammarAnswer();
+      }
+    });
+  });
+
+  const total = deck.length;
+  const mastered = Object.values(grammarProgress).filter(s => s.learned).length;
+  elCounter.textContent = `${deckPos + 1} / ${total} · ${mastered} grammar mastered`;
+  elProgress.style.width = `${((deckPos + 1) / total) * 100}%`;
+}
+
+function checkGrammarAnswer() {
+  if (answered) return;
+  const card = deck[deckPos];
+  const inputs = document.querySelectorAll('#grammar-fields .grammar-input');
+  if (!inputs.length) return;
+  // Check at least one field filled
+  if (![...inputs].some(i => i.value.trim())) return;
+
+  answered = true;
+  inputs.forEach(i => { i.disabled = true; });
+  elCheck.disabled = true;
+
+  let allCorrect = true;
+  inputs.forEach(inp => {
+    const field = inp.dataset.field;
+    const expected = (card[field] || '').trim().toLowerCase();
+    const given = inp.value.trim().toLowerCase();
+    const correct = expected && given === expected;
+    inp.classList.add(correct ? 'correct' : 'wrong');
+    if (!correct) allCorrect = false;
+  });
+
+  if (allCorrect) {
+    markGrammarCorrect(card.key);
+    const state = getGrammarState(card.key);
+    const suffix = state.learned ? ' 🎓 Mastered!' : ` (${state.consecutive}/3)`;
+    elCard.classList.add('correct');
+    elFeedback.className = 'feedback correct';
+    elFeedback.innerHTML = `<span class="feedback-icon">✓</span> All correct!${suffix}`;
+  } else {
+    markGrammarWrong(card.key);
+    // Show correct answers next to wrong inputs
+    let corrections = '';
+    inputs.forEach(inp => {
+      if (inp.classList.contains('wrong')) {
+        const field = inp.dataset.field;
+        const label = field === 'prateritum_ich' ? 'ich (past)' : field;
+        corrections += `<span style="margin-right:10px"><strong>${label}:</strong> ${card[field] || '?'}</span>`;
+      }
+    });
+    elCard.classList.add('wrong');
+    elFeedback.className = 'feedback wrong';
+    elFeedback.innerHTML = `<span class="feedback-icon">✗</span> ${corrections}`;
+  }
+  elNext.classList.add('visible');
+}
+
 // ── Sentences deck ────────────────────────────────────────────────────────────
 function buildSentenceDeck() {
   const tenses = activeTense === 'all' ? ['present', 'past', 'future'] : [activeTense];
@@ -5914,6 +6242,7 @@ function showSentenceCard() {
   answered = false;
   clearExtraInputs();
   elInput.value = '';
+  elInput.style.display = '';
   elInput.disabled = false;
   elInput.focus();
   elCheck.disabled = false;
@@ -5922,9 +6251,11 @@ function showSentenceCard() {
   elFeedback.className = 'feedback hidden';
   elFeedback.textContent = '';
 
-  // Hide flashcard elements
+  // Hide flashcard and grammar elements
   elWord.style.display = 'none';
   document.getElementById('category-badge').style.display = 'none';
+  document.getElementById('grammar-prompt').style.display = 'none';
+  document.getElementById('grammar-fields').style.display = 'none';
   elMasteryDots.innerHTML = '';
   elSentenceEn.style.display = 'none';
 

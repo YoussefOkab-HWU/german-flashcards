@@ -6408,10 +6408,10 @@ function startApp(dir) {
   loadBreakdowns(); // fire and forget — available before first card is answered
   pullFromCloud().finally(() => {
     // One-time post-cloud fixes (run after Firebase overwrites local)
-    if (!localStorage.getItem('fix_weise_cloud')) {
+    if (!localStorage.getItem('fix_weise_cloud2')) {
       progress['weise'] = { consecutive: 5, learned: true, attempted: true };
       saveProgress(progress); // saves local + pushes to Firebase
-      localStorage.setItem('fix_weise_cloud', '1');
+      localStorage.setItem('fix_weise_cloud2', '1');
     }
     resetDeck();
   });

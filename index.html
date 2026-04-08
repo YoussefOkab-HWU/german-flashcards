@@ -5204,11 +5204,6 @@ if (!localStorage.getItem('fix_dashaus')) {
   saveProgressLocal(progress);
   localStorage.setItem('fix_dashaus', '1');
 }
-if (!localStorage.getItem('fix_weise')) {
-  progress['weise'] = { consecutive: 5, learned: true, attempted: true };
-  saveProgressLocal(progress);
-  localStorage.setItem('fix_weise', '1');
-}
 let sentenceProgress = loadSentenceProgress();
 let grammarProgress = loadGrammarProgress();
 let synonyms = loadSynonyms();
@@ -6411,7 +6406,15 @@ function startApp(dir) {
   buildTenseFilters();
   // Pull cloud progress then start (fall back immediately if offline)
   loadBreakdowns(); // fire and forget — available before first card is answered
-  pullFromCloud().finally(() => resetDeck());
+  pullFromCloud().finally(() => {
+    // One-time post-cloud fixes (run after Firebase overwrites local)
+    if (!localStorage.getItem('fix_weise_cloud')) {
+      progress['weise'] = { consecutive: 5, learned: true, attempted: true };
+      saveProgress(progress); // saves local + pushes to Firebase
+      localStorage.setItem('fix_weise_cloud', '1');
+    }
+    resetDeck();
+  });
 }
 
 function insertUmlaut(char) {

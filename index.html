@@ -6109,7 +6109,7 @@ function showGrammarCard() {
     // Perfekt row
     const pastRow = document.createElement('div');
     pastRow.className = 'grammar-row';
-    pastRow.innerHTML = `<span class="grammar-label">ich (Perfekt):</span><input class="grammar-input" data-field="perfekt_ich" autocomplete="off" autocorrect="off" spellcheck="false" autocapitalize="none" placeholder="ich habe/bin …">`;
+    pastRow.innerHTML = `<span class="grammar-label">Partizip II:</span><input class="grammar-input" data-field="perfekt_ich" autocomplete="off" autocorrect="off" spellcheck="false" autocapitalize="none" placeholder="ge…">`;
     elFields.appendChild(pastRow);
     // Focus first input
     elFields.querySelector('.grammar-input').focus();
@@ -6174,7 +6174,7 @@ function checkGrammarAnswer() {
     inputs.forEach(inp => {
       if (inp.classList.contains('wrong')) {
         const field = inp.dataset.field;
-        const label = field === 'perfekt_ich' ? 'ich (Perfekt)' : field;
+        const label = field === 'perfekt_ich' ? 'Partizip II' : field;
         corrections += `<span style="margin-right:10px"><strong>${label}:</strong> ${card[field] || '?'}</span>`;
       }
     });

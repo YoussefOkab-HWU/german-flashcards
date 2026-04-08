@@ -5204,6 +5204,11 @@ if (!localStorage.getItem('fix_dashaus')) {
   saveProgressLocal(progress);
   localStorage.setItem('fix_dashaus', '1');
 }
+if (!localStorage.getItem('fix_weise')) {
+  progress['weise'] = { consecutive: 5, learned: true, attempted: true };
+  saveProgressLocal(progress);
+  localStorage.setItem('fix_weise', '1');
+}
 let sentenceProgress = loadSentenceProgress();
 let grammarProgress = loadGrammarProgress();
 let synonyms = loadSynonyms();

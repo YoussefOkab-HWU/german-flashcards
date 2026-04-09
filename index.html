@@ -768,6 +768,11 @@
 
 <div class="filters" id="filters"></div>
 <div class="tense-filters" id="tense-filters"></div>
+<div class="tense-filters" id="grammar-type-filters" style="display:none">
+  <button class="filter-btn active" data-gtype="all">All</button>
+  <button class="filter-btn" data-gtype="verb">Verbs</button>
+  <button class="filter-btn" data-gtype="noun">Nouns</button>
+</div>
 
 <div class="progress-wrap">
   <div class="progress-bar" id="progress-bar"></div>
@@ -5211,6 +5216,7 @@ let deck = [];
 let deckPos = 0;
 let activeFilter = 'all';
 let activeTense = 'all';
+let activeGrammarType = 'all'; // 'all', 'verb', 'noun'
 let appMode = 'flashcards';
 let langDir = 'de-en'; // 'de-en' or 'en-de'
 let answered = false;
@@ -5864,13 +5870,17 @@ function setMode(mode) {
 
   if (isBreakdown) {
     elTenseFilters.classList.remove('visible');
+    document.getElementById('grammar-type-filters').style.display = 'none';
+    hideBreakdown();
     elBreakdownSearch.value = '';
     elBreakdownList.innerHTML = '';
     elBreakdownSearch.focus();
     return;
   }
 
+  hideBreakdown();
   elTenseFilters.classList.toggle('visible', mode === 'sentences');
+  document.getElementById('grammar-type-filters').style.display = mode === 'grammar' ? 'flex' : 'none';
   document.getElementById('filters').style.display = mode === 'flashcards' ? '' : 'none';
   document.querySelector('.masterybar').style.display = mode === 'flashcards' ? '' : 'none';
   // Grammar mode hides the main text input (uses its own fields), others show it
@@ -5948,6 +5958,16 @@ function buildTenseFilters() {
     elTenseFilters.appendChild(btn);
   });
 }
+
+// Wire grammar type filter buttons
+document.querySelectorAll('#grammar-type-filters .filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    activeGrammarType = btn.dataset.gtype;
+    document.querySelectorAll('#grammar-type-filters .filter-btn').forEach(b =>
+      b.classList.toggle('active', b.dataset.gtype === activeGrammarType));
+    resetDeck();
+  });
+});
 
 // ── Sentences lazy loader ─────────────────────────────────────────────────────
 let sentencesLoading = false;
@@ -6046,6 +6066,8 @@ function buildGrammarDeck() {
   const cards = [];
   for (const [key, data] of Object.entries(GRAMMAR)) {
     if (data.error) continue;
+    // Type filter (verb/noun)
+    if (activeGrammarType !== 'all' && data.type !== activeGrammarType) continue;
     // Check if word is mastered in flashcards
     if (!getWordState(key).learned) continue;
     // Tier filter
@@ -6421,9 +6443,15 @@ function startApp(dir) {
   });
 }
 
+let lastFocusedInput = null;
+document.addEventListener('focusin', e => {
+  if (e.target.tagName === 'INPUT') lastFocusedInput = e.target;
+});
+
 function insertUmlaut(char) {
-  const target = (document.activeElement && document.activeElement.tagName === 'INPUT' && document.activeElement !== elInput)
-    ? document.activeElement : elInput;
+  // Use last focused input so grammar fields work even after clicking the button
+  const target = (lastFocusedInput && lastFocusedInput.tagName === 'INPUT' && !lastFocusedInput.disabled)
+    ? lastFocusedInput : elInput;
   const start = target.selectionStart;
   const end   = target.selectionEnd;
   const val   = target.value;

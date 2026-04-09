@@ -5334,9 +5334,21 @@ function markWrong(german) {
   const s = getWordState(german);
   s.attempted = true;
   s.consecutive = 0;
-  s.learned = false;
+  // Keep learned status — user can manually unmaster via the "Unmaster it?" button
   progress[german] = s;
   saveProgress(progress);
+}
+
+function unmasterWord(german) {
+  const s = getWordState(german);
+  s.learned = false;
+  s.consecutive = 0;
+  progress[german] = s;
+  saveProgress(progress);
+  updateMasteryBar();
+  // Update feedback to confirm
+  const btn = document.getElementById('btn-unmaster');
+  if (btn) { btn.textContent = 'Unmastered'; btn.disabled = true; btn.style.opacity = '0.5'; }
 }
 
 // How often to serve retries: 1 in every 4 cards
@@ -5738,13 +5750,20 @@ function checkAnswer() {
     const acceptBtn = langDir === 'de-en'
       ? `<button id="btn-accept" style="margin-left:12px;padding:3px 12px;border-radius:8px;border:1px solid rgba(255,255,255,0.4);background:rgba(255,255,255,0.12);color:#fff;font-size:0.82rem;font-weight:600;cursor:pointer">Accept my answer</button>`
       : '';
-    elFeedback.innerHTML = `<span class="feedback-icon">✗</span> Wrong! Correct: <strong style="margin-left:4px">${correctDisplay}</strong>${speakInline}${typoBtn}${acceptBtn}`;
+    const wasMastered = consecutiveBeforeAnswer >= 5;
+    const unmasterBtn = wasMastered
+      ? `<button id="btn-unmaster" style="margin-left:12px;padding:3px 12px;border-radius:8px;border:1px solid rgba(255,100,100,0.5);background:rgba(255,60,60,0.15);color:#f88;font-size:0.82rem;font-weight:600;cursor:pointer">Unmaster it?</button>`
+      : '';
+    elFeedback.innerHTML = `<span class="feedback-icon">✗</span> Wrong! Correct: <strong style="margin-left:4px">${correctDisplay}</strong>${speakInline}${typoBtn}${acceptBtn}${unmasterBtn}`;
     renderDots(card.german);
     if (isTypo) {
       document.getElementById('btn-typo').addEventListener('click', () => fixTypo(card, consecutiveBeforeAnswer));
     }
     if (langDir === 'de-en') {
       document.getElementById('btn-accept').addEventListener('click', () => acceptAnswer(card, input.toLowerCase()));
+    }
+    if (wasMastered) {
+      document.getElementById('btn-unmaster').addEventListener('click', () => unmasterWord(card.german));
     }
   }
 
@@ -5824,6 +5843,7 @@ function skipCard() {
   }
 
   // Multi-answer skip: mark all siblings wrong
+  const wasSkipMastered = getWordState(card.german).learned;
   if (langDir === 'en-de' && currentSiblings.length > 0) {
     for (const c of [card, ...currentSiblings]) markWrong(c.german);
   } else {
@@ -5841,7 +5861,13 @@ function skipCard() {
         ? [card, ...currentSiblings].map(c => `<strong>${c.german}</strong> ${buildSpeakBtn(c.german)}`).join(' / ')
         : `<strong>${card.german}</strong> ${buildSpeakBtn(card.german)}`)
     : card.english;
-  elFeedback.innerHTML = `<span class="feedback-icon">↷</span> Skipped — ${skipAnswer}`;
+  const skipUnmasterBtn = wasSkipMastered
+    ? `<button id="btn-unmaster" style="margin-left:12px;padding:3px 12px;border-radius:8px;border:1px solid rgba(255,100,100,0.5);background:rgba(255,60,60,0.15);color:#f88;font-size:0.82rem;font-weight:600;cursor:pointer">Unmaster it?</button>`
+    : '';
+  elFeedback.innerHTML = `<span class="feedback-icon">↷</span> Skipped — ${skipAnswer}${skipUnmasterBtn}`;
+  if (wasSkipMastered) {
+    document.getElementById('btn-unmaster').addEventListener('click', () => unmasterWord(card.german));
+  }
   renderDots(card.german);
 
   updateMasteryBar();

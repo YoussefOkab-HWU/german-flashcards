@@ -6213,6 +6213,7 @@ function showGrammarCard() {
   inputs.forEach((inp, i) => {
     inp.addEventListener('keydown', e => {
       if (e.key === 'Enter') {
+        e.stopPropagation();
         if (i < inputs.length - 1) inputs[i + 1].focus();
         else checkGrammarAnswer();
       }

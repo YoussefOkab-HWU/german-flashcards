@@ -410,6 +410,26 @@
   }
   .mode-btn.active { background: var(--accent-dim); color: var(--text); border: 1px solid var(--accent); }
   .mode-btn:hover:not(.active) { color: var(--text); }
+  .btn-breakdown-icon {
+    position: fixed;
+    bottom: 24px;
+    left: 20px;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    font-size: 1.4rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 50;
+    transition: background 0.15s, border-color 0.15s;
+    line-height: 1;
+  }
+  .btn-breakdown-icon.active { background: var(--accent-dim); border-color: var(--accent); }
+  .btn-breakdown-icon:hover { background: var(--surface2); border-color: var(--accent); }
 
   /* Tense filters (sentences mode) */
   .tense-filters {
@@ -751,8 +771,8 @@
   <button class="mode-btn active" id="mode-flashcards">Flashcards</button>
   <button class="mode-btn" id="mode-sentences">Sentences</button>
   <button class="mode-btn" id="mode-grammar">Grammar</button>
-  <button class="mode-btn" id="mode-breakdown">Breakdown</button>
 </div>
+<button class="btn-breakdown-icon" id="mode-breakdown" title="Breakdown explorer">📖</button>
 
 <div id="breakdown-explorer" style="display:none;width:100%;max-width:600px;margin-top:12px;">
   <input type="text" id="breakdown-search" placeholder="Search words…" autocomplete="off" />

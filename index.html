@@ -5772,6 +5772,23 @@ function skipCard() {
   if (answered) return;
   const card = deck[deckPos];
 
+  if (appMode === 'grammar') {
+    markGrammarWrong(card.key);
+    answered = true;
+    document.querySelectorAll('#grammar-fields .grammar-input').forEach(inp => {
+      inp.disabled = true;
+      const correct = (card[inp.dataset.field] || '').trim();
+      inp.value = correct;
+      inp.classList.add(correct ? 'wrong' : '');
+    });
+    elCheck.disabled = true;
+    elCard.classList.add('wrong');
+    elFeedback.className = 'feedback wrong';
+    elFeedback.innerHTML = `<span class="feedback-icon">↷</span> Skipped — answers shown above`;
+    elNext.classList.add('visible');
+    return;
+  }
+
   if (appMode === 'sentences') {
     markSentenceWrong(card);
     answered = true;

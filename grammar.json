@@ -72,7 +72,7 @@
   "investieren": {
     "type": "verb",
     "ich": "investiere",
-    "du": "investiert",
+    "du": "investierst",
     "er/sie/es": "investiert",
     "wir": "investieren",
     "ihr": "investiert",
@@ -245,7 +245,7 @@
     "du": "beginnst",
     "er/sie/es": "beginnt",
     "wir": "beginnen",
-    "ihr": "begi...",
+    "ihr": "beginnt",
     "Sie": "beginnen",
     "perfekt_ich": "begonnen"
   },
@@ -332,7 +332,7 @@
   "glauben": {
     "type": "verb",
     "ich": "glaube",
-    "du": " glaubst",
+    "du": "glaubst",
     "er/sie/es": "glaubt",
     "wir": "glauben",
     "ihr": "glaubt",
@@ -437,7 +437,7 @@
     "wir": "rennen",
     "ihr": "rennt",
     "Sie": "rennen",
-    "perfekt_ich": "gelaufen"
+    "perfekt_ich": "gerannt"
   },
   "ziehen": {
     "type": "verb",
@@ -672,7 +672,7 @@
   "schaffen": {
     "type": "verb",
     "ich": "schaffe",
-    "du": " schaffst",
+    "du": "schaffst",
     "er/sie/es": "schafft",
     "wir": "schäften",
     "ihr": "schafft",
@@ -792,11 +792,11 @@
   "säen": {
     "type": "verb",
     "ich": "säe",
-    "du": " säest",
-    "er/sie/es": " säet",
+    "du": "säest",
+    "er/sie/es": "säet",
     "wir": "säen",
-    "ihr": " säet",
-    "Sie": " säen",
+    "ihr": "säet",
+    "Sie": "säen",
     "perfekt_ich": "gesäet"
   },
   "unterbrechen": {
@@ -894,7 +894,7 @@
     "ich": "brenne",
     "du": "brennst",
     "er/sie/es": "brennt",
-    "wir": " brennen",
+    "wir": "brennen",
     "ihr": "brennt",
     "Sie": "brennen",
     "perfekt_ich": "abgebrannt"
@@ -961,23 +961,23 @@
   },
   "regnen": {
     "type": "verb",
-    "ich": "rege",
-    "du": "regest",
+    "ich": "regnet",
+    "du": "regnet",
     "er/sie/es": "regnet",
-    "wir": "regen",
+    "wir": "regnet",
     "ihr": "regnet",
-    "Sie": "regen",
+    "Sie": "regnet",
     "perfekt_ich": "geregnet"
   },
   "schneien": {
     "type": "verb",
-    "ich": "schneide",
-    "du": "schneidest",
-    "er/sie/es": "schneidet",
-    "wir": "schneiden",
-    "ihr": "schneidet",
-    "Sie": "schneiden",
-    "perfekt_ich": "gefallen"
+    "ich": "schneit",
+    "du": "schneit",
+    "er/sie/es": "schneit",
+    "wir": "schneit",
+    "ihr": "schneit",
+    "Sie": "schneit",
+    "perfekt_ich": "geschneit"
   },
   "wehen": {
     "type": "verb",
@@ -1471,8 +1471,8 @@
   },
   "geben": {
     "type": "verb",
-    "ich": " gebe",
-    "du": " gibst",
+    "ich": "gebe",
+    "du": "gibst",
     "er/sie/es": "gibt",
     "wir": "geben",
     "ihr": "gebt",
@@ -1693,7 +1693,7 @@
     "type": "verb",
     "ich": "trinke",
     "du": "trinkst",
-    "er/sie/es": " trinkt",
+    "er/sie/es": "trinkt",
     "wir": "trinken",
     "ihr": "trinkt",
     "Sie": "trinken",
@@ -1701,12 +1701,12 @@
   },
   "träumen": {
     "type": "verb",
-    "ich": " träume",
-    "du": " träumst",
+    "ich": "träume",
+    "du": "träumst",
     "er/sie/es": "träumt",
-    "wir": " träumen",
-    "ihr": " träumt",
-    "Sie": " träumen",
+    "wir": "träumen",
+    "ihr": "träumt",
+    "Sie": "träumen",
     "perfekt_ich": "geträumt"
   },
   "zweifeln": {
@@ -1745,7 +1745,7 @@
     "du": "stellst",
     "er/sie/es": "stellt",
     "wir": "stellen",
-    "ihr": "stetlt",
+    "ihr": "stellt",
     "Sie": "stellen",
     "perfekt_ich": "gestellt"
   },
@@ -1957,15 +1957,15 @@
     "wir": "müssen",
     "ihr": "müsst",
     "Sie": "müssen",
-    "perfekt_ich": "gemacht"
+    "perfekt_ich": "gemusst"
   },
   "dürfen": {
     "type": "verb",
-    "ich": "dürfe",
-    "du": "dürftest",
-    "er/sie/es": "dürfe",
+    "ich": "darf",
+    "du": "darfst",
+    "er/sie/es": "darf",
     "wir": "dürfen",
-    "ihr": "dürftet",
+    "ihr": "dürft",
     "Sie": "dürfen",
     "perfekt_ich": "gedurft"
   },
@@ -1977,16 +1977,16 @@
     "wir": "sollen",
     "ihr": "sollt",
     "Sie": "sollen",
-    "perfekt_ich": "gewollt"
+    "perfekt_ich": "gesollt"
   },
   "mögen": {
     "type": "verb",
-    "ich": "möchte",
-    "du": "möchtest",
-    "er/sie/es": "möchte",
-    "wir": "möchten",
+    "ich": "mag",
+    "du": "magst",
+    "er/sie/es": "mag",
+    "wir": "mögen",
     "ihr": "mögt",
-    "Sie": "möchten",
+    "Sie": "mögen",
     "perfekt_ich": "gemocht"
   },
   "treffen": {
@@ -2261,12 +2261,12 @@
   },
   "bieten": {
     "type": "verb",
-    "ich": " biete ",
-    "du": " bietest ",
-    "er/sie/es": "bietet ",
-    "wir": "bieten ",
-    "ihr": "bietet ",
-    "Sie": "bieten ",
+    "ich": "biete",
+    "du": "bietest",
+    "er/sie/es": "bietet",
+    "wir": "bieten",
+    "ihr": "bietet",
+    "Sie": "bieten",
     "perfekt_ich": "geboten"
   },
   "deuten": {
@@ -2501,7 +2501,7 @@
   },
   "trösten": {
     "type": "verb",
-    "ich": " tröste",
+    "ich": "tröste",
     "du": "tröstest",
     "er/sie/es": "tröstet",
     "wir": "trösten",
@@ -2811,12 +2811,12 @@
   },
   "leiten": {
     "type": "verb",
-    "ich": " leite ",
-    "du": " leitest ",
-    "er/sie/es": " leitet ",
-    "wir": " leiten ",
-    "ihr": " leitet ",
-    "Sie": " leiten ",
+    "ich": "leite",
+    "du": "leitest",
+    "er/sie/es": "leitet",
+    "wir": "leiten",
+    "ihr": "leitet",
+    "Sie": "leiten",
     "perfekt_ich": "geleitet"
   },
   "organisieren": {
@@ -2961,13 +2961,13 @@
   },
   "abduschen": {
     "type": "verb",
-    "ich": "abdusche",
-    "du": "abduschest",
-    "er/sie/es": "abduscht",
-    "wir": "abduschen",
-    "ihr": "abduscht",
-    "Sie": "abduschen",
-    "perfekt_ich": "geabduscht"
+    "ich": "dusche ab",
+    "du": "duschst ab",
+    "er/sie/es": "duscht ab",
+    "wir": "duschen ab",
+    "ihr": "duscht ab",
+    "Sie": "duschen ab",
+    "perfekt_ich": "abgeduscht"
   },
   "abfahren": {
     "type": "verb",
@@ -2981,12 +2981,12 @@
   },
   "abgeben": {
     "type": "verb",
-    "ich": "geben",
-    "du": "gibst",
-    "er/sie/es": "gibt",
-    "wir": "geben",
+    "ich": "gebe ab",
+    "du": "gibst ab",
+    "er/sie/es": "gibt ab",
+    "wir": "geben ab",
     "ihr": "gebt ab",
-    "Sie": "geben",
+    "Sie": "geben ab",
     "perfekt_ich": "abgegeben"
   },
   "abhängen": {
@@ -3111,12 +3111,12 @@
   },
   "abschließen": {
     "type": "verb",
-    "ich": "schließe",
-    "du": "schließt",
-    "er/sie/es": "schließt",
-    "wir": "schließen",
+    "ich": "schließe ab",
+    "du": "schließt ab",
+    "er/sie/es": "schließt ab",
+    "wir": "schließen ab",
     "ihr": "schließt ab",
-    "Sie": "schließen",
+    "Sie": "schließen ab",
     "perfekt_ich": "abgeschlossen"
   },
   "abschneiden": {
@@ -3201,12 +3201,12 @@
   },
   "anbieten": {
     "type": "verb",
-    "ich": " biete ",
-    "du": " bietest ",
-    "er/sie/es": "bietet ",
-    "wir": "bieten ",
-    "ihr": "bietet ",
-    "Sie": "bieten ",
+    "ich": "biete an",
+    "du": "bietest an",
+    "er/sie/es": "bietet an",
+    "wir": "bieten an",
+    "ihr": "bietet an",
+    "Sie": "bieten an",
     "perfekt_ich": "angeboten"
   },
   "anbraten": {
@@ -3221,62 +3221,62 @@
   },
   "anfangen": {
     "type": "verb",
-    "ich": "beginne",
-    "du": "beginnst",
-    "er/sie/es": "beginnt",
-    "wir": "beginnen",
+    "ich": "fange an",
+    "du": "fängst an",
+    "er/sie/es": "fängt an",
+    "wir": "fangen an",
     "ihr": "fangt an",
-    "Sie": "beginnen",
+    "Sie": "fangen an",
     "perfekt_ich": "angefangen"
   },
   "anfassen": {
     "type": "verb",
-    "ich": "fasse",
-    "du": "fasst",
-    "er/sie/es": "fasst",
-    "wir": "fassen",
+    "ich": "fasse an",
+    "du": "fasst an",
+    "er/sie/es": "fasst an",
+    "wir": "fassen an",
     "ihr": "fasst an",
-    "Sie": "fassen",
-    "perfekt_ich": "angeschlagen"
+    "Sie": "fassen an",
+    "perfekt_ich": "angefasst"
   },
   "anhalten": {
     "type": "verb",
-    "ich": "halte",
-    "du": "hältst",
-    "er/sie/es": "hält",
-    "wir": "halten",
+    "ich": "halte an",
+    "du": "hältst an",
+    "er/sie/es": "hält an",
+    "wir": "halten an",
     "ihr": "haltet an",
-    "Sie": "halten",
-    "perfekt_ich": "gehalten"
+    "Sie": "halten an",
+    "perfekt_ich": "angehalten"
   },
   "ankommen": {
     "type": "verb",
-    "ich": "ankomme",
-    "du": "ankommst",
-    "er/sie/es": "ankommt",
-    "wir": "ankommen",
-    "ihr": "ankommt",
-    "Sie": "ankommen",
+    "ich": "komme an",
+    "du": "kommst an",
+    "er/sie/es": "kommt an",
+    "wir": "kommen an",
+    "ihr": "kommt an",
+    "Sie": "kommen an",
     "perfekt_ich": "angekommen"
   },
   "ankreuzen": {
     "type": "verb",
-    "ich": "ankreuze",
-    "du": "ankreuzest",
-    "er/sie/es": "ankreuzt",
-    "wir": "ankreuzen",
-    "ihr": "ankreuzt",
-    "Sie": "ankreuzen",
-    "perfekt_ich": "geankreuzt"
+    "ich": "kreuze an",
+    "du": "kreuzt an",
+    "er/sie/es": "kreuzt an",
+    "wir": "kreuzen an",
+    "ihr": "kreuzt an",
+    "Sie": "kreuzen an",
+    "perfekt_ich": "angekreuzt"
   },
   "anmachen": {
     "type": "verb",
-    "ich": "mache",
-    "du": "machst",
-    "er/sie/es": "macht",
-    "wir": "machen",
+    "ich": "mache an",
+    "du": "machst an",
+    "er/sie/es": "macht an",
+    "wir": "machen an",
     "ihr": "macht an",
-    "Sie": "machen",
+    "Sie": "machen an",
     "perfekt_ich": "angemacht"
   },
   "anmelden": {
@@ -3291,12 +3291,12 @@
   },
   "annehmen": {
     "type": "verb",
-    "ich": "nehme",
-    "du": "nimmst",
-    "er/sie/es": "nimmt",
-    "wir": "nehmen",
+    "ich": "nehme an",
+    "du": "nimmst an",
+    "er/sie/es": "nimmt an",
+    "wir": "nehmen an",
     "ihr": "nehmt an",
-    "Sie": "nehmen",
+    "Sie": "nehmen an",
     "perfekt_ich": "angenommen"
   },
   "anpassen": {
@@ -3341,23 +3341,23 @@
   },
   "anschließen": {
     "type": "verb",
-    "ich": "schließe",
-    "du": "schließt",
-    "er/sie/es": "schließt",
-    "wir": "schließen",
+    "ich": "schließe an",
+    "du": "schließt an",
+    "er/sie/es": "schließt an",
+    "wir": "schließen an",
     "ihr": "schließt an",
-    "Sie": "schließen",
+    "Sie": "schließen an",
     "perfekt_ich": "angeschlossen"
   },
   "ansehen": {
     "type": "verb",
-    "ich": "sehen",
-    "du": "siehst",
-    "er/sie/es": "sieht",
-    "wir": "sehen",
+    "ich": "sehe an",
+    "du": "siehst an",
+    "er/sie/es": "sieht an",
+    "wir": "sehen an",
     "ihr": "seht an",
-    "Sie": "sehen",
-    "perfekt_ich": "angeschaut"
+    "Sie": "sehen an",
+    "perfekt_ich": "angesehen"
   },
   "ansprechen": {
     "type": "verb",
@@ -3421,33 +3421,33 @@
   },
   "aufessen": {
     "type": "verb",
-    "ich": "esse",
-    "du": "isst",
-    "er/sie/es": "isst",
-    "wir": "essen",
+    "ich": "esse auf",
+    "du": "isst auf",
+    "er/sie/es": "isst auf",
+    "wir": "essen auf",
     "ihr": "esst auf",
-    "Sie": "essen",
+    "Sie": "essen auf",
     "perfekt_ich": "aufgegessen"
   },
   "aufgeben": {
     "type": "verb",
-    "ich": "geben",
-    "du": "gibst",
-    "er/sie/es": "gibt",
-    "wir": "geben",
+    "ich": "gebe auf",
+    "du": "gibst auf",
+    "er/sie/es": "gibt auf",
+    "wir": "geben auf",
     "ihr": "gebt auf",
-    "Sie": "geben",
+    "Sie": "geben auf",
     "perfekt_ich": "aufgegeben"
   },
   "aufhalten": {
     "type": "verb",
-    "ich": "halte",
-    "du": "hältst",
-    "er/sie/es": "hält",
-    "wir": "halten",
+    "ich": "halte auf",
+    "du": "hältst auf",
+    "er/sie/es": "hält auf",
+    "wir": "halten auf",
     "ihr": "haltet auf",
-    "Sie": "halten",
-    "perfekt_ich": "gehalten"
+    "Sie": "halten auf",
+    "perfekt_ich": "aufgehalten"
   },
   "aufhängen": {
     "type": "verb",
@@ -3491,13 +3491,13 @@
   },
   "aufmachen": {
     "type": "verb",
-    "ich": "mache",
-    "du": "machst",
-    "er/sie/es": "macht",
-    "wir": "machen",
+    "ich": "mache auf",
+    "du": "machst auf",
+    "er/sie/es": "macht auf",
+    "wir": "machen auf",
     "ihr": "macht auf",
-    "Sie": "machen",
-    "perfekt_ich": "geöffnet"
+    "Sie": "machen auf",
+    "perfekt_ich": "aufgemacht"
   },
   "aufpassen": {
     "type": "verb",
@@ -3541,19 +3541,19 @@
   },
   "aufstehen": {
     "type": "verb",
-    "ich": "stehe",
-    "du": "stehst",
-    "er/sie/es": "steht",
-    "wir": "stehen",
+    "ich": "stehe auf",
+    "du": "stehst auf",
+    "er/sie/es": "steht auf",
+    "wir": "stehen auf",
     "ihr": "steht auf",
-    "Sie": "stehen",
+    "Sie": "stehen auf",
     "perfekt_ich": "aufgestanden"
   },
   "aufwachen": {
     "type": "verb",
     "ich": "wache auf",
     "du": "wachst auf",
-    "er/sie/es": " wacht auf",
+    "er/sie/es": "wacht auf",
     "wir": "wachen auf",
     "ihr": "wacht auf",
     "Sie": "wachen auf",
@@ -3601,7 +3601,7 @@
   },
   "ausgeben": {
     "type": "verb",
-    "ich": " gebe aus",
+    "ich": "gebe aus",
     "du": "gibst aus",
     "er/sie/es": "gibt aus",
     "wir": "geben aus",
@@ -3611,22 +3611,22 @@
   },
   "ausgehen": {
     "type": "verb",
-    "ich": "gehe",
-    "du": "gehst",
-    "er/sie/es": "geht",
-    "wir": "gehen",
+    "ich": "gehe aus",
+    "du": "gehst aus",
+    "er/sie/es": "geht aus",
+    "wir": "gehen aus",
     "ihr": "geht aus",
-    "Sie": "gehen",
-    "perfekt_ich": "gegangen"
+    "Sie": "gehen aus",
+    "perfekt_ich": "ausgegangen"
   },
   "auskommen": {
     "type": "verb",
-    "ich": "komme",
-    "du": "kommst",
-    "er/sie/es": "kommt",
-    "wir": "kommen",
+    "ich": "komme aus",
+    "du": "kommst aus",
+    "er/sie/es": "kommt aus",
+    "wir": "kommen aus",
     "ihr": "kommt aus",
-    "Sie": "kommen",
+    "Sie": "kommen aus",
     "perfekt_ich": "ausgekommen"
   },
   "ausleihen": {
@@ -3641,12 +3641,12 @@
   },
   "ausmachen": {
     "type": "verb",
-    "ich": "mache",
-    "du": "machst",
-    "er/sie/es": "macht",
-    "wir": "machen",
+    "ich": "mache aus",
+    "du": "machst aus",
+    "er/sie/es": "macht aus",
+    "wir": "machen aus",
     "ihr": "macht aus",
-    "Sie": "machen",
+    "Sie": "machen aus",
     "perfekt_ich": "ausgemacht"
   },
   "ausruhen": {
@@ -3681,11 +3681,11 @@
   },
   "aussehen": {
     "type": "verb",
-    "ich": "aussehe",
-    "du": "aussiehst",
+    "ich": "sehe aus",
+    "du": "siehst aus",
     "er/sie/es": "sieht aus",
     "wir": "sehen aus",
-    "ihr": "seid euch",
+    "ihr": "seht aus",
     "Sie": "sehen aus",
     "perfekt_ich": "ausgesehen"
   },
@@ -3701,32 +3701,32 @@
   },
   "ausstellen": {
     "type": "verb",
-    "ich": " tersangka ",
-    "du": " tersangka ",
-    "er/sie/es": " tersangka ",
-    "wir": " tersangka ",
-    "ihr": " tersangka ",
-    "Sie": " tersangka ",
+    "ich": "stelle aus",
+    "du": "stellst aus",
+    "er/sie/es": "stellt aus",
+    "wir": "stellen aus",
+    "ihr": "stellt aus",
+    "Sie": "stellen aus",
     "perfekt_ich": "ausgestellt"
   },
   "austauschen": {
     "type": "verb",
-    "ich": "tausche",
-    "du": "tauschst",
-    "er/sie/es": "tauscht",
-    "wir": "tauschen",
+    "ich": "tausche aus",
+    "du": "tauschst aus",
+    "er/sie/es": "tauscht aus",
+    "wir": "tauschen aus",
     "ihr": "tauscht aus",
-    "Sie": "tauschen",
-    "perfekt_ich": "getauscht"
+    "Sie": "tauschen aus",
+    "perfekt_ich": "ausgetauscht"
   },
   "auswählen": {
     "type": "verb",
-    "ich": "wähle",
-    "du": "wählst",
-    "er/sie/es": "wählt",
-    "wir": "wählen",
+    "ich": "wähle aus",
+    "du": "wählst aus",
+    "er/sie/es": "wählt aus",
+    "wir": "wählen aus",
     "ihr": "wählt aus",
-    "Sie": "wählen",
+    "Sie": "wählen aus",
     "perfekt_ich": "ausgewählt"
   },
   "ausziehen": {
@@ -3737,7 +3737,7 @@
     "wir": "ziehen aus",
     "ihr": "zieht aus",
     "Sie": "ziehen aus",
-    "perfekt_ich": "gezogen"
+    "perfekt_ich": "ausgezogen"
   },
   "beachten": {
     "type": "verb",
@@ -3863,11 +3863,11 @@
     "type": "verb",
     "ich": "berate",
     "du": "beratest",
-    "er/sie/es": " berät",
+    "er/sie/es": "berät",
     "wir": "beraten",
     "ihr": "beratet",
     "Sie": "beraten",
-    "perfekt_ich": "bera..."
+    "perfekt_ich": "beraten"
   },
   "bereiten": {
     "type": "verb",
@@ -3891,7 +3891,13 @@
   },
   "betreiben": {
     "type": "verb",
-    "error": "{\n  \"ich\": \"betreibe\",\n  \"du\": \"betreibst\",\n  \"er/sie/es\": \"be{\\u00dfreibt\",\n  \"wir\": \"betreiben\",\n  \"ihr\": \"betreibt\",\n"
+    "ich": "betreibe",
+    "du": "betreibst",
+    "er/sie/es": "betreibt",
+    "wir": "betreiben",
+    "ihr": "betreibt",
+    "Sie": "betreiben",
+    "perfekt_ich": "betrieben"
   },
   "betrügen": {
     "type": "verb",
@@ -4015,12 +4021,12 @@
   },
   "einkaufen": {
     "type": "verb",
-    "ich": "einkaufe",
-    "du": "einkaufst",
-    "er/sie/es": "kauft",
-    "wir": "kaufen",
-    "ihr": "kauft",
-    "Sie": "kaufen",
+    "ich": "kaufe ein",
+    "du": "kaufst ein",
+    "er/sie/es": "kauft ein",
+    "wir": "kaufen ein",
+    "ihr": "kauft ein",
+    "Sie": "kaufen ein",
     "perfekt_ich": "eingekauft"
   },
   "einladen": {
@@ -4055,18 +4061,18 @@
   },
   "einschlafen": {
     "type": "verb",
-    "ich": "einschlafe",
+    "ich": "schlafe ein",
     "du": "schläfst ein",
     "er/sie/es": "schläft ein",
     "wir": "schlafen ein",
     "ihr": "schlaft ein",
     "Sie": "schlafen ein",
-    "perfekt_ich": "eingelegt"
+    "perfekt_ich": "eingeschlafen"
   },
   "einsteigen": {
     "type": "verb",
     "ich": "steige ein",
-    "du": " steigst ein",
+    "du": "steigst ein",
     "er/sie/es": "steigt ein",
     "wir": "steigen ein",
     "ihr": "steigt ein",
@@ -4075,13 +4081,13 @@
   },
   "einstellen": {
     "type": "verb",
-    "ich": "einstelle",
+    "ich": "stelle ein",
     "du": "stellst ein",
     "er/sie/es": "stellt ein",
     "wir": "stellen ein",
     "ihr": "stellt ein",
     "Sie": "stellen ein",
-    "perfekt_ich": "einge stellt"
+    "perfekt_ich": "eingestellt"
   },
   "eintragen": {
     "type": "verb",
@@ -4099,7 +4105,7 @@
     "du": "trittst ein",
     "er/sie/es": "tritt ein",
     "wir": "treten ein",
-    "ihr": "tritt ihr ein",
+    "ihr": "tretet ein",
     "Sie": "treten ein",
     "perfekt_ich": "eingetreten"
   },
@@ -4115,12 +4121,12 @@
   },
   "einzahlen": {
     "type": "verb",
-    "ich": "einzahle",
-    "du": "einzahlst",
-    "er/sie/es": "einzahlt",
-    "wir": "einzahlen",
-    "ihr": "einzahlt",
-    "Sie": "einzahlen",
+    "ich": "zahle ein",
+    "du": "zahlst ein",
+    "er/sie/es": "zahlt ein",
+    "wir": "zahlen ein",
+    "ihr": "zahlt ein",
+    "Sie": "zahlen ein",
     "perfekt_ich": "eingezahlt"
   },
   "einziehen": {
@@ -4325,10 +4331,10 @@
   },
   "herstellen": {
     "type": "verb",
-    "ich": "herstelle",
-    "du": "herstellst",
-    "er/sie/es": "herstellt",
-    "wir": "herstellen",
+    "ich": "stelle her",
+    "du": "stellst her",
+    "er/sie/es": "stellt her",
+    "wir": "stellen her",
     "ihr": "stellt her",
     "Sie": "stellen her",
     "perfekt_ich": "hergestellt"
@@ -4415,22 +4421,22 @@
   },
   "mitgehen": {
     "type": "verb",
-    "ich": "gehe",
-    "du": "gehst",
-    "er/sie/es": "geht",
-    "wir": "gehen",
-    "ihr": "geht",
-    "Sie": "gehen",
+    "ich": "gehe mit",
+    "du": "gehst mit",
+    "er/sie/es": "geht mit",
+    "wir": "gehen mit",
+    "ihr": "geht mit",
+    "Sie": "gehen mit",
     "perfekt_ich": "mitgegangen"
   },
   "mitkommen": {
     "type": "verb",
-    "ich": "komme",
-    "du": "kommst",
-    "er/sie/es": "kommt",
-    "wir": "kommen",
-    "ihr": "kommt",
-    "Sie": "kommen",
+    "ich": "komme mit",
+    "du": "kommst mit",
+    "er/sie/es": "kommt mit",
+    "wir": "kommen mit",
+    "ihr": "kommt mit",
+    "Sie": "kommen mit",
     "perfekt_ich": "mitgekommen"
   },
   "mitnehmen": {
@@ -4455,13 +4461,13 @@
   },
   "nachdenken": {
     "type": "verb",
-    "ich": "denke",
-    "du": "denkst",
-    "er/sie/es": "denkt",
-    "wir": "denken",
-    "ihr": "denkt",
-    "Sie": "denken",
-    "perfekt_ich": "gedacht"
+    "ich": "denke nach",
+    "du": "denkst nach",
+    "er/sie/es": "denkt nach",
+    "wir": "denken nach",
+    "ihr": "denkt nach",
+    "Sie": "denken nach",
+    "perfekt_ich": "nachgedacht"
   },
   "nachfragen": {
     "type": "verb",
@@ -4555,13 +4561,13 @@
   },
   "umziehen": {
     "type": "verb",
-    "ich": "ziehe",
-    "du": "ziehst",
-    "er/sie/es": "zieht",
-    "wir": "ziehen",
-    "ihr": "zieht",
-    "Sie": "ziehen",
-    "perfekt_ich": "gezogen"
+    "ich": "ziehe um",
+    "du": "ziehst um",
+    "er/sie/es": "zieht um",
+    "wir": "ziehen um",
+    "ihr": "zieht um",
+    "Sie": "ziehen um",
+    "perfekt_ich": "umgezogen"
   },
   "verbinden": {
     "type": "verb",
@@ -4611,7 +4617,7 @@
     "wir": "haben vor",
     "ihr": "habt vor",
     "Sie": "haben vor",
-    "perfekt_ich": "gevorhabt"
+    "perfekt_ich": "vorgehabt"
   },
   "vorlesen": {
     "type": "verb",
@@ -4621,37 +4627,37 @@
     "wir": "lesen vor",
     "ihr": "lest vor",
     "Sie": "lesen vor",
-    "perfekt_ich": "vorgetragen"
+    "perfekt_ich": "vorgelesen"
   },
   "vorstellen": {
     "type": "verb",
-    "ich": "vorstelle",
-    "du": "vorstellst",
+    "ich": "stelle vor",
+    "du": "stellst vor",
     "er/sie/es": "stellt vor",
     "wir": "stellen vor",
     "ihr": "stellt vor",
     "Sie": "stellen vor",
-    "perfekt_ich": "vorge..."
+    "perfekt_ich": "vorgestellt"
   },
   "vorbereiten": {
     "type": "verb",
-    "ich": "bereite",
-    "du": "bereitest",
-    "er/sie/es": "bereitet",
-    "wir": "bereiten",
-    "ihr": "bereitet",
-    "Sie": "bereiten",
+    "ich": "bereite vor",
+    "du": "bereitest vor",
+    "er/sie/es": "bereitet vor",
+    "wir": "bereiten vor",
+    "ihr": "bereitet vor",
+    "Sie": "bereiten vor",
     "perfekt_ich": "vorbereitet"
   },
   "vorschlagen": {
     "type": "verb",
-    "ich": "vorschlage",
-    "du": "vorschlagst",
+    "ich": "schlage vor",
+    "du": "schlägst vor",
     "er/sie/es": "schlägt vor",
     "wir": "schlagen vor",
     "ihr": "schlagt vor",
     "Sie": "schlagen vor",
-    "perfekt_ich": "vorgelegt"
+    "perfekt_ich": "vorgeschlagen"
   },
   "wahrnehmen": {
     "type": "verb",
@@ -4659,9 +4665,9 @@
     "du": "wahrnimmst",
     "er/sie/es": "wahrnimmt",
     "wir": "wahrnehmen",
-    "ihr": "wahrne",
+    "ihr": "nehmt wahr",
     "Sie": "wahrnehmen",
-    "perfekt_ich": "ange..."
+    "perfekt_ich": "wahrgenommen"
   },
   "weitermachen": {
     "type": "verb",
@@ -4675,13 +4681,13 @@
   },
   "weitergehen": {
     "type": "verb",
-    "ich": "gehe",
-    "du": "gehst",
-    "er/sie/es": "geht",
-    "wir": "gehen",
-    "ihr": "geht",
-    "Sie": "gehen",
-    "perfekt_ich": "gegangen"
+    "ich": "gehe weiter",
+    "du": "gehst weiter",
+    "er/sie/es": "geht weiter",
+    "wir": "gehen weiter",
+    "ihr": "geht weiter",
+    "Sie": "gehen weiter",
+    "perfekt_ich": "weitergegangen"
   },
   "wiederholen": {
     "type": "verb",
@@ -4695,37 +4701,37 @@
   },
   "zuhören": {
     "type": "verb",
-    "ich": "höre",
-    "du": "hörst",
-    "er/sie/es": "hört",
-    "wir": "hören",
-    "ihr": "hört",
-    "Sie": "hören",
+    "ich": "höre zu",
+    "du": "hörst zu",
+    "er/sie/es": "hört zu",
+    "wir": "hören zu",
+    "ihr": "hört zu",
+    "Sie": "hören zu",
     "perfekt_ich": "zugehört"
   },
   "zumachen": {
     "type": "verb",
-    "ich": "mache",
-    "du": "machst",
-    "er/sie/es": "macht",
-    "wir": "machen",
-    "ihr": "macht",
-    "Sie": "machen",
-    "perfekt_ich": "gemacht"
+    "ich": "mache zu",
+    "du": "machst zu",
+    "er/sie/es": "macht zu",
+    "wir": "machen zu",
+    "ihr": "macht zu",
+    "Sie": "machen zu",
+    "perfekt_ich": "zugemacht"
   },
   "zunehmen": {
     "type": "verb",
-    "ich": "nehme",
-    "du": "nimmst",
-    "er/sie/es": "nimmt",
-    "wir": "nehmen",
-    "ihr": "nehmt",
-    "Sie": "nehmen",
-    "perfekt_ich": "genommen"
+    "ich": "nehme zu",
+    "du": "nimmst zu",
+    "er/sie/es": "nimmt zu",
+    "wir": "nehmen zu",
+    "ihr": "nehmt zu",
+    "Sie": "nehmen zu",
+    "perfekt_ich": "zugenommen"
   },
   "zurückgeben": {
     "type": "verb",
-    "ich": "gib zurück",
+    "ich": "gebe zurück",
     "du": "gibst zurück",
     "er/sie/es": "gibt zurück",
     "wir": "geben zurück",
@@ -4745,12 +4751,12 @@
   },
   "zurückkommen": {
     "type": "verb",
-    "ich": "komme",
-    "du": "kommst",
-    "er/sie/es": "kommt",
-    "wir": "kommen",
-    "ihr": "kommt",
-    "Sie": "kommen",
+    "ich": "komme zurück",
+    "du": "kommst zurück",
+    "er/sie/es": "kommt zurück",
+    "wir": "kommen zurück",
+    "ihr": "kommt zurück",
+    "Sie": "kommen zurück",
     "perfekt_ich": "zurückgekommen"
   },
   "zusammenarbeiten": {
@@ -4785,13 +4791,13 @@
   },
   "zusehen": {
     "type": "verb",
-    "ich": "schaue",
-    "du": "schaust",
-    "er/sie/es": "sieht",
-    "wir": "sehen",
-    "ihr": "seht",
-    "Sie": "sehen",
-    "perfekt_ich": "gesehen"
+    "ich": "sehe zu",
+    "du": "siehst zu",
+    "er/sie/es": "sieht zu",
+    "wir": "sehen zu",
+    "ihr": "seht zu",
+    "Sie": "sehen zu",
+    "perfekt_ich": "zugesehen"
   },
   "abdecken": {
     "type": "verb",
@@ -4875,22 +4881,22 @@
   },
   "abmessen": {
     "type": "verb",
-    "ich": "abmesse",
-    "du": "messest",
-    "er/sie/es": "misst",
-    "wir": "messen",
-    "ihr": "messt",
-    "Sie": "messen",
+    "ich": "messe ab",
+    "du": "misst ab",
+    "er/sie/es": "misst ab",
+    "wir": "messen ab",
+    "ihr": "messt ab",
+    "Sie": "messen ab",
     "perfekt_ich": "abgemessen"
   },
   "abrechnen": {
     "type": "verb",
-    "ich": "abrechne",
-    "du": "abrechnest",
-    "er/sie/es": "abrechnet",
-    "wir": "abrechnen",
-    "ihr": "abrechnet",
-    "Sie": "abrechnen",
+    "ich": "rechne ab",
+    "du": "rechnest ab",
+    "er/sie/es": "rechnet ab",
+    "wir": "rechnen ab",
+    "ihr": "rechnet ab",
+    "Sie": "rechnen ab",
     "perfekt_ich": "abgerechnet"
   },
   "absagen": {
@@ -4905,13 +4911,13 @@
   },
   "abspeichern": {
     "type": "verb",
-    "ich": "speichere",
-    "du": "speicherst",
-    "er/sie/es": "speichert",
-    "wir": "speichern",
-    "ihr": "speichert",
-    "Sie": "speichern",
-    "perfekt_ich": "gespeichert"
+    "ich": "speichere ab",
+    "du": "speicherst ab",
+    "er/sie/es": "speichert ab",
+    "wir": "speichern ab",
+    "ihr": "speichert ab",
+    "Sie": "speichern ab",
+    "perfekt_ich": "abgespeichert"
   },
   "abwarten": {
     "type": "verb",
@@ -4945,18 +4951,18 @@
   },
   "anführen": {
     "type": "verb",
-    "ich": "führe",
-    "du": "führst",
-    "er/sie/es": "führt",
-    "wir": "führen",
-    "ihr": "führt",
-    "Sie": "führen",
+    "ich": "führe an",
+    "du": "führst an",
+    "er/sie/es": "führt an",
+    "wir": "führen an",
+    "ihr": "führt an",
+    "Sie": "führen an",
     "perfekt_ich": "geführt"
   },
   "angeben": {
     "type": "verb",
-    "ich": "sage",
-    "du": "sagst",
+    "ich": "gebe an",
+    "du": "gibst an",
     "er/sie/es": "gibt an",
     "wir": "geben an",
     "ihr": "gebt an",
@@ -4965,31 +4971,31 @@
   },
   "angehören": {
     "type": "verb",
-    "ich": "gehöre",
-    "du": "gehörst",
-    "er/sie/es": "gehört",
-    "wir": "gehören",
-    "ihr": "gehört",
-    "Sie": "gehören",
+    "ich": "gehöre an",
+    "du": "gehörst an",
+    "er/sie/es": "gehört an",
+    "wir": "gehören an",
+    "ihr": "gehört an",
+    "Sie": "gehören an",
     "perfekt_ich": "angehört"
   },
   "angehen": {
     "type": "verb",
-    "ich": "gehe",
-    "du": "gehst",
-    "er/sie/es": "geht",
-    "wir": "gehen",
-    "ihr": "geht",
-    "Sie": "gehen",
-    "perfekt_ich": "gegangen"
+    "ich": "gehe an",
+    "du": "gehst an",
+    "er/sie/es": "geht an",
+    "wir": "gehen an",
+    "ihr": "geht an",
+    "Sie": "gehen an",
+    "perfekt_ich": "angegangen"
   },
   "angreifen": {
     "type": "verb",
-    "ich": "angreife",
+    "ich": "greife an",
     "du": "angreifst",
     "er/sie/es": "greift an",
     "wir": "greifen an",
-    "ihr": "greifst an",
+    "ihr": "greift an",
     "Sie": "greifen an",
     "perfekt_ich": "angegriffen"
   },
@@ -5015,12 +5021,12 @@
   },
   "anleiten": {
     "type": "verb",
-    "ich": " leite an",
-    "du": " leitest an",
-    "er/sie/es": " leitet an",
-    "wir": " leiten an",
-    "ihr": " leitet an",
-    "Sie": " leiten an",
+    "ich": "leite an",
+    "du": "leitest an",
+    "er/sie/es": "leitet an",
+    "wir": "leiten an",
+    "ihr": "leitet an",
+    "Sie": "leiten an",
     "perfekt_ich": "angeleitet"
   },
   "anmerken": {
@@ -5031,7 +5037,7 @@
     "wir": "merken an",
     "ihr": "merkt an",
     "Sie": "merken an",
-    "perfekt_ich": "ange..."
+    "perfekt_ich": "angemerkt"
   },
   "anordnen": {
     "type": "verb",
@@ -5065,23 +5071,23 @@
   },
   "anregen": {
     "type": "verb",
-    "ich": "regen",
-    "du": "regst",
-    "er/sie/es": "regt",
-    "wir": "regen",
-    "ihr": "reget",
-    "Sie": "regen",
-    "perfekt_ich": "ange..."
+    "ich": "rege an",
+    "du": "regst an",
+    "er/sie/es": "regt an",
+    "wir": "regen an",
+    "ihr": "regt an",
+    "Sie": "regen an",
+    "perfekt_ich": "angeregt"
   },
   "anreisen": {
     "type": "verb",
-    "ich": "reisi an",
+    "ich": "reise an",
     "du": "reist an",
     "er/sie/es": "reist an",
     "wir": "reisen an",
     "ihr": "reist an",
     "Sie": "reisen an",
-    "perfekt_ich": "ange..."
+    "perfekt_ich": "angereist"
   },
   "anschaffen": {
     "type": "verb",
@@ -5095,17 +5101,17 @@
   },
   "anschreiben": {
     "type": "verb",
-    "ich": "schreibe",
-    "du": "schreibst",
-    "er/sie/es": "schreibt",
-    "wir": "schreiben",
-    "ihr": "schreibt",
-    "Sie": "schreiben",
+    "ich": "schreibe an",
+    "du": "schreibst an",
+    "er/sie/es": "schreibt an",
+    "wir": "schreiben an",
+    "ihr": "schreibt an",
+    "Sie": "schreiben an",
     "perfekt_ich": "angeschrieben"
   },
   "anstecken": {
     "type": "verb",
-    "ich": "anstecke",
+    "ich": "stecke an",
     "du": "ansteckst",
     "er/sie/es": "steckt an",
     "wir": "stecken an",
@@ -5125,52 +5131,52 @@
   },
   "antreiben": {
     "type": "verb",
-    "ich": "antreibe",
-    "du": "treibst",
-    "er/sie/es": "treibt",
-    "wir": "treiben",
-    "ihr": "treibt",
-    "Sie": "treiben",
+    "ich": "treibe an",
+    "du": "treibst an",
+    "er/sie/es": "treibt an",
+    "wir": "treiben an",
+    "ihr": "treibt an",
+    "Sie": "treiben an",
     "perfekt_ich": "angetrieben"
   },
   "anwenden": {
     "type": "verb",
-    "ich": "anwende",
-    "du": "anwendest",
+    "ich": "wende an",
+    "du": "wendest an",
     "er/sie/es": "wendet an",
-    "wir": "anwenden",
-    "ihr": "anwendet",
-    "Sie": "anwenden",
+    "wir": "wenden an",
+    "ihr": "wendet an",
+    "Sie": "wenden an",
     "perfekt_ich": "angewandt"
   },
   "anweisen": {
     "type": "verb",
-    "ich": "weiße",
-    "du": "weist",
-    "er/sie/es": "weist",
-    "wir": "weisen",
-    "ihr": "weist",
-    "Sie": "weisen",
+    "ich": "weise an",
+    "du": "weist an",
+    "er/sie/es": "weist an",
+    "wir": "weisen an",
+    "ihr": "weist an",
+    "Sie": "weisen an",
     "perfekt_ich": "angewiesen"
   },
   "anzahlen": {
     "type": "verb",
-    "ich": "zahle",
-    "du": "zählst",
-    "er/sie/es": "zählt",
-    "wir": "zählen",
-    "ihr": "zählt",
-    "Sie": "zählen",
-    "perfekt_ich": "angezählt"
+    "ich": "zahle an",
+    "du": "zahlst an",
+    "er/sie/es": "zahlt an",
+    "wir": "zahlen an",
+    "ihr": "zahlt an",
+    "Sie": "zahlen an",
+    "perfekt_ich": "angezahlt"
   },
   "auffordern": {
     "type": "verb",
-    "ich": "fordere",
-    "du": "forderst",
-    "er/sie/es": "fordert",
-    "wir": "fordern",
-    "ihr": "fordert",
-    "Sie": "fordern",
+    "ich": "fordere auf",
+    "du": "forderst auf",
+    "er/sie/es": "fordert auf",
+    "wir": "fordern auf",
+    "ihr": "fordert auf",
+    "Sie": "fordern auf",
     "perfekt_ich": "aufgefordert"
   },
   "aufgreifen": {
@@ -5205,9 +5211,9 @@
   },
   "auflösen": {
     "type": "verb",
-    "ich": "auflöse",
-    "du": "auflösst",
-    "er/sie/es": "auflöst",
+    "ich": "löse auf",
+    "du": "löst auf",
+    "er/sie/es": "löst auf",
     "wir": "lösen auf",
     "ihr": "löst auf",
     "Sie": "lösen auf",
@@ -5239,9 +5245,9 @@
     "du": "trittst",
     "er/sie/es": "tritt",
     "wir": "treten",
-    "ihr": "trittst",
+    "ihr": "tretet auf",
     "Sie": "treten",
-    "perfekt_ich": "aufgetretenen"
+    "perfekt_ich": "aufgetreten"
   },
   "aufzeigen": {
     "type": "verb",
@@ -5259,7 +5265,7 @@
     "du": "drückst aus",
     "er/sie/es": "drückt aus",
     "wir": "drücken aus",
-    "ihr": "druckt aus",
+    "ihr": "drückt aus",
     "Sie": "drücken aus",
     "perfekt_ich": "ausgedrückt"
   },
@@ -5339,9 +5345,9 @@
     "du": "wanderst",
     "er/sie/es": "wandert",
     "wir": "wandern",
-    "ihr": "wandelt",
+    "ihr": "wandert aus",
     "Sie": "wandern",
-    "perfekt_ich": "ausgewanderte"
+    "perfekt_ich": "ausgewandert"
   },
   "ausweichen": {
     "type": "verb",
@@ -5501,7 +5507,7 @@
     "wir": "benötigen",
     "ihr": "benötigt",
     "Sie": "benötigen",
-    "perfekt_ich": "bedarfs..."
+    "perfekt_ich": "benötigt"
   },
   "benachrichtigen": {
     "type": "verb",
@@ -5725,12 +5731,12 @@
   },
   "einarbeiten": {
     "type": "verb",
-    "ich": "einarbeite",
-    "du": "einarbeitest",
-    "er/sie/es": "einarbeitet",
-    "wir": "einarbeiten",
-    "ihr": "einarbeitet",
-    "Sie": "einarbeiten",
+    "ich": "arbeite ein",
+    "du": "arbeitest ein",
+    "er/sie/es": "arbeitet ein",
+    "wir": "arbeiten ein",
+    "ihr": "arbeitet ein",
+    "Sie": "arbeiten ein",
     "perfekt_ich": "eingearbeitet"
   },
   "einatmen": {
@@ -5765,22 +5771,22 @@
   },
   "eingeben": {
     "type": "verb",
-    "ich": "eingebe",
-    "du": "eingebist",
+    "ich": "gebe ein",
+    "du": "gibst ein",
     "er/sie/es": "gibt ein",
     "wir": "geben ein",
     "ihr": "gebt ein",
     "Sie": "geben ein",
-    "perfekt_ich": "einggegeben"
+    "perfekt_ich": "eingegeben"
   },
   "einhalten": {
     "type": "verb",
-    "ich": "halte",
-    "du": "hältst",
-    "er/sie/es": "hält",
-    "wir": "halten",
-    "ihr": "haltet",
-    "Sie": "halten",
+    "ich": "halte ein",
+    "du": "hältst ein",
+    "er/sie/es": "hält ein",
+    "wir": "halten ein",
+    "ihr": "haltet ein",
+    "Sie": "halten ein",
     "perfekt_ich": "eingehalten"
   },
   "einlesen": {
@@ -6195,12 +6201,12 @@
   },
   "hinweisen": {
     "type": "verb",
-    "ich": "hinweise",
-    "du": "hinweist",
-    "er/sie/es": "hinweist",
-    "wir": "hinweisen",
-    "ihr": "hinweist",
-    "Sie": "hinweisen",
+    "ich": "weise hin",
+    "du": "weist hin",
+    "er/sie/es": "weist hin",
+    "wir": "weisen hin",
+    "ihr": "weist hin",
+    "Sie": "weisen hin",
     "perfekt_ich": "hingewiesen"
   },
   "hüpfen": {
@@ -6415,23 +6421,23 @@
   },
   "loben": {
     "type": "verb",
-    "ich": " lobe ",
-    "du": " lobst ",
-    "er/sie/es": " lobt ",
-    "wir": " loben ",
-    "ihr": " lobt ",
-    "Sie": " loben ",
+    "ich": "lobe",
+    "du": "lobst",
+    "er/sie/es": "lobt",
+    "wir": "loben",
+    "ihr": "lobt",
+    "Sie": "loben",
     "perfekt_ich": "gelobt"
   },
   "losfahren": {
     "type": "verb",
-    "ich": "fahre",
-    "du": "fährst",
-    "er/sie/es": "fährt",
-    "wir": "fahren",
-    "ihr": "fahrt",
-    "Sie": "fahren",
-    "perfekt_ich": "abgefahren"
+    "ich": "fahre los",
+    "du": "fährst los",
+    "er/sie/es": "fährt los",
+    "wir": "fahren los",
+    "ihr": "fahrt los",
+    "Sie": "fahren los",
+    "perfekt_ich": "losgefahren"
   },
   "losgehen": {
     "type": "verb",
@@ -6515,13 +6521,13 @@
   },
   "mitreden": {
     "type": "verb",
-    "ich": "mitrede",
-    "du": "mitredest",
-    "er/sie/es": "mitredet",
-    "wir": "mitreden",
-    "ihr": "mitredet",
-    "Sie": "mitreden",
-    "perfekt_ich": "miteratorge..."
+    "ich": "rede mit",
+    "du": "redest mit",
+    "er/sie/es": "redet mit",
+    "wir": "reden mit",
+    "ihr": "redet mit",
+    "Sie": "reden mit",
+    "perfekt_ich": "mitgeredet"
   },
   "mitteilen": {
     "type": "verb",
@@ -6547,7 +6553,7 @@
     "type": "verb",
     "ich": "motiviere",
     "du": "motivierst",
-    "er/sie/es": " motiviert",
+    "er/sie/es": "motiviert",
     "wir": "motivieren",
     "ihr": "motiviert",
     "Sie": "motivieren",
@@ -6555,13 +6561,13 @@
   },
   "nachahmen": {
     "type": "verb",
-    "ich": "nachahme",
-    "du": "nachahmst",
-    "er/sie/es": "nachahmt",
-    "wir": "nachahmen",
-    "ihr": "nachahmt",
-    "Sie": "nachahmen",
-    "perfekt_ich": "ange..."
+    "ich": "ahme nach",
+    "du": "ahmst nach",
+    "er/sie/es": "ahmt nach",
+    "wir": "ahmen nach",
+    "ihr": "ahmt nach",
+    "Sie": "ahmen nach",
+    "perfekt_ich": "nachgeahmt"
   },
   "nacharbeiten": {
     "type": "verb",
@@ -6575,13 +6581,13 @@
   },
   "nachgeben": {
     "type": "verb",
-    "ich": " gebe nach",
+    "ich": "gebe nach",
     "du": "gibst nach",
     "er/sie/es": "gibt nach",
     "wir": "geben nach",
     "ihr": "gebt nach",
     "Sie": "geben nach",
-    "perfekt_ich": "gegeben"
+    "perfekt_ich": "nachgegeben"
   },
   "nachgehen": {
     "type": "verb",
@@ -6847,7 +6853,7 @@
     "type": "verb",
     "ich": "sammle",
     "du": "sammelst",
-    "er/sie/es": " sammelt",
+    "er/sie/es": "sammelt",
     "wir": "sammeln",
     "ihr": "sammelt",
     "Sie": "sammeln",
@@ -7255,12 +7261,12 @@
   },
   "umgehen": {
     "type": "verb",
-    "ich": "gehe",
-    "du": "gehst",
-    "er/sie/es": "geht",
-    "wir": "gehen",
-    "ihr": "geht",
-    "Sie": "gehen",
+    "ich": "gehe um",
+    "du": "gehst um",
+    "er/sie/es": "geht um",
+    "wir": "gehen um",
+    "ihr": "geht um",
+    "Sie": "gehen um",
     "perfekt_ich": "umgangen"
   },
   "umschreiben": {
@@ -7477,7 +7483,7 @@
     "type": "verb",
     "ich": "verzichte",
     "du": "verzichtest",
-    "er/sie/es": " verzichtet",
+    "er/sie/es": "verzichtet",
     "wir": "verzichtent",
     "ihr": "verzichtent",
     "Sie": "verzichtent",
@@ -7945,11 +7951,11 @@
   },
   "aufwachsen": {
     "type": "verb",
-    "ich": "wächst auf",
+    "ich": "wachse auf",
     "du": "wachst auf",
     "er/sie/es": "wächst auf",
     "wir": "wachsen auf",
-    "ihr": "wachsen auf",
+    "ihr": "wachst auf",
     "Sie": "wachsen auf",
     "perfekt_ich": "aufgewachsen"
   },
@@ -8326,12 +8332,12 @@
   "hetzen": {
     "type": "verb",
     "ich": "hetze",
-    "du": "hezt",
+    "du": "hetzt",
     "er/sie/es": "hetzt",
     "wir": "hetzen",
     "ihr": "hetzt",
     "Sie": "hetzen",
-    "perfekt_ich": "gehe..."
+    "perfekt_ich": "gehetzt"
   },
   "hindeuten": {
     "type": "verb",
@@ -8735,12 +8741,12 @@
   },
   "singen": {
     "type": "verb",
-    "ich": " singe ",
-    "du": " singst ",
-    "er/sie/es": " singt ",
-    "wir": " singen ",
-    "ihr": " singt ",
-    "Sie": " singen ",
+    "ich": "singe",
+    "du": "singst",
+    "er/sie/es": "singt",
+    "wir": "singen",
+    "ihr": "singt",
+    "Sie": "singen",
     "perfekt_ich": "gesungen"
   },
   "sinken": {
@@ -8797,7 +8803,7 @@
     "type": "verb",
     "ich": "stink",
     "du": "stinkst",
-    "er/sie/es": " stinkt",
+    "er/sie/es": "stinkt",
     "wir": "stinken",
     "ihr": "stinkt",
     "Sie": "stinken",
@@ -9257,9 +9263,9 @@
     "type": "verb",
     "ich": "laufe weg",
     "du": "läufst weg",
-    "er/sie/es": "rennt weg",
+    "er/sie/es": "läuft weg",
     "wir": "laufen weg",
-    "ihr": "rennt weg",
+    "ihr": "lauft weg",
     "Sie": "laufen weg",
     "perfekt_ich": "weggelaufen"
   },
@@ -9741,7 +9747,7 @@
     "wir": "beschädigen",
     "ihr": "beschädigt",
     "Sie": "beschädigen",
-    "perfekt_ich": "be..."
+    "perfekt_ich": "beschädigt"
   },
   "beschäftigen": {
     "type": "verb",
@@ -9761,7 +9767,7 @@
     "wir": "beseitigen",
     "ihr": "beseitigt",
     "Sie": "beseitigen",
-    "perfekt_ich": "beiseitege..."
+    "perfekt_ich": "beseitigt"
   },
   "betragen": {
     "type": "verb",
@@ -10711,7 +10717,7 @@
     "wir": "anstrengen",
     "ihr": "anstrengt",
     "Sie": "anstrengen",
-    "perfekt_ich": "ange..."
+    "perfekt_ich": "angestrengt"
   },
   "anwachsen": {
     "type": "verb",
@@ -11181,11 +11187,11 @@
     "wir": "legen nahe",
     "ihr": "legt nahe",
     "Sie": "legen nahe",
-    "perfekt_ich": "angelegen"
+    "perfekt_ich": "nahegelegt"
   },
   "neigen": {
     "type": "verb",
-    "ich": " neige",
+    "ich": "neige",
     "du": "neigst",
     "er/sie/es": "neigt",
     "wir": "neigen",

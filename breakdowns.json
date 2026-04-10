@@ -41,8 +41,8 @@
   ],
   "erklären": [
     {
-      "de": "er",
-      "en": "back/again"
+      "de": "er-",
+      "en": "prefix: to completion/to a new state"
     },
     {
       "de": "klären",
@@ -375,8 +375,8 @@
   ],
   "erkennen": [
     {
-      "de": "er",
-      "en": "back/again"
+      "de": "er-",
+      "en": "prefix: to completion/to a new state"
     },
     {
       "de": "kennen",
@@ -395,12 +395,12 @@
   ],
   "erzählen": [
     {
-      "de": "er",
-      "en": "it/he"
+      "de": "er-",
+      "en": "prefix: to completion/to a new state"
     },
     {
       "de": "zählen",
-      "en": "to count"
+      "en": "to count/recount (→ to tell/narrate)"
     }
   ],
   "wehen": [
@@ -903,8 +903,8 @@
       "en": "prefix indicating completeness or intensity"
     },
     {
-      "de": "sehen",
-      "en": "to see"
+      "de": "Obacht",
+      "en": "attention/care/heed"
     }
   ],
   "entdecken": [
@@ -1010,7 +1010,7 @@
   "erholen": [
     {
       "de": "er-",
-      "en": "back/again"
+      "en": "prefix: to a new state (recovery)"
     },
     {
       "de": "holen",
@@ -1089,12 +1089,12 @@
   ],
   "gefallen": [
     {
-      "de": "fallen",
-      "en": "to fall"
+      "de": "ge-",
+      "en": "past participle prefix"
     },
     {
-      "de": "ge-",
-      "en": "past participle marker"
+      "de": "fallen",
+      "en": "to fall/please"
     }
   ],
   "trösten": [
@@ -1569,12 +1569,12 @@
   ],
   "achten": [
     {
-      "de": "acht",
-      "en": "eight"
+      "de": "Acht",
+      "en": "heed/attention (→ to pay attention to)"
     },
     {
-      "de": "en",
-      "en": "to/in order to"
+      "de": "-en",
+      "en": "verb ending"
     }
   ],
   "anbieten": [
@@ -1869,12 +1869,12 @@
   ],
   "aufregen": [
     {
-      "de": "au",
-      "en": "up"
+      "de": "auf",
+      "en": "up/on"
     },
     {
       "de": "regen",
-      "en": "to rain/make wet"
+      "en": "to stir/excite"
     }
   ],
   "aufschreiben": [
@@ -2163,22 +2163,26 @@
   ],
   "begegnen": [
     {
-      "de": "be",
-      "en": "together"
+      "de": "be-",
+      "en": "towards/together"
     },
     {
-      "de": "gehen",
-      "en": "to go"
+      "de": "gegen",
+      "en": "against/towards"
+    },
+    {
+      "de": "-en",
+      "en": "verb ending"
     }
   ],
   "begleiten": [
     {
       "de": "be-",
-      "en": "together"
+      "en": "alongside/together"
     },
     {
-      "de": "greifen",
-      "en": "to grasp/take hold of"
+      "de": "gleiten",
+      "en": "to glide/move alongside"
     }
   ],
   "begrüßen": [
@@ -2213,12 +2217,12 @@
   ],
   "bereiten": [
     {
-      "de": "be-",
-      "en": "prefix indicating completion or thoroughness"
+      "de": "bereit",
+      "en": "ready"
     },
     {
-      "de": "reiten",
-      "en": "to ride"
+      "de": "-en",
+      "en": "verb-forming suffix (to make ready)"
     }
   ],
   "betreffen": [
@@ -2447,8 +2451,8 @@
   ],
   "erhalten": [
     {
-      "de": "er",
-      "en": "back"
+      "de": "er-",
+      "en": "prefix: to completion/to a new state"
     },
     {
       "de": "halten",
@@ -2457,12 +2461,12 @@
   ],
   "erleben": [
     {
-      "de": "erlebe",
-      "en": "experience"
+      "de": "er-",
+      "en": "prefix: to completion/to a new state"
     },
     {
-      "de": "n",
-      "en": ""
+      "de": "leben",
+      "en": "to live"
     }
   ],
   "ermöglichen": [
@@ -2481,8 +2485,8 @@
   ],
   "erreichen": [
     {
-      "de": "er",
-      "en": "out"
+      "de": "er-",
+      "en": "prefix: to completion/to a new state"
     },
     {
       "de": "reichen",
@@ -3106,7 +3110,7 @@
     },
     {
       "de": "regen",
-      "en": "to rain"
+      "en": "to stir/stimulate"
     }
   ],
   "anreisen": [
@@ -3781,8 +3785,8 @@
   ],
   "erarbeiten": [
     {
-      "de": "er",
-      "en": "out"
+      "de": "er-",
+      "en": "prefix: to achieve through effort"
     },
     {
       "de": "arbeiten",
@@ -3801,8 +3805,8 @@
   ],
   "ersetzen": [
     {
-      "de": "er",
-      "en": "back/again"
+      "de": "er-",
+      "en": "prefix: to a new state/replacement"
     },
     {
       "de": "setzen",
@@ -3811,8 +3815,8 @@
   ],
   "erstellen": [
     {
-      "de": "er",
-      "en": "out"
+      "de": "er-",
+      "en": "prefix: to completion/to a new state"
     },
     {
       "de": "stellen",
@@ -4584,7 +4588,7 @@
     },
     {
       "de": "zeugen",
-      "en": "to witness/testify"
+      "en": "to produce/convince (from Zeuge = witness)"
     }
   ],
   "umgehen": [
@@ -4649,12 +4653,16 @@
   ],
   "verdoppeln": [
     {
-      "de": "ver",
+      "de": "ver-",
       "en": "completely/intensively / intensifying prefix"
     },
     {
-      "de": "doppelt",
+      "de": "Doppel",
       "en": "double"
+    },
+    {
+      "de": "-n",
+      "en": "verb-forming suffix"
     }
   ],
   "vereinfachen": [
@@ -4683,12 +4691,16 @@
   ],
   "veröffentlichen": [
     {
-      "de": "ver",
+      "de": "ver-",
       "en": "completely/thoroughly / intensifying prefix"
     },
     {
-      "de": "öffnen",
-      "en": "to open"
+      "de": "öffentlich",
+      "en": "public"
+    },
+    {
+      "de": "-en",
+      "en": "verb-forming suffix"
     }
   ],
   "verschicken": [
@@ -5248,7 +5260,7 @@
   "erfrischen": [
     {
       "de": "er-",
-      "en": "again"
+      "en": "prefix: intensification/to a new state"
     },
     {
       "de": "frisch",
@@ -5377,12 +5389,12 @@
   ],
   "lockern": [
     {
-      "de": "lock",
-      "en": "lock"
+      "de": "locker",
+      "en": "loose/slack"
     },
     {
-      "de": "ern",
-      "en": "to make"
+      "de": "-n",
+      "en": "verb-forming suffix (to make loose)"
     }
   ],
   "mischen": [
@@ -6125,8 +6137,12 @@
       "en": "up"
     },
     {
-      "de": "locken",
-      "en": "to loosen/unlock"
+      "de": "locker",
+      "en": "loose/relaxed"
+    },
+    {
+      "de": "-n",
+      "en": "verb-forming suffix (to loosen up)"
     }
   ],
   "aufwenden": [
@@ -6181,12 +6197,16 @@
   ],
   "beseitigen": [
     {
-      "de": "be",
+      "de": "be-",
       "en": "completely"
     },
     {
-      "de": "setzen",
-      "en": "to put"
+      "de": "Seite",
+      "en": "side"
+    },
+    {
+      "de": "-igen",
+      "en": "verb suffix (to put aside/eliminate)"
     }
   ],
   "betragen": [
@@ -6205,8 +6225,8 @@
       "en": "completely"
     },
     {
-      "de": "gewinnen",
-      "en": "to win"
+      "de": "zwingen",
+      "en": "to force/compel"
     }
   ],
   "eintauchen": [
@@ -6251,8 +6271,8 @@
   ],
   "erfassen": [
     {
-      "de": "er",
-      "en": "back"
+      "de": "er-",
+      "en": "prefix: to completion/to a new state"
     },
     {
       "de": "fassen",
@@ -6281,12 +6301,12 @@
   ],
   "erregen": [
     {
-      "de": "er",
+      "de": "er-",
       "en": "prefix indicating intensification"
     },
     {
       "de": "regen",
-      "en": "to rain/shower"
+      "en": "to stir/move"
     }
   ],
   "erschließen": [
@@ -6332,7 +6352,7 @@
   "gebrauchen": [
     {
       "de": "ge-",
-      "en": "past participle marker"
+      "en": "intensifying prefix"
     },
     {
       "de": "brauchen",
@@ -6623,22 +6643,22 @@
   ],
   "vernichten": [
     {
-      "de": "ver",
+      "de": "ver-",
       "en": "completely / intensifying prefix"
     },
     {
-      "de": "nichten",
-      "en": "to deny/refuse"
+      "de": "nichts",
+      "en": "nothing (→ to annihilate)"
     }
   ],
   "vorankommen": [
     {
-      "de": "vor",
-      "en": "forward"
+      "de": "voran",
+      "en": "forward/ahead"
     },
     {
-      "de": "ankommen",
-      "en": "to arrive/come"
+      "de": "kommen",
+      "en": "to come"
     }
   ],
   "vorausgehen": [
@@ -6987,12 +7007,16 @@
   ],
   "beanspruchen": [
     {
-      "de": "be",
-      "en": "at/on"
+      "de": "be-",
+      "en": "prefix indicating completeness"
     },
     {
-      "de": "sprechen",
-      "en": "to speak"
+      "de": "Anspruch",
+      "en": "claim/demand"
+    },
+    {
+      "de": "-en",
+      "en": "verb ending"
     }
   ],
   "beibringen": [
@@ -7007,8 +7031,8 @@
   ],
   "beitreten": [
     {
-      "de": "be",
-      "en": "in/into"
+      "de": "bei-",
+      "en": "alongside/to join"
     },
     {
       "de": "treten",
@@ -7027,8 +7051,8 @@
   ],
   "bereitstellen": [
     {
-      "de": "bereits",
-      "en": "already"
+      "de": "bereit",
+      "en": "ready"
     },
     {
       "de": "stellen",
@@ -7107,8 +7131,8 @@
   ],
   "ergreifen": [
     {
-      "de": "er",
-      "en": "back"
+      "de": "er-",
+      "en": "prefix: to completion/to a new state"
     },
     {
       "de": "greifen",
@@ -7749,12 +7773,12 @@
   ],
   "die Bucht": [
     {
-      "de": "Buch",
-      "en": "book"
+      "de": "biegen",
+      "en": "to bend/curve"
     },
     {
-      "de": "t",
-      "en": "feminine article"
+      "de": "-t",
+      "en": "noun-forming suffix (curved body of water)"
     }
   ],
   "das Bügeleisen": [
@@ -8397,12 +8421,12 @@
   ],
   "die Richtung": [
     {
-      "de": "Richtig",
-      "en": "right"
+      "de": "richten",
+      "en": "to direct/align"
     },
     {
-      "de": "ung",
-      "en": "noun suffix"
+      "de": "-ung",
+      "en": "noun suffix (-ion/-ment)"
     }
   ],
   "der Rollstuhl": [
@@ -9673,8 +9697,8 @@
       "en": "to wish"
     },
     {
-      "de": "-ung",
-      "en": "-ing/-ness"
+      "de": "",
+      "en": "(root noun — no separate suffix)"
     }
   ],
   "der Krankenwagen": [
@@ -10243,8 +10267,8 @@
       "en": "police"
     },
     {
-      "de": "ist",
-      "en": "is"
+      "de": "-ist",
+      "en": "person-forming suffix (-ist)"
     }
   ],
   "Der Verkäufer": [
@@ -10320,11 +10344,11 @@
   "Der Tourist": [
     {
       "de": "Tour",
-      "en": "tour"
+      "en": "tour/journey"
     },
     {
-      "de": "ist",
-      "en": "is"
+      "de": "-ist",
+      "en": "person-forming suffix (-ist)"
     }
   ],
   "Die Direktorin": [
@@ -11173,15 +11197,15 @@
   ],
   "verspätet": [
     {
-      "de": "ver",
-      "en": "preposition/prefix / intensifying prefix"
+      "de": "ver-",
+      "en": "mis-/wrong / intensifying prefix"
     },
     {
-      "de": "sprechen",
-      "en": "to speak"
+      "de": "spät",
+      "en": "late"
     },
     {
-      "de": "te",
+      "de": "-et",
       "en": "past participle suffix"
     }
   ],
@@ -11271,12 +11295,12 @@
   ],
   "gemeinsam": [
     {
-      "de": "ge-",
-      "en": "together"
+      "de": "gemein",
+      "en": "common/shared"
     },
     {
-      "de": "sam",
-      "en": "same"
+      "de": "-sam",
+      "en": "suffix: inclined to/characterized by"
     }
   ],
   "nur noch": [
@@ -11396,11 +11420,11 @@
   "scheinbar": [
     {
       "de": "scheinen",
-      "en": "to shine"
+      "en": "to appear/seem"
     },
     {
       "de": "-bar",
-      "en": "-able/-ly"
+      "en": "suffix: -able (→ seemingly/apparently)"
     }
   ],
   "anfangs": [
@@ -11688,11 +11712,11 @@
   "langsam": [
     {
       "de": "lang",
-      "en": "long"
+      "en": "long/drawn-out"
     },
     {
-      "de": "sam",
-      "en": "same/similar"
+      "de": "-sam",
+      "en": "suffix: inclined to/characterized by"
     }
   ],
   "zweifellos": [
@@ -11755,8 +11779,12 @@
       "en": "true"
     },
     {
-      "de": "schreiben",
-      "en": "to write"
+      "de": "Schein",
+      "en": "appearance/seeming"
+    },
+    {
+      "de": "-lich",
+      "en": "-ly/-like"
     }
   ],
   "möglicherweise": [
@@ -11765,8 +11793,8 @@
       "en": "possible"
     },
     {
-      "de": "-lich",
-      "en": "-ly"
+      "de": "-erweise",
+      "en": "suffix: -ly/-wise"
     }
   ],
   "hoffentlich": [
@@ -11791,16 +11819,12 @@
   ],
   "glücklicherweise": [
     {
-      "de": "glück",
-      "en": "happiness/luck"
+      "de": "glücklich",
+      "en": "fortunate/happy"
     },
     {
-      "de": "lich",
-      "en": "-ly"
-    },
-    {
-      "de": "weise",
-      "en": "manner/way"
+      "de": "-erweise",
+      "en": "suffix: -ly/-wise (fortunately)"
     }
   ],
   "folglich": [
@@ -11825,40 +11849,32 @@
   ],
   "erstaunlicherweise": [
     {
-      "de": "erstaunen",
-      "en": "to amaze"
+      "de": "erstaunlich",
+      "en": "astonishing"
     },
     {
-      "de": "-lich",
-      "en": "-ly"
+      "de": "-erweise",
+      "en": "suffix: -ly/-wise"
     }
   ],
   "bezeichnenderweise": [
     {
-      "de": "bezeichnen",
-      "en": "to designate/label"
+      "de": "bezeichnend",
+      "en": "characteristic/telling"
     },
     {
-      "de": "-end",
-      "en": "-ing"
-    },
-    {
-      "de": "weise",
-      "en": "wisely"
+      "de": "-erweise",
+      "en": "suffix: -ly/-wise"
     }
   ],
   "verständlicherweise": [
     {
-      "de": "verstehen",
-      "en": "to understand"
+      "de": "verständlich",
+      "en": "understandable"
     },
     {
-      "de": "-lich",
-      "en": "-ly"
-    },
-    {
-      "de": "-keit",
-      "en": "-ness"
+      "de": "-erweise",
+      "en": "suffix: -ly/-wise"
     }
   ],
   "typischerweise": [
@@ -11867,8 +11883,8 @@
       "en": "typical"
     },
     {
-      "de": "weise",
-      "en": "way/manner"
+      "de": "-erweise",
+      "en": "suffix: -ly/-wise"
     }
   ],
   "normalerweise": [
@@ -11877,8 +11893,8 @@
       "en": "normal"
     },
     {
-      "de": "weise",
-      "en": "wise/manner"
+      "de": "-erweise",
+      "en": "suffix: -ly/-wise (in a normal manner)"
     }
   ],
   "hinein": [
@@ -12196,7 +12212,7 @@
     },
     {
       "de": "-sam",
-      "en": "-ly/characteristic of"
+      "en": "suffix: inclined to/characterized by"
     }
   ],
   "unreif": [
@@ -12389,12 +12405,12 @@
   ],
   "atypisch": [
     {
-      "de": "typisch",
-      "en": "typical"
+      "de": "a-",
+      "en": "not/without (Greek prefix)"
     },
     {
-      "de": "-isch",
-      "en": "-ic/-ly"
+      "de": "typisch",
+      "en": "typical"
     }
   ],
   "uncharakteristisch": [
@@ -12505,12 +12521,12 @@
   ],
   "traurig": [
     {
-      "de": "trag",
-      "en": "heavy/grave"
+      "de": "Trauer",
+      "en": "grief/mourning"
     },
     {
       "de": "-ig",
-      "en": "-ly/-ness"
+      "en": "-ful/-y"
     }
   ],
   "glücklich": [
@@ -12580,7 +12596,7 @@
     },
     {
       "de": "-sam",
-      "en": "-ly/-ness"
+      "en": "suffix: inclined to/characterized by"
     }
   ],
   "erschöpfend": [
@@ -12753,8 +12769,8 @@
       "en": "enough"
     },
     {
-      "de": "sam",
-      "en": "like/similar"
+      "de": "-sam",
+      "en": "suffix: inclined to/characterized by"
     }
   ],
   "kritisch": [
@@ -13575,8 +13591,8 @@
       "en": "through"
     },
     {
-      "de": "schnittstelle",
-      "en": "interface/cross-section"
+      "de": "Schnitt",
+      "en": "cut/cross-section (→ average)"
     },
     {
       "de": "-lich",
@@ -13697,12 +13713,12 @@
   ],
   "provinziell": [
     {
-      "de": "provinz",
+      "de": "Provinz",
       "en": "province"
     },
     {
-      "de": "-isch",
-      "en": "-ial/-like"
+      "de": "-iell",
+      "en": "suffix: -ial/-al (of/relating to)"
     }
   ],
   "städtisch": [
@@ -13717,12 +13733,12 @@
   ],
   "ländlich": [
     {
-      "de": "land",
-      "en": "country"
+      "de": "Land",
+      "en": "country/countryside"
     },
     {
-      "de": "-isch",
-      "en": "-like/-ish"
+      "de": "-lich",
+      "en": "-like (rural/country-)"
     }
   ],
   "vorstädtisch": [
@@ -13795,12 +13811,12 @@
   ],
   "wachsend": [
     {
-      "de": "wach",
-      "en": "awake/watchful"
+      "de": "wachsen",
+      "en": "to grow"
     },
     {
-      "de": "send",
-      "en": "to send"
+      "de": "-end",
+      "en": "-ing (present participle)"
     }
   ],
   "inkonsistent": [
@@ -14039,22 +14055,26 @@
   ],
   "unscheinbar": [
     {
-      "de": "schein",
+      "de": "un-",
+      "en": "not/un-"
+    },
+    {
+      "de": "Schein",
       "en": "appearance/shine"
     },
     {
-      "de": "bar",
-      "en": "without/lacking"
+      "de": "-bar",
+      "en": "suffix: -able (→ inconspicuous/unassuming)"
     }
   ],
   "sparsam": [
     {
       "de": "spar",
-      "en": "saving"
+      "en": "saving/economy"
     },
     {
-      "de": "sam",
-      "en": "characteristic/quality"
+      "de": "-sam",
+      "en": "suffix: inclined to/characterized by"
     }
   ],
   "einladend": [

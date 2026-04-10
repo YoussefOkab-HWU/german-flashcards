@@ -5355,7 +5355,21 @@ function unmasterWord(german) {
 let cardCount = 0; // total cards served this session
 const lastShownAt = {}; // german -> cardCount when last shown
 const retryCooldownFor = {}; // german -> assigned cooldown (15-50)
-let lastCardGerman = null; // track last shown card to avoid immediate repeats
+const RECENT_COOLDOWN = 6; // min cards before a word can repeat
+
+// Returns true if this card was shown too recently to show again
+function shownRecently(c) {
+  if (!lastShownAt[c.german]) return false;
+  return cardCount - lastShownAt[c.german] < RECENT_COOLDOWN;
+}
+
+// Pick from pool, excluding recently-shown cards if possible
+function pickFrom(pool) {
+  const fresh = pool.filter(c => !shownRecently(c));
+  return fresh.length > 0
+    ? fresh[Math.floor(Math.random() * fresh.length)]
+    : pool[Math.floor(Math.random() * pool.length)];
+}
 
 function getNextCard() {
   cardCount++;
@@ -5368,43 +5382,32 @@ function getNextCard() {
 
   // Serve a retry roughly every 4 new cards (if any are cooled down)
   if (retries.length > 0 && cardCount % 5 === 0) {
-    const pool = retries.length > 1 ? retries.filter(c => c.german !== lastCardGerman) : retries;
-    const pick = pool[Math.floor(Math.random() * pool.length)];
+    const pick = pickFrom(retries);
     lastShownAt[pick.german] = cardCount; retryCooldownFor[pick.german] = 15 + Math.floor(Math.random() * 36);
-    lastCardGerman = pick.german;
     return pick;
   }
 
   // 1 in 50 chance: show a mastered word as ghost
   const mastered = allCards.filter(c => getWordState(c.german).learned);
   if (mastered.length > 0 && Math.random() < 1/50) {
-    const pool = mastered.length > 1 ? mastered.filter(c => c.german !== lastCardGerman) : mastered;
-    const pick = pool[Math.floor(Math.random() * pool.length)];
-    lastCardGerman = pick.german;
-    return pick;
+    return pickFrom(mastered);
   }
 
   // Normal new/unlearned card (not a retry)
   const allRetryWords = new Set(getRetryCards(allCards).map(c => c.german));
   const active = allCards.filter(c => !getWordState(c.german).learned && !allRetryWords.has(c.german));
   if (active.length > 0) {
-    const pool = active.length > 1 ? active.filter(c => c.german !== lastCardGerman) : active;
-    const pick = pool[Math.floor(Math.random() * pool.length)];
+    const pick = pickFrom(active);
     lastShownAt[pick.german] = cardCount; retryCooldownFor[pick.german] = 15 + Math.floor(Math.random() * 36);
-    lastCardGerman = pick.german;
     return pick;
   }
 
-  // Only retries left — serve whichever has been waiting longest
+  // Only retries left — serve whichever has been waiting longest, skipping recent ones if possible
   const allRetries = getRetryCards(allCards);
   if (allRetries.length > 0) {
     allRetries.sort((a, b) => (lastShownAt[a.german] || 0) - (lastShownAt[b.german] || 0));
-    // Skip the last shown card if there's another option
-    const pick = (allRetries.length > 1 && allRetries[0].german === lastCardGerman)
-      ? allRetries[1]
-      : allRetries[0];
+    const pick = allRetries.find(c => !shownRecently(c)) || allRetries[0];
     lastShownAt[pick.german] = cardCount; retryCooldownFor[pick.german] = 15 + Math.floor(Math.random() * 36);
-    lastCardGerman = pick.german;
     return pick;
   }
 

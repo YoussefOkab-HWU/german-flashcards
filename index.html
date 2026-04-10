@@ -5355,6 +5355,7 @@ function unmasterWord(german) {
 let cardCount = 0; // total cards served this session
 const lastShownAt = {}; // german -> cardCount when last shown
 const retryCooldownFor = {}; // german -> assigned cooldown (15-50)
+let lastCardGerman = null; // track last shown card to avoid immediate repeats
 
 function getNextCard() {
   cardCount++;
@@ -5367,23 +5368,30 @@ function getNextCard() {
 
   // Serve a retry roughly every 4 new cards (if any are cooled down)
   if (retries.length > 0 && cardCount % 5 === 0) {
-    const pick = retries[Math.floor(Math.random() * retries.length)];
+    const pool = retries.length > 1 ? retries.filter(c => c.german !== lastCardGerman) : retries;
+    const pick = pool[Math.floor(Math.random() * pool.length)];
     lastShownAt[pick.german] = cardCount; retryCooldownFor[pick.german] = 15 + Math.floor(Math.random() * 36);
+    lastCardGerman = pick.german;
     return pick;
   }
 
   // 1 in 50 chance: show a mastered word as ghost
   const mastered = allCards.filter(c => getWordState(c.german).learned);
   if (mastered.length > 0 && Math.random() < 1/50) {
-    return mastered[Math.floor(Math.random() * mastered.length)];
+    const pool = mastered.length > 1 ? mastered.filter(c => c.german !== lastCardGerman) : mastered;
+    const pick = pool[Math.floor(Math.random() * pool.length)];
+    lastCardGerman = pick.german;
+    return pick;
   }
 
   // Normal new/unlearned card (not a retry)
   const allRetryWords = new Set(getRetryCards(allCards).map(c => c.german));
   const active = allCards.filter(c => !getWordState(c.german).learned && !allRetryWords.has(c.german));
   if (active.length > 0) {
-    const pick = active[Math.floor(Math.random() * active.length)];
+    const pool = active.length > 1 ? active.filter(c => c.german !== lastCardGerman) : active;
+    const pick = pool[Math.floor(Math.random() * pool.length)];
     lastShownAt[pick.german] = cardCount; retryCooldownFor[pick.german] = 15 + Math.floor(Math.random() * 36);
+    lastCardGerman = pick.german;
     return pick;
   }
 
@@ -5391,8 +5399,12 @@ function getNextCard() {
   const allRetries = getRetryCards(allCards);
   if (allRetries.length > 0) {
     allRetries.sort((a, b) => (lastShownAt[a.german] || 0) - (lastShownAt[b.german] || 0));
-    const pick = allRetries[0];
+    // Skip the last shown card if there's another option
+    const pick = (allRetries.length > 1 && allRetries[0].german === lastCardGerman)
+      ? allRetries[1]
+      : allRetries[0];
     lastShownAt[pick.german] = cardCount; retryCooldownFor[pick.german] = 15 + Math.floor(Math.random() * 36);
+    lastCardGerman = pick.german;
     return pick;
   }
 

@@ -5355,6 +5355,12 @@ if (!localStorage.getItem('fix_dashaus')) {
   saveProgressLocal(progress);
   localStorage.setItem('fix_dashaus', '1');
 }
+// One-time fix: mark zudem as mastered
+if (!localStorage.getItem('fix_zudem')) {
+  progress['zudem'] = { consecutive: 5, learned: true, attempted: true };
+  saveProgressLocal(progress);
+  localStorage.setItem('fix_zudem', '1');
+}
 let sentenceProgress = loadSentenceProgress();
 let grammarProgress = loadGrammarProgress();
 let synonyms = loadSynonyms();
@@ -6807,6 +6813,13 @@ function startApp(dir) {
       // which would get overwritten by onSnapshot before it fires
       CLOUD_DOC.set({ progress: progress }, { merge: true })
         .then(() => localStorage.setItem('fix_weise_cloud3', '1'))
+        .catch(() => {});
+    }
+    if (!localStorage.getItem('fix_zudem_cloud')) {
+      progress['zudem'] = { consecutive: 5, learned: true, attempted: true };
+      saveProgressLocal(progress);
+      CLOUD_DOC.set({ progress: progress }, { merge: true })
+        .then(() => localStorage.setItem('fix_zudem_cloud', '1'))
         .catch(() => {});
     }
     resetDeck();

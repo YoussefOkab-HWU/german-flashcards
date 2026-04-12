@@ -5752,7 +5752,6 @@ function showCard() {
   elWord.textContent = displayWord;
   elBadge.textContent = activeFilter === 'all' ? '' : card.category;
   if (isMasteredMode) {
-    trackShown(card.german);
     const total = getUnlearnedCards().length;
     elCounter.textContent = `${total} mastered words`;
     // Show accuracy history on the card itself
@@ -5952,6 +5951,7 @@ function checkAnswer() {
 
   // ── Multi-answer: en-de with sibling cards (same English, multiple Germans) ──
   if (langDir === 'en-de' && currentSiblings.length > 0) {
+    if (isMasteredMode) trackShown(card.german);
     const allCards = [card, ...currentSiblings];
     const inputs = getAllInputs().map(i => i.value.trim());
 
@@ -6014,6 +6014,7 @@ function checkAnswer() {
   const speakBtn = buildSpeakBtn(card.german);
   const consecutiveBeforeAnswer = getWordState(card.german).consecutive;
 
+  if (isMasteredMode) trackShown(card.german);
   if (isCorrect) {
     markCorrect(card.german);
     const consecutive = getWordState(card.german).consecutive;
@@ -6109,6 +6110,7 @@ function acceptAnswer(card, input) {
 function skipCard() {
   if (answered) return;
   const card = deck[deckPos];
+  if (isMasteredMode) trackShown(card.german);
 
   if (appMode === 'grammar') {
     markGrammarWrong(card.key);

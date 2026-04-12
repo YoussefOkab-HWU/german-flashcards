@@ -5114,6 +5114,7 @@ function pushToCloud() {
     progress: progress,
     sentenceProgress: sentenceProgress,
     grammarProgress: grammarProgress,
+    accuracy: accuracy,
     updatedAt: firebase.firestore.FieldValue.serverTimestamp()
   }, { merge: true }).catch(e => console.warn('Firestore write error:', e));
 }
@@ -5173,6 +5174,19 @@ function startCloudListener() {
       }
       saveGrammarProgressLocal();
     }
+    if (data.accuracy) {
+      // Merge accuracy: add up counts from both devices
+      for (const [k, rv] of Object.entries(data.accuracy)) {
+        const lv = accuracy[k];
+        if (!lv) { accuracy[k] = rv; continue; }
+        // Take the higher of each counter (avoids double-counting same session)
+        accuracy[k] = {
+          shown:   Math.max(lv.shown   || 0, rv.shown   || 0),
+          correct: Math.max(lv.correct || 0, rv.correct || 0)
+        };
+      }
+      saveAccuracy();
+    }
     // Always refresh UI when cloud data arrives
     if (appMode === 'flashcards') {
       updateMasteryBar();
@@ -5206,6 +5220,17 @@ async function pullFromCloud() {
       if (data.grammarProgress) {
         grammarProgress = data.grammarProgress;
         saveGrammarProgressLocal();
+      }
+      if (data.accuracy) {
+        for (const [k, rv] of Object.entries(data.accuracy)) {
+          const lv = accuracy[k];
+          if (!lv) { accuracy[k] = rv; continue; }
+          accuracy[k] = {
+            shown:   Math.max(lv.shown   || 0, rv.shown   || 0),
+            correct: Math.max(lv.correct || 0, rv.correct || 0)
+          };
+        }
+        saveAccuracy();
       }
     }
   } catch(e) {}

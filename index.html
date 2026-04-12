@@ -5344,6 +5344,10 @@ function loadAccuracy() {
   catch { return {}; }
 }
 function saveAccuracy() {
+  // Safety: correct can never exceed shown
+  for (const k of Object.keys(accuracy)) {
+    if (accuracy[k].correct > accuracy[k].shown) accuracy[k].correct = accuracy[k].shown;
+  }
   localStorage.setItem('gfc_accuracy', JSON.stringify(accuracy));
 }
 function getAccuracy(word) {
@@ -5403,6 +5407,15 @@ if (!localStorage.getItem('fix_accuracy_wipe')) {
   localStorage.setItem('fix_accuracy_wipe', '1');
 }
 let accuracy = loadAccuracy();
+// One-time fix: cap any correct > shown from the sibling double-count bug
+if (!localStorage.getItem('fix_accuracy_cap')) {
+  let fixed = false;
+  for (const k of Object.keys(accuracy)) {
+    if (accuracy[k].correct > accuracy[k].shown) { accuracy[k].correct = accuracy[k].shown; fixed = true; }
+  }
+  if (fixed) localStorage.setItem('gfc_accuracy', JSON.stringify(accuracy));
+  localStorage.setItem('fix_accuracy_cap', '1');
+}
 let isMasteredMode = false;
 let deck = [];
 let deckPos = 0;
@@ -5506,7 +5519,7 @@ function markCorrect(german) {
   if (s.consecutive >= 5) s.learned = true;
   progress[german] = s;
   saveProgress(progress);
-  if (isMasteredMode) trackCorrect(german);
+  // accuracy tracking is handled at the call site, not here, to avoid double-counting siblings
 }
 
 function markWrong(german) {
@@ -6047,6 +6060,7 @@ function checkAnswer() {
   if (isMasteredMode) trackShown(card.german);
   if (isCorrect) {
     markCorrect(card.german);
+    if (isMasteredMode) trackCorrect(card.german);
     const consecutive = getWordState(card.german).consecutive;
     const learned = getWordState(card.german).learned;
     elCard.classList.add('correct');

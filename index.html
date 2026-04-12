@@ -6081,10 +6081,11 @@ function fixTypo(card, prevConsecutive) {
   // Undo the wrong, restore previous consecutive then increment
   const s = getWordState(card.german);
   s.consecutive = Math.min(5, prevConsecutive + 1);
-  s.learned = s.consecutive >= 5;
+  s.learned = s.learned || s.consecutive >= 5; // never remove mastery
   s.attempted = true;
   progress[card.german] = s;
   saveProgress(progress);
+  if (isMasteredMode) trackCorrect(card.german); // typo = correct answer
   elCard.className = 'card correct';
   elFeedback.className = 'feedback correct';
   const suffix = s.learned ? ' 🎓 Mastered!' : ` (${s.consecutive}/5)`;

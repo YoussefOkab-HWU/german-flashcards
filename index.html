@@ -606,6 +606,80 @@
   .tier-option.tier-2 .tier-num { color: #2196f3; }
   .tier-option.tier-3 .tier-num { color: #ff9800; }
   .tier-option.tier-4 .tier-num { color: #e91e63; }
+  .tier-option.tier-mastered { border-color: rgba(255,215,0,0.2); }
+  .tier-option.tier-mastered:hover { border-color: #ffd700; }
+  .tier-option.tier-mastered .tier-num { color: #ffd700; }
+
+  /* Accuracy / forgotten-words panel */
+  .forgotten-panel {
+    display: none;
+    width: 100%;
+    max-width: 600px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 20px 24px;
+    margin-top: 12px;
+  }
+  .forgotten-panel.open { display: block; }
+  .forgotten-panel h2 {
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--yellow);
+    margin-bottom: 14px;
+  }
+  .forgotten-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    max-height: 300px;
+    overflow-y: auto;
+  }
+  .forgotten-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-size: 0.85rem;
+  }
+  .forgotten-row .fw-word { font-weight: 700; color: var(--text); }
+  .forgotten-row .fw-en  { color: var(--muted); font-size: 0.78rem; margin-left: 6px; }
+  .forgotten-row .fw-acc { font-weight: 700; font-size: 0.82rem; white-space: nowrap; margin-left: 10px; }
+  .fw-acc.good   { color: var(--green); }
+  .fw-acc.ok     { color: var(--yellow); }
+  .fw-acc.bad    { color: var(--red); }
+  .fw-acc.unseen { color: var(--muted); }
+  .btn-view-forgotten {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: border-color 0.15s, color 0.15s;
+    white-space: nowrap;
+  }
+  .btn-view-forgotten:hover { border-color: var(--yellow); color: var(--yellow); }
+  .mastered-bar {
+    display: none;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.82rem;
+    color: var(--muted);
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .mastered-bar .val { font-weight: 700; font-size: 1rem; }
+  .mastered-bar .val.gold { color: #ffd700; }
+  .mastered-bar .val.green { color: var(--green); }
 
   /* German special character buttons */
   .umlaut-bar {
@@ -762,6 +836,11 @@
       <div class="tier-name">Advanced</div>
       <div class="tier-count">1519 words</div>
     </div>
+    <div class="tier-option tier-mastered" onclick="startAppWithTier('mastered')">
+      <div class="tier-num">★</div>
+      <div class="tier-name">Mastered</div>
+      <div class="tier-count" id="mastered-tier-count">0 mastered</div>
+    </div>
   </div>
 </div>
 
@@ -815,9 +894,21 @@
   </div>
 </div>
 
+<div class="mastered-bar" id="mastered-bar">
+  <span><span class="val gold" id="mastered-count">0</span> mastered cards</span>
+  <span>·</span>
+  <span>avg accuracy: <span class="val green" id="mastered-avg-acc">–</span></span>
+  <button class="btn-view-forgotten" id="btn-view-forgotten">Forgotten words ▾</button>
+</div>
+
 <div class="learned-panel" id="learned-panel">
   <h2>Words Learned</h2>
   <div class="learned-list" id="learned-list"></div>
+</div>
+
+<div class="forgotten-panel" id="forgotten-panel">
+  <h2>⚠ Words You Still Forget</h2>
+  <div class="forgotten-list" id="forgotten-list"></div>
 </div>
 
 <div class="input-area" id="input-area">
@@ -4935,7 +5026,8 @@ function buildCards(filter) {
   for (const cat of categories) {
     if (filter === 'all' || filter === cat) {
       DATA[cat].forEach(item => {
-        if (activeTier === 0 || TIERS[item.german] === activeTier) {
+        // In mastered mode include all tiers; otherwise respect activeTier
+        if (isMasteredMode || activeTier === 0 || TIERS[item.german] === activeTier) {
           cards.push({ ...item, category: cat });
         }
       });
@@ -5217,6 +5309,40 @@ function loadSynonyms() {
   try { return JSON.parse(localStorage.getItem('gfc_synonyms') || '{}'); }
   catch { return {}; }
 }
+
+// ── Accuracy tracking (per mastered-mode review) ──────────────────────────────
+// accuracy[word] = { shown: N, correct: N }
+function loadAccuracy() {
+  try { return JSON.parse(localStorage.getItem('gfc_accuracy') || '{}'); }
+  catch { return {}; }
+}
+function saveAccuracy() {
+  localStorage.setItem('gfc_accuracy', JSON.stringify(accuracy));
+}
+function getAccuracy(word) {
+  return accuracy[word] || { shown: 0, correct: 0 };
+}
+function trackShown(word) {
+  if (!accuracy[word]) accuracy[word] = { shown: 0, correct: 0 };
+  accuracy[word].shown++;
+  saveAccuracy();
+}
+function trackCorrect(word) {
+  if (!accuracy[word]) accuracy[word] = { shown: 0, correct: 0 };
+  accuracy[word].correct++;
+  saveAccuracy();
+}
+function getAccuracyPct(word) {
+  const a = getAccuracy(word);
+  if (a.shown === 0) return null;
+  return Math.round((a.correct / a.shown) * 100);
+}
+function getAccuracyLabel(word) {
+  const a = getAccuracy(word);
+  if (a.shown === 0) return null;
+  const pct = Math.round((a.correct / a.shown) * 100);
+  return `${a.correct}/${a.shown} (${pct}%)`;
+}
 function saveSynonyms(s) {
   localStorage.setItem('gfc_synonyms', JSON.stringify(s));
 }
@@ -5232,6 +5358,8 @@ if (!localStorage.getItem('fix_dashaus')) {
 let sentenceProgress = loadSentenceProgress();
 let grammarProgress = loadGrammarProgress();
 let synonyms = loadSynonyms();
+let accuracy = loadAccuracy();
+let isMasteredMode = false;
 let deck = [];
 let deckPos = 0;
 let activeFilter = 'all';
@@ -5268,6 +5396,12 @@ const elTenseFilters    = document.getElementById('tense-filters');
 const elModeFlashcards  = document.getElementById('mode-flashcards');
 const elModeSentences   = document.getElementById('mode-sentences');
 const elExtraInputs     = document.getElementById('extra-inputs');
+const elMasteredBar     = document.getElementById('mastered-bar');
+const elMasteredCount   = document.getElementById('mastered-count');
+const elMasteredAvgAcc  = document.getElementById('mastered-avg-acc');
+const elBtnViewForgotten = document.getElementById('btn-view-forgotten');
+const elForgottenPanel  = document.getElementById('forgotten-panel');
+const elForgottenList   = document.getElementById('forgotten-list');
 
 // Current card's sibling cards (same English, different German) in en-de mode
 let currentSiblings = [];
@@ -5328,6 +5462,7 @@ function markCorrect(german) {
   if (s.consecutive >= 5) s.learned = true;
   progress[german] = s;
   saveProgress(progress);
+  if (isMasteredMode) trackCorrect(german);
 }
 
 function markWrong(german) {
@@ -5374,6 +5509,26 @@ function pickFrom(pool) {
 function getNextCard() {
   cardCount++;
   const allCards = buildCards(activeFilter);
+
+  // In mastered mode, only draw from mastered cards (sorted by worst accuracy first)
+  if (isMasteredMode) {
+    const mastered = allCards.filter(c => getWordState(c.german).learned);
+    if (mastered.length === 0) return null;
+    // Bias toward cards with lower accuracy or not yet seen in this session
+    const fresh = mastered.filter(c => !shownRecently(c));
+    const pool = fresh.length > 0 ? fresh : mastered;
+    // Weight: cards with low accuracy or never shown get higher chance
+    const weighted = [];
+    for (const c of pool) {
+      const pct = getAccuracyPct(c.german);
+      const weight = pct === null ? 3 : pct < 60 ? 4 : pct < 80 ? 2 : 1;
+      for (let i = 0; i < weight; i++) weighted.push(c);
+    }
+    const pick = weighted[Math.floor(Math.random() * weighted.length)];
+    lastShownAt[pick.german] = cardCount;
+    return pick;
+  }
+
   const allRetryWords = new Set(getRetryCards(allCards).map(c => c.german));
 
   // Cards in progress (consecutive > 0, not mastered, not a retry)
@@ -5432,7 +5587,9 @@ function getNextCard() {
 
 // ── Deck management ──────────────────────────────────────────────────────────
 function getUnlearnedCards() {
-  return buildCards(activeFilter).filter(c => !getWordState(c.german).learned);
+  const cards = buildCards(activeFilter);
+  if (isMasteredMode) return cards.filter(c => getWordState(c.german).learned);
+  return cards.filter(c => !getWordState(c.german).learned);
 }
 
 function resetDeck() {
@@ -5496,6 +5653,17 @@ function resetDeck() {
   }
   const cards = getUnlearnedCards();
   if (cards.length === 0) {
+    if (isMasteredMode) {
+      elCard.className = 'card';
+      elWord.style.display = '';
+      elWord.textContent = '★';
+      elCounter.textContent = 'No mastered words yet — keep practicing in normal mode!';
+      elMasteryDots.innerHTML = '';
+      elFeedback.className = 'feedback hidden';
+      elInput.style.display = 'none';
+      elCheck.disabled = true;
+      return;
+    }
     showAllLearned();
     return;
   }
@@ -5576,10 +5744,17 @@ function showCard() {
     : card.german;
   elWord.textContent = displayWord;
   elBadge.textContent = activeFilter === 'all' ? '' : card.category;
-  const remaining = getUnlearnedCards().length;
-  const pq = getRetryCards(buildCards(activeFilter)).length;
-  const tierLabel = activeTier > 0 ? ` · Tier ${activeTier}` : '';
-  elCounter.textContent = pq > 0 ? `${remaining} remaining · ${pq} to retry${tierLabel}` : `${remaining} remaining${tierLabel}`;
+  if (isMasteredMode) {
+    trackShown(card.german);
+    const total = getUnlearnedCards().length; // mastered cards in this mode
+    const accLabel = getAccuracyLabel(card.german);
+    elCounter.textContent = accLabel ? `${total} mastered · last accuracy: ${accLabel}` : `${total} mastered`;
+  } else {
+    const remaining = getUnlearnedCards().length;
+    const pq = getRetryCards(buildCards(activeFilter)).length;
+    const tierLabel = activeTier > 0 ? ` · Tier ${activeTier}` : '';
+    elCounter.textContent = pq > 0 ? `${remaining} remaining · ${pq} to retry${tierLabel}` : `${remaining} remaining${tierLabel}`;
+  }
   elProgress.style.width = '0%';
   renderDots(card.german);
 
@@ -5643,6 +5818,20 @@ function showAllLearned() {
 
 // ── Mastery bar + dots ────────────────────────────────────────────────────────
 function updateMasteryBar() {
+  if (isMasteredMode) {
+    const all = buildCards(activeFilter);
+    const mastered = all.filter(c => getWordState(c.german).learned);
+    elMasteredCount.textContent = mastered.length;
+    // Compute average accuracy over mastered words that have been shown
+    const seen = mastered.filter(c => getAccuracy(c.german).shown > 0);
+    if (seen.length === 0) {
+      elMasteredAvgAcc.textContent = '–';
+    } else {
+      const avg = Math.round(seen.reduce((sum, c) => sum + getAccuracyPct(c.german), 0) / seen.length);
+      elMasteredAvgAcc.textContent = `${avg}%`;
+    }
+    return;
+  }
   const all = buildCards(activeFilter);
   const learnedCount = all.filter(c => getWordState(c.german).learned).length;
   elCountLearned.textContent = learnedCount;
@@ -5681,6 +5870,48 @@ elBtnViewLearned.addEventListener('click', () => {
   const open = elLearnedPanel.classList.toggle('open');
   elBtnViewLearned.textContent = open ? 'Hide learned ▴' : 'View learned ▾';
   if (open) renderLearnedPanel();
+});
+
+// ── Forgotten words panel ─────────────────────────────────────────────────────
+function renderForgottenPanel() {
+  const all = buildCards('all');
+  const mastered = all.filter(c => getWordState(c.german).learned);
+  elForgottenList.innerHTML = '';
+
+  if (mastered.length === 0) {
+    elForgottenList.innerHTML = '<span style="color:var(--muted);font-size:0.85rem">No mastered words yet.</span>';
+    return;
+  }
+
+  // Sort: unseen first, then by ascending accuracy %
+  const sorted = [...mastered].sort((a, b) => {
+    const pa = getAccuracyPct(a.german);
+    const pb = getAccuracyPct(b.german);
+    if (pa === null && pb === null) return 0;
+    if (pa === null) return -1;
+    if (pb === null) return 1;
+    return pa - pb;
+  });
+
+  sorted.forEach(c => {
+    const pct = getAccuracyPct(c.german);
+    const acc = getAccuracy(c.german);
+    const row = document.createElement('div');
+    row.className = 'forgotten-row';
+    let accClass, accText;
+    if (pct === null) { accClass = 'unseen'; accText = 'not yet reviewed'; }
+    else if (pct < 60) { accClass = 'bad';  accText = `${acc.correct}/${acc.shown} (${pct}%) ⚠`; }
+    else if (pct < 80) { accClass = 'ok';   accText = `${acc.correct}/${acc.shown} (${pct}%)`; }
+    else               { accClass = 'good'; accText = `${acc.correct}/${acc.shown} (${pct}%) ✓`; }
+    row.innerHTML = `<span><span class="fw-word">${c.german}</span><span class="fw-en">${c.english}</span></span><span class="fw-acc ${accClass}">${accText}</span>`;
+    elForgottenList.appendChild(row);
+  });
+}
+
+elBtnViewForgotten.addEventListener('click', () => {
+  const open = elForgottenPanel.classList.toggle('open');
+  elBtnViewForgotten.textContent = open ? 'Forgotten words ▴' : 'Forgotten words ▾';
+  if (open) renderForgottenPanel();
 });
 
 // ── Checking ─────────────────────────────────────────────────────────────────
@@ -5726,7 +5957,13 @@ function checkAnswer() {
 
     if (allCorrect) {
       const state = getWordState(card.german);
-      const suffix = state.learned ? ' 🎓 Mastered!' : ` (${state.consecutive}/5)`;
+      let suffix;
+      if (isMasteredMode) {
+        const accLabel = getAccuracyLabel(card.german);
+        suffix = accLabel ? ` ✓ accuracy: ${accLabel}` : ' ✓ first time!';
+      } else {
+        suffix = state.learned ? ' 🎓 Mastered!' : ` (${state.consecutive}/5)`;
+      }
       elCard.classList.add('correct');
       elFeedback.className = 'feedback correct';
       elFeedback.innerHTML = `<span class="feedback-icon">✓</span> Correct! &nbsp;${correctDisplay}<span style="opacity:.7;font-size:.9em;margin-left:6px">${suffix}</span>`;
@@ -5760,7 +5997,13 @@ function checkAnswer() {
     const learned = getWordState(card.german).learned;
     elCard.classList.add('correct');
     elFeedback.className = 'feedback correct';
-    const suffix = learned ? ' 🎓 Mastered!' : ` (${consecutive}/5)`;
+    let suffix;
+    if (isMasteredMode) {
+      const accLabel = getAccuracyLabel(card.german);
+      suffix = accLabel ? ` ✓ accuracy: ${accLabel}` : ' ✓ first time!';
+    } else {
+      suffix = learned ? ' 🎓 Mastered!' : ` (${consecutive}/5)`;
+    }
     const speakInline = langDir === 'en-de' ? speakBtn : '';
     elFeedback.innerHTML = `<span class="feedback-icon">✓</span> Correct! &nbsp;<strong>${correctDisplay}</strong>${speakInline}<span style="opacity:.7;font-size:.9em;margin-left:6px">${suffix}</span>`;
     renderDots(card.german);
@@ -5785,7 +6028,8 @@ function checkAnswer() {
     const unmasterBtn = wasMastered
       ? `<button id="btn-unmaster" style="margin-left:12px;padding:3px 12px;border-radius:8px;border:1px solid rgba(255,100,100,0.5);background:rgba(255,60,60,0.15);color:#f88;font-size:0.82rem;font-weight:600;cursor:pointer">Unmaster it?</button>`
       : '';
-    elFeedback.innerHTML = `<span class="feedback-icon">✗</span> Wrong! Correct: <strong style="margin-left:4px">${correctDisplay}</strong>${speakInline}${typoBtn}${acceptBtn}${unmasterBtn}`;
+    const accSuffix = isMasteredMode ? (() => { const a = getAccuracyLabel(card.german); return a ? `<span style="opacity:.7;font-size:.88em;margin-left:8px">accuracy: ${a}</span>` : ''; })() : '';
+    elFeedback.innerHTML = `<span class="feedback-icon">✗</span> Wrong! Correct: <strong style="margin-left:4px">${correctDisplay}</strong>${speakInline}${typoBtn}${acceptBtn}${unmasterBtn}${accSuffix}`;
     renderDots(card.german);
     if (isTypo) {
       document.getElementById('btn-typo').addEventListener('click', () => fixTypo(card, consecutiveBeforeAnswer));
@@ -5946,11 +6190,13 @@ const elMainApp = [
   document.getElementById('filters'),
   document.getElementById('card-wrap'),
   document.getElementById('learned-panel'),
+  document.getElementById('forgotten-panel'),
   document.getElementById('input-area'),
   document.getElementById('umlaut-bar'),
   document.getElementById('btn-next'),
   document.getElementById('word-breakdown'),
   document.querySelector('.masterybar'),
+  document.getElementById('mastered-bar'),
 ];
 
 function setMode(mode) {
@@ -5978,7 +6224,12 @@ function setMode(mode) {
   elTenseFilters.classList.toggle('visible', mode === 'sentences');
   document.getElementById('grammar-type-filters').style.display = mode === 'grammar' ? 'flex' : 'none';
   document.getElementById('filters').style.display = mode === 'flashcards' ? '' : 'none';
-  document.querySelector('.masterybar').style.display = mode === 'flashcards' ? '' : 'none';
+  if (mode === 'flashcards') {
+    applyMasteredBarVisibility();
+  } else {
+    document.querySelector('.masterybar').style.display = 'none';
+    elMasteredBar.style.display = 'none';
+  }
   // Grammar mode hides the main text input (uses its own fields), others show it
   elInput.style.display = mode === 'grammar' ? 'none' : '';
   elInput.placeholder = mode === 'sentences' ? 'Type the English translation…' : (langDir === 'en-de' ? 'Schreib das deutsche Wort...' : 'Type English translation…');
@@ -6507,17 +6758,33 @@ function checkPassword() {
 function showTierSelect() {
   document.getElementById('lang-select-screen').style.display = 'none';
   document.getElementById('tier-select-screen').style.display = '';
+  // Update mastered count on button
+  const masteredCount = buildCards('all').filter(c => getWordState(c.german).learned).length;
+  const el = document.getElementById('mastered-tier-count');
+  if (el) el.textContent = `${masteredCount} mastered`;
 }
 
 function startAppWithTier(tier) {
-  activeTier = tier;
+  isMasteredMode = (tier === 'mastered');
+  activeTier = isMasteredMode ? 0 : tier;
   document.getElementById('tier-select-screen').style.display = 'none';
   startApp('en-de');
 }
 
+function applyMasteredBarVisibility() {
+  const isMastered = isMasteredMode;
+  document.querySelector('.masterybar').style.display = isMastered ? 'none' : '';
+  elMasteredBar.style.display = isMastered ? 'flex' : 'none';
+  elLearnedPanel.style.display = isMastered ? 'none' : '';
+  elForgottenPanel.classList.remove('open');
+  elBtnViewForgotten.textContent = 'Forgotten words ▾';
+}
+
 function startApp(dir) {
   langDir = dir;
-  if (dir === 'de-en') activeTier = 0;
+  if (dir === 'de-en') activeTier = isMasteredMode ? 0 : activeTier;
+  else { activeTier = 0; isMasteredMode = false; } // de-en never uses mastered mode
+  applyMasteredBarVisibility();
   cardCount = 0;
   Object.keys(lastShownAt).forEach(k => delete lastShownAt[k]);
   Object.keys(retryCooldownFor).forEach(k => delete retryCooldownFor[k]);

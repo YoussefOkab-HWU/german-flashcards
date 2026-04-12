@@ -5131,7 +5131,7 @@ function mergeProgress(local, remote) {
       : Math.max(lv.consecutive || 0, rv.consecutive || 0);
     merged[k] = {
       consecutive,
-      learned: consecutive >= 5,
+      learned: lv.learned || rv.learned,   // preserve mastered status from either side
       attempted: lv.attempted || rv.attempted || false
     };
   }
@@ -5924,7 +5924,8 @@ function renderForgottenPanel() {
 
 elBtnViewForgotten.addEventListener('click', () => {
   const open = elForgottenPanel.classList.toggle('open');
-  elBtnViewForgotten.textContent = open ? 'Forgotten words ▴' : 'Forgotten words ▾';
+  const label = isMasteredMode ? 'Word stats' : 'Forgotten words';
+  elBtnViewForgotten.textContent = open ? `${label} ▴` : `${label} ▾`;
   if (open) renderForgottenPanel();
 });
 
@@ -6792,15 +6793,8 @@ function applyMasteredBarVisibility() {
   document.querySelector('.masterybar').style.display = isMastered ? 'none' : '';
   elMasteredBar.style.display = isMastered ? 'flex' : 'none';
   elLearnedPanel.style.display = isMastered ? 'none' : '';
-  // Auto-open forgotten panel in mastered mode
-  if (isMastered) {
-    elForgottenPanel.classList.add('open');
-    elBtnViewForgotten.textContent = 'Word stats ▴';
-    renderForgottenPanel();
-  } else {
-    elForgottenPanel.classList.remove('open');
-    elBtnViewForgotten.textContent = 'Forgotten words ▾';
-  }
+  elForgottenPanel.classList.remove('open');
+  elBtnViewForgotten.textContent = isMastered ? 'Word stats ▾' : 'Forgotten words ▾';
 }
 
 function startApp(dir) {

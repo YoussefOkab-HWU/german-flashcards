@@ -6805,8 +6805,7 @@ function applyMasteredBarVisibility() {
 
 function startApp(dir) {
   langDir = dir;
-  if (dir === 'de-en') activeTier = isMasteredMode ? 0 : activeTier;
-  else { activeTier = 0; isMasteredMode = false; } // de-en never uses mastered mode
+  if (dir === 'de-en') { activeTier = 0; isMasteredMode = false; } // de-en never uses mastered mode
   applyMasteredBarVisibility();
   cardCount = 0;
   Object.keys(lastShownAt).forEach(k => delete lastShownAt[k]);

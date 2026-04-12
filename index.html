@@ -5372,6 +5372,11 @@ if (!localStorage.getItem('fix_dermoment2')) {
 let sentenceProgress = loadSentenceProgress();
 let grammarProgress = loadGrammarProgress();
 let synonyms = loadSynonyms();
+// One-time wipe: accuracy data collected before the trackShown-on-display bug was fixed
+if (!localStorage.getItem('fix_accuracy_wipe')) {
+  localStorage.removeItem('gfc_accuracy');
+  localStorage.setItem('fix_accuracy_wipe', '1');
+}
 let accuracy = loadAccuracy();
 let isMasteredMode = false;
 let deck = [];

@@ -5195,7 +5195,8 @@ async function pullFromCloud() {
     if (snap.exists) {
       const data = snap.data();
       if (data.progress) {
-        progress = data.progress;
+        // Merge instead of overwrite — never let Firebase corrupt learned:true → false
+        progress = mergeProgress(progress, data.progress);
         saveProgressLocal(progress);
       }
       if (data.sentenceProgress) {
@@ -5362,11 +5363,11 @@ if (!localStorage.getItem('fix_zudem')) {
   saveProgressLocal(progress);
   localStorage.setItem('fix_zudem', '1');
 }
-// One-time fix: mark Der Moment as mastered
-if (!localStorage.getItem('fix_dermoment')) {
-  progress['Der Moment'] = { consecutive: 5, learned: true, attempted: true };
+// One-time fix: mark der Moment as mastered (v2 — correct lowercase key)
+if (!localStorage.getItem('fix_dermoment2')) {
+  progress['der Moment'] = { consecutive: 5, learned: true, attempted: true };
   saveProgressLocal(progress);
-  localStorage.setItem('fix_dermoment', '1');
+  localStorage.setItem('fix_dermoment2', '1');
 }
 let sentenceProgress = loadSentenceProgress();
 let grammarProgress = loadGrammarProgress();
@@ -5480,9 +5481,10 @@ function markCorrect(german) {
 
 function markWrong(german) {
   const s = getWordState(german);
+  const wasLearned = s.learned; // capture before any mutation
   s.attempted = true;
   s.consecutive = 0;
-  // Keep learned status — user can manually unmaster via the "Unmaster it?" button
+  s.learned = wasLearned; // explicitly re-assert: wrong answer never removes mastery
   progress[german] = s;
   saveProgress(progress);
 }

@@ -884,6 +884,7 @@
     <span class="gender-hint" id="gender-hint" style="display:none"></span>
     <span class="category-badge" id="category-badge"></span>
     <div class="german-word" id="german-word"></div>
+    <div id="mastered-card-acc" style="display:none;font-size:0.82rem;font-weight:600;margin-top:-4px"></div>
     <button class="btn-speak" id="btn-speak-word" style="display:none" title="Pronounce">🔊</button>
     <div class="sentence-de" id="sentence-de" style="display:none"></div>
     <div class="sentence-en" id="sentence-en" style="display:none"></div>
@@ -907,7 +908,7 @@
 </div>
 
 <div class="forgotten-panel" id="forgotten-panel">
-  <h2>⚠ Words You Still Forget</h2>
+  <h2>Mastered Word Stats — sorted by success rate</h2>
   <div class="forgotten-list" id="forgotten-list"></div>
 </div>
 
@@ -5516,21 +5517,13 @@ function getNextCard() {
   cardCount++;
   const allCards = buildCards(activeFilter);
 
-  // In mastered mode, only draw from mastered cards (sorted by worst accuracy first)
+  // In mastered mode: pure random from all mastered cards, avoid recent repeats
   if (isMasteredMode) {
     const mastered = allCards.filter(c => getWordState(c.german).learned);
     if (mastered.length === 0) return null;
-    // Bias toward cards with lower accuracy or not yet seen in this session
     const fresh = mastered.filter(c => !shownRecently(c));
     const pool = fresh.length > 0 ? fresh : mastered;
-    // Weight: cards with low accuracy or never shown get higher chance
-    const weighted = [];
-    for (const c of pool) {
-      const pct = getAccuracyPct(c.german);
-      const weight = pct === null ? 3 : pct < 60 ? 4 : pct < 80 ? 2 : 1;
-      for (let i = 0; i < weight; i++) weighted.push(c);
-    }
-    const pick = weighted[Math.floor(Math.random() * weighted.length)];
+    const pick = pool[Math.floor(Math.random() * pool.length)];
     lastShownAt[pick.german] = cardCount;
     return pick;
   }
@@ -5752,10 +5745,25 @@ function showCard() {
   elBadge.textContent = activeFilter === 'all' ? '' : card.category;
   if (isMasteredMode) {
     trackShown(card.german);
-    const total = getUnlearnedCards().length; // mastered cards in this mode
-    const accLabel = getAccuracyLabel(card.german);
-    elCounter.textContent = accLabel ? `${total} mastered · last accuracy: ${accLabel}` : `${total} mastered`;
+    const total = getUnlearnedCards().length;
+    elCounter.textContent = `${total} mastered words`;
+    // Show accuracy history on the card itself
+    const a = getAccuracy(card.german);
+    const masteredAccEl = document.getElementById('mastered-card-acc');
+    if (masteredAccEl) {
+      if (a.shown === 0) {
+        masteredAccEl.textContent = 'first time';
+        masteredAccEl.style.color = 'var(--muted)';
+      } else {
+        const pct = Math.round((a.correct / a.shown) * 100);
+        masteredAccEl.textContent = `${a.correct}/${a.shown} correct (${pct}%)`;
+        masteredAccEl.style.color = pct >= 80 ? 'var(--green)' : pct >= 60 ? 'var(--yellow)' : 'var(--red)';
+      }
+      masteredAccEl.style.display = '';
+    }
   } else {
+    const masteredAccEl = document.getElementById('mastered-card-acc');
+    if (masteredAccEl) masteredAccEl.style.display = 'none';
     const remaining = getUnlearnedCards().length;
     const pq = getRetryCards(buildCards(activeFilter)).length;
     const tierLabel = activeTier > 0 ? ` · Tier ${activeTier}` : '';
@@ -6049,6 +6057,7 @@ function checkAnswer() {
   }
 
   updateMasteryBar();
+  if (isMasteredMode && elForgottenPanel.classList.contains('open')) renderForgottenPanel();
   elNext.classList.add('visible');
   showBreakdown(card.german);
 }
@@ -6154,6 +6163,7 @@ function skipCard() {
   renderDots(card.german);
 
   updateMasteryBar();
+  if (isMasteredMode && elForgottenPanel.classList.contains('open')) renderForgottenPanel();
   elNext.classList.add('visible');
   showBreakdown(card.german);
 }
@@ -6782,8 +6792,15 @@ function applyMasteredBarVisibility() {
   document.querySelector('.masterybar').style.display = isMastered ? 'none' : '';
   elMasteredBar.style.display = isMastered ? 'flex' : 'none';
   elLearnedPanel.style.display = isMastered ? 'none' : '';
-  elForgottenPanel.classList.remove('open');
-  elBtnViewForgotten.textContent = 'Forgotten words ▾';
+  // Auto-open forgotten panel in mastered mode
+  if (isMastered) {
+    elForgottenPanel.classList.add('open');
+    elBtnViewForgotten.textContent = 'Word stats ▴';
+    renderForgottenPanel();
+  } else {
+    elForgottenPanel.classList.remove('open');
+    elBtnViewForgotten.textContent = 'Forgotten words ▾';
+  }
 }
 
 function startApp(dir) {

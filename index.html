@@ -6013,9 +6013,9 @@ function checkAnswer() {
 
     const allCorrect = allCards.every(c => matchedCards.has(c.german));
 
-    // Mark each word individually
+    // All-or-nothing: partial credit causes confusing mastery drift
     for (const c of allCards) {
-      if (matchedCards.has(c.german)) markCorrect(c.german);
+      if (allCorrect) markCorrect(c.german);
       else markWrong(c.german);
     }
 

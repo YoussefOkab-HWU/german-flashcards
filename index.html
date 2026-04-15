@@ -5424,6 +5424,26 @@ if (!localStorage.getItem('fix_accuracy_cap')) {
   if (fixed) localStorage.setItem('gfc_accuracy', JSON.stringify(accuracy));
   localStorage.setItem('fix_accuracy_cap', '1');
 }
+// One-time fix: reset accuracy for multi-answer siblings (trackCorrect was never called for them)
+if (!localStorage.getItem('fix_sibling_accuracy')) {
+  const englishMap = {};
+  for (const [cat, items] of Object.entries(DATA)) {
+    for (const item of items) {
+      const key = item.english.trim().toLowerCase() + '|' + cat;
+      if (!englishMap[key]) englishMap[key] = [];
+      englishMap[key].push(item.german);
+    }
+  }
+  for (const words of Object.values(englishMap)) {
+    if (words.length > 1) {
+      for (const w of words) {
+        if (accuracy[w]) { accuracy[w] = { shown: 0, correct: 0 }; }
+      }
+    }
+  }
+  localStorage.setItem('gfc_accuracy', JSON.stringify(accuracy));
+  localStorage.setItem('fix_sibling_accuracy', '1');
+}
 let isMasteredMode = false;
 let deck = [];
 let deckPos = 0;

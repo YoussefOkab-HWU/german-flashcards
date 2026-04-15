@@ -6621,9 +6621,10 @@ function trackMGCorrect(key) {
   saveMasteredGrammarAccuracy();
 }
 
-function startMasteredGrammarDrill() {
+async function startMasteredGrammarDrill() {
   isMasteredGrammarMode = true;
   masteredGrammarAccuracy = loadMasteredGrammarAccuracy();
+  if (!GRAMMAR) await loadGrammar();
   masteredGrammarDeck = buildMasteredGrammarDeck();
   masteredGrammarPos = 0;
   document.getElementById('mastered-tab-flashcards').classList.remove('active');

@@ -5190,7 +5190,7 @@ function startCloudListener() {
     // Always refresh UI when cloud data arrives
     if (appMode === 'flashcards') {
       updateMasteryBar();
-      if (!answered) {
+      if (!answered && !isMasteredMode) {
         const remaining = getUnlearnedCards().length;
         const retries = getRetryCards(buildCards(activeFilter)).length;
         const tierLabel = activeTier > 0 ? ` · Tier ${activeTier}` : '';

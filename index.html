@@ -5568,13 +5568,29 @@ function getNextCard() {
   cardCount++;
   const allCards = buildCards(activeFilter);
 
-  // In mastered mode: pure random from all mastered cards, avoid recent repeats
+  // In mastered mode: weighted random — lower accuracy = higher chance, avoid recent repeats
   if (isMasteredMode) {
     const mastered = allCards.filter(c => getWordState(c.german).learned);
     if (mastered.length === 0) return null;
     const fresh = mastered.filter(c => !shownRecently(c));
     const pool = fresh.length > 0 ? fresh : mastered;
-    const pick = pool[Math.floor(Math.random() * pool.length)];
+    // Weight by inverse accuracy: not reviewed=10, 0-50%=4, 50-75%=3, 75-90%=2, 90-100%=1
+    const weights = pool.map(c => {
+      const acc = accuracy[c.german];
+      if (!acc || acc.shown === 0) return 10;
+      const pct = acc.correct / acc.shown;
+      if (pct < 0.50) return 4;
+      if (pct < 0.75) return 3;
+      if (pct < 0.90) return 2;
+      return 1;
+    });
+    const total = weights.reduce((s, w) => s + w, 0);
+    let r = Math.random() * total;
+    let pick = pool[pool.length - 1];
+    for (let i = 0; i < pool.length; i++) {
+      r -= weights[i];
+      if (r <= 0) { pick = pool[i]; break; }
+    }
     lastShownAt[pick.german] = cardCount;
     return pick;
   }

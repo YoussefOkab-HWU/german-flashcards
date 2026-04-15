@@ -904,10 +904,11 @@
 </div>
 
 <div class="mastered-bar" id="mastered-bar">
-  <span><span class="val gold" id="mastered-count">0</span> mastered cards</span>
-  <span>·</span>
-  <span>avg accuracy: <span class="val green" id="mastered-avg-acc">–</span></span>
-  <button class="btn-view-forgotten" id="btn-view-forgotten">Forgotten words ▾</button>
+  <button class="mode-btn active" id="mastered-tab-flashcards">Flashcards</button>
+  <button class="mode-btn" id="mastered-tab-grammar">Grammar</button>
+  <span style="margin-left:6px">·</span>
+  <span id="mastered-bar-stats"><span class="val gold" id="mastered-count">0</span> mastered &nbsp;·&nbsp; avg accuracy: <span class="val green" id="mastered-avg-acc">–</span></span>
+  <button class="btn-view-forgotten" id="btn-view-forgotten">Word stats ▾</button>
 </div>
 
 <div class="learned-panel" id="learned-panel">
@@ -5445,6 +5446,7 @@ if (!localStorage.getItem('fix_sibling_accuracy')) {
   localStorage.setItem('fix_sibling_accuracy', '1');
 }
 let isMasteredMode = false;
+let isMasteredGrammarMode = false;
 let deck = [];
 let deckPos = 0;
 let activeFilter = 'all';
@@ -5878,6 +5880,7 @@ function showCard() {
 
 function advanceCard() {
   if (isCoreVerbMode) { advanceCoreVerbCard(); return; }
+  if (isMasteredGrammarMode) { advanceMasteredGrammarCard(); return; }
   if (appMode === 'grammar') {
     deck = shuffle(buildGrammarDeck());
     deckPos = 0;
@@ -6028,6 +6031,7 @@ elBtnViewForgotten.addEventListener('click', () => {
 // ── Checking ─────────────────────────────────────────────────────────────────
 function checkAnswer() {
   if (isCoreVerbMode) { checkCoreVerbAnswer(); return; }
+  if (isMasteredGrammarMode) { checkMasteredGrammarAnswer(); return; }
   if (appMode === 'sentences') { checkSentenceAnswer(); return; }
   if (appMode === 'grammar') { checkGrammarAnswer(); return; }
   if (answered) return;
@@ -6407,6 +6411,15 @@ elModeSentences.addEventListener('click', () => setMode('sentences'));
 elModeGrammar.addEventListener('click', () => setMode('grammar'));
 elModeBreakdown.addEventListener('click', () => setMode('breakdown'));
 
+document.getElementById('mastered-tab-flashcards').addEventListener('click', () => {
+  if (!isMasteredGrammarMode) return;
+  stopMasteredGrammarDrill();
+});
+document.getElementById('mastered-tab-grammar').addEventListener('click', () => {
+  if (isMasteredGrammarMode) return;
+  startMasteredGrammarDrill();
+});
+
 // ── Tense filters ─────────────────────────────────────────────────────────────
 function buildTenseFilters() {
   const tenses = ['all', 'present', 'past', 'future'];
@@ -6526,6 +6539,230 @@ async function loadGrammar() {
     grammarLoading = false;
     return false;
   }
+}
+
+// ── Mastered Grammar Drill ────────────────────────────────────────────────────
+function buildMasteredGrammarDeck() {
+  if (!GRAMMAR) return [];
+  const cards = [];
+  for (const [key, data] of Object.entries(GRAMMAR)) {
+    if (data.error) continue;
+    // Only grammar-mastered entries (verb conjugation, noun plural, or partizip)
+    const masteredConj = getGrammarState(key).learned;
+    const masteredPart = data.type === 'verb' && data.perfekt_ich && getGrammarState(key + '§p').learned;
+    if (!masteredConj && !masteredPart) continue;
+    if (masteredConj) cards.push({ key, grammarKey: key, ...data, _subtype: data.type === 'verb' ? 'verb' : 'noun' });
+    if (masteredPart) cards.push({ key, grammarKey: key + '§p', ...data, _subtype: 'partizip' });
+  }
+  return shuffle(cards);
+}
+
+let masteredGrammarDeck = [];
+let masteredGrammarPos = 0;
+let masteredGrammarAccuracy = {}; // key → {shown, correct}
+
+function loadMasteredGrammarAccuracy() {
+  try { return JSON.parse(localStorage.getItem('gfc_mg_accuracy') || '{}'); } catch { return {}; }
+}
+function saveMasteredGrammarAccuracy() {
+  localStorage.setItem('gfc_mg_accuracy', JSON.stringify(masteredGrammarAccuracy));
+}
+function trackMGShown(key) {
+  if (!masteredGrammarAccuracy[key]) masteredGrammarAccuracy[key] = { shown: 0, correct: 0 };
+  masteredGrammarAccuracy[key].shown++;
+  saveMasteredGrammarAccuracy();
+}
+function trackMGCorrect(key) {
+  if (!masteredGrammarAccuracy[key]) masteredGrammarAccuracy[key] = { shown: 0, correct: 0 };
+  masteredGrammarAccuracy[key].correct = Math.min(
+    masteredGrammarAccuracy[key].correct + 1, masteredGrammarAccuracy[key].shown);
+  saveMasteredGrammarAccuracy();
+}
+
+function startMasteredGrammarDrill() {
+  isMasteredGrammarMode = true;
+  masteredGrammarAccuracy = loadMasteredGrammarAccuracy();
+  masteredGrammarDeck = buildMasteredGrammarDeck();
+  masteredGrammarPos = 0;
+  document.getElementById('mastered-tab-flashcards').classList.remove('active');
+  document.getElementById('mastered-tab-grammar').classList.add('active');
+  updateMasteredGrammarBar();
+  if (masteredGrammarDeck.length === 0) {
+    appMode = 'grammar';
+    elInput.style.display = 'none';
+    document.getElementById('grammar-prompt').style.display = '';
+    document.getElementById('grammar-fields').style.display = '';
+    document.getElementById('grammar-prompt').innerHTML = 'No grammar mastered yet';
+    document.getElementById('grammar-fields').innerHTML = '';
+    elCounter.textContent = '';
+    elMasteryDots.innerHTML = '';
+    elCard.className = 'card';
+    elFeedback.className = 'feedback hidden';
+    elNext.classList.remove('visible');
+    return;
+  }
+  showMasteredGrammarCard();
+}
+
+function stopMasteredGrammarDrill() {
+  isMasteredGrammarMode = false;
+  document.getElementById('mastered-tab-grammar').classList.remove('active');
+  document.getElementById('mastered-tab-flashcards').classList.add('active');
+  updateMasteredGrammarBar();
+  // Return to flashcard mode
+  appMode = 'flashcards';
+  elInput.style.display = '';
+  document.getElementById('grammar-prompt').style.display = 'none';
+  document.getElementById('grammar-fields').style.display = 'none';
+  resetDeck();
+}
+
+function updateMasteredGrammarBar() {
+  if (!isMasteredGrammarMode) return;
+  const total = buildMasteredGrammarDeck().length;
+  const seen = Object.values(masteredGrammarAccuracy).filter(a => a.shown > 0);
+  const avgPct = seen.length === 0 ? null
+    : Math.round(seen.reduce((s, a) => s + a.correct / a.shown, 0) / seen.length * 100);
+  document.getElementById('mastered-count').textContent = total;
+  document.getElementById('mastered-avg-acc').textContent = avgPct === null ? '–' : avgPct + '%';
+  document.getElementById('mastered-bar-stats').querySelector('.val.gold').parentElement
+    .querySelector('span:first-child') // update label
+  ; // label update handled by content set above
+  // Update the label text
+  const statsEl = document.getElementById('mastered-bar-stats');
+  statsEl.innerHTML = `<span class="val gold">${total}</span> grammar mastered &nbsp;·&nbsp; avg accuracy: <span class="val green">${avgPct === null ? '–' : avgPct + '%'}</span>`;
+}
+
+function showMasteredGrammarCard() {
+  appMode = 'grammar';
+  answered = false;
+  elInput.style.display = 'none';
+  elCheck.disabled = false;
+  elNext.classList.remove('visible');
+  elCard.className = 'card';
+  elFeedback.className = 'feedback hidden';
+  elFeedback.textContent = '';
+  elWord.style.display = 'none';
+  document.getElementById('category-badge').style.display = 'none';
+  document.getElementById('gender-hint').style.display = 'none';
+  elTenseBadge.style.display = 'none';
+  elMasteryDots.innerHTML = '';
+  elSentenceDe.style.display = 'none';
+  elSentenceEn.style.display = 'none';
+
+  if (masteredGrammarPos >= masteredGrammarDeck.length) {
+    masteredGrammarDeck = buildMasteredGrammarDeck();
+    masteredGrammarPos = 0;
+  }
+  const card = masteredGrammarDeck[masteredGrammarPos];
+  const elPrompt = document.getElementById('grammar-prompt');
+  const elFields = document.getElementById('grammar-fields');
+  elPrompt.style.display = '';
+  elFields.style.display = '';
+
+  // Find English meaning
+  let englishMeaning = '';
+  if (card.type === 'verb') {
+    const entry = DATA.verbs.find(v => v.german === card.key);
+    if (entry) englishMeaning = entry.english;
+  } else {
+    const entry = DATA.nouns.find(n => n.german === card.key);
+    if (entry) englishMeaning = entry.english;
+  }
+
+  // Accuracy for this card
+  const acc = masteredGrammarAccuracy[card.grammarKey];
+  const accLabel = acc && acc.shown > 0
+    ? `${acc.correct}/${acc.shown} (${Math.round(acc.correct/acc.shown*100)}%)`
+    : 'first time';
+
+  const subtypeLabel = card._subtype === 'partizip' ? 'Partizip II' : card._subtype === 'verb' ? 'Conjugation' : 'Plural';
+  elPrompt.innerHTML = `${card.key}<span class="grammar-en-label">${englishMeaning} — ${subtypeLabel}</span>`;
+
+  elFields.innerHTML = '';
+  if (card._subtype === 'partizip') {
+    const row = document.createElement('div');
+    row.className = 'grammar-row';
+    row.innerHTML = `<span class="grammar-label">Partizip II:</span><input class="grammar-input" data-field="perfekt_ich" autocomplete="off" autocorrect="off" spellcheck="false" autocapitalize="none" placeholder="ge…">`;
+    elFields.appendChild(row);
+  } else if (card._subtype === 'verb') {
+    for (const pronoun of VERB_PRONOUNS) {
+      const row = document.createElement('div');
+      row.className = 'grammar-row';
+      row.innerHTML = `<span class="grammar-label">${pronoun}:</span><input class="grammar-input" data-field="${pronoun}" autocomplete="off" autocorrect="off" spellcheck="false" autocapitalize="none" placeholder="…">`;
+      elFields.appendChild(row);
+    }
+  } else {
+    const row = document.createElement('div');
+    row.className = 'grammar-row';
+    row.innerHTML = `<span class="grammar-label">Plural:</span><span style="color:var(--muted);font-size:0.95rem;margin-right:4px">die</span><input class="grammar-input" data-field="plural" data-prefix="die " autocomplete="off" autocorrect="off" spellcheck="false" autocapitalize="none" placeholder="…" style="flex:1">`;
+    elFields.appendChild(row);
+  }
+
+  const inputs = elFields.querySelectorAll('.grammar-input');
+  inputs.forEach((inp, i) => {
+    inp.addEventListener('keydown', e => {
+      if (e.key === 'Enter') {
+        e.stopPropagation();
+        if (i < inputs.length - 1) inputs[i + 1].focus();
+        else checkMasteredGrammarAnswer();
+      }
+    });
+  });
+  inputs[0].focus();
+  elCounter.textContent = `${masteredGrammarPos + 1} / ${masteredGrammarDeck.length} · ${accLabel}`;
+}
+
+function checkMasteredGrammarAnswer() {
+  if (answered) return;
+  const card = masteredGrammarDeck[masteredGrammarPos];
+  const inputs = document.querySelectorAll('#grammar-fields .grammar-input');
+  if (![...inputs].some(i => i.value.trim())) return;
+  answered = true;
+  inputs.forEach(i => { i.disabled = true; });
+  elCheck.disabled = true;
+  trackMGShown(card.grammarKey);
+
+  let allCorrect = true;
+  inputs.forEach(inp => {
+    const field = inp.dataset.field;
+    const expected = (card[field] || '').trim().toLowerCase();
+    const prefix = inp.dataset.prefix || '';
+    const given = (prefix + inp.value.trim()).toLowerCase();
+    const correct = expected && given === expected;
+    inp.classList.add(correct ? 'correct' : 'wrong');
+    if (!correct) allCorrect = false;
+  });
+
+  if (allCorrect) {
+    trackMGCorrect(card.grammarKey);
+    elCard.classList.add('correct');
+    elFeedback.className = 'feedback correct';
+    const acc = masteredGrammarAccuracy[card.grammarKey];
+    const pct = Math.round(acc.correct / acc.shown * 100);
+    elFeedback.innerHTML = `<span class="feedback-icon">✓</span> Correct! &nbsp;<span style="opacity:.7;font-size:.9em">accuracy: ${acc.correct}/${acc.shown} (${pct}%)</span>`;
+  } else {
+    elCard.classList.add('wrong');
+    elFeedback.className = 'feedback wrong';
+    let corrections = '';
+    inputs.forEach(inp => {
+      if (inp.classList.contains('wrong')) {
+        const field = inp.dataset.field;
+        const label = field === 'perfekt_ich' ? 'Partizip II' : field === 'plural' ? 'Plural' : field;
+        const prefix = inp.dataset.prefix || '';
+        const val = prefix ? (card[field] || '?').replace(new RegExp('^' + prefix.trim() + '\\s*', 'i'), '') : (card[field] || '?');
+        corrections += `<span style="margin-right:10px"><strong>${label}:</strong> ${val}</span>`;
+      }
+    });
+    elFeedback.innerHTML = `<span class="feedback-icon">✗</span> ${corrections}`;
+  }
+  updateMasteredGrammarBar();
+  elNext.classList.add('visible');
+}
+
+function advanceMasteredGrammarCard() {
+  masteredGrammarPos++;
+  showMasteredGrammarCard();
 }
 
 function buildGrammarDeck() {
@@ -7071,10 +7308,20 @@ function applyMasteredBarVisibility() {
   elLearnedPanel.style.display = isMastered ? 'none' : '';
   elForgottenPanel.classList.remove('open');
   elBtnViewForgotten.textContent = isMastered ? 'Word stats ▾' : 'Forgotten words ▾';
+  // Reset mastered tabs to flashcards when entering mastered mode
+  if (isMastered) {
+    document.getElementById('mastered-tab-flashcards').classList.add('active');
+    document.getElementById('mastered-tab-grammar').classList.remove('active');
+    // Update grammar mastered count in bar
+    const grammarMasteredTotal = GRAMMAR ? Object.keys(grammarProgress).filter(k =>
+      !k.endsWith('§p') && (getGrammarState(k).learned || getGrammarState(k+'§p').learned)
+    ).length : 0;
+  }
 }
 
 function startApp(dir) {
   isCoreVerbMode = false;
+  isMasteredGrammarMode = false;
   langDir = dir;
   if (dir === 'de-en') { activeTier = 0; isMasteredMode = false; } // de-en never uses mastered mode
   applyMasteredBarVisibility();

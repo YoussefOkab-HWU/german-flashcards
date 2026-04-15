@@ -5930,18 +5930,14 @@ function showAllLearned() {
 
 // ── Mastery bar + dots ────────────────────────────────────────────────────────
 function updateMasteryBar() {
-  if (isMasteredMode) {
+  if (isMasteredMode && !isMasteredGrammarMode) {
     const all = buildCards(activeFilter);
     const mastered = all.filter(c => getWordState(c.german).learned);
-    elMasteredCount.textContent = mastered.length;
-    // Compute average accuracy over mastered words that have been shown
     const seen = mastered.filter(c => getAccuracy(c.german).shown > 0);
-    if (seen.length === 0) {
-      elMasteredAvgAcc.textContent = '–';
-    } else {
-      const avg = Math.round(seen.reduce((sum, c) => sum + getAccuracyPct(c.german), 0) / seen.length);
-      elMasteredAvgAcc.textContent = `${avg}%`;
-    }
+    const avg = seen.length === 0 ? '–'
+      : Math.round(seen.reduce((sum, c) => sum + getAccuracyPct(c.german), 0) / seen.length) + '%';
+    const statsEl = document.getElementById('mastered-bar-stats');
+    statsEl.innerHTML = `<span class="val gold">${mastered.length}</span> mastered &nbsp;·&nbsp; avg accuracy: <span class="val green">${avg}</span>`;
     return;
   }
   const all = buildCards(activeFilter);
@@ -6618,17 +6614,10 @@ function stopMasteredGrammarDrill() {
 }
 
 function updateMasteredGrammarBar() {
-  if (!isMasteredGrammarMode) return;
   const total = buildMasteredGrammarDeck().length;
   const seen = Object.values(masteredGrammarAccuracy).filter(a => a.shown > 0);
   const avgPct = seen.length === 0 ? null
     : Math.round(seen.reduce((s, a) => s + a.correct / a.shown, 0) / seen.length * 100);
-  document.getElementById('mastered-count').textContent = total;
-  document.getElementById('mastered-avg-acc').textContent = avgPct === null ? '–' : avgPct + '%';
-  document.getElementById('mastered-bar-stats').querySelector('.val.gold').parentElement
-    .querySelector('span:first-child') // update label
-  ; // label update handled by content set above
-  // Update the label text
   const statsEl = document.getElementById('mastered-bar-stats');
   statsEl.innerHTML = `<span class="val gold">${total}</span> grammar mastered &nbsp;·&nbsp; avg accuracy: <span class="val green">${avgPct === null ? '–' : avgPct + '%'}</span>`;
 }

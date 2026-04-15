@@ -885,6 +885,11 @@
   <div class="progress-bar" id="progress-bar"></div>
 </div>
 
+<div class="tense-filters" id="mastered-subtabs" style="display:none">
+  <button class="filter-btn active" id="mastered-tab-flashcards">Flashcards</button>
+  <button class="filter-btn" id="mastered-tab-grammar">Grammar</button>
+</div>
+
 <div class="card-wrap" id="card-wrap">
   <div class="card" id="card">
     <span class="card-counter" id="card-counter"></span>
@@ -904,9 +909,6 @@
 </div>
 
 <div class="mastered-bar" id="mastered-bar">
-  <button class="mode-btn active" id="mastered-tab-flashcards">Flashcards</button>
-  <button class="mode-btn" id="mastered-tab-grammar">Grammar</button>
-  <span style="margin-left:6px">·</span>
   <span id="mastered-bar-stats"><span class="val gold" id="mastered-count">0</span> mastered &nbsp;·&nbsp; avg accuracy: <span class="val green" id="mastered-avg-acc">–</span></span>
   <button class="btn-view-forgotten" id="btn-view-forgotten">Word stats ▾</button>
 </div>
@@ -5981,8 +5983,52 @@ elBtnViewLearned.addEventListener('click', () => {
   if (open) renderLearnedPanel();
 });
 
+// ── Grammar mastered stats panel ──────────────────────────────────────────────
+function renderGrammarStatsPanel() {
+  const deck = buildMasteredGrammarDeck();
+  elForgottenList.innerHTML = '';
+  const h2 = document.querySelector('#forgotten-panel h2');
+  if (h2) h2.textContent = 'Grammar Mastered Stats — sorted by success rate';
+
+  if (deck.length === 0) {
+    elForgottenList.innerHTML = '<span style="color:var(--muted);font-size:0.85rem">No grammar mastered yet.</span>';
+    return;
+  }
+
+  // Deduplicate by grammarKey and sort: unseen first, then ascending accuracy
+  const seen = new Set();
+  const unique = deck.filter(c => { if (seen.has(c.grammarKey)) return false; seen.add(c.grammarKey); return true; });
+  const sorted = [...unique].sort((a, b) => {
+    const aa = masteredGrammarAccuracy[a.grammarKey];
+    const ba = masteredGrammarAccuracy[b.grammarKey];
+    const pa = aa && aa.shown > 0 ? aa.correct / aa.shown : null;
+    const pb = ba && ba.shown > 0 ? ba.correct / ba.shown : null;
+    if (pa === null && pb === null) return 0;
+    if (pa === null) return -1;
+    if (pb === null) return 1;
+    return pa - pb;
+  });
+
+  sorted.forEach(c => {
+    const acc = masteredGrammarAccuracy[c.grammarKey];
+    const pct = acc && acc.shown > 0 ? Math.round(acc.correct / acc.shown * 100) : null;
+    const subtypeLabel = c._subtype === 'partizip' ? 'Partizip' : c._subtype === 'verb' ? 'Conjugation' : 'Plural';
+    const row = document.createElement('div');
+    row.className = 'forgotten-row';
+    let accClass, accText;
+    if (pct === null) { accClass = 'unseen'; accText = 'not yet reviewed'; }
+    else if (pct < 60) { accClass = 'bad';  accText = `${acc.correct}/${acc.shown} (${pct}%) ⚠`; }
+    else if (pct < 80) { accClass = 'ok';   accText = `${acc.correct}/${acc.shown} (${pct}%)`; }
+    else               { accClass = 'good'; accText = `${acc.correct}/${acc.shown} (${pct}%) ✓`; }
+    row.innerHTML = `<span><span class="fw-word">${c.key}</span><span class="fw-en" style="font-size:0.75rem;opacity:0.6;margin-left:4px">${subtypeLabel}</span></span><span class="fw-acc ${accClass}">${accText}</span>`;
+    elForgottenList.appendChild(row);
+  });
+}
+
 // ── Forgotten words panel ─────────────────────────────────────────────────────
 function renderForgottenPanel() {
+  const h2 = document.querySelector('#forgotten-panel h2');
+  if (h2) h2.textContent = isMasteredMode ? 'Mastered Word Stats — sorted by success rate' : 'Forgotten Words';
   const all = buildCards('all');
   const mastered = all.filter(c => getWordState(c.german).learned);
   elForgottenList.innerHTML = '';
@@ -6021,7 +6067,7 @@ elBtnViewForgotten.addEventListener('click', () => {
   const open = elForgottenPanel.classList.toggle('open');
   const label = isMasteredMode ? 'Word stats' : 'Forgotten words';
   elBtnViewForgotten.textContent = open ? `${label} ▴` : `${label} ▾`;
-  if (open) renderForgottenPanel();
+  if (open) isMasteredGrammarMode ? renderGrammarStatsPanel() : renderForgottenPanel();
 });
 
 // ── Checking ─────────────────────────────────────────────────────────────────
@@ -6159,7 +6205,7 @@ function checkAnswer() {
   }
 
   updateMasteryBar();
-  if (isMasteredMode && elForgottenPanel.classList.contains('open')) renderForgottenPanel();
+  if (isMasteredMode && elForgottenPanel.classList.contains('open')) { isMasteredGrammarMode ? renderGrammarStatsPanel() : renderForgottenPanel(); }
   elNext.classList.add('visible');
   showBreakdown(card.german);
 }
@@ -6267,7 +6313,7 @@ function skipCard() {
   renderDots(card.german);
 
   updateMasteryBar();
-  if (isMasteredMode && elForgottenPanel.classList.contains('open')) renderForgottenPanel();
+  if (isMasteredMode && elForgottenPanel.classList.contains('open')) { isMasteredGrammarMode ? renderGrammarStatsPanel() : renderForgottenPanel(); }
   elNext.classList.add('visible');
   showBreakdown(card.german);
 }
@@ -7297,14 +7343,11 @@ function applyMasteredBarVisibility() {
   elLearnedPanel.style.display = isMastered ? 'none' : '';
   elForgottenPanel.classList.remove('open');
   elBtnViewForgotten.textContent = isMastered ? 'Word stats ▾' : 'Forgotten words ▾';
-  // Reset mastered tabs to flashcards when entering mastered mode
+  // Show/hide mastered subtabs
+  document.getElementById('mastered-subtabs').style.display = isMastered ? 'flex' : 'none';
   if (isMastered) {
     document.getElementById('mastered-tab-flashcards').classList.add('active');
     document.getElementById('mastered-tab-grammar').classList.remove('active');
-    // Update grammar mastered count in bar
-    const grammarMasteredTotal = GRAMMAR ? Object.keys(grammarProgress).filter(k =>
-      !k.endsWith('§p') && (getGrammarState(k).learned || getGrammarState(k+'§p').learned)
-    ).length : 0;
   }
 }
 

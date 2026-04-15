@@ -5920,6 +5920,7 @@ function updateMasteryBar() {
 }
 
 function renderDots(german) {
+  if (isMasteredMode) { elMasteryDots.innerHTML = ''; return; }
   const consecutive = getWordState(german).consecutive;
   elMasteryDots.innerHTML = '';
   for (let i = 0; i < 5; i++) {
@@ -6050,7 +6051,7 @@ function checkAnswer() {
       elFeedback.className = 'feedback correct';
       elFeedback.innerHTML = `<span class="feedback-icon">✓</span> Correct! &nbsp;${correctDisplay}<span style="opacity:.7;font-size:.9em;margin-left:6px">${suffix}</span>`;
     } else {
-      { const _r = getUnlearnedCards().length, _p = getRetryCards(buildCards(activeFilter)).length; elCounter.textContent = _p > 0 ? `${_r} remaining · ${_p} to retry` : `${_r} remaining`; }
+      if (!isMasteredMode) { const _r = getUnlearnedCards().length, _p = getRetryCards(buildCards(activeFilter)).length; elCounter.textContent = _p > 0 ? `${_r} remaining · ${_p} to retry` : `${_r} remaining`; }
       elCard.classList.add('wrong');
       elFeedback.className = 'feedback wrong';
       const wrongList = allCards.filter(c => !matchedCards.has(c.german)).map(c => `<strong>${c.german}</strong>`).join(', ');
@@ -6108,7 +6109,7 @@ function checkAnswer() {
     const acceptBtn = langDir === 'de-en'
       ? `<button id="btn-accept" style="margin-left:12px;padding:3px 12px;border-radius:8px;border:1px solid rgba(255,255,255,0.4);background:rgba(255,255,255,0.12);color:#fff;font-size:0.82rem;font-weight:600;cursor:pointer">Accept my answer</button>`
       : '';
-    const wasMastered = consecutiveBeforeAnswer >= 5;
+    const wasMastered = !isMasteredMode && consecutiveBeforeAnswer >= 5;
     const unmasterBtn = wasMastered
       ? `<button id="btn-unmaster" style="margin-left:12px;padding:3px 12px;border-radius:8px;border:1px solid rgba(255,100,100,0.5);background:rgba(255,60,60,0.15);color:#f88;font-size:0.82rem;font-weight:600;cursor:pointer">Unmaster it?</button>`
       : '';
@@ -6225,11 +6226,11 @@ function skipCard() {
         ? [card, ...currentSiblings].map(c => `<strong>${c.german}</strong> ${buildSpeakBtn(c.german)}`).join(' / ')
         : `<strong>${card.german}</strong> ${buildSpeakBtn(card.german)}`)
     : card.english;
-  const skipUnmasterBtn = wasSkipMastered
+  const skipUnmasterBtn = wasSkipMastered && !isMasteredMode
     ? `<button id="btn-unmaster" style="margin-left:12px;padding:3px 12px;border-radius:8px;border:1px solid rgba(255,100,100,0.5);background:rgba(255,60,60,0.15);color:#f88;font-size:0.82rem;font-weight:600;cursor:pointer">Unmaster it?</button>`
     : '';
   elFeedback.innerHTML = `<span class="feedback-icon">↷</span> Skipped — ${skipAnswer}${skipUnmasterBtn}`;
-  if (wasSkipMastered) {
+  if (wasSkipMastered && !isMasteredMode) {
     document.getElementById('btn-unmaster').addEventListener('click', () => unmasterWord(card.german));
   }
   renderDots(card.german);

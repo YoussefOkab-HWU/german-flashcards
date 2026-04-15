@@ -6021,7 +6021,7 @@ function checkAnswer() {
 
   // ── Multi-answer: en-de with sibling cards (same English, multiple Germans) ──
   if (langDir === 'en-de' && currentSiblings.length > 0) {
-    if (isMasteredMode) trackShown(card.german);
+    if (isMasteredMode) for (const c of [card, ...currentSiblings]) trackShown(c.german);
     const allCards = [card, ...currentSiblings];
     const inputs = getAllInputs().map(i => i.value.trim());
 
@@ -6049,6 +6049,7 @@ function checkAnswer() {
     const correctDisplay = allCards.map(c => `<strong>${c.german}</strong> ${buildSpeakBtn(c.german)}`).join(' / ');
 
     if (allCorrect) {
+      if (isMasteredMode) for (const c of allCards) trackCorrect(c.german);
       const state = getWordState(card.german);
       let suffix;
       if (isMasteredMode) {

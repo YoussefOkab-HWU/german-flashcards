@@ -868,9 +868,9 @@
 <div class="filters" id="filters"></div>
 <div class="tense-filters" id="tense-filters"></div>
 <div class="tense-filters" id="grammar-type-filters" style="display:none">
-  <button class="filter-btn active" data-gtype="all">All</button>
+  <button class="filter-btn active" data-gtype="noun">Nouns</button>
   <button class="filter-btn" data-gtype="verb">Verbs</button>
-  <button class="filter-btn" data-gtype="noun">Nouns</button>
+  <button class="filter-btn" data-gtype="partizip">Partizip</button>
 </div>
 
 <div class="progress-wrap">
@@ -5421,7 +5421,7 @@ let deck = [];
 let deckPos = 0;
 let activeFilter = 'all';
 let activeTense = 'all';
-let activeGrammarType = 'all'; // 'all', 'verb', 'noun'
+let activeGrammarType = 'noun'; // 'noun', 'verb', 'partizip'
 let appMode = 'flashcards';
 let langDir = 'de-en'; // 'de-en' or 'en-de'
 let answered = false;
@@ -6175,7 +6175,7 @@ function skipCard() {
   if (isMasteredMode) trackShown(card.german);
 
   if (appMode === 'grammar') {
-    markGrammarWrong(card.key);
+    markGrammarWrong(card.grammarKey || card.key);
     answered = true;
     document.querySelectorAll('#grammar-fields .grammar-input').forEach(inp => {
       inp.disabled = true;
@@ -6502,15 +6502,22 @@ function buildGrammarDeck() {
   const cards = [];
   for (const [key, data] of Object.entries(GRAMMAR)) {
     if (data.error) continue;
-    // Type filter (verb/noun)
-    if (activeGrammarType !== 'all' && data.type !== activeGrammarType) continue;
+    // Type filter
+    if (activeGrammarType === 'noun' && data.type !== 'noun') continue;
+    if (activeGrammarType === 'verb' && data.type !== 'verb') continue;
+    if (activeGrammarType === 'partizip') {
+      if (data.type !== 'verb') continue;
+      if (!data.perfekt_ich) continue;
+    }
     // Check if word is mastered in flashcards
     if (!getWordState(key).learned) continue;
     // Tier filter
     if (activeTier > 0 && TIERS[key] !== activeTier) continue;
+    // Partizip uses separate progress key so it's tracked independently
+    const grammarKey = activeGrammarType === 'partizip' ? key + '§p' : key;
     // Skip already grammar-mastered
-    if (getGrammarState(key).learned) continue;
-    cards.push({ key, ...data });
+    if (getGrammarState(grammarKey).learned) continue;
+    cards.push({ key, grammarKey, ...data });
   }
   return cards;
 }
@@ -6541,7 +6548,7 @@ function showGrammarCard() {
   elFields.style.display = '';
 
   const card = deck[deckPos];
-  const state = getGrammarState(card.key);
+  const state = getGrammarState(card.grammarKey || card.key);
 
   // Find English meaning from DATA
   let englishMeaning = '';
@@ -6557,18 +6564,21 @@ function showGrammarCard() {
 
   // Build input rows
   elFields.innerHTML = '';
-  if (card.type === 'verb') {
+  if (card.type === 'verb' && activeGrammarType === 'partizip') {
+    // Partizip-only card
+    const pastRow = document.createElement('div');
+    pastRow.className = 'grammar-row';
+    pastRow.innerHTML = `<span class="grammar-label">Partizip II:</span><input class="grammar-input" data-field="perfekt_ich" autocomplete="off" autocorrect="off" spellcheck="false" autocapitalize="none" placeholder="ge…">`;
+    elFields.appendChild(pastRow);
+    elFields.querySelector('.grammar-input').focus();
+  } else if (card.type === 'verb') {
+    // Conjugation-only card (no Partizip II)
     for (const pronoun of VERB_PRONOUNS) {
       const row = document.createElement('div');
       row.className = 'grammar-row';
       row.innerHTML = `<span class="grammar-label">${pronoun}:</span><input class="grammar-input" data-field="${pronoun}" autocomplete="off" autocorrect="off" spellcheck="false" autocapitalize="none" placeholder="…">`;
       elFields.appendChild(row);
     }
-    // Perfekt row
-    const pastRow = document.createElement('div');
-    pastRow.className = 'grammar-row';
-    pastRow.innerHTML = `<span class="grammar-label">Partizip II:</span><input class="grammar-input" data-field="perfekt_ich" autocomplete="off" autocorrect="off" spellcheck="false" autocapitalize="none" placeholder="ge…">`;
-    elFields.appendChild(pastRow);
     // Focus first input
     elFields.querySelector('.grammar-input').focus();
   } else {
@@ -6622,14 +6632,14 @@ function checkGrammarAnswer() {
   });
 
   if (allCorrect) {
-    markGrammarCorrect(card.key);
-    const state = getGrammarState(card.key);
+    markGrammarCorrect(card.grammarKey || card.key);
+    const state = getGrammarState(card.grammarKey || card.key);
     const suffix = state.learned ? ' 🎓 Mastered!' : ` (${state.consecutive}/3)`;
     elCard.classList.add('correct');
     elFeedback.className = 'feedback correct';
     elFeedback.innerHTML = `<span class="feedback-icon">✓</span> All correct!${suffix}`;
   } else {
-    markGrammarWrong(card.key);
+    markGrammarWrong(card.grammarKey || card.key);
     // Show correct answers next to wrong inputs
     let corrections = '';
     inputs.forEach(inp => {

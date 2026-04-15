@@ -609,6 +609,9 @@
   .tier-option.tier-mastered { border-color: rgba(255,215,0,0.2); }
   .tier-option.tier-mastered:hover { border-color: #ffd700; }
   .tier-option.tier-mastered .tier-num { color: #ffd700; }
+  .tier-option.tier-core { border-color: rgba(0,200,255,0.2); }
+  .tier-option.tier-core:hover { border-color: #00c8ff; }
+  .tier-option.tier-core .tier-num { color: #00c8ff; }
 
   /* Accuracy / forgotten-words panel */
   .forgotten-panel {
@@ -840,6 +843,11 @@
       <div class="tier-num">★</div>
       <div class="tier-name">Mastered</div>
       <div class="tier-count" id="mastered-tier-count">0 mastered</div>
+    </div>
+    <div class="tier-option tier-core" onclick="startCoreVerbDrill()">
+      <div class="tier-num">⚡</div>
+      <div class="tier-name">Core Verbs</div>
+      <div class="tier-count">haben · sein · werden</div>
     </div>
   </div>
 </div>
@@ -5849,6 +5857,7 @@ function showCard() {
 }
 
 function advanceCard() {
+  if (isCoreVerbMode) { advanceCoreVerbCard(); return; }
   if (appMode === 'grammar') {
     deck = shuffle(buildGrammarDeck());
     deckPos = 0;
@@ -5998,6 +6007,7 @@ elBtnViewForgotten.addEventListener('click', () => {
 
 // ── Checking ─────────────────────────────────────────────────────────────────
 function checkAnswer() {
+  if (isCoreVerbMode) { checkCoreVerbAnswer(); return; }
   if (appMode === 'sentences') { checkSentenceAnswer(); return; }
   if (appMode === 'grammar') { checkGrammarAnswer(); return; }
   if (answered) return;
@@ -6870,6 +6880,169 @@ function startAppWithTier(tier) {
   startApp('en-de');
 }
 
+// ── Core Verb Drill ───────────────────────────────────────────────────────────
+const CORE_VERBS = [
+  {
+    key: 'haben (Präsens)', label: 'haben', sublabel: 'to have — Präsens',
+    rows: [
+      { pronoun: 'ich',       answer: 'habe' },
+      { pronoun: 'du',        answer: 'hast' },
+      { pronoun: 'er/sie/es', answer: 'hat' },
+      { pronoun: 'wir',       answer: 'haben' },
+      { pronoun: 'ihr',       answer: 'habt' },
+      { pronoun: 'Sie',       answer: 'haben' },
+    ]
+  },
+  {
+    key: 'sein (Präsens)', label: 'sein', sublabel: 'to be — Präsens',
+    rows: [
+      { pronoun: 'ich',       answer: 'bin' },
+      { pronoun: 'du',        answer: 'bist' },
+      { pronoun: 'er/sie/es', answer: 'ist' },
+      { pronoun: 'wir',       answer: 'sind' },
+      { pronoun: 'ihr',       answer: 'seid' },
+      { pronoun: 'Sie',       answer: 'sind' },
+    ]
+  },
+  {
+    key: 'werden (Präsens)', label: 'werden', sublabel: 'to become / will — Präsens',
+    rows: [
+      { pronoun: 'ich',       answer: 'werde' },
+      { pronoun: 'du',        answer: 'wirst' },
+      { pronoun: 'er/sie/es', answer: 'wird' },
+      { pronoun: 'wir',       answer: 'werden' },
+      { pronoun: 'ihr',       answer: 'werdet' },
+      { pronoun: 'Sie',       answer: 'werden' },
+    ]
+  },
+  {
+    key: 'haben (Präteritum)', label: 'haben', sublabel: 'to have — Präteritum',
+    rows: [
+      { pronoun: 'ich',       answer: 'hatte' },
+      { pronoun: 'du',        answer: 'hattest' },
+      { pronoun: 'er/sie/es', answer: 'hatte' },
+      { pronoun: 'wir',       answer: 'hatten' },
+      { pronoun: 'ihr',       answer: 'hattet' },
+      { pronoun: 'Sie',       answer: 'hatten' },
+    ]
+  },
+  {
+    key: 'sein (Präteritum)', label: 'sein', sublabel: 'to be — Präteritum',
+    rows: [
+      { pronoun: 'ich',       answer: 'war' },
+      { pronoun: 'du',        answer: 'warst' },
+      { pronoun: 'er/sie/es', answer: 'war' },
+      { pronoun: 'wir',       answer: 'waren' },
+      { pronoun: 'ihr',       answer: 'wart' },
+      { pronoun: 'Sie',       answer: 'waren' },
+    ]
+  },
+];
+
+let isCoreVerbMode = false;
+let coreVerbIndex = 0;
+
+function startCoreVerbDrill() {
+  isCoreVerbMode = true;
+  isMasteredMode = false;
+  activeTier = 0;
+  document.getElementById('tier-select-screen').style.display = 'none';
+  coreVerbIndex = 0;
+  // Set up UI like grammar mode
+  appMode = 'grammar';
+  langDir = 'en-de';
+  applyMasteredBarVisibility();
+  elTenseFilters.classList.remove('visible');
+  document.getElementById('grammar-type-filters').style.display = 'none';
+  document.getElementById('filters').style.display = 'none';
+  elLangScreen.style.display = 'none';
+  elUmlautBar.classList.remove('hidden');
+  showCoreVerbCard();
+}
+
+function showCoreVerbCard() {
+  answered = false;
+  elInput.style.display = 'none';
+  elCheck.disabled = false;
+  elNext.classList.remove('visible');
+  elCard.className = 'card';
+  elFeedback.className = 'feedback hidden';
+  elFeedback.textContent = '';
+  elWord.style.display = 'none';
+  document.getElementById('category-badge').style.display = 'none';
+  document.getElementById('gender-hint').style.display = 'none';
+  elTenseBadge.style.display = 'none';
+  elMasteryDots.innerHTML = '';
+  elSentenceDe.style.display = 'none';
+  elSentenceEn.style.display = 'none';
+
+  const verb = CORE_VERBS[coreVerbIndex];
+  const elPrompt = document.getElementById('grammar-prompt');
+  const elFields = document.getElementById('grammar-fields');
+  elPrompt.style.display = '';
+  elFields.style.display = '';
+  elPrompt.innerHTML = `${verb.label}<span class="grammar-en-label">${verb.sublabel}</span>`;
+
+  elFields.innerHTML = '';
+  for (const row of verb.rows) {
+    const div = document.createElement('div');
+    div.className = 'grammar-row';
+    div.innerHTML = `<span class="grammar-label">${row.pronoun}:</span><input class="grammar-input" data-answer="${row.answer}" autocomplete="off" autocorrect="off" spellcheck="false" autocapitalize="none" placeholder="…">`;
+    elFields.appendChild(div);
+  }
+  const coreInputs = elFields.querySelectorAll('.grammar-input');
+  coreInputs.forEach((inp, i) => {
+    inp.addEventListener('keydown', e => {
+      if (e.key === 'Enter') {
+        e.stopPropagation();
+        if (i < coreInputs.length - 1) coreInputs[i + 1].focus();
+        else checkCoreVerbAnswer();
+      }
+    });
+  });
+  coreInputs[0].focus();
+  elCounter.textContent = `${coreVerbIndex + 1} / ${CORE_VERBS.length} · Core Verbs drill`;
+}
+
+function checkCoreVerbAnswer() {
+  if (answered) return;
+  const inputs = document.querySelectorAll('#grammar-fields .grammar-input');
+  if (![...inputs].some(i => i.value.trim())) return;
+  answered = true;
+  inputs.forEach(i => { i.disabled = true; });
+  elCheck.disabled = true;
+
+  let allCorrect = true;
+  inputs.forEach(inp => {
+    const correct = inp.value.trim().toLowerCase() === inp.dataset.answer.toLowerCase();
+    inp.classList.add(correct ? 'correct' : 'wrong');
+    if (!correct) allCorrect = false;
+  });
+
+  if (allCorrect) {
+    elCard.classList.add('correct');
+    elFeedback.className = 'feedback correct';
+    elFeedback.innerHTML = `<span class="feedback-icon">✓</span> All correct!`;
+  } else {
+    elCard.classList.add('wrong');
+    elFeedback.className = 'feedback wrong';
+    let corrections = '';
+    inputs.forEach(inp => {
+      if (inp.classList.contains('wrong')) {
+        const pronoun = inp.closest('.grammar-row').querySelector('.grammar-label').textContent;
+        corrections += `<span style="margin-right:10px"><strong>${pronoun}</strong> ${inp.dataset.answer}</span>`;
+      }
+    });
+    elFeedback.innerHTML = `<span class="feedback-icon">✗</span> ${corrections}`;
+  }
+  elNext.classList.add('visible');
+}
+
+function advanceCoreVerbCard() {
+  coreVerbIndex = (coreVerbIndex + 1) % CORE_VERBS.length;
+  showCoreVerbCard();
+}
+
 function applyMasteredBarVisibility() {
   const isMastered = isMasteredMode;
   document.querySelector('.masterybar').style.display = isMastered ? 'none' : '';
@@ -6880,6 +7053,7 @@ function applyMasteredBarVisibility() {
 }
 
 function startApp(dir) {
+  isCoreVerbMode = false;
   langDir = dir;
   if (dir === 'de-en') { activeTier = 0; isMasteredMode = false; } // de-en never uses mastered mode
   applyMasteredBarVisibility();

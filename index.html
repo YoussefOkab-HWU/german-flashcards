@@ -852,9 +852,9 @@
   </div>
 </div>
 
-<h1>German Flashcards</h1>
+<h1 id="main-title">German Flashcards</h1>
 
-<div class="mode-toggle">
+<div class="mode-toggle" id="mode-toggle">
   <button class="mode-btn active" id="mode-flashcards">Flashcards</button>
   <button class="mode-btn" id="mode-sentences">Sentences</button>
   <button class="mode-btn" id="mode-grammar">Grammar</button>
@@ -7361,6 +7361,9 @@ function applyMasteredBarVisibility() {
   elLearnedPanel.style.display = isMastered ? 'none' : '';
   elForgottenPanel.classList.remove('open');
   elBtnViewForgotten.textContent = isMastered ? 'Word stats ▾' : 'Forgotten words ▾';
+  // Swap mode toggle ↔ mastered title
+  document.getElementById('mode-toggle').style.display = isMastered ? 'none' : '';
+  document.getElementById('main-title').textContent = isMastered ? 'Mastered' : 'German Flashcards';
   // Show/hide mastered subtabs
   document.getElementById('mastered-subtabs').style.display = isMastered ? 'flex' : 'none';
   if (isMastered) {

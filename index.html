@@ -5963,14 +5963,22 @@ function showAllLearned() {
 
 // ── Mastery bar + dots ────────────────────────────────────────────────────────
 function updateMasteryBar() {
-  if (isMasteredMode && !isMasteredGrammarMode) {
+  if (isMasteredMode && (isMasteredAllMode || !isMasteredGrammarMode)) {
     const all = buildCards(activeFilter);
-    const mastered = all.filter(c => getWordState(c.german).learned);
-    const seen = mastered.filter(c => getAccuracy(c.german).shown > 0);
-    const avg = seen.length === 0 ? '–'
-      : Math.round(seen.reduce((sum, c) => sum + getAccuracyPct(c.german), 0) / seen.length) + '%';
+    const masteredFlash = all.filter(c => getWordState(c.german).learned);
+    const flashSeen = masteredFlash.filter(c => getAccuracy(c.german).shown > 0);
+    const flashSum = flashSeen.reduce((s, c) => s + getAccuracyPct(c.german), 0);
+
+    const grammarSeen = Object.entries(masteredGrammarAccuracy).filter(([, a]) => a.shown > 0);
+    const grammarSum = grammarSeen.reduce((s, [, a]) => s + Math.round(a.correct / a.shown * 100), 0);
+
+    const totalSeen = flashSeen.length + grammarSeen.length;
+    const avg = totalSeen === 0 ? '–' : Math.round((flashSum + grammarSum) / totalSeen) + '%';
+
+    const flashCount = masteredFlash.length;
+    const gramCount = Object.values(grammarProgress).filter(s => s.learned).length;
     const statsEl = document.getElementById('mastered-bar-stats');
-    statsEl.innerHTML = `<span class="val gold">${mastered.length}</span> mastered &nbsp;·&nbsp; avg accuracy: <span class="val green">${avg}</span>`;
+    statsEl.innerHTML = `<span class="val gold">${flashCount}</span> flash · <span class="val gold">${gramCount}</span> grammar mastered &nbsp;·&nbsp; avg accuracy: <span class="val green">${avg}</span>`;
     return;
   }
   const all = buildCards(activeFilter);
@@ -6866,6 +6874,7 @@ function showMasteredAllCard() {
 }
 
 function updateMasteredGrammarBar() {
+  if (isMasteredAllMode) { updateMasteryBar(); return; }
   const total = buildMasteredGrammarDeck().length;
   const seen = Object.values(masteredGrammarAccuracy).filter(a => a.shown > 0);
   const avgPct = seen.length === 0 ? null

@@ -909,7 +909,7 @@
 </div>
 
 <div class="mastered-bar" id="mastered-bar">
-  <span id="mastered-bar-stats"><span class="val gold" id="mastered-count">0</span> mastered &nbsp;·&nbsp; avg accuracy: <span class="val green" id="mastered-avg-acc">–</span></span>
+  <span id="mastered-bar-stats"><span class="val gold" id="mastered-count">0</span> mastered · <span class="val green" id="mastered-avg-acc">–</span></span>
   <button class="btn-view-forgotten" id="btn-view-forgotten">Word stats ▾</button>
 </div>
 
@@ -5978,7 +5978,7 @@ function updateMasteryBar() {
     const flashCount = masteredFlash.length;
     const gramCount = Object.values(grammarProgress).filter(s => s.learned).length;
     const statsEl = document.getElementById('mastered-bar-stats');
-    statsEl.innerHTML = `<span class="val gold">${flashCount}</span> flash · <span class="val gold">${gramCount}</span> grammar mastered &nbsp;·&nbsp; avg accuracy: <span class="val green">${avg}</span>`;
+    statsEl.innerHTML = `<span class="val gold">${flashCount}</span> flash · <span class="val gold">${gramCount}</span> grammar · <span class="val green">${avg}</span>`;
     return;
   }
   const all = buildCards(activeFilter);
@@ -6907,13 +6907,16 @@ function updateMasteredGrammarBar() {
   const avgPct = seen.length === 0 ? null
     : Math.round(seen.reduce((s, a) => s + a.correct / a.shown, 0) / seen.length * 100);
   const statsEl = document.getElementById('mastered-bar-stats');
-  statsEl.innerHTML = `<span class="val gold">${total}</span> grammar mastered &nbsp;·&nbsp; avg accuracy: <span class="val green">${avgPct === null ? '–' : avgPct + '%'}</span>`;
+  statsEl.innerHTML = `<span class="val gold">${total}</span> grammar mastered · <span class="val green">${avgPct === null ? '–' : avgPct + '%'}</span>`;
 }
 
 function showMasteredGrammarCard() {
   appMode = 'grammar';
   answered = false;
+  elInput.value = '';
   elInput.style.display = 'none';
+  clearExtraInputs();
+  hideBreakdown();
   elCheck.disabled = false;
   elNext.classList.remove('visible');
   elCard.className = 'card';

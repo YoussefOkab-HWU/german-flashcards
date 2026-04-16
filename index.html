@@ -6890,6 +6890,8 @@ function showMasteredGrammarCard() {
   elMasteryDots.innerHTML = '';
   elSentenceDe.style.display = 'none';
   elSentenceEn.style.display = 'none';
+  const masteredAccEl = document.getElementById('mastered-card-acc');
+  if (masteredAccEl) masteredAccEl.style.display = 'none';
 
   if (masteredGrammarPos >= masteredGrammarDeck.length) {
     masteredGrammarDeck = buildMasteredGrammarDeck();
@@ -7077,6 +7079,8 @@ function showGrammarCard() {
   elTenseBadge.style.display = 'none';
   elMasteryDots.innerHTML = '';
   elSentenceDe.style.display = 'none';
+  const _accEl = document.getElementById('mastered-card-acc');
+  if (_accEl) _accEl.style.display = 'none';
   elSentenceEn.style.display = 'none';
 
   const elPrompt = document.getElementById('grammar-prompt');

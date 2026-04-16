@@ -6895,9 +6895,9 @@ function checkMasteredGrammarAnswer() {
   let allCorrect = true;
   inputs.forEach(inp => {
     const field = inp.dataset.field;
-    const expected = (card[field] || '').trim().toLowerCase();
+    const expected = (card[field] || '').trim().toLowerCase().normalize('NFC');
     const prefix = inp.dataset.prefix || '';
-    const given = (prefix + inp.value.trim()).toLowerCase();
+    const given = (prefix + inp.value.trim()).toLowerCase().normalize('NFC');
     const correct = expected && given === expected;
     inp.classList.add(correct ? 'correct' : 'wrong');
     if (!correct) allCorrect = false;
@@ -6922,8 +6922,8 @@ function checkMasteredGrammarAnswer() {
         const prefix = inp.dataset.prefix || '';
         const val = prefix ? (card[field] || '?').replace(new RegExp('^' + prefix.trim() + '\\s*', 'i'), '') : (card[field] || '?');
         corrections += `<span style="margin-right:10px"><strong>${label}:</strong> ${val}</span>`;
-        const expected = (card[field] || '').trim().toLowerCase();
-        const given = (prefix + inp.value.trim()).toLowerCase();
+        const expected = (card[field] || '').trim().toLowerCase().normalize('NFC');
+        const given = (prefix + inp.value.trim()).toLowerCase().normalize('NFC');
         const maxDist = expected.length >= 9 ? 2 : expected.length >= 5 ? 1 : 0;
         if (maxDist > 0 && levenshtein(given, expected) <= maxDist) isCloseEnough = true;
       }
@@ -7087,9 +7087,9 @@ function checkGrammarAnswer() {
   let allCorrect = true;
   inputs.forEach(inp => {
     const field = inp.dataset.field;
-    const expected = (card[field] || '').trim().toLowerCase();
+    const expected = (card[field] || '').trim().toLowerCase().normalize('NFC');
     const prefix = inp.dataset.prefix || '';
-    const given = (prefix + inp.value.trim()).toLowerCase();
+    const given = (prefix + inp.value.trim()).toLowerCase().normalize('NFC');
     const correct = expected && given === expected;
     inp.classList.add(correct ? 'correct' : 'wrong');
     if (!correct) allCorrect = false;
@@ -7122,8 +7122,8 @@ function checkGrammarAnswer() {
           ? (card[field] || '?').replace(new RegExp('^' + prefix.trim() + '\\s*', 'i'), '')
           : (card[field] || '?');
         corrections += `<span style="margin-right:10px"><strong>${label}:</strong> ${displayVal}</span>`;
-        const expected = (card[field] || '').trim().toLowerCase();
-        const given = (prefix + inp.value.trim()).toLowerCase();
+        const expected = (card[field] || '').trim().toLowerCase().normalize('NFC');
+        const given = (prefix + inp.value.trim()).toLowerCase().normalize('NFC');
         const maxDist = expected.length >= 9 ? 2 : expected.length >= 5 ? 1 : 0;
         if (maxDist > 0 && levenshtein(given, expected) <= maxDist) isCloseEnough = true;
       }

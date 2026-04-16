@@ -5596,6 +5596,7 @@ let cardCount = 0; // total cards served this session
 const lastShownAt = {}; // german -> cardCount when last shown
 const retryCooldownFor = {}; // german -> assigned cooldown (15-50)
 const RECENT_COOLDOWN = 6; // min cards before a word can repeat
+const masteredSessionStreak = {}; // german -> consecutive correct in this session (mastered mode)
 
 // Returns true if this card was shown too recently to show again
 function shownRecently(c) {
@@ -5622,14 +5623,22 @@ function getNextCard() {
     const fresh = mastered.filter(c => !shownRecently(c));
     const pool = fresh.length > 0 ? fresh : mastered;
     // Weight by inverse accuracy: not reviewed=10, 0-50%=4, 50-75%=3, 75-90%=2, 90-100%=1
+    // Then halve for each milestone of 3 consecutive correct in this session (3→÷2, 6→÷4)
     const weights = pool.map(c => {
       const acc = accuracy[c.german];
-      if (!acc || acc.shown === 0) return 10;
-      const pct = acc.correct / acc.shown;
-      if (pct < 0.50) return 4;
-      if (pct < 0.75) return 3;
-      if (pct < 0.90) return 2;
-      return 1;
+      let w;
+      if (!acc || acc.shown === 0) w = 10;
+      else {
+        const pct = acc.correct / acc.shown;
+        if (pct < 0.50) w = 4;
+        else if (pct < 0.75) w = 3;
+        else if (pct < 0.90) w = 2;
+        else w = 1;
+      }
+      const streak = masteredSessionStreak[c.german] || 0;
+      if (streak >= 6) w = Math.max(0.25, w / 4);
+      else if (streak >= 3) w = Math.max(0.5, w / 2);
+      return w;
     });
     const total = weights.reduce((s, w) => s + w, 0);
     let r = Math.random() * total;
@@ -6185,7 +6194,7 @@ function checkAnswer() {
     const correctDisplay = allCards.map(c => `<strong>${c.german}</strong> ${buildSpeakBtn(c.german)}`).join(' / ');
 
     if (allCorrect) {
-      if (isMasteredMode) for (const c of allCards) trackCorrect(c.german);
+      if (isMasteredMode) for (const c of allCards) { trackCorrect(c.german); masteredSessionStreak[c.german] = (masteredSessionStreak[c.german] || 0) + 1; }
       const state = getWordState(card.german);
       let suffix;
       if (isMasteredMode) {
@@ -6198,6 +6207,7 @@ function checkAnswer() {
       elFeedback.className = 'feedback correct';
       elFeedback.innerHTML = `<span class="feedback-icon">✓</span> Correct! &nbsp;${correctDisplay}<span style="opacity:.7;font-size:.9em;margin-left:6px">${suffix}</span>`;
     } else {
+      if (isMasteredMode) for (const c of allCards) masteredSessionStreak[c.german] = 0;
       if (!isMasteredMode) { const _r = getUnlearnedCards().length, _p = getRetryCards(buildCards(activeFilter)).length; elCounter.textContent = _p > 0 ? `${_r} remaining · ${_p} to retry` : `${_r} remaining`; }
       elCard.classList.add('wrong');
       elFeedback.className = 'feedback wrong';
@@ -6224,7 +6234,7 @@ function checkAnswer() {
   if (isMasteredMode) trackShown(card.german);
   if (isCorrect) {
     markCorrect(card.german);
-    if (isMasteredMode) trackCorrect(card.german);
+    if (isMasteredMode) { trackCorrect(card.german); masteredSessionStreak[card.german] = (masteredSessionStreak[card.german] || 0) + 1; }
     const consecutive = getWordState(card.german).consecutive;
     const learned = getWordState(card.german).learned;
     elCard.classList.add('correct');
@@ -6241,6 +6251,7 @@ function checkAnswer() {
     renderDots(card.german);
   } else {
     markWrong(card.german);
+    if (isMasteredMode) masteredSessionStreak[card.german] = 0;
     { const _r = getUnlearnedCards().length, _p = getRetryCards(buildCards(activeFilter)).length; elCounter.textContent = _p > 0 ? `${_r} remaining · ${_p} to retry` : `${_r} remaining`; }
     elCard.classList.add('wrong');
     elFeedback.className = 'feedback wrong';

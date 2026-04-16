@@ -6076,11 +6076,63 @@ function renderForgottenPanel() {
   });
 }
 
+function renderAllStatsPanel() {
+  const h2 = document.querySelector('#forgotten-panel h2');
+  if (h2) h2.textContent = 'All Mastered Stats — sorted by success rate';
+  elForgottenList.innerHTML = '';
+
+  // Build unified list: flashcard entries + grammar entries
+  const rows = [];
+
+  // Flashcard entries
+  buildCards('all').filter(c => getWordState(c.german).learned).forEach(c => {
+    const acc = getAccuracy(c.german);
+    const pct = acc && acc.shown > 0 ? Math.round(acc.correct / acc.shown * 100) : null;
+    rows.push({ label: c.german, sublabel: c.english, pct, acc, type: 'flash' });
+  });
+
+  // Grammar entries
+  const gramDeck = buildMasteredGrammarDeck();
+  const seen = new Set();
+  gramDeck.filter(c => { if (seen.has(c.grammarKey)) return false; seen.add(c.grammarKey); return true; })
+    .forEach(c => {
+      const a = masteredGrammarAccuracy[c.grammarKey];
+      const pct = a && a.shown > 0 ? Math.round(a.correct / a.shown * 100) : null;
+      const subtypeLabel = c._subtype === 'partizip' ? 'Partizip' : c._subtype === 'verb' ? (c._pronoun || 'Verb') : 'Plural';
+      rows.push({ label: c.key, sublabel: subtypeLabel, pct, acc: a, type: 'grammar' });
+    });
+
+  // Sort: unseen first, then ascending accuracy
+  rows.sort((a, b) => {
+    if (a.pct === null && b.pct === null) return 0;
+    if (a.pct === null) return -1;
+    if (b.pct === null) return 1;
+    return a.pct - b.pct;
+  });
+
+  rows.forEach(r => {
+    const row = document.createElement('div');
+    row.className = 'forgotten-row';
+    let accClass, accText;
+    if (r.pct === null) { accClass = 'unseen'; accText = 'not yet reviewed'; }
+    else if (r.pct < 60) { accClass = 'bad';  accText = `${r.acc.correct}/${r.acc.shown} (${r.pct}%) ⚠`; }
+    else if (r.pct < 80) { accClass = 'ok';   accText = `${r.acc.correct}/${r.acc.shown} (${r.pct}%)`; }
+    else                 { accClass = 'good'; accText = `${r.acc.correct}/${r.acc.shown} (${r.pct}%) ✓`; }
+    const badge = r.type === 'grammar' ? `<span style="font-size:0.7rem;opacity:0.5;margin-left:4px">${r.sublabel}</span>` : `<span class="fw-en">${r.sublabel}</span>`;
+    row.innerHTML = `<span><span class="fw-word">${r.label}</span>${badge}</span><span class="fw-acc ${accClass}">${accText}</span>`;
+    elForgottenList.appendChild(row);
+  });
+}
+
 elBtnViewForgotten.addEventListener('click', () => {
   const open = elForgottenPanel.classList.toggle('open');
   const label = isMasteredMode ? 'Word stats' : 'Forgotten words';
   elBtnViewForgotten.textContent = open ? `${label} ▴` : `${label} ▾`;
-  if (open) isMasteredGrammarMode ? renderGrammarStatsPanel() : renderForgottenPanel();
+  if (open) {
+    if (isMasteredAllMode) renderAllStatsPanel();
+    else if (isMasteredGrammarMode) renderGrammarStatsPanel();
+    else renderForgottenPanel();
+  }
 });
 
 // ── Checking ─────────────────────────────────────────────────────────────────
@@ -6223,7 +6275,7 @@ function checkAnswer() {
   }
 
   updateMasteryBar();
-  if (isMasteredMode && elForgottenPanel.classList.contains('open')) { isMasteredGrammarMode ? renderGrammarStatsPanel() : renderForgottenPanel(); }
+  if (isMasteredMode && elForgottenPanel.classList.contains('open')) { isMasteredAllMode ? renderAllStatsPanel() : isMasteredGrammarMode ? renderGrammarStatsPanel() : renderForgottenPanel(); }
   elNext.classList.add('visible');
   showBreakdown(card.german);
 }
@@ -6364,7 +6416,7 @@ function skipCard() {
   renderDots(card.german);
 
   updateMasteryBar();
-  if (isMasteredMode && elForgottenPanel.classList.contains('open')) { isMasteredGrammarMode ? renderGrammarStatsPanel() : renderForgottenPanel(); }
+  if (isMasteredMode && elForgottenPanel.classList.contains('open')) { isMasteredAllMode ? renderAllStatsPanel() : isMasteredGrammarMode ? renderGrammarStatsPanel() : renderForgottenPanel(); }
   elNext.classList.add('visible');
   showBreakdown(card.german);
 }

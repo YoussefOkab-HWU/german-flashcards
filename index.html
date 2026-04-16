@@ -7363,6 +7363,7 @@ function applyMasteredBarVisibility() {
   elBtnViewForgotten.textContent = isMastered ? 'Word stats ▾' : 'Forgotten words ▾';
   // Swap mode toggle ↔ mastered title
   document.getElementById('mode-toggle').style.display = isMastered ? 'none' : '';
+  document.getElementById('filters').style.display = isMastered ? 'none' : '';
   document.getElementById('main-title').textContent = isMastered ? 'Mastered' : 'German Flashcards';
   // Show/hide mastered subtabs
   document.getElementById('mastered-subtabs').style.display = isMastered ? 'flex' : 'none';

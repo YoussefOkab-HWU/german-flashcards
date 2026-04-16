@@ -6736,6 +6736,7 @@ function buildMasteredGrammarDeck() {
       if (data.perfekt_ich && getGrammarState(key + '§p').learned)
         cards.push({ key, grammarKey: key + '§p', _subtype: 'partizip', ...data });
     } else {
+      if (data.plural === 'kein Plural') continue;
       if (getGrammarState(key).learned)
         cards.push({ key, grammarKey: key, _subtype: 'noun', ...data });
     }
@@ -7088,6 +7089,7 @@ function buildGrammarDeck() {
           cards.push({ key, grammarKey, _partizip: true, ...data });
       }
     } else {
+      if (data.plural === 'kein Plural') continue;
       const grammarKey = key;
       if (getGrammarState(grammarKey).learned) continue;
       cards.push({ key, grammarKey, ...data });

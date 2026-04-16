@@ -627,7 +627,7 @@
     "wir": "betreten",
     "ihr": "betretet",
     "Sie": "betreten",
-    "perfekt_ich": "eingetreten"
+    "perfekt_ich": "betreten"
   },
   "verlassen": {
     "type": "verb",
@@ -667,22 +667,22 @@
     "wir": "scheitern",
     "ihr": "scheitert",
     "Sie": "scheitern",
-    "perfekt_ich": "gefailed"
+    "perfekt_ich": "gescheitert"
   },
   "schaffen": {
     "type": "verb",
     "ich": "schaffe",
     "du": "schaffst",
     "er/sie/es": "schafft",
-    "wir": "schäften",
+    "wir": "schaffen",
     "ihr": "schafft",
-    "Sie": "schäften",
+    "Sie": "schaffen",
     "perfekt_ich": "geschaffen"
   },
   "wachsen": {
     "type": "verb",
-    "ich": "wache",
-    "du": "wachst",
+    "ich": "wachse",
+    "du": "wächst",
     "er/sie/es": "wächst",
     "wir": "wachsen",
     "ihr": "wachst",
@@ -4237,27 +4237,27 @@
     "wir": "erschrecken",
     "ihr": "erschreckt",
     "Sie": "erschrecken",
-    "perfekt_ich": "geerschrocken"
+    "perfekt_ich": "erschrocken"
   },
   "erwarten": {
     "type": "verb",
-    "ich": "warte",
-    "du": "wartest",
+    "ich": "erwarte",
+    "du": "erwartest",
     "er/sie/es": "erwartet",
     "wir": "erwarten",
     "ihr": "erwartet",
     "Sie": "erwarten",
-    "perfekt_ich": "gewartet"
+    "perfekt_ich": "erwartet"
   },
   "feststellen": {
     "type": "verb",
-    "ich": "feststelle",
-    "du": "fest stellst",
-    "er/sie/es": "festellt",
+    "ich": "stelle fest",
+    "du": "stellst fest",
+    "er/sie/es": "stellt fest",
     "wir": "stellen fest",
     "ihr": "stellt fest",
     "Sie": "stellen fest",
-    "perfekt_ich": "gefestellt"
+    "perfekt_ich": "festgestellt"
   },
   "fortsetzen": {
     "type": "verb",
@@ -6821,13 +6821,13 @@
   },
   "richtig stellen": {
     "type": "verb",
-    "ich": "stellen richtig",
+    "ich": "stelle richtig",
     "du": "stellst richtig",
     "er/sie/es": "stellt richtig",
     "wir": "stellen richtig",
     "ihr": "stellt richtig",
     "Sie": "stellen richtig",
-    "perfekt_ich": "gerichtet"
+    "perfekt_ich": "richtiggestellt"
   },
   "riechen": {
     "type": "verb",

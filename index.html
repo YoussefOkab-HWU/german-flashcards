@@ -6746,6 +6746,33 @@ function buildMasteredGrammarDeck() {
 let masteredGrammarDeck = [];
 let masteredGrammarPos = 0;
 let masteredGrammarAccuracy = {}; // key → {shown, correct}
+let mgCardCount = 0;
+const mgLastShownAt = {}; // grammarKey → mgCardCount when last shown
+const MG_COOLDOWN = 6;
+
+function pickMasteredGrammarCard(deck) {
+  mgCardCount++;
+  const fresh = deck.filter(c => !mgLastShownAt[c.grammarKey] || mgCardCount - mgLastShownAt[c.grammarKey] >= MG_COOLDOWN);
+  const pool = fresh.length > 0 ? fresh : deck;
+  const weights = pool.map(c => {
+    const a = masteredGrammarAccuracy[c.grammarKey];
+    if (!a || a.shown === 0) return 10;
+    const pct = a.correct / a.shown;
+    if (pct < 0.50) return 4;
+    if (pct < 0.75) return 3;
+    if (pct < 0.90) return 2;
+    return 1;
+  });
+  const total = weights.reduce((s, w) => s + w, 0);
+  let r = Math.random() * total;
+  let pick = pool[pool.length - 1];
+  for (let i = 0; i < pool.length; i++) {
+    r -= weights[i];
+    if (r <= 0) { pick = pool[i]; break; }
+  }
+  mgLastShownAt[pick.grammarKey] = mgCardCount;
+  return pick;
+}
 
 function loadMasteredGrammarAccuracy() {
   try { return JSON.parse(localStorage.getItem('gfc_mg_accuracy') || '{}'); } catch { return {}; }
@@ -6902,11 +6929,8 @@ function showMasteredGrammarCard() {
   const masteredAccEl = document.getElementById('mastered-card-acc');
   if (masteredAccEl) masteredAccEl.style.display = 'none';
 
-  if (masteredGrammarPos >= masteredGrammarDeck.length) {
-    masteredGrammarDeck = buildMasteredGrammarDeck();
-    masteredGrammarPos = 0;
-  }
-  const card = masteredGrammarDeck[masteredGrammarPos];
+  if (masteredGrammarDeck.length === 0) masteredGrammarDeck = buildMasteredGrammarDeck();
+  const card = pickMasteredGrammarCard(masteredGrammarDeck);
   const elPrompt = document.getElementById('grammar-prompt');
   const elFields = document.getElementById('grammar-fields');
   elPrompt.style.display = '';
@@ -6962,7 +6986,7 @@ function showMasteredGrammarCard() {
     });
   });
   inputs[0].focus();
-  elCounter.textContent = `${masteredGrammarPos + 1} / ${masteredGrammarDeck.length} · ${accLabel}`;
+  elCounter.textContent = `${masteredGrammarDeck.length} grammar mastered · ${accLabel}`;
 }
 
 function checkMasteredGrammarAnswer() {
@@ -7024,7 +7048,6 @@ function checkMasteredGrammarAnswer() {
 }
 
 function advanceMasteredGrammarCard() {
-  masteredGrammarPos++;
   showMasteredGrammarCard();
 }
 

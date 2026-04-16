@@ -878,7 +878,6 @@
 <div class="tense-filters" id="grammar-type-filters" style="display:none">
   <button class="filter-btn active" data-gtype="noun">Nouns</button>
   <button class="filter-btn" data-gtype="verb">Verbs</button>
-  <button class="filter-btn" data-gtype="partizip">Partizip</button>
 </div>
 
 <div class="progress-wrap">
@@ -5453,7 +5452,7 @@ let deck = [];
 let deckPos = 0;
 let activeFilter = 'all';
 let activeTense = 'all';
-let activeGrammarType = 'noun'; // 'noun', 'verb', 'partizip'
+let activeGrammarType = 'noun'; // 'noun', 'verb'
 let appMode = 'flashcards';
 let langDir = 'de-en'; // 'de-en' or 'en-de'
 let answered = false;
@@ -6818,10 +6817,6 @@ function buildGrammarDeck() {
     // Type filter
     if (activeGrammarType === 'noun' && data.type !== 'noun') continue;
     if (activeGrammarType === 'verb' && data.type !== 'verb') continue;
-    if (activeGrammarType === 'partizip') {
-      if (data.type !== 'verb') continue;
-      if (!data.perfekt_ich) continue;
-    }
     // Check if word is mastered in flashcards
     if (!getWordState(key).learned) continue;
     // Tier filter
@@ -6835,8 +6830,14 @@ function buildGrammarDeck() {
         if (getGrammarState(grammarKey).learned) continue;
         cards.push({ key, grammarKey, _pronoun: pronoun, ...data });
       }
+      // Partizip card included in Verbs tab
+      if (data.perfekt_ich) {
+        const grammarKey = key + '§p';
+        if (!getGrammarState(grammarKey).learned)
+          cards.push({ key, grammarKey, _partizip: true, ...data });
+      }
     } else {
-      const grammarKey = activeGrammarType === 'partizip' ? key + '§p' : key;
+      const grammarKey = key;
       if (getGrammarState(grammarKey).learned) continue;
       cards.push({ key, grammarKey, ...data });
     }
@@ -6886,11 +6887,11 @@ function showGrammarCard() {
 
   // Build input rows
   elFields.innerHTML = '';
-  if (card.type === 'verb' && activeGrammarType === 'partizip') {
-    // Partizip-only card
+  if (card.type === 'verb' && card._partizip) {
+    // Partizip card
     const pastRow = document.createElement('div');
     pastRow.className = 'grammar-row';
-    pastRow.innerHTML = `<span class="grammar-label">Partizip II:</span><input class="grammar-input" data-field="perfekt_ich" autocomplete="off" autocorrect="off" spellcheck="false" autocapitalize="none" placeholder="ge…">`;
+    pastRow.innerHTML = `<span class="grammar-label" style="font-size:1.4rem;font-weight:800;min-width:120px">Partizip II</span><input class="grammar-input" data-field="perfekt_ich" autocomplete="off" autocorrect="off" spellcheck="false" autocapitalize="none" placeholder="ge…" style="font-size:1.2rem">`;
     elFields.appendChild(pastRow);
     elFields.querySelector('.grammar-input').focus();
   } else if (card.type === 'verb') {

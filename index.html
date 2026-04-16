@@ -885,7 +885,8 @@
 </div>
 
 <div class="tense-filters" id="mastered-subtabs" style="display:none">
-  <button class="filter-btn active" id="mastered-tab-flashcards">Flashcards</button>
+  <button class="filter-btn active" id="mastered-tab-all">All</button>
+  <button class="filter-btn" id="mastered-tab-flashcards">Flashcards</button>
   <button class="filter-btn" id="mastered-tab-grammar">Grammar</button>
 </div>
 
@@ -5448,6 +5449,7 @@ if (!localStorage.getItem('fix_sibling_accuracy')) {
 }
 let isMasteredMode = false;
 let isMasteredGrammarMode = false;
+let isMasteredAllMode = false;
 let deck = [];
 let deckPos = 0;
 let activeFilter = 'all';
@@ -5881,6 +5883,7 @@ function showCard() {
 
 function advanceCard() {
   if (isCoreVerbMode) { advanceCoreVerbCard(); return; }
+  if (isMasteredAllMode) { masteredAllPos++; showMasteredAllCard(); return; }
   if (isMasteredGrammarMode) { advanceMasteredGrammarCard(); return; }
   if (appMode === 'grammar') {
     deck = shuffle(buildGrammarDeck());
@@ -6072,6 +6075,11 @@ elBtnViewForgotten.addEventListener('click', () => {
 // ── Checking ─────────────────────────────────────────────────────────────────
 function checkAnswer() {
   if (isCoreVerbMode) { checkCoreVerbAnswer(); return; }
+  if (isMasteredAllMode) {
+    const card = masteredAllDeck[masteredAllPos];
+    if (card._allType === 'grammar') { checkMasteredGrammarAnswer(); return; }
+    // fall through to normal flashcard check below
+  }
   if (isMasteredGrammarMode) { checkMasteredGrammarAnswer(); return; }
   if (appMode === 'sentences') { checkSentenceAnswer(); return; }
   if (appMode === 'grammar') { checkGrammarAnswer(); return; }
@@ -6452,9 +6460,13 @@ elModeSentences.addEventListener('click', () => setMode('sentences'));
 elModeGrammar.addEventListener('click', () => setMode('grammar'));
 elModeBreakdown.addEventListener('click', () => setMode('breakdown'));
 
+document.getElementById('mastered-tab-all').addEventListener('click', () => {
+  if (isMasteredAllMode) return;
+  startMasteredAllMode();
+});
 document.getElementById('mastered-tab-flashcards').addEventListener('click', () => {
-  if (!isMasteredGrammarMode) return;
-  stopMasteredGrammarDrill();
+  if (!isMasteredGrammarMode && !isMasteredAllMode) return;
+  stopMasteredAllModes();
 });
 document.getElementById('mastered-tab-grammar').addEventListener('click', () => {
   if (isMasteredGrammarMode) return;
@@ -6660,12 +6672,78 @@ function stopMasteredGrammarDrill() {
   document.getElementById('mastered-tab-grammar').classList.remove('active');
   document.getElementById('mastered-tab-flashcards').classList.add('active');
   updateMasteredGrammarBar();
-  // Return to flashcard mode
   appMode = 'flashcards';
   elInput.style.display = '';
   document.getElementById('grammar-prompt').style.display = 'none';
   document.getElementById('grammar-fields').style.display = 'none';
   resetDeck();
+}
+
+function stopMasteredAllModes() {
+  isMasteredGrammarMode = false;
+  isMasteredAllMode = false;
+  document.getElementById('mastered-tab-grammar').classList.remove('active');
+  document.getElementById('mastered-tab-all').classList.remove('active');
+  document.getElementById('mastered-tab-flashcards').classList.add('active');
+  appMode = 'flashcards';
+  elInput.style.display = '';
+  document.getElementById('grammar-prompt').style.display = 'none';
+  document.getElementById('grammar-fields').style.display = 'none';
+  updateMasteryBar();
+  resetDeck();
+}
+
+// Mixed deck: flashcard card OR grammar card, chosen randomly weighted by accuracy
+let masteredAllDeck = [];
+let masteredAllPos = 0;
+
+async function startMasteredAllMode() {
+  isMasteredAllMode = true;
+  isMasteredGrammarMode = false;
+  masteredGrammarAccuracy = loadMasteredGrammarAccuracy();
+  if (!GRAMMAR) await loadGrammar();
+  document.getElementById('mastered-tab-all').classList.add('active');
+  document.getElementById('mastered-tab-flashcards').classList.remove('active');
+  document.getElementById('mastered-tab-grammar').classList.remove('active');
+  masteredAllDeck = buildMasteredAllDeck();
+  masteredAllPos = 0;
+  showMasteredAllCard();
+}
+
+function buildMasteredAllDeck() {
+  // Flashcard cards
+  const flashCards = buildCards('all').filter(c => getWordState(c.german).learned)
+    .map(c => ({ _allType: 'flash', ...c }));
+  // Grammar cards
+  const grammarCards = buildMasteredGrammarDeck().map(c => ({ _allType: 'grammar', ...c }));
+  return shuffle([...flashCards, ...grammarCards]);
+}
+
+function showMasteredAllCard() {
+  if (masteredAllPos >= masteredAllDeck.length) {
+    masteredAllDeck = buildMasteredAllDeck();
+    masteredAllPos = 0;
+  }
+  const card = masteredAllDeck[masteredAllPos];
+  if (card._allType === 'grammar') {
+    // Temporarily set grammar mode vars and show grammar card
+    isMasteredGrammarMode = true;
+    masteredGrammarDeck = [card];
+    masteredGrammarPos = 0;
+    showMasteredGrammarCard();
+    isMasteredGrammarMode = false; // reset so routing stays in all mode
+  } else {
+    // Show as flashcard
+    appMode = 'flashcards';
+    elInput.style.display = '';
+    document.getElementById('grammar-prompt').style.display = 'none';
+    document.getElementById('grammar-fields').style.display = 'none';
+    deck = [card];
+    deckPos = 0;
+    showCard();
+  }
+  const total = masteredAllDeck.length;
+  elCounter.textContent = `${masteredAllPos + 1} / ${total} · All mastered`;
 }
 
 function updateMasteredGrammarBar() {
@@ -7189,6 +7267,7 @@ function startAppWithTier(tier) {
   activeTier = isMasteredMode ? 0 : tier;
   document.getElementById('tier-select-screen').style.display = 'none';
   startApp('en-de');
+  if (isMasteredMode) startMasteredAllMode();
 }
 
 // ── Core Verb Drill ───────────────────────────────────────────────────────────
@@ -7368,7 +7447,8 @@ function applyMasteredBarVisibility() {
   // Show/hide mastered subtabs
   document.getElementById('mastered-subtabs').style.display = isMastered ? 'flex' : 'none';
   if (isMastered) {
-    document.getElementById('mastered-tab-flashcards').classList.add('active');
+    document.getElementById('mastered-tab-all').classList.add('active');
+    document.getElementById('mastered-tab-flashcards').classList.remove('active');
     document.getElementById('mastered-tab-grammar').classList.remove('active');
   }
 }
@@ -7376,6 +7456,7 @@ function applyMasteredBarVisibility() {
 function startApp(dir) {
   isCoreVerbMode = false;
   isMasteredGrammarMode = false;
+  isMasteredAllMode = false;
   langDir = dir;
   if (dir === 'de-en') { activeTier = 0; isMasteredMode = false; } // de-en never uses mastered mode
   applyMasteredBarVisibility();

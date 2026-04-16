@@ -6012,7 +6012,7 @@ function renderGrammarStatsPanel() {
   sorted.forEach(c => {
     const acc = masteredGrammarAccuracy[c.grammarKey];
     const pct = acc && acc.shown > 0 ? Math.round(acc.correct / acc.shown * 100) : null;
-    const subtypeLabel = c._subtype === 'partizip' ? 'Partizip' : c._subtype === 'verb' ? 'Conjugation' : 'Plural';
+    const subtypeLabel = c._subtype === 'partizip' ? 'Partizip' : c._subtype === 'verb' ? (c._pronoun || 'Verb') : 'Plural';
     const row = document.createElement('div');
     row.className = 'forgotten-row';
     let accClass, accText;
@@ -6589,12 +6589,21 @@ function buildMasteredGrammarDeck() {
   const cards = [];
   for (const [key, data] of Object.entries(GRAMMAR)) {
     if (data.error) continue;
-    // Only grammar-mastered entries (verb conjugation, noun plural, or partizip)
-    const masteredConj = getGrammarState(key).learned;
-    const masteredPart = data.type === 'verb' && data.perfekt_ich && getGrammarState(key + '§p').learned;
-    if (!masteredConj && !masteredPart) continue;
-    if (masteredConj) cards.push({ key, grammarKey: key, ...data, _subtype: data.type === 'verb' ? 'verb' : 'noun' });
-    if (masteredPart) cards.push({ key, grammarKey: key + '§p', ...data, _subtype: 'partizip' });
+    if (data.type === 'verb') {
+      // Per-pronoun conjugation cards
+      for (const pronoun of VERB_PRONOUNS) {
+        if (!data[pronoun]) continue;
+        const grammarKey = key + '§' + pronoun;
+        if (getGrammarState(grammarKey).learned)
+          cards.push({ key, grammarKey, _pronoun: pronoun, _subtype: 'verb', ...data });
+      }
+      // Partizip card
+      if (data.perfekt_ich && getGrammarState(key + '§p').learned)
+        cards.push({ key, grammarKey: key + '§p', _subtype: 'partizip', ...data });
+    } else {
+      if (getGrammarState(key).learned)
+        cards.push({ key, grammarKey: key, _subtype: 'noun', ...data });
+    }
   }
   return shuffle(cards);
 }
@@ -6712,7 +6721,7 @@ function showMasteredGrammarCard() {
     ? `${acc.correct}/${acc.shown} (${Math.round(acc.correct/acc.shown*100)}%)`
     : 'first time';
 
-  const subtypeLabel = card._subtype === 'partizip' ? 'Partizip II' : card._subtype === 'verb' ? 'Conjugation' : 'Plural';
+  const subtypeLabel = card._subtype === 'partizip' ? 'Partizip II' : card._subtype === 'verb' ? (card._pronoun || 'Verb') : 'Plural';
   elPrompt.innerHTML = `${card.key}<span class="grammar-en-label">${englishMeaning} — ${subtypeLabel}</span>`;
 
   elFields.innerHTML = '';
@@ -6722,12 +6731,12 @@ function showMasteredGrammarCard() {
     row.innerHTML = `<span class="grammar-label">Partizip II:</span><input class="grammar-input" data-field="perfekt_ich" autocomplete="off" autocorrect="off" spellcheck="false" autocapitalize="none" placeholder="ge…">`;
     elFields.appendChild(row);
   } else if (card._subtype === 'verb') {
-    for (const pronoun of VERB_PRONOUNS) {
-      const row = document.createElement('div');
-      row.className = 'grammar-row';
-      row.innerHTML = `<span class="grammar-label">${pronoun}:</span><input class="grammar-input" data-field="${pronoun}" autocomplete="off" autocorrect="off" spellcheck="false" autocapitalize="none" placeholder="…">`;
-      elFields.appendChild(row);
-    }
+    // One pronoun per card
+    const pronoun = card._pronoun;
+    const row = document.createElement('div');
+    row.className = 'grammar-row';
+    row.innerHTML = `<span class="grammar-label" style="font-size:1.4rem;font-weight:800;min-width:90px">${pronoun}</span><input class="grammar-input" data-field="${pronoun}" autocomplete="off" autocorrect="off" spellcheck="false" autocapitalize="none" placeholder="…" style="font-size:1.2rem">`;
+    elFields.appendChild(row);
   } else {
     const row = document.createElement('div');
     row.className = 'grammar-row';
@@ -6817,11 +6826,20 @@ function buildGrammarDeck() {
     if (!getWordState(key).learned) continue;
     // Tier filter
     if (activeTier > 0 && TIERS[key] !== activeTier) continue;
-    // Partizip uses separate progress key so it's tracked independently
-    const grammarKey = activeGrammarType === 'partizip' ? key + '§p' : key;
-    // Skip already grammar-mastered
-    if (getGrammarState(grammarKey).learned) continue;
-    cards.push({ key, grammarKey, ...data });
+
+    if (activeGrammarType === 'verb') {
+      // One card per pronoun
+      for (const pronoun of VERB_PRONOUNS) {
+        if (!data[pronoun]) continue;
+        const grammarKey = key + '§' + pronoun;
+        if (getGrammarState(grammarKey).learned) continue;
+        cards.push({ key, grammarKey, _pronoun: pronoun, ...data });
+      }
+    } else {
+      const grammarKey = activeGrammarType === 'partizip' ? key + '§p' : key;
+      if (getGrammarState(grammarKey).learned) continue;
+      cards.push({ key, grammarKey, ...data });
+    }
   }
   return cards;
 }
@@ -6876,14 +6894,12 @@ function showGrammarCard() {
     elFields.appendChild(pastRow);
     elFields.querySelector('.grammar-input').focus();
   } else if (card.type === 'verb') {
-    // Conjugation-only card (no Partizip II)
-    for (const pronoun of VERB_PRONOUNS) {
-      const row = document.createElement('div');
-      row.className = 'grammar-row';
-      row.innerHTML = `<span class="grammar-label">${pronoun}:</span><input class="grammar-input" data-field="${pronoun}" autocomplete="off" autocorrect="off" spellcheck="false" autocapitalize="none" placeholder="…">`;
-      elFields.appendChild(row);
-    }
-    // Focus first input
+    // One pronoun per card
+    const pronoun = card._pronoun;
+    const row = document.createElement('div');
+    row.className = 'grammar-row';
+    row.innerHTML = `<span class="grammar-label" style="font-size:1.4rem;font-weight:800;min-width:90px">${pronoun}</span><input class="grammar-input" data-field="${pronoun}" autocomplete="off" autocorrect="off" spellcheck="false" autocapitalize="none" placeholder="…" style="font-size:1.2rem">`;
+    elFields.appendChild(row);
     elFields.querySelector('.grammar-input').focus();
   } else {
     const row = document.createElement('div');

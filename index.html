@@ -7056,9 +7056,12 @@ function advanceMasteredGrammarCard() {
 }
 
 function initGrammarQueue(cards) {
-  const shuffled = shuffle([...cards]);
-  grammarQueue = shuffled.slice(0, 20);
-  grammarQueuePool = shuffled.slice(20);
+  // Unreviewed cards (never seen in accuracy tracking) come first, then the rest shuffled
+  const unseen = shuffle(cards.filter(c => getAccuracy(c.grammarKey).shown === 0));
+  const seen   = shuffle(cards.filter(c => getAccuracy(c.grammarKey).shown  > 0));
+  const ordered = [...unseen, ...seen];
+  grammarQueue = ordered.slice(0, 20);
+  grammarQueuePool = ordered.slice(20);
 }
 
 function buildGrammarDeck() {

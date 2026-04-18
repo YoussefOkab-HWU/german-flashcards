@@ -7007,7 +7007,8 @@ function showMasteredGrammarCard() {
     if (requiredMGRefl) {
       inp.placeholder = `… ${requiredMGRefl} …`;
       inp.addEventListener('input', () => {
-        elCheck.disabled = !inp.value.toLowerCase().includes(requiredMGRefl);
+        const v = inp.value.toLowerCase();
+        elCheck.disabled = !['mich','dich','sich','uns','euch'].some(r => v.includes(r));
       });
     }
   });
@@ -7198,12 +7199,13 @@ function showGrammarCard() {
   const isReflexive = card.key && card.key.startsWith('sich ') && card._pronoun;
   const requiredRefl = isReflexive ? REFL_PRONOUN[card._pronoun] : null;
 
+  const ANY_REFL = ['mich', 'dich', 'sich', 'uns', 'euch'];
   function updateGrammarCheckState() {
     if (!requiredRefl) return;
     const inp = elFields.querySelector('.grammar-input');
     if (!inp) return;
     const val = inp.value.toLowerCase();
-    elCheck.disabled = !val.includes(requiredRefl);
+    elCheck.disabled = !ANY_REFL.some(r => val.includes(r));
   }
 
   // Enter key on last input triggers check

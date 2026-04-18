@@ -6858,6 +6858,7 @@ let masteredAllPos = 0;
 async function startMasteredAllMode() {
   isMasteredAllMode = true;
   isMasteredGrammarMode = false;
+  appMode = 'flashcards'; // reset so resetDeck() doesn't show grammar lock screen
   masteredGrammarAccuracy = loadMasteredGrammarAccuracy();
   if (!GRAMMAR) await loadGrammar();
   document.getElementById('mastered-tab-all').classList.add('active');

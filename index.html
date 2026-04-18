@@ -898,7 +898,7 @@
     <span class="category-badge" id="category-badge"></span>
     <div class="german-word" id="german-word"></div>
     <div id="mastered-card-acc" style="display:none;font-size:0.82rem;font-weight:600;margin-top:-4px"></div>
-    <div id="mastered-unseen-badge" style="display:none;position:absolute;top:10px;right:12px;font-size:0.75rem;opacity:0.5;font-weight:600"></div>
+    <div id="mastered-unseen-badge" style="display:none;font-size:0.72rem;opacity:0.45;font-weight:600;margin-bottom:4px"></div>
     <button class="btn-speak" id="btn-speak-word" style="display:none" title="Pronounce">🔊</button>
     <div class="sentence-de" id="sentence-de" style="display:none"></div>
     <div class="sentence-en" id="sentence-en" style="display:none"></div>
@@ -5974,7 +5974,7 @@ function updateMasteryBar() {
         ? (() => { const deck = buildMasteredGrammarDeck(); const seen = new Set(); return deck.filter(c => { if (seen.has(c.grammarKey)) return false; seen.add(c.grammarKey); return !masteredGrammarAccuracy[c.grammarKey] || masteredGrammarAccuracy[c.grammarKey].shown === 0; }).length; })()
         : 0;
       const total = isMasteredAllMode ? flashUnseen + gramUnseen : isMasteredGrammarMode ? gramUnseen : flashUnseen;
-      if (total > 0) { unseenBadge.textContent = `${total} unseen`; unseenBadge.style.display = ''; }
+      if (total > 0) { unseenBadge.textContent = `${total} not yet reviewed`; unseenBadge.style.display = ''; }
       else unseenBadge.style.display = 'none';
     } else {
       unseenBadge.style.display = 'none';

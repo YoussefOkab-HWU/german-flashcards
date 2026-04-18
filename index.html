@@ -6868,7 +6868,11 @@ function buildMasteredAllDeck() {
     .map(c => ({ _allType: 'flash', ...c }));
   // Grammar cards
   const grammarCards = buildMasteredGrammarDeck().map(c => ({ _allType: 'grammar', ...c }));
-  return shuffle([...flashCards, ...grammarCards]);
+  const all = [...flashCards, ...grammarCards];
+  // Unreviewed cards first, then the rest shuffled
+  const unseen = shuffle(all.filter(c => getAccuracy(c.grammarKey || c.german).shown === 0));
+  const seen   = shuffle(all.filter(c => getAccuracy(c.grammarKey || c.german).shown  > 0));
+  return [...unseen, ...seen];
 }
 
 function showMasteredAllCard() {

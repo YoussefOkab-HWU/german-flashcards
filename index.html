@@ -6375,11 +6375,12 @@ function acceptAnswer(card, input) {
 
 function skipCard() {
   if (answered) return;
-  const card = appMode === 'grammar' ? grammarQueue[0] : deck[deckPos];
+  const isGrammarCard = appMode === 'grammar' || (isMasteredAllMode && masteredAllDeck[masteredAllPos]?._allType === 'grammar');
+  const card = isGrammarCard ? (isMasteredAllMode ? masteredAllDeck[masteredAllPos] : grammarQueue[0]) : deck[deckPos];
   if (!card) return;
-  if (isMasteredMode) trackShown(card.german);
+  if (isMasteredMode && !isGrammarCard) trackShown(card.german);
 
-  if (appMode === 'grammar') {
+  if (isGrammarCard) {
     markGrammarWrong(card.grammarKey || card.key);
     answered = true;
     document.querySelectorAll('#grammar-fields .grammar-input').forEach(inp => {
@@ -6394,10 +6395,15 @@ function skipCard() {
     elFeedback.className = 'feedback wrong';
     elFeedback.innerHTML = `<span class="feedback-icon">↷</span> Skipped — answers shown above`;
     elNext.classList.add('visible');
-    // Reinsert 3 positions back (same as wrong answer)
-    grammarQueue.shift();
-    const pos = Math.min(3, grammarQueue.length);
-    grammarQueue.splice(pos, 0, card);
+    if (isMasteredAllMode) {
+      // In All mode, mark wrong in mastered accuracy and let advanceCard handle next card
+      trackMGShown(card.grammarKey);
+    } else {
+      // Reinsert 3 positions back (same as wrong answer)
+      grammarQueue.shift();
+      const pos = Math.min(3, grammarQueue.length);
+      grammarQueue.splice(pos, 0, card);
+    }
     return;
   }
 
@@ -6895,7 +6901,7 @@ function showMasteredAllCard() {
     masteredGrammarPos = 0;
     showMasteredGrammarCard();
     isMasteredGrammarMode = false; // reset so routing stays in all mode
-    appMode = 'mastered'; // showMasteredGrammarCard sets appMode='grammar', restore it
+    // appMode stays 'grammar' so skipCard/checkAnswer route correctly
   } else {
     // Show as flashcard
     appMode = 'flashcards';

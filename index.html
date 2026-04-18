@@ -5970,7 +5970,7 @@ function updateMasteryBar() {
     if (isMasteredMode || isMasteredAllMode || isMasteredGrammarMode) {
       const masteredCards = buildCards('all').filter(c => getWordState(c.german).learned);
       const flashUnseen = masteredCards.filter(c => getAccuracy(c.german).shown === 0).length;
-      const gramUnseen = isMasteredGrammarMode || isMasteredAllMode
+      const gramUnseen = (isMasteredGrammarMode || isMasteredAllMode) && GRAMMAR
         ? (() => { const deck = buildMasteredGrammarDeck(); const seen = new Set(); return deck.filter(c => { if (seen.has(c.grammarKey)) return false; seen.add(c.grammarKey); return !masteredGrammarAccuracy[c.grammarKey] || masteredGrammarAccuracy[c.grammarKey].shown === 0; }).length; })()
         : 0;
       const total = isMasteredAllMode ? flashUnseen + gramUnseen : isMasteredGrammarMode ? gramUnseen : flashUnseen;
@@ -6884,6 +6884,7 @@ async function startMasteredAllMode() {
   masteredAllDeck = buildMasteredAllDeck();
   masteredAllPos = 0;
   showMasteredAllCard();
+  updateMasteryBar();
 }
 
 function buildMasteredAllDeck() {

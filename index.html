@@ -5878,13 +5878,6 @@ function showCard() {
   if (isMasteredMode) {
     const total = getUnlearnedCards().length;
     elCounter.textContent = `${total} mastered words`;
-    // Unseen badge
-    const unseenBadge = document.getElementById('mastered-unseen-badge');
-    if (unseenBadge) {
-      const unseen = buildCards(activeFilter).filter(c => getWordState(c.german).learned && getAccuracy(c.german).shown === 0).length;
-      if (unseen > 0) { unseenBadge.textContent = `${unseen} unseen`; unseenBadge.style.display = ''; }
-      else unseenBadge.style.display = 'none';
-    }
     // Show accuracy history on the card itself
     const a = getAccuracy(card.german);
     const masteredAccEl = document.getElementById('mastered-card-acc');
@@ -5902,8 +5895,6 @@ function showCard() {
   } else {
     const masteredAccEl = document.getElementById('mastered-card-acc');
     if (masteredAccEl) masteredAccEl.style.display = 'none';
-    const unseenBadge = document.getElementById('mastered-unseen-badge');
-    if (unseenBadge) unseenBadge.style.display = 'none';
     const remaining = getUnlearnedCards().length;
     const pq = getRetryCards(buildCards(activeFilter)).length;
     const tierLabel = activeTier > 0 ? ` · Tier ${activeTier}` : '';
@@ -5973,6 +5964,22 @@ function showAllLearned() {
 
 // ── Mastery bar + dots ────────────────────────────────────────────────────────
 function updateMasteryBar() {
+  // Update unseen badge whenever we're in any mastered mode
+  const unseenBadge = document.getElementById('mastered-unseen-badge');
+  if (unseenBadge) {
+    if (isMasteredMode || isMasteredAllMode || isMasteredGrammarMode) {
+      const masteredCards = buildCards('all').filter(c => getWordState(c.german).learned);
+      const flashUnseen = masteredCards.filter(c => getAccuracy(c.german).shown === 0).length;
+      const gramUnseen = isMasteredGrammarMode || isMasteredAllMode
+        ? (() => { const deck = buildMasteredGrammarDeck(); const seen = new Set(); return deck.filter(c => { if (seen.has(c.grammarKey)) return false; seen.add(c.grammarKey); return !masteredGrammarAccuracy[c.grammarKey] || masteredGrammarAccuracy[c.grammarKey].shown === 0; }).length; })()
+        : 0;
+      const total = isMasteredAllMode ? flashUnseen + gramUnseen : isMasteredGrammarMode ? gramUnseen : flashUnseen;
+      if (total > 0) { unseenBadge.textContent = `${total} unseen`; unseenBadge.style.display = ''; }
+      else unseenBadge.style.display = 'none';
+    } else {
+      unseenBadge.style.display = 'none';
+    }
+  }
   if (isMasteredMode && (isMasteredAllMode || !isMasteredGrammarMode)) {
     const all = buildCards(activeFilter);
     const masteredFlash = all.filter(c => getWordState(c.german).learned);

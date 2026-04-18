@@ -7748,7 +7748,7 @@ function startApp(dir) {
         .then(() => localStorage.setItem('fix_dermoment_cloud', '1'))
         .catch(() => {});
     }
-    resetDeck();
+    if (!isMasteredAllMode) resetDeck();
   });
 }
 

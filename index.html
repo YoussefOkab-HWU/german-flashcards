@@ -898,6 +898,7 @@
     <span class="category-badge" id="category-badge"></span>
     <div class="german-word" id="german-word"></div>
     <div id="mastered-card-acc" style="display:none;font-size:0.82rem;font-weight:600;margin-top:-4px"></div>
+    <div id="mastered-unseen-badge" style="display:none;position:absolute;top:10px;right:12px;font-size:0.75rem;opacity:0.5;font-weight:600"></div>
     <button class="btn-speak" id="btn-speak-word" style="display:none" title="Pronounce">🔊</button>
     <div class="sentence-de" id="sentence-de" style="display:none"></div>
     <div class="sentence-en" id="sentence-en" style="display:none"></div>
@@ -5877,6 +5878,13 @@ function showCard() {
   if (isMasteredMode) {
     const total = getUnlearnedCards().length;
     elCounter.textContent = `${total} mastered words`;
+    // Unseen badge
+    const unseenBadge = document.getElementById('mastered-unseen-badge');
+    if (unseenBadge) {
+      const unseen = buildCards(activeFilter).filter(c => getWordState(c.german).learned && getAccuracy(c.german).shown === 0).length;
+      if (unseen > 0) { unseenBadge.textContent = `${unseen} unseen`; unseenBadge.style.display = ''; }
+      else unseenBadge.style.display = 'none';
+    }
     // Show accuracy history on the card itself
     const a = getAccuracy(card.german);
     const masteredAccEl = document.getElementById('mastered-card-acc');
@@ -5894,6 +5902,8 @@ function showCard() {
   } else {
     const masteredAccEl = document.getElementById('mastered-card-acc');
     if (masteredAccEl) masteredAccEl.style.display = 'none';
+    const unseenBadge = document.getElementById('mastered-unseen-badge');
+    if (unseenBadge) unseenBadge.style.display = 'none';
     const remaining = getUnlearnedCards().length;
     const pq = getRetryCards(buildCards(activeFilter)).length;
     const tierLabel = activeTier > 0 ? ` · Tier ${activeTier}` : '';

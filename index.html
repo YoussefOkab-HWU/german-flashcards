@@ -5650,7 +5650,7 @@ function getNextCard() {
     if (mastered.length === 0) return null;
     const fresh = mastered.filter(c => !shownRecently(c));
     const pool = fresh.length > 0 ? fresh : mastered;
-    // Weight by inverse accuracy: not reviewed=10, 0-50%=4, 50-75%=3, 75-90%=2, 90-100%=1
+    // Weight by inverse accuracy: not reviewed=10, 0-50%=10, 50-75%=8, 75-90%=3, 90-100%=1
     // Then halve for each milestone of 3 consecutive correct in this session (3→÷2, 6→÷4)
     const weights = pool.map(c => {
       const acc = accuracy[c.german];
@@ -5658,9 +5658,9 @@ function getNextCard() {
       if (!acc || acc.shown === 0) w = 10;
       else {
         const pct = acc.correct / acc.shown;
-        if (pct < 0.50) w = 4;
-        else if (pct < 0.75) w = 3;
-        else if (pct < 0.90) w = 2;
+        if (pct < 0.50) w = 10;
+        else if (pct < 0.75) w = 8;
+        else if (pct < 0.90) w = 3;
         else w = 1;
       }
       const streak = masteredSessionStreak[c.german] || 0;

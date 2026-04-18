@@ -6824,7 +6824,7 @@ function loadMasteredGrammarAccuracy() {
 }
 function saveMasteredGrammarAccuracy() {
   localStorage.setItem('gfc_mg_accuracy', JSON.stringify(masteredGrammarAccuracy));
-  schedulePush();
+  scheduleCloudSync();
 }
 function trackMGShown(key) {
   if (!masteredGrammarAccuracy[key]) masteredGrammarAccuracy[key] = { shown: 0, correct: 0 };

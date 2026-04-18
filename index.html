@@ -6895,6 +6895,7 @@ function showMasteredAllCard() {
     masteredGrammarPos = 0;
     showMasteredGrammarCard();
     isMasteredGrammarMode = false; // reset so routing stays in all mode
+    appMode = 'mastered'; // showMasteredGrammarCard sets appMode='grammar', restore it
   } else {
     // Show as flashcard
     appMode = 'flashcards';

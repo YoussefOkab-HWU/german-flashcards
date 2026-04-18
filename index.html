@@ -5658,7 +5658,8 @@ function getNextCard() {
       if (!acc || acc.shown === 0) w = 10;
       else {
         const pct = acc.correct / acc.shown;
-        if (pct < 0.50) w = 10;
+        if (pct < 0.30) w = 15;
+        else if (pct < 0.50) w = 10;
         else if (pct < 0.75) w = 8;
         else if (pct < 0.90) w = 3;
         else w = 1;
@@ -6803,6 +6804,7 @@ function pickMasteredGrammarCard(deck) {
     const a = masteredGrammarAccuracy[c.grammarKey];
     if (!a || a.shown === 0) return 10;
     const pct = a.correct / a.shown;
+    if (pct < 0.30) return 15;
     if (pct < 0.50) return 10;
     if (pct < 0.75) return 8;
     if (pct < 0.90) return 3;

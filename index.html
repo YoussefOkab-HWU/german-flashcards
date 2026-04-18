@@ -6991,6 +6991,10 @@ function showMasteredGrammarCard() {
     elFields.appendChild(row);
   }
 
+  const REFL_PRONOUN_MG = { 'ich': 'mich', 'du': 'dich', 'er/sie/es': 'sich', 'wir': 'uns', 'ihr': 'euch', 'Sie': 'sich' };
+  const isMGReflexive = card.key && card.key.startsWith('sich ') && card._pronoun;
+  const requiredMGRefl = isMGReflexive ? REFL_PRONOUN_MG[card._pronoun] : null;
+
   const inputs = elFields.querySelectorAll('.grammar-input');
   inputs.forEach((inp, i) => {
     inp.addEventListener('keydown', e => {
@@ -7000,7 +7004,14 @@ function showMasteredGrammarCard() {
         else checkMasteredGrammarAnswer();
       }
     });
+    if (requiredMGRefl) {
+      inp.placeholder = `… ${requiredMGRefl} …`;
+      inp.addEventListener('input', () => {
+        elCheck.disabled = !inp.value.toLowerCase().includes(requiredMGRefl);
+      });
+    }
   });
+  if (requiredMGRefl) elCheck.disabled = true;
   inputs[0].focus();
   elCounter.textContent = `${masteredGrammarDeck.length} grammar mastered · ${accLabel}`;
 }
@@ -7181,6 +7192,20 @@ function showGrammarCard() {
     elFields.querySelector('.grammar-input').focus();
   }
 
+  // Reflexive pronoun enforcement: for reflexive verbs (key starts with "sich "),
+  // disable Check until the required reflexive pronoun is present in the answer.
+  const REFL_PRONOUN = { 'ich': 'mich', 'du': 'dich', 'er/sie/es': 'sich', 'wir': 'uns', 'ihr': 'euch', 'Sie': 'sich' };
+  const isReflexive = card.key && card.key.startsWith('sich ') && card._pronoun;
+  const requiredRefl = isReflexive ? REFL_PRONOUN[card._pronoun] : null;
+
+  function updateGrammarCheckState() {
+    if (!requiredRefl) return;
+    const inp = elFields.querySelector('.grammar-input');
+    if (!inp) return;
+    const val = inp.value.toLowerCase();
+    elCheck.disabled = !val.includes(requiredRefl);
+  }
+
   // Enter key on last input triggers check
   const inputs = elFields.querySelectorAll('.grammar-input');
   inputs.forEach((inp, i) => {
@@ -7191,7 +7216,12 @@ function showGrammarCard() {
         else checkGrammarAnswer();
       }
     });
+    if (requiredRefl) {
+      inp.addEventListener('input', updateGrammarCheckState);
+      inp.placeholder = `… ${requiredRefl} …`;
+    }
   });
+  if (requiredRefl) { elCheck.disabled = true; }
 
   const mastered = Object.values(grammarProgress).filter(s => s.learned).length;
   const remaining = grammarQueue.length + grammarQueuePool.length;

@@ -6803,9 +6803,9 @@ function pickMasteredGrammarCard(deck) {
     const a = masteredGrammarAccuracy[c.grammarKey];
     if (!a || a.shown === 0) return 10;
     const pct = a.correct / a.shown;
-    if (pct < 0.50) return 4;
-    if (pct < 0.75) return 3;
-    if (pct < 0.90) return 2;
+    if (pct < 0.50) return 10;
+    if (pct < 0.75) return 8;
+    if (pct < 0.90) return 3;
     return 1;
   });
   const total = weights.reduce((s, w) => s + w, 0);

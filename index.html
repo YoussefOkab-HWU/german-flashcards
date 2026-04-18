@@ -7005,7 +7005,6 @@ function showMasteredGrammarCard() {
       }
     });
     if (requiredMGRefl) {
-      inp.placeholder = `… ${requiredMGRefl} …`;
       inp.addEventListener('input', () => {
         const v = inp.value.toLowerCase();
         elCheck.disabled = !['mich','dich','sich','uns','euch'].some(r => v.includes(r));
@@ -7220,7 +7219,6 @@ function showGrammarCard() {
     });
     if (requiredRefl) {
       inp.addEventListener('input', updateGrammarCheckState);
-      inp.placeholder = `… ${requiredRefl} …`;
     }
   });
   if (requiredRefl) { elCheck.disabled = true; }

@@ -6952,18 +6952,11 @@ function buildMasteredAllDeck() {
     .map(c => ({ _allType: 'flash', ...c }));
   // Grammar cards
   const grammarCards = buildMasteredGrammarDeck().map(c => ({ _allType: 'grammar', ...c }));
-  const all = [...flashCards, ...grammarCards];
-  // Unreviewed cards first — grammar cards use masteredGrammarAccuracy, flashcards use global accuracy
-  function isUnseen(c) {
-    if (c._allType === 'grammar') {
-      const a = masteredGrammarAccuracy[c.grammarKey];
-      return !a || a.shown === 0;
-    }
-    return getAccuracy(c.german).shown === 0;
-  }
-  const unseen = shuffle(all.filter(c =>  isUnseen(c)));
-  const seen   = shuffle(all.filter(c => !isUnseen(c)));
-  return [...unseen, ...seen];
+  // Unreviewed flashcards first, then everything else (grammar cards have no forced priority)
+  const unseenFlash = shuffle(flashCards.filter(c => getAccuracy(c.german).shown === 0));
+  const seenFlash   = shuffle(flashCards.filter(c => getAccuracy(c.german).shown  > 0));
+  const shuffledGrammar = shuffle(grammarCards);
+  return [...unseenFlash, ...seenFlash, ...shuffledGrammar];
 }
 
 function showMasteredAllCard() {

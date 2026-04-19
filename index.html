@@ -5702,8 +5702,11 @@ function getNextCard() {
     return pool[Math.floor(Math.random() * pool.length)];
   }
 
-  // Serve a retry roughly every 4 cards — but only if there's a fresh one available
-  if (freshRetries.length > 0 && cardCount % 5 === 0) {
+  // Serve retries more often as the pile grows: every 5 cards normally,
+  // every 4 if 20+ retries, every 3 if 40+ retries, every 2 if 70+ retries
+  const allRetryCount = getRetryCards(allCards).length;
+  const retryInterval = allRetryCount >= 70 ? 2 : allRetryCount >= 40 ? 3 : allRetryCount >= 20 ? 4 : 5;
+  if (freshRetries.length > 0 && cardCount % retryInterval === 0) {
     const pick = freshRetries[Math.floor(Math.random() * freshRetries.length)];
     lastShownAt[pick.german] = cardCount; retryCooldownFor[pick.german] = 15 + Math.floor(Math.random() * 36);
     return pick;

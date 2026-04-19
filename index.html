@@ -5683,7 +5683,14 @@ function getNextCard() {
   const allRetryWords = new Set(getRetryCards(allCards).map(c => c.german));
 
   // Cards in progress (consecutive > 0, not mastered, not a retry)
-  const active = allCards.filter(c => !getWordState(c.german).learned && !allRetryWords.has(c.german));
+  // If retries >= 50, treat unseen cards as invisible — only serve in-progress and retries
+  const retryBacklog = getRetryCards(allCards).length;
+  const active = allCards.filter(c => {
+    const s = getWordState(c.german);
+    if (s.learned || allRetryWords.has(c.german)) return false;
+    if (retryBacklog >= 50 && !s.attempted) return false; // block new cards when backlog too high
+    return true;
+  });
   const freshActive = active.filter(c => !shownRecently(c));
 
   // Retry cards whose own cooldown has expired

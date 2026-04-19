@@ -6268,7 +6268,32 @@ function checkAnswer() {
       elCard.classList.add('wrong');
       elFeedback.className = 'feedback wrong';
       const wrongList = allCards.filter(c => !matchedCards.has(c.german)).map(c => `<strong>${c.german}</strong>`).join(', ');
-      elFeedback.innerHTML = `<span class="feedback-icon">✗</span> Missing: ${wrongList} &nbsp;·&nbsp; All: ${correctDisplay}`;
+      // Check if all wrong answers were close typos
+      const missedCards = allCards.filter(c => !matchedCards.has(c.german));
+      const unusedInputs = inputs.filter((_, i) => !usedInputIdx.has(i));
+      const allMissedAreTypos = missedCards.length > 0 && missedCards.every(c => {
+        const normExpected = c.german.trim().toLowerCase().replace(/^(der|die|das)\s+/i, '');
+        return unusedInputs.some(inp => {
+          const normInp = inp.trim().toLowerCase().replace(/^(der|die|das)\s+/i, '');
+          const maxDist = normExpected.length >= 9 ? 2 : normExpected.length >= 5 ? 1 : 0;
+          return maxDist > 0 && levenshtein(normInp, normExpected) <= maxDist;
+        });
+      });
+      const multiTypoBtn = allMissedAreTypos
+        ? `<button id="btn-multi-typo" style="margin-left:12px;padding:3px 12px;border-radius:8px;border:1px solid rgba(255,255,255,0.4);background:rgba(255,255,255,0.12);color:#fff;font-size:0.82rem;font-weight:600;cursor:pointer">Typo</button>`
+        : '';
+      elFeedback.innerHTML = `<span class="feedback-icon">✗</span> Missing: ${wrongList} &nbsp;·&nbsp; All: ${correctDisplay}${multiTypoBtn}`;
+      if (allMissedAreTypos) {
+        document.getElementById('btn-multi-typo').addEventListener('click', () => {
+          for (const c of allCards) { markCorrect(c.german); if (isMasteredMode) { trackCorrect(c.german); masteredSessionStreak[c.german] = (masteredSessionStreak[c.german] || 0) + 1; } }
+          if (isMasteredMode) saveMasteredStreak();
+          elCard.className = 'card correct';
+          elFeedback.className = 'feedback correct';
+          elFeedback.innerHTML = `<span class="feedback-icon">✓</span> Typo accepted! &nbsp;${correctDisplay}`;
+          renderDots(card.german);
+          updateMasteryBar();
+        });
+      }
     }
     renderDots(card.german);
     updateMasteryBar();

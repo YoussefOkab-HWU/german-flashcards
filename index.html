@@ -2160,7 +2160,7 @@ function checkAnswer() {
 
   // ── Multi-answer: en-de with sibling cards (same English, multiple Germans) ──
   if (langDir === 'en-de' && currentSiblings.length > 0) {
-    if (isMasteredMode) for (const c of [card, ...currentSiblings]) trackShown(c.german);
+    for (const c of [card, ...currentSiblings]) trackShown(c.german);
     const allCards = [card, ...currentSiblings];
     const inputs = getAllInputs().map(i => i.value.trim());
 
@@ -2188,7 +2188,8 @@ function checkAnswer() {
     const correctDisplay = allCards.map(c => `<strong>${c.german}</strong> ${buildSpeakBtn(c.german)}`).join(' / ');
 
     if (allCorrect) {
-      if (isMasteredMode) { for (const c of allCards) { trackCorrect(c.german); masteredSessionStreak[c.german] = (masteredSessionStreak[c.german] || 0) + 1; } saveMasteredStreak(); }
+      for (const c of allCards) { trackCorrect(c.german); if (isMasteredMode) { masteredSessionStreak[c.german] = (masteredSessionStreak[c.german] || 0) + 1; } }
+      if (isMasteredMode) saveMasteredStreak();
       const state = getWordState(card.german);
       let suffix;
       if (isMasteredMode) {
@@ -2250,10 +2251,11 @@ function checkAnswer() {
   const speakBtn = buildSpeakBtn(card.german);
   const consecutiveBeforeAnswer = getWordState(card.german).consecutive;
 
-  if (isMasteredMode) trackShown(card.german);
+  trackShown(card.german);
   if (isCorrect) {
     markCorrect(card.german);
-    if (isMasteredMode) { trackCorrect(card.german); masteredSessionStreak[card.german] = (masteredSessionStreak[card.german] || 0) + 1; saveMasteredStreak(); }
+    trackCorrect(card.german);
+    if (isMasteredMode) { masteredSessionStreak[card.german] = (masteredSessionStreak[card.german] || 0) + 1; saveMasteredStreak(); }
     const consecutive = getWordState(card.german).consecutive;
     const learned = getWordState(card.german).learned;
     elCard.classList.add('correct');
@@ -2318,7 +2320,7 @@ function fixTypo(card, prevConsecutive) {
   s.attempted = true;
   progress[card.german] = s;
   saveProgress(progress);
-  if (isMasteredMode) trackCorrect(card.german); // typo = correct answer
+  trackCorrect(card.german); // typo = correct answer
   elCard.className = 'card correct';
   elFeedback.className = 'feedback correct';
   const suffix = s.learned ? ' 🎓 Mastered!' : ` (${s.consecutive}/5)`;

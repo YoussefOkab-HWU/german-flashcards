@@ -1046,8 +1046,14 @@ let cloudListenerActive = false;
 
 function scheduleCloudSync() {
   clearTimeout(syncTimer);
-  syncTimer = setTimeout(pushToCloud, 3000);
+  syncTimer = setTimeout(pushToCloud, 5000);
 }
+
+// Push immediately before page unload so refreshes don't lose data
+window.addEventListener('beforeunload', () => {
+  clearTimeout(syncTimer);
+  pushToCloud();
+});
 
 function pushToCloud() {
   CLOUD_DOC.set({
@@ -1124,7 +1130,7 @@ function startCloudListener() {
           correct: Math.max(lv.correct || 0, rv.correct || 0)
         };
       }
-      saveAccuracy();
+      saveAccuracy(false);
     }
     if (data.mgAccuracy) {
       for (const [k, rv] of Object.entries(data.mgAccuracy)) {
@@ -1180,7 +1186,7 @@ async function pullFromCloud() {
             correct: Math.max(lv.correct || 0, rv.correct || 0)
           };
         }
-        saveAccuracy();
+        saveAccuracy(false);
       }
       if (data.mgAccuracy) {
         for (const [k, rv] of Object.entries(data.mgAccuracy)) {
@@ -1304,13 +1310,13 @@ function loadAccuracy() {
   try { return JSON.parse(localStorage.getItem('gfc_accuracy') || '{}'); }
   catch { return {}; }
 }
-function saveAccuracy() {
+function saveAccuracy(sync = true) {
   // Safety: correct can never exceed shown
   for (const k of Object.keys(accuracy)) {
     if (accuracy[k].correct > accuracy[k].shown) accuracy[k].correct = accuracy[k].shown;
   }
   localStorage.setItem('gfc_accuracy', JSON.stringify(accuracy));
-  scheduleCloudSync();
+  if (sync) scheduleCloudSync();
 }
 function getAccuracy(word) {
   return accuracy[word] || { shown: 0, correct: 0 };

@@ -1310,6 +1310,7 @@ function saveAccuracy() {
     if (accuracy[k].correct > accuracy[k].shown) accuracy[k].correct = accuracy[k].shown;
   }
   localStorage.setItem('gfc_accuracy', JSON.stringify(accuracy));
+  scheduleCloudSync();
 }
 function getAccuracy(word) {
   return accuracy[word] || { shown: 0, correct: 0 };

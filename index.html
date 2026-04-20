@@ -1831,6 +1831,7 @@ function showCard() {
         inp.placeholder = `German word ${i + 2}…`;
         inp.addEventListener('keydown', e => {
           if (e.key === 'Enter') {
+            e.stopPropagation();
             if (answered) { advanceCard(); return; }
             // Last extra input → check; otherwise focus next
             const allInputs = getAllInputs();
@@ -2499,7 +2500,7 @@ document.addEventListener('keydown', e => {
     // On multi-input cards, Enter on first input moves to second
     if (currentSiblings.length > 0 && document.activeElement === elInput) {
       const allInputs = getAllInputs();
-      if (allInputs.length > 1) { allInputs[1].focus(); return; }
+      if (allInputs.length > 1) { e.preventDefault(); allInputs[1].focus(); return; }
     }
     if (langDir === 'en-de' && deck && deck[deckPos] && deck[deckPos].category === 'nouns' && !hasArticle(elInput.value)) return;
     checkAnswer();

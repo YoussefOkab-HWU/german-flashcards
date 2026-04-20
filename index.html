@@ -1823,7 +1823,16 @@ function showCard() {
         inp.spellcheck = false;
         inp.setAttribute('autocapitalize', 'none');
         inp.placeholder = `German word ${i + 2}…`;
-        inp.addEventListener('keydown', e => { if (e.key === 'Enter') { if (answered) advanceCard(); else checkAnswer(); } });
+        inp.addEventListener('keydown', e => {
+          if (e.key === 'Enter') {
+            if (answered) { advanceCard(); return; }
+            // Last extra input → check; otherwise focus next
+            const allInputs = getAllInputs();
+            const idx = allInputs.indexOf(inp);
+            if (idx < allInputs.length - 1) { allInputs[idx + 1].focus(); }
+            else { checkAnswer(); }
+          }
+        });
         elExtraInputs.appendChild(inp);
       });
     }
@@ -2480,9 +2489,14 @@ elInput.addEventListener('input', updateCheckState);
 
 document.addEventListener('keydown', e => {
   if (e.key === 'Enter') {
-    if (answered) advanceCard();
-    else if (langDir === 'en-de' && deck && deck[deckPos] && deck[deckPos].category === 'nouns' && !hasArticle(elInput.value)) return;
-    else checkAnswer();
+    if (answered) { advanceCard(); return; }
+    // On multi-input cards, Enter on first input moves to second
+    if (currentSiblings.length > 0 && document.activeElement === elInput) {
+      const allInputs = getAllInputs();
+      if (allInputs.length > 1) { allInputs[1].focus(); return; }
+    }
+    if (langDir === 'en-de' && deck && deck[deckPos] && deck[deckPos].category === 'nouns' && !hasArticle(elInput.value)) return;
+    checkAnswer();
   }
 });
 

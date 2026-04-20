@@ -2918,22 +2918,36 @@ async function startMasteredAllMode() {
 }
 
 function buildMasteredAllDeck() {
-  // Flashcard cards
+  // Flashcard cards — sorted: unseen in mastered mode first, then lowest accuracy first
   const flashCards = buildCards('all').filter(c => getWordState(c.german).learned)
     .map(c => ({ _allType: 'flash', ...c }));
-  // Grammar cards
-  const grammarCards = buildMasteredGrammarDeck().map(c => ({ _allType: 'grammar', ...c }));
-  // Unreviewed flashcards first, then everything else (grammar cards have no forced priority)
-  const unseenFlash = shuffle(flashCards.filter(c => getAccuracy(c.german).shown === 0));
-  const seenFlash   = shuffle(flashCards.filter(c => getAccuracy(c.german).shown  > 0));
-  const shuffledGrammar = shuffle(grammarCards);
-  return [...unseenFlash, ...seenFlash, ...shuffledGrammar];
+  flashCards.sort((a, b) => {
+    const aa = masteredSessionStreak[a.german];
+    const ba = masteredSessionStreak[b.german];
+    // Never reviewed in mastered mode → highest priority
+    const aUnseen = !aa;
+    const bUnseen = !ba;
+    if (aUnseen && !bUnseen) return -1;
+    if (!aUnseen && bUnseen) return 1;
+    // Both seen in mastered mode — sort by accuracy ascending (worst first)
+    const ap = getAccuracyPct(a.german);
+    const bp = getAccuracyPct(b.german);
+    if (ap === null && bp === null) return 0;
+    if (ap === null) return -1;
+    if (bp === null) return 1;
+    return ap - bp;
+  });
+  // Grammar cards shuffled — always after flashcards
+  const grammarCards = shuffle(buildMasteredGrammarDeck().map(c => ({ _allType: 'grammar', ...c })));
+  return [...flashCards, ...grammarCards];
 }
 
 function showMasteredAllCard() {
-  if (masteredAllPos >= masteredAllDeck.length) {
+  // Rebuild every 30 cards so ordering stays fresh as accuracy updates
+  if (masteredAllPos >= masteredAllDeck.length || masteredAllPos % 30 === 0) {
+    const wasPos = masteredAllPos;
     masteredAllDeck = buildMasteredAllDeck();
-    masteredAllPos = 0;
+    masteredAllPos = wasPos >= masteredAllDeck.length ? 0 : wasPos;
   }
   const card = masteredAllDeck[masteredAllPos];
   if (card._allType === 'grammar') {

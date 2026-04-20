@@ -1595,19 +1595,16 @@ function getNextCard() {
     if (mastered.length === 0) return null;
     const fresh = mastered.filter(c => !shownRecently(c));
     const pool = fresh.length > 0 ? fresh : mastered;
-    // Weight by inverse accuracy: not reviewed=10, 0-50%=10, 50-75%=8, 75-90%=3, 90-100%=1
+    // Weight = (100 - accuracy%) so 0% → 100, 50% → 50, 100% → 1 (floor at 1)
+    // Unseen words get weight 50 (same as 50% accuracy — middle priority)
     // Then halve for each milestone of 3 consecutive correct in this session (3→÷2, 6→÷4)
     const weights = pool.map(c => {
       const acc = accuracy[c.german];
       let w;
-      if (!acc || acc.shown === 0) w = 10;
+      if (!acc || acc.shown === 0) w = 50;
       else {
-        const pct = acc.correct / acc.shown;
-        if (pct < 0.30) w = 15;
-        else if (pct < 0.50) w = 10;
-        else if (pct < 0.75) w = 8;
-        else if (pct < 0.90) w = 3;
-        else w = 1;
+        const pct = Math.round(acc.correct / acc.shown * 100);
+        w = Math.max(1, 100 - pct);
       }
       const streak = masteredSessionStreak[c.german] || 0;
       if (streak >= 6) w = Math.max(0.25, w / 4);
@@ -2808,13 +2805,9 @@ function pickMasteredGrammarCard(deck) {
   const pool = fresh.length > 0 ? fresh : deck;
   const weights = pool.map(c => {
     const a = masteredGrammarAccuracy[c.grammarKey];
-    if (!a || a.shown === 0) return 10;
-    const pct = a.correct / a.shown;
-    if (pct < 0.30) return 15;
-    if (pct < 0.50) return 10;
-    if (pct < 0.75) return 8;
-    if (pct < 0.90) return 3;
-    return 1;
+    if (!a || a.shown === 0) return 50;
+    const pct = Math.round(a.correct / a.shown * 100);
+    return Math.max(1, 100 - pct);
   });
   const total = weights.reduce((s, w) => s + w, 0);
   let r = Math.random() * total;

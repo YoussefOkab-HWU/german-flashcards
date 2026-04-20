@@ -2852,6 +2852,18 @@ let masteredGrammarDeck = [];
 let masteredGrammarPos = 0;
 let masteredGrammarAccuracy = {}; // key → {shown, correct}
 let masteredFlashAccuracy = loadMasteredFlashAccuracy(); // word → {shown, correct} — mastered mode only
+// One-time migration: seed masteredFlashAccuracy from accuracy for words that have data
+if (!localStorage.getItem('fix_mf_seed')) {
+  let seeded = 0;
+  for (const word of Object.keys(accuracy)) {
+    if (!masteredFlashAccuracy[word] && accuracy[word] && accuracy[word].shown > 0) {
+      masteredFlashAccuracy[word] = { shown: accuracy[word].shown, correct: accuracy[word].correct };
+      seeded++;
+    }
+  }
+  if (seeded > 0) saveMasteredFlashAccuracy();
+  localStorage.setItem('fix_mf_seed', '1');
+}
 let mgCardCount = 0;
 const mgLastShownAt = {}; // grammarKey → mgCardCount when last shown
 const MG_COOLDOWN = 6;

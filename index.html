@@ -1066,17 +1066,15 @@ function pushToCloud() {
   }, { merge: true }).catch(e => console.warn('Firestore write error:', e));
 }
 
-// Merge: brutal only when both devices have attempted the word.
-// If only one device has seen it, trust that device's value.
+// Merge: always take the highest consecutive streak from either device.
+// Losing progress is worse than slightly overstating it — a wrong answer on either
+// device will push consecutive to 0 on that device and sync naturally.
 function mergeProgress(local, remote) {
   const merged = Object.assign({}, local);
   for (const [k, rv] of Object.entries(remote)) {
     const lv = local[k];
     if (!lv) { merged[k] = rv; continue; }
-    const bothAttempted = lv.attempted && rv.attempted;
-    const consecutive = bothAttempted
-      ? Math.min(lv.consecutive || 0, rv.consecutive || 0)
-      : Math.max(lv.consecutive || 0, rv.consecutive || 0);
+    const consecutive = Math.max(lv.consecutive || 0, rv.consecutive || 0);
     merged[k] = {
       consecutive,
       learned: lv.learned || rv.learned,   // preserve mastered status from either side
@@ -2494,14 +2492,23 @@ function updateCheckState() {
 }
 elInput.addEventListener('input', updateCheckState);
 
+// On multi-answer cards, elInput's own Enter handler chains to input 2
+elInput.addEventListener('keydown', e => {
+  if (e.key === 'Enter' && currentSiblings.length > 0) {
+    e.preventDefault();
+    e.stopPropagation();
+    if (answered) { advanceCard(); return; }
+    const allInputs = getAllInputs();
+    if (allInputs.length > 1) { allInputs[1].focus(); }
+    else { checkAnswer(); }
+  }
+});
+
 document.addEventListener('keydown', e => {
   if (e.key === 'Enter') {
     if (answered) { advanceCard(); return; }
-    // On multi-input cards, Enter on first input moves to second
-    if (currentSiblings.length > 0 && document.activeElement === elInput) {
-      const allInputs = getAllInputs();
-      if (allInputs.length > 1) { e.preventDefault(); allInputs[1].focus(); return; }
-    }
+    // Block global Enter entirely for multi-answer cards — each input has its own handler
+    if (currentSiblings.length > 0) return;
     if (langDir === 'en-de' && deck && deck[deckPos] && deck[deckPos].category === 'nouns' && !hasArticle(elInput.value)) return;
     checkAnswer();
   }

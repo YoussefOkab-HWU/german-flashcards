@@ -2850,6 +2850,7 @@ function buildMasteredGrammarDeck() {
 
 let masteredGrammarDeck = [];
 let masteredGrammarPos = 0;
+let currentMasteredGrammarCard = null;
 let masteredGrammarAccuracy = {}; // key → {shown, correct}
 let masteredFlashAccuracy = loadMasteredFlashAccuracy(); // word → {shown, correct} — mastered mode only
 // One-time migration: seed masteredFlashAccuracy from accuracy for words that have data
@@ -3063,6 +3064,7 @@ function showMasteredGrammarCard() {
 
   if (masteredGrammarDeck.length === 0) masteredGrammarDeck = buildMasteredGrammarDeck();
   const card = pickMasteredGrammarCard(masteredGrammarDeck);
+  currentMasteredGrammarCard = card;
   const elPrompt = document.getElementById('grammar-prompt');
   const elFields = document.getElementById('grammar-fields');
   elPrompt.style.display = '';
@@ -3134,7 +3136,7 @@ function showMasteredGrammarCard() {
 
 function checkMasteredGrammarAnswer() {
   if (answered) return;
-  const card = masteredGrammarDeck[masteredGrammarPos];
+  const card = currentMasteredGrammarCard || masteredGrammarDeck[masteredGrammarPos];
   const inputs = document.querySelectorAll('#grammar-fields .grammar-input');
   if (![...inputs].some(i => i.value.trim())) return;
   answered = true;

@@ -1203,7 +1203,7 @@ async function pullFromCloud() {
 }
 
 // ── Progress ─────────────────────────────────────────────────────────────────
-// progress[key] = { consecutive: 0..5, learned: false }
+// progress[key] = { consecutive: 0..3, learned: false }
 // key = german word (unique enough across categories)
 function loadProgress() {
   try { return JSON.parse(localStorage.getItem('gfc_progress') || '{}'); }
@@ -1366,6 +1366,18 @@ if (!localStorage.getItem('fix_dermoment2')) {
 }
 let sentenceProgress = loadSentenceProgress();
 let grammarProgress = loadGrammarProgress();
+// One-time migration: flashcard mastery threshold lowered from 5 to 3
+if (!localStorage.getItem('fix_mastery_threshold_3')) {
+  let changed = false;
+  for (const k of Object.keys(progress)) {
+    if ((progress[k].consecutive || 0) >= 3 && !progress[k].learned) {
+      progress[k].learned = true;
+      changed = true;
+    }
+  }
+  if (changed) saveProgressLocal(progress);
+  localStorage.setItem('fix_mastery_threshold_3', '1');
+}
 // One-time migration: grammar mastery threshold changed from 3 to 1
 if (!localStorage.getItem('fix_grammar_mastery_1')) {
   let changed = false;
@@ -1518,7 +1530,7 @@ function markCorrect(german) {
   const s = getWordState(german);
   s.attempted = true;
   s.consecutive = (s.consecutive || 0) + 1;
-  if (s.consecutive >= 5) s.learned = true;
+  if (s.consecutive >= 3) s.learned = true;
   progress[german] = s;
   saveProgress(progress);
   // accuracy tracking is handled at the call site, not here, to avoid double-counting siblings
@@ -1984,7 +1996,7 @@ function renderDots(german) {
   if (isMasteredMode) { elMasteryDots.innerHTML = ''; return; }
   const consecutive = getWordState(german).consecutive;
   elMasteryDots.innerHTML = '';
-  for (let i = 0; i < 5; i++) {
+  for (let i = 0; i < 3; i++) {
     const d = document.createElement('span');
     d.className = 'dot' + (i < consecutive ? ' filled' : '');
     elMasteryDots.appendChild(d);
@@ -2211,7 +2223,7 @@ function checkAnswer() {
         const accLabel = getAccuracyLabel(card.german);
         suffix = accLabel ? ` ✓ accuracy: ${accLabel}` : ' ✓ first time!';
       } else {
-        suffix = state.learned ? ' 🎓 Mastered!' : ` (${state.consecutive}/5)`;
+        suffix = state.learned ? ' 🎓 Mastered!' : ` (${state.consecutive}/3)`;
       }
       elCard.classList.add('correct');
       elFeedback.className = 'feedback correct';
@@ -2280,7 +2292,7 @@ function checkAnswer() {
       const accLabel = getAccuracyLabel(card.german);
       suffix = accLabel ? ` ✓ accuracy: ${accLabel}` : ' ✓ first time!';
     } else {
-      suffix = learned ? ' 🎓 Mastered!' : ` (${consecutive}/5)`;
+      suffix = learned ? ' 🎓 Mastered!' : ` (${consecutive}/3)`;
     }
     const speakInline = langDir === 'en-de' ? speakBtn : '';
     elFeedback.innerHTML = `<span class="feedback-icon">✓</span> Correct! &nbsp;<strong>${correctDisplay}</strong>${speakInline}<span style="opacity:.7;font-size:.9em;margin-left:6px">${suffix}</span>`;
@@ -2303,7 +2315,7 @@ function checkAnswer() {
     const acceptBtn = langDir === 'de-en'
       ? `<button id="btn-accept" style="margin-left:12px;padding:3px 12px;border-radius:8px;border:1px solid rgba(255,255,255,0.4);background:rgba(255,255,255,0.12);color:#fff;font-size:0.82rem;font-weight:600;cursor:pointer">Accept my answer</button>`
       : '';
-    const wasMastered = !isMasteredMode && consecutiveBeforeAnswer >= 5;
+    const wasMastered = !isMasteredMode && consecutiveBeforeAnswer >= 3;
     const unmasterBtn = wasMastered
       ? `<button id="btn-unmaster" style="margin-left:12px;padding:3px 12px;border-radius:8px;border:1px solid rgba(255,100,100,0.5);background:rgba(255,60,60,0.15);color:#f88;font-size:0.82rem;font-weight:600;cursor:pointer">Unmaster it?</button>`
       : '';
@@ -2330,15 +2342,15 @@ function checkAnswer() {
 function fixTypo(card, prevConsecutive) {
   // Undo the wrong, restore previous consecutive then increment
   const s = getWordState(card.german);
-  s.consecutive = Math.min(5, prevConsecutive + 1);
-  s.learned = s.learned || s.consecutive >= 5; // never remove mastery
+  s.consecutive = Math.min(3, prevConsecutive + 1);
+  s.learned = s.learned || s.consecutive >= 3; // never remove mastery
   s.attempted = true;
   progress[card.german] = s;
   saveProgress(progress);
   trackCorrect(card.german); // typo = correct answer
   elCard.className = 'card correct';
   elFeedback.className = 'feedback correct';
-  const suffix = s.learned ? ' 🎓 Mastered!' : ` (${s.consecutive}/5)`;
+  const suffix = s.learned ? ' 🎓 Mastered!' : ` (${s.consecutive}/3)`;
   elFeedback.innerHTML = `<span class="feedback-icon">✓</span> Typo accepted! &nbsp;<strong>${card.german}</strong> ${buildSpeakBtn(card.german)}<span style="opacity:.7;font-size:.9em;margin-left:6px">${suffix}</span>`;
   renderDots(card.german);
   updateMasteryBar();
@@ -2386,7 +2398,7 @@ function acceptAnswer(card, input) {
   const learned = getWordState(card.german).learned;
   elCard.className = 'card correct';
   elFeedback.className = 'feedback correct';
-  const suffix = learned ? ' 🎓 Mastered!' : ` (${consecutive}/5)`;
+  const suffix = learned ? ' 🎓 Mastered!' : ` (${consecutive}/3)`;
   elFeedback.innerHTML = `<span class="feedback-icon">✓</span> Accepted! &nbsp;<strong>${input}</strong> = <strong>${card.english}</strong><span style="opacity:.7;font-size:.9em;margin-left:6px">${suffix}</span>`;
   renderDots(card.german);
   updateMasteryBar();

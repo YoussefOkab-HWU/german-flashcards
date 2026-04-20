@@ -1062,6 +1062,7 @@ function pushToCloud() {
     grammarProgress: grammarProgress,
     accuracy: accuracy,
     mgAccuracy: masteredGrammarAccuracy,
+    mfAccuracy: masteredFlashAccuracy,
     updatedAt: firebase.firestore.FieldValue.serverTimestamp()
   }, { merge: true }).catch(e => console.warn('Firestore write error:', e));
 }
@@ -1141,6 +1142,17 @@ function startCloudListener() {
       }
       saveMasteredGrammarAccuracy();
     }
+    if (data.mfAccuracy) {
+      for (const [k, rv] of Object.entries(data.mfAccuracy)) {
+        const lv = masteredFlashAccuracy[k];
+        if (!lv) { masteredFlashAccuracy[k] = rv; continue; }
+        masteredFlashAccuracy[k] = {
+          shown:   Math.max(lv.shown   || 0, rv.shown   || 0),
+          correct: Math.max(lv.correct || 0, rv.correct || 0)
+        };
+      }
+      saveMasteredFlashAccuracy();
+    }
     // Always refresh UI when cloud data arrives
     if (appMode === 'flashcards') {
       updateMasteryBar();
@@ -1196,6 +1208,17 @@ async function pullFromCloud() {
           };
         }
         saveMasteredGrammarAccuracy();
+      }
+      if (data.mfAccuracy) {
+        for (const [k, rv] of Object.entries(data.mfAccuracy)) {
+          const lv = masteredFlashAccuracy[k];
+          if (!lv) { masteredFlashAccuracy[k] = rv; continue; }
+          masteredFlashAccuracy[k] = {
+            shown:   Math.max(lv.shown   || 0, rv.shown   || 0),
+            correct: Math.max(lv.correct || 0, rv.correct || 0)
+          };
+        }
+        saveMasteredFlashAccuracy();
       }
     }
   } catch(e) {}
@@ -1340,6 +1363,42 @@ function getAccuracyLabel(word) {
   const pct = Math.round((a.correct / a.shown) * 100);
   return `${a.correct}/${a.shown} (${pct}%)`;
 }
+
+// ── Mastered-flashcard accuracy (separate from regular-mode accuracy) ─────────
+// Only records attempts made inside Mastered/Mastered-All mode
+function loadMasteredFlashAccuracy() {
+  try { return JSON.parse(localStorage.getItem('gfc_mf_accuracy') || '{}'); } catch { return {}; }
+}
+function saveMasteredFlashAccuracy() {
+  localStorage.setItem('gfc_mf_accuracy', JSON.stringify(masteredFlashAccuracy));
+  scheduleCloudSync();
+}
+function getMFAccuracy(word) {
+  return masteredFlashAccuracy[word] || { shown: 0, correct: 0 };
+}
+function getMFAccuracyPct(word) {
+  const a = getMFAccuracy(word);
+  if (a.shown === 0) return null;
+  return Math.round((a.correct / a.shown) * 100);
+}
+function getMFAccuracyLabel(word) {
+  const a = getMFAccuracy(word);
+  if (a.shown === 0) return null;
+  const pct = Math.round((a.correct / a.shown) * 100);
+  return `${a.correct}/${a.shown} (${pct}%)`;
+}
+function trackMFShown(word) {
+  if (!masteredFlashAccuracy[word]) masteredFlashAccuracy[word] = { shown: 0, correct: 0 };
+  masteredFlashAccuracy[word].shown++;
+  saveMasteredFlashAccuracy();
+}
+function trackMFCorrect(word) {
+  if (!masteredFlashAccuracy[word]) masteredFlashAccuracy[word] = { shown: 0, correct: 0 };
+  masteredFlashAccuracy[word].correct = Math.min(
+    masteredFlashAccuracy[word].correct + 1, masteredFlashAccuracy[word].shown);
+  saveMasteredFlashAccuracy();
+}
+
 function saveSynonyms(s) {
   localStorage.setItem('gfc_synonyms', JSON.stringify(s));
 }
@@ -1595,17 +1654,12 @@ function getNextCard() {
     if (mastered.length === 0) return null;
     const fresh = mastered.filter(c => !shownRecently(c));
     const pool = fresh.length > 0 ? fresh : mastered;
-    // Weight = (100 - accuracy%) so 0% → 100, 50% → 50, 100% → 1 (floor at 1)
-    // Unseen words get weight 50 (same as 50% accuracy — middle priority)
+    // Weight = (100 - mastered-mode accuracy%) so 0% → 100, unseen → 100, 100% → 1
+    // Uses masteredFlashAccuracy (only mastered-mode attempts), not polluted by Tier data
     // Then halve for each milestone of 3 consecutive correct in this session (3→÷2, 6→÷4)
     const weights = pool.map(c => {
-      const acc = accuracy[c.german];
-      let w;
-      if (!acc || acc.shown === 0) w = 50;
-      else {
-        const pct = Math.round(acc.correct / acc.shown * 100);
-        w = Math.max(1, 100 - pct);
-      }
+      const pct = getMFAccuracyPct(c.german);
+      let w = pct === null ? 100 : Math.max(1, 100 - pct);
       const streak = masteredSessionStreak[c.german] || 0;
       if (streak >= 6) w = Math.max(0.25, w / 4);
       else if (streak >= 3) w = Math.max(0.5, w / 2);
@@ -1862,8 +1916,8 @@ function showCard() {
   if (isMasteredMode) {
     const total = getUnlearnedCards().length;
     elCounter.textContent = `${total} mastered words`;
-    // Show accuracy history on the card itself
-    const a = getAccuracy(card.german);
+    // Show mastered-mode accuracy history on the card itself
+    const a = getMFAccuracy(card.german);
     const masteredAccEl = document.getElementById('mastered-card-acc');
     if (masteredAccEl) {
       if (a.shown === 0) {
@@ -1953,7 +2007,7 @@ function updateMasteryBar() {
   if (unseenBadge) {
     if (isMasteredMode || isMasteredAllMode || isMasteredGrammarMode) {
       const masteredCards = buildCards('all').filter(c => getWordState(c.german).learned);
-      const flashUnseen = masteredCards.filter(c => getAccuracy(c.german).shown === 0).length;
+      const flashUnseen = masteredCards.filter(c => getMFAccuracy(c.german).shown === 0).length;
       const gramUnseen = (isMasteredGrammarMode || isMasteredAllMode) && GRAMMAR
         ? (() => { const deck = buildMasteredGrammarDeck(); const seen = new Set(); return deck.filter(c => { if (seen.has(c.grammarKey)) return false; seen.add(c.grammarKey); return !masteredGrammarAccuracy[c.grammarKey] || masteredGrammarAccuracy[c.grammarKey].shown === 0; }).length; })()
         : 0;
@@ -1967,8 +2021,8 @@ function updateMasteryBar() {
   if (isMasteredMode && (isMasteredAllMode || !isMasteredGrammarMode)) {
     const all = buildCards(activeFilter);
     const masteredFlash = all.filter(c => getWordState(c.german).learned);
-    const flashSeen = masteredFlash.filter(c => getAccuracy(c.german).shown > 0);
-    const flashSum = flashSeen.reduce((s, c) => s + getAccuracyPct(c.german), 0);
+    const flashSeen = masteredFlash.filter(c => getMFAccuracy(c.german).shown > 0);
+    const flashSum = flashSeen.reduce((s, c) => s + getMFAccuracyPct(c.german), 0);
 
     const grammarSeen = Object.entries(masteredGrammarAccuracy).filter(([, a]) => a.shown > 0);
     const grammarSum = grammarSeen.reduce((s, [, a]) => s + Math.round(a.correct / a.shown * 100), 0);
@@ -2080,8 +2134,8 @@ function renderForgottenPanel() {
 
   // Sort: unseen first, then by ascending accuracy %
   const sorted = [...mastered].sort((a, b) => {
-    const pa = getAccuracyPct(a.german);
-    const pb = getAccuracyPct(b.german);
+    const pa = getMFAccuracyPct(a.german);
+    const pb = getMFAccuracyPct(b.german);
     if (pa === null && pb === null) return 0;
     if (pa === null) return -1;
     if (pb === null) return 1;
@@ -2089,8 +2143,8 @@ function renderForgottenPanel() {
   });
 
   sorted.forEach(c => {
-    const pct = getAccuracyPct(c.german);
-    const acc = getAccuracy(c.german);
+    const pct = getMFAccuracyPct(c.german);
+    const acc = getMFAccuracy(c.german);
     const row = document.createElement('div');
     row.className = 'forgotten-row';
     let accClass, accText;
@@ -2111,9 +2165,9 @@ function renderAllStatsPanel() {
   // Build unified list: flashcard entries + grammar entries
   const rows = [];
 
-  // Flashcard entries
+  // Flashcard entries — use masteredFlashAccuracy (mastered-mode only)
   buildCards('all').filter(c => getWordState(c.german).learned).forEach(c => {
-    const acc = getAccuracy(c.german);
+    const acc = getMFAccuracy(c.german);
     const pct = acc && acc.shown > 0 ? Math.round(acc.correct / acc.shown * 100) : null;
     rows.push({ label: c.german, sublabel: c.english, pct, acc, type: 'flash' });
   });
@@ -2184,7 +2238,7 @@ function checkAnswer() {
 
   // ── Multi-answer: en-de with sibling cards (same English, multiple Germans) ──
   if (langDir === 'en-de' && currentSiblings.length > 0) {
-    for (const c of [card, ...currentSiblings]) trackShown(c.german);
+    for (const c of [card, ...currentSiblings]) { trackShown(c.german); if (isMasteredMode) trackMFShown(c.german); }
     const allCards = [card, ...currentSiblings];
     const inputs = getAllInputs().map(i => i.value.trim());
 
@@ -2212,12 +2266,12 @@ function checkAnswer() {
     const correctDisplay = allCards.map(c => `<strong>${c.german}</strong> ${buildSpeakBtn(c.german)}`).join(' / ');
 
     if (allCorrect) {
-      for (const c of allCards) { trackCorrect(c.german); if (isMasteredMode) { masteredSessionStreak[c.german] = (masteredSessionStreak[c.german] || 0) + 1; } }
+      for (const c of allCards) { trackCorrect(c.german); if (isMasteredMode) { trackMFCorrect(c.german); masteredSessionStreak[c.german] = (masteredSessionStreak[c.german] || 0) + 1; } }
       if (isMasteredMode) saveMasteredStreak();
       const state = getWordState(card.german);
       let suffix;
       if (isMasteredMode) {
-        const accLabel = getAccuracyLabel(card.german);
+        const accLabel = getMFAccuracyLabel(card.german);
         suffix = accLabel ? ` ✓ accuracy: ${accLabel}` : ' ✓ first time!';
       } else {
         suffix = state.learned ? ' 🎓 Mastered!' : ` (${state.consecutive}/3)`;
@@ -2248,7 +2302,7 @@ function checkAnswer() {
       elFeedback.innerHTML = `<span class="feedback-icon">✗</span> Missing: ${wrongList} &nbsp;·&nbsp; All: ${correctDisplay}${multiTypoBtn}`;
       if (allMissedAreTypos) {
         document.getElementById('btn-multi-typo').addEventListener('click', () => {
-          for (const c of allCards) { markCorrect(c.german); if (isMasteredMode) { trackCorrect(c.german); masteredSessionStreak[c.german] = (masteredSessionStreak[c.german] || 0) + 1; } }
+          for (const c of allCards) { markCorrect(c.german); if (isMasteredMode) { trackCorrect(c.german); trackMFCorrect(c.german); masteredSessionStreak[c.german] = (masteredSessionStreak[c.german] || 0) + 1; } }
           if (isMasteredMode) saveMasteredStreak();
           elCard.className = 'card correct';
           elFeedback.className = 'feedback correct';
@@ -2276,17 +2330,18 @@ function checkAnswer() {
   const consecutiveBeforeAnswer = getWordState(card.german).consecutive;
 
   trackShown(card.german);
+  if (isMasteredMode) trackMFShown(card.german);
   if (isCorrect) {
     markCorrect(card.german);
     trackCorrect(card.german);
-    if (isMasteredMode) { masteredSessionStreak[card.german] = (masteredSessionStreak[card.german] || 0) + 1; saveMasteredStreak(); }
+    if (isMasteredMode) { trackMFCorrect(card.german); masteredSessionStreak[card.german] = (masteredSessionStreak[card.german] || 0) + 1; saveMasteredStreak(); }
     const consecutive = getWordState(card.german).consecutive;
     const learned = getWordState(card.german).learned;
     elCard.classList.add('correct');
     elFeedback.className = 'feedback correct';
     let suffix;
     if (isMasteredMode) {
-      const accLabel = getAccuracyLabel(card.german);
+      const accLabel = getMFAccuracyLabel(card.german);
       suffix = accLabel ? ` ✓ accuracy: ${accLabel}` : ' ✓ first time!';
     } else {
       suffix = learned ? ' 🎓 Mastered!' : ` (${consecutive}/3)`;
@@ -2316,7 +2371,7 @@ function checkAnswer() {
     const unmasterBtn = wasMastered
       ? `<button id="btn-unmaster" style="margin-left:12px;padding:3px 12px;border-radius:8px;border:1px solid rgba(255,100,100,0.5);background:rgba(255,60,60,0.15);color:#f88;font-size:0.82rem;font-weight:600;cursor:pointer">Unmaster it?</button>`
       : '';
-    const accSuffix = isMasteredMode ? (() => { const a = getAccuracyLabel(card.german); return a ? `<span style="opacity:.7;font-size:.88em;margin-left:8px">accuracy: ${a}</span>` : ''; })() : '';
+    const accSuffix = isMasteredMode ? (() => { const a = getMFAccuracyLabel(card.german); return a ? `<span style="opacity:.7;font-size:.88em;margin-left:8px">accuracy: ${a}</span>` : ''; })() : '';
     elFeedback.innerHTML = `<span class="feedback-icon">✗</span> Wrong! Correct: <strong style="margin-left:4px">${correctDisplay}</strong>${speakInline}${typoBtn}${acceptBtn}${unmasterBtn}${accSuffix}`;
     renderDots(card.german);
     if (isTypo) {
@@ -2345,6 +2400,7 @@ function fixTypo(card, prevConsecutive) {
   progress[card.german] = s;
   saveProgress(progress);
   trackCorrect(card.german); // typo = correct answer
+  if (isMasteredMode) trackMFCorrect(card.german);
   elCard.className = 'card correct';
   elFeedback.className = 'feedback correct';
   const suffix = s.learned ? ' 🎓 Mastered!' : ` (${s.consecutive}/3)`;
@@ -2406,7 +2462,7 @@ function skipCard() {
   const isGrammarCard = appMode === 'grammar' || (isMasteredAllMode && masteredAllDeck[masteredAllPos]?._allType === 'grammar');
   const card = isGrammarCard ? (isMasteredAllMode ? masteredAllDeck[masteredAllPos] : grammarQueue[0]) : deck[deckPos];
   if (!card) return;
-  if (isMasteredMode && !isGrammarCard) trackShown(card.german);
+  if (isMasteredMode && !isGrammarCard) { trackShown(card.german); trackMFShown(card.german); }
 
   if (isGrammarCard) {
     markGrammarWrong(card.grammarKey || card.key);
@@ -2795,6 +2851,7 @@ function buildMasteredGrammarDeck() {
 let masteredGrammarDeck = [];
 let masteredGrammarPos = 0;
 let masteredGrammarAccuracy = {}; // key → {shown, correct}
+let masteredFlashAccuracy = loadMasteredFlashAccuracy(); // word → {shown, correct} — mastered mode only
 let mgCardCount = 0;
 const mgLastShownAt = {}; // grammarKey → mgCardCount when last shown
 const MG_COOLDOWN = 6;
@@ -2915,20 +2972,12 @@ function buildMasteredAllDeck() {
   const flashCards = buildCards('all').filter(c => getWordState(c.german).learned)
     .map(c => ({ _allType: 'flash', ...c }));
   flashCards.sort((a, b) => {
-    const aa = masteredSessionStreak[a.german];
-    const ba = masteredSessionStreak[b.german];
-    // Never reviewed in mastered mode → highest priority
-    const aUnseen = !aa;
-    const bUnseen = !ba;
-    if (aUnseen && !bUnseen) return -1;
-    if (!aUnseen && bUnseen) return 1;
-    // Both seen in mastered mode — sort by accuracy ascending (worst first)
-    const ap = getAccuracyPct(a.german);
-    const bp = getAccuracyPct(b.german);
+    const ap = getMFAccuracyPct(a.german); // null = never reviewed in mastered mode
+    const bp = getMFAccuracyPct(b.german);
     if (ap === null && bp === null) return 0;
-    if (ap === null) return -1;
+    if (ap === null) return -1; // unseen first
     if (bp === null) return 1;
-    return ap - bp;
+    return ap - bp; // worst accuracy first
   });
   // Grammar cards shuffled — always after flashcards
   const grammarCards = shuffle(buildMasteredGrammarDeck().map(c => ({ _allType: 'grammar', ...c })));

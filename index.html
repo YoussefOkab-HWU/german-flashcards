@@ -3777,6 +3777,15 @@ function startApp(dir) {
         .then(() => localStorage.setItem('fix_dermoment_cloud', '1'))
         .catch(() => {});
     }
+    // Restore senden/schicken streak lost to Math.min merge bug
+    if (!localStorage.getItem('fix_senden_streak')) {
+      progress['senden']   = { consecutive: 3, learned: false, attempted: true };
+      progress['schicken'] = { consecutive: 3, learned: false, attempted: true };
+      saveProgressLocal(progress);
+      CLOUD_DOC.set({ progress: progress }, { merge: true })
+        .then(() => localStorage.setItem('fix_senden_streak', '1'))
+        .catch(() => {});
+    }
     if (isMasteredAllMode) updateMasteryBar(); else resetDeck();
   });
 }

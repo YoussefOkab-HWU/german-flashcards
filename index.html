@@ -2541,7 +2541,7 @@ function skipCard() {
 
 // ── Event listeners ──────────────────────────────────────────────────────────
 elCheck.addEventListener('click', checkAnswer);
-elSkip.addEventListener('click', skipCard);
+elSkip.addEventListener('click', () => { skipCard(); elSkip.blur(); });
 elNext.addEventListener('click', advanceCard);
 
 // Disable Check for noun cards until an article is typed

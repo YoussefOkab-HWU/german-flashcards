@@ -3041,21 +3041,30 @@ async function startMasteredAllMode() {
   updateMasteryBar();
 }
 
+function weightedRandomSort(cards, weightFn) {
+  // Sort key = (100 - accuracy%) × random — lower accuracy floats to top probabilistically
+  return cards
+    .map(c => ({ c, key: weightFn(c) * Math.random() }))
+    .sort((a, b) => b.key - a.key)
+    .map(x => x.c);
+}
+
 function buildMasteredAllDeck() {
-  // Flashcard cards — sorted: unseen in mastered mode first, then lowest accuracy first
+  // Flashcard cards — weighted random: lower mastered-mode accuracy = more likely to appear early
   const flashCards = buildCards('all').filter(c => getWordState(c.german).learned)
     .map(c => ({ _allType: 'flash', ...c }));
-  flashCards.sort((a, b) => {
-    const ap = getMFAccuracyPct(a.german); // null = never reviewed in mastered mode
-    const bp = getMFAccuracyPct(b.german);
-    if (ap === null && bp === null) return 0;
-    if (ap === null) return -1; // unseen first
-    if (bp === null) return 1;
-    return ap - bp; // worst accuracy first
+  const sortedFlash = weightedRandomSort(flashCards, c => {
+    const pct = getMFAccuracyPct(c.german);
+    return pct === null ? 100 : Math.max(1, 100 - pct);
   });
-  // Grammar cards shuffled — always after flashcards
-  const grammarCards = shuffle(buildMasteredGrammarDeck().map(c => ({ _allType: 'grammar', ...c })));
-  return [...flashCards, ...grammarCards];
+  // Grammar cards — weighted random by mastered grammar accuracy
+  const grammarCards = buildMasteredGrammarDeck().map(c => ({ _allType: 'grammar', ...c }));
+  const sortedGrammar = weightedRandomSort(grammarCards, c => {
+    const a = masteredGrammarAccuracy[c.grammarKey];
+    if (!a || a.shown === 0) return 50;
+    return Math.max(1, 100 - Math.round(a.correct / a.shown * 100));
+  });
+  return [...sortedFlash, ...sortedGrammar];
 }
 
 function showMasteredAllCard() {

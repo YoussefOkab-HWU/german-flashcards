@@ -1685,15 +1685,24 @@ function getNextCard() {
   cardCount++;
   const allCards = buildCards(activeFilter);
 
-  // In mastered mode: weighted random — lower accuracy = higher chance, avoid recent repeats
+  // In mastered mode: unseen words first (strictly), then weighted random by accuracy
   if (isMasteredMode) {
     const mastered = allCards.filter(c => getWordState(c.german).learned);
     if (mastered.length === 0) return null;
+
+    // Strictly prioritise never-reviewed words — show them all before anything else
+    const unseen = mastered.filter(c => getMFAccuracy(c.german).shown === 0);
+    if (unseen.length > 0) {
+      const freshUnseen = unseen.filter(c => !shownRecently(c));
+      const unseenPool = freshUnseen.length > 0 ? freshUnseen : unseen;
+      const pick = unseenPool[Math.floor(Math.random() * unseenPool.length)];
+      lastShownAt[pick.german] = cardCount;
+      return pick;
+    }
+
+    // All seen — weighted random: (100 - accuracy%) × random, avoid recent repeats
     const fresh = mastered.filter(c => !shownRecently(c));
     const pool = fresh.length > 0 ? fresh : mastered;
-    // Weight = (100 - mastered-mode accuracy%) so 0% → 100, unseen → 100, 100% → 1
-    // Uses masteredFlashAccuracy (only mastered-mode attempts), not polluted by Tier data
-    // Then halve for each milestone of 3 consecutive correct in this session (3→÷2, 6→÷4)
     const weights = pool.map(c => {
       const pct = getMFAccuracyPct(c.german);
       let w = pct === null ? 100 : Math.max(1, 100 - pct);

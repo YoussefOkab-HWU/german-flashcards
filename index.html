@@ -3073,7 +3073,20 @@ function buildMasteredAllDeck() {
     if (!a || a.shown === 0) return 50;
     return Math.max(1, 100 - Math.round(a.correct / a.shown * 100));
   });
-  return [...sortedFlash, ...sortedGrammar];
+  // Interleave: every 5th card is grammar, the rest are flashcards
+  const result = [];
+  let fi = 0, gi = 0, pos = 0;
+  while (fi < sortedFlash.length || gi < sortedGrammar.length) {
+    if ((pos + 1) % 5 === 0 && gi < sortedGrammar.length) {
+      result.push(sortedGrammar[gi++]);
+    } else if (fi < sortedFlash.length) {
+      result.push(sortedFlash[fi++]);
+    } else {
+      result.push(sortedGrammar[gi++]);
+    }
+    pos++;
+  }
+  return result;
 }
 
 function showMasteredAllCard() {
@@ -3707,7 +3720,7 @@ function startAppWithTier(tier) {
   activeTier = isMasteredMode ? 0 : tier;
   document.getElementById('tier-select-screen').style.display = 'none';
   startApp('en-de');
-  if (isMasteredMode) startMasteredAllMode();
+  if (isMasteredMode) stopMasteredAllModes();
 }
 
 // ── Core Verb Drill ───────────────────────────────────────────────────────────

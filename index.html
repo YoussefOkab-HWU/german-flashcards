@@ -3962,6 +3962,13 @@ function startApp(dir) {
         .then(() => localStorage.setItem('fix_senden_streak', '1'))
         .catch(() => {});
     }
+    // Refresh mastered count on tier select screen if still visible
+    const tierScreen = document.getElementById('tier-select-screen');
+    if (tierScreen && tierScreen.style.display !== 'none') {
+      const masteredCount = buildCards('all').filter(c => getWordState(c.german).learned).length;
+      const el = document.getElementById('mastered-tier-count');
+      if (el) el.textContent = `${masteredCount} mastered`;
+    }
     if (isMasteredAllMode) updateMasteryBar(); else resetDeck();
   });
 }

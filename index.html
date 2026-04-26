@@ -1055,6 +1055,13 @@ window.addEventListener('beforeunload', () => {
   pushToCloud();
 });
 
+// Re-sync when app comes back to foreground (iOS kills background connections)
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible') {
+    pullFromCloud();
+  }
+});
+
 function pushToCloud() {
   CLOUD_DOC.set({
     progress: progress,

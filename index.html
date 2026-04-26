@@ -1042,11 +1042,16 @@ const db = firebase.firestore();
 const CLOUD_DOC = db.collection('gfc').doc('youssef');
 
 let syncTimer = null;
+let syncMaxTimer = null;
 let cloudListenerActive = false;
 
 function scheduleCloudSync() {
   clearTimeout(syncTimer);
-  syncTimer = setTimeout(pushToCloud, 5000);
+  syncTimer = setTimeout(() => { clearTimeout(syncMaxTimer); syncMaxTimer = null; pushToCloud(); }, 3000);
+  // Max-wait: always push within 10 seconds even if cards keep coming
+  if (!syncMaxTimer) {
+    syncMaxTimer = setTimeout(() => { clearTimeout(syncTimer); syncMaxTimer = null; pushToCloud(); }, 10000);
+  }
 }
 
 // Push immediately before page unload so refreshes don't lose data

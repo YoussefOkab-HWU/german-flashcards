@@ -1069,14 +1069,21 @@ document.addEventListener('visibilitychange', () => {
 
 function pushToCloud() {
   CLOUD_DOC.set({
-    progress: progress,
-    sentenceProgress: sentenceProgress,
-    grammarProgress: grammarProgress,
+    progress: JSON.stringify(progress),
+    sentenceProgress: JSON.stringify(sentenceProgress),
+    grammarProgress: JSON.stringify(grammarProgress),
     accuracy: accuracy,
     mgAccuracy: masteredGrammarAccuracy,
     mfAccuracy: masteredFlashAccuracy,
     updatedAt: firebase.firestore.FieldValue.serverTimestamp()
   }, { merge: true }).catch(e => console.warn('Firestore write error:', e));
+}
+
+// Parse a Firestore field that may be a JSON string (new format) or plain object (old format)
+function parseCloudField(v) {
+  if (!v) return null;
+  if (typeof v === 'string') { try { return JSON.parse(v); } catch(e) { return null; } }
+  return v;
 }
 
 // Merge: always take the highest consecutive streak from either device.
@@ -1104,12 +1111,14 @@ function startCloudListener() {
   CLOUD_DOC.onSnapshot(snap => {
     if (!snap.exists) return;
     const data = snap.data();
-    if (data.progress) {
-      progress = mergeProgress(progress, data.progress);
+    const remoteProgress = parseCloudField(data.progress);
+    if (remoteProgress) {
+      progress = mergeProgress(progress, remoteProgress);
       saveProgressLocal(progress);
     }
-    if (data.sentenceProgress) {
-      for (const [k, rv] of Object.entries(data.sentenceProgress)) {
+    const remoteSP = parseCloudField(data.sentenceProgress);
+    if (remoteSP) {
+      for (const [k, rv] of Object.entries(remoteSP)) {
         const lv = sentenceProgress[k];
         if (!lv) { sentenceProgress[k] = rv; continue; }
         const bothAttempted = (lv.consecutive > 0 || lv.learned) && (rv.consecutive > 0 || rv.learned);
@@ -1120,8 +1129,9 @@ function startCloudListener() {
       }
       saveSentenceProgressLocal();
     }
-    if (data.grammarProgress) {
-      for (const [k, rv] of Object.entries(data.grammarProgress)) {
+    const remoteGP = parseCloudField(data.grammarProgress);
+    if (remoteGP) {
+      for (const [k, rv] of Object.entries(remoteGP)) {
         const lv = grammarProgress[k];
         if (!lv) { grammarProgress[k] = rv; continue; }
         const bothAttempted = (lv.consecutive > 0 || lv.learned) && (rv.consecutive > 0 || rv.learned);
@@ -1189,17 +1199,20 @@ async function pullFromCloud() {
     const snap = await CLOUD_DOC.get();
     if (snap.exists) {
       const data = snap.data();
-      if (data.progress) {
+      const remoteProgress = parseCloudField(data.progress);
+      if (remoteProgress) {
         // Merge instead of overwrite — never let Firebase corrupt learned:true → false
-        progress = mergeProgress(progress, data.progress);
+        progress = mergeProgress(progress, remoteProgress);
         saveProgressLocal(progress);
       }
-      if (data.sentenceProgress) {
-        sentenceProgress = data.sentenceProgress;
+      const remoteSP = parseCloudField(data.sentenceProgress);
+      if (remoteSP) {
+        sentenceProgress = remoteSP;
         saveSentenceProgressLocal();
       }
-      if (data.grammarProgress) {
-        grammarProgress = data.grammarProgress;
+      const remoteGP = parseCloudField(data.grammarProgress);
+      if (remoteGP) {
+        grammarProgress = remoteGP;
         saveGrammarProgressLocal();
       }
       if (data.accuracy) {
@@ -3947,21 +3960,21 @@ function startApp(dir) {
       saveProgressLocal(progress);
       // Push directly and immediately — don't use the debounced timer
       // which would get overwritten by onSnapshot before it fires
-      CLOUD_DOC.set({ progress: progress }, { merge: true })
+      CLOUD_DOC.set({ progress: JSON.stringify(progress) }, { merge: true })
         .then(() => localStorage.setItem('fix_weise_cloud3', '1'))
         .catch(() => {});
     }
     if (!localStorage.getItem('fix_zudem_cloud')) {
       progress['zudem'] = { consecutive: 5, learned: true, attempted: true };
       saveProgressLocal(progress);
-      CLOUD_DOC.set({ progress: progress }, { merge: true })
+      CLOUD_DOC.set({ progress: JSON.stringify(progress) }, { merge: true })
         .then(() => localStorage.setItem('fix_zudem_cloud', '1'))
         .catch(() => {});
     }
     if (!localStorage.getItem('fix_dermoment_cloud')) {
       progress['Der Moment'] = { consecutive: 5, learned: true, attempted: true };
       saveProgressLocal(progress);
-      CLOUD_DOC.set({ progress: progress }, { merge: true })
+      CLOUD_DOC.set({ progress: JSON.stringify(progress) }, { merge: true })
         .then(() => localStorage.setItem('fix_dermoment_cloud', '1'))
         .catch(() => {});
     }
@@ -3970,7 +3983,7 @@ function startApp(dir) {
       progress['senden']   = { consecutive: 3, learned: false, attempted: true };
       progress['schicken'] = { consecutive: 3, learned: false, attempted: true };
       saveProgressLocal(progress);
-      CLOUD_DOC.set({ progress: progress }, { merge: true })
+      CLOUD_DOC.set({ progress: JSON.stringify(progress) }, { merge: true })
         .then(() => localStorage.setItem('fix_senden_streak', '1'))
         .catch(() => {});
     }

@@ -2324,7 +2324,8 @@ function checkAnswer() {
         const accLabel = getMFAccuracyLabel(card.german);
         suffix = accLabel ? ` ✓ accuracy: ${accLabel}` : ' ✓ first time!';
       } else {
-        suffix = state.learned ? ' 🎓 Mastered!' : ` (${state.consecutive}/3)`;
+        const allLearned = allCards.every(c => getWordState(c.german).learned);
+        suffix = allLearned ? ' 🎓 Mastered!' : ` (${state.consecutive}/3)`;
       }
       elCard.classList.add('correct');
       elFeedback.className = 'feedback correct';
@@ -2375,7 +2376,8 @@ function checkAnswer() {
     renderDots(card.german);
     updateMasteryBar();
     elNext.classList.add('visible');
-    showBreakdown(card.german);
+    // Show breakdowns for all words in the group
+    showBreakdownMulti(allCards.map(c => c.german));
     return;
   }
 
@@ -4307,6 +4309,29 @@ function decomposeWord(german) {
 
 // Words where the algorithm gives misleading results — suppress breakdown entirely
 const BREAKDOWN_BLOCKLIST = new Set(['gehören', 'erinnern', 'beginnen', 'vergessen', 'scheitern', 'verlieren', 'hoffen', 'schwimmen', 'rennen', 'kämpfen', 'bereits']);
+
+function showBreakdownMulti(words) {
+  const el = document.getElementById('word-breakdown');
+  let html = '';
+  for (const german of words) {
+    const core = german.replace(/^(der|die|das|ein|eine)\s+/i, '').replace(/^sich\s+/i, '').trim();
+    let parts = null;
+    if (BREAKDOWNS) {
+      parts = BREAKDOWNS[german] || BREAKDOWNS[core] ||
+        BREAKDOWNS[Object.keys(BREAKDOWNS).find(k => k.toLowerCase() === german.toLowerCase())] ||
+        BREAKDOWNS[Object.keys(BREAKDOWNS).find(k => k.toLowerCase() === core.toLowerCase())] ||
+        null;
+    }
+    if (!parts && !BREAKDOWN_BLOCKLIST.has(core.toLowerCase())) parts = decomposeWord(german);
+    if (parts && parts.length >= 2) {
+      html += `<div class="wb-title">${german}</div>` +
+        parts.map(p => `<div class="wb-part"><span class="wb-de">${p.de}</span><span class="wb-arrow">→</span><span class="wb-en">${p.en}</span></div>`).join('');
+    }
+  }
+  if (!html) { el.style.display = 'none'; return; }
+  el.style.display = '';
+  el.innerHTML = html;
+}
 
 function showBreakdown(german) {
   const el = document.getElementById('word-breakdown');

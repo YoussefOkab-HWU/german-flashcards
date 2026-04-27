@@ -4369,7 +4369,7 @@ function decomposeWord(german) {
 }
 
 // Words where the algorithm gives misleading results — suppress breakdown entirely
-const BREAKDOWN_BLOCKLIST = new Set(['gehören', 'erinnern', 'beginnen', 'vergessen', 'scheitern', 'verlieren', 'hoffen', 'schwimmen', 'rennen', 'kämpfen', 'bereits']);
+const BREAKDOWN_BLOCKLIST = new Set(['gehören', 'erinnern', 'beginnen', 'vergessen', 'scheitern', 'verlieren', 'hoffen', 'schwimmen', 'rennen', 'kämpfen', 'bereits', 'bitten']);
 
 function showBreakdownMulti(words) {
   const el = document.getElementById('word-breakdown');

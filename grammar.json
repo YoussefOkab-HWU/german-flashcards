@@ -67,7 +67,7 @@
     "wir": "verhandeln",
     "ihr": "verhandelt",
     "Sie": "verhandeln",
-    "perfekt_ich": "gehandelt"
+    "perfekt_ich": "verhandelt"
   },
   "investieren": {
     "type": "verb",
@@ -917,7 +917,7 @@
     "wir": "vermuten",
     "ihr": "vermutt",
     "Sie": "vermuten",
-    "perfekt_ich": "gemutet"
+    "perfekt_ich": "vermutet"
   },
   "erkennen": {
     "type": "verb",
@@ -997,7 +997,7 @@
     "wir": "erschüttern",
     "ihr": "erschüttert",
     "Sie": "erschüttern",
-    "perfekt_ich": "geschüttelt"
+    "perfekt_ich": "erschüttert"
   },
   "berichten": {
     "type": "verb",
@@ -1027,7 +1027,7 @@
     "wir": "begründen",
     "ihr": "begründet",
     "Sie": "begründen",
-    "perfekt_ich": "gegründet"
+    "perfekt_ich": "begründet"
   },
   "vergleichen": {
     "type": "verb",
@@ -2357,7 +2357,7 @@
     "wir": "erlauben",
     "ihr": "erlaubt",
     "Sie": "erlauben",
-    "perfekt_ich": "gelaubt"
+    "perfekt_ich": "erlaubt"
   },
   "erscheinen": {
     "type": "verb",
@@ -2377,7 +2377,7 @@
     "wir": "erzeugen",
     "ihr": "erzeugt",
     "Sie": "erzeugen",
-    "perfekt_ich": "gezeugt"
+    "perfekt_ich": "erzeugt"
   },
   "existieren": {
     "type": "verb",
@@ -2467,7 +2467,7 @@
     "wir": "gehören",
     "ihr": "gehört",
     "Sie": "gehören",
-    "perfekt_ich": "gehörte"
+    "perfekt_ich": "gehört"
   },
   "gelingen": {
     "type": "verb",
@@ -2477,7 +2477,7 @@
     "wir": "gelingen",
     "ihr": "gelingt",
     "Sie": "gelingen",
-    "perfekt_ich": "geglückt"
+    "perfekt_ich": "gelungen"
   },
   "genügen": {
     "type": "verb",
@@ -2557,7 +2557,7 @@
     "wir": "gewöhnen",
     "ihr": "gewöhnt",
     "Sie": "gewöhnen",
-    "perfekt_ich": "gewohnt"
+    "perfekt_ich": "gewöhnt"
   },
   "hängen": {
     "type": "verb",
@@ -3817,7 +3817,7 @@
     "wir": "begegnen",
     "ihr": "begegnet",
     "Sie": "begegnen",
-    "perfekt_ich": "gemet"
+    "perfekt_ich": "begegnet"
   },
   "begleiten": {
     "type": "verb",
@@ -3847,7 +3847,7 @@
     "wir": "behalten",
     "ihr": "behaltet",
     "Sie": "behalten",
-    "perfekt_ich": "gehalten"
+    "perfekt_ich": "behalten"
   },
   "bemerken": {
     "type": "verb",
@@ -3877,17 +3877,17 @@
     "wir": "bereiten",
     "ihr": "bereitet",
     "Sie": "bereiten",
-    "perfekt_ich": "gearbeitet"
+    "perfekt_ich": "bereitet"
   },
   "betreffen": {
     "type": "verb",
-    "ich": "treffe",
-    "du": "triffst",
-    "er/sie/es": "trefft",
-    "wir": "treffen",
-    "ihr": "trefft",
-    "Sie": "treffen",
-    "perfekt_ich": "begriffen"
+    "ich": "betreffe",
+    "du": "betriffst",
+    "er/sie/es": "betrifft",
+    "wir": "betreffen",
+    "ihr": "betrefft",
+    "Sie": "betreffen",
+    "perfekt_ich": "betroffen"
   },
   "betreiben": {
     "type": "verb",
@@ -3917,7 +3917,7 @@
     "wir": "bevorzugen",
     "ihr": "bevorzuget",
     "Sie": "bevorzugen",
-    "perfekt_ich": "geliebt"
+    "perfekt_ich": "bevorzugt"
   },
   "bewohnen": {
     "type": "verb",
@@ -4157,7 +4157,7 @@
     "wir": "enthalten",
     "ihr": "enthält",
     "Sie": "enthalten",
-    "perfekt_ich": "gehalten"
+    "perfekt_ich": "enthalten"
   },
   "entlaufen": {
     "type": "verb",
@@ -4167,7 +4167,7 @@
     "wir": "entlaufen",
     "ihr": "entrennt",
     "Sie": "entlaufen",
-    "perfekt_ich": "geflohen"
+    "perfekt_ich": "entlaufen"
   },
   "entspannen": {
     "type": "verb",
@@ -4307,7 +4307,7 @@
     "wir": "gestalten",
     "ihr": "gestaltet",
     "Sie": "gestalten",
-    "perfekt_ich": "gebildet"
+    "perfekt_ich": "gestaltet"
   },
   "greifen": {
     "type": "verb",
@@ -4607,7 +4607,7 @@
     "wir": "verhindern",
     "ihr": "verhindert",
     "Sie": "verhindern",
-    "perfekt_ich": "gehindert"
+    "perfekt_ich": "verhindert"
   },
   "vorhaben": {
     "type": "verb",
@@ -5901,13 +5901,13 @@
   },
   "erarbeiten": {
     "type": "verb",
-    "ich": "arbeite",
-    "du": "arbeitest",
-    "er/sie/es": "arbeitet",
-    "wir": "arbeiten",
-    "ihr": "arbeitet",
-    "Sie": "arbeiten",
-    "perfekt_ich": "gearbeitet"
+    "ich": "erarbeite",
+    "du": "erarbeitest",
+    "er/sie/es": "erarbeitet",
+    "wir": "erarbeiten",
+    "ihr": "erarbeitet",
+    "Sie": "erarbeiten",
+    "perfekt_ich": "erarbeitet"
   },
   "ergänzen": {
     "type": "verb",
@@ -5967,7 +5967,7 @@
     "wir": "erweitern",
     "ihr": "erweitert",
     "Sie": "erweitern",
-    "perfekt_ich": "geweitet"
+    "perfekt_ich": "erweitert"
   },
   "fassen": {
     "type": "verb",
@@ -7037,7 +7037,7 @@
     "wir": "verabschieden uns",
     "ihr": "verabschiedet euch",
     "Sie": "verabschieden sich",
-    "perfekt_ich": "gefeiert"
+    "perfekt_ich": "verabschiedet"
   },
   "sich verhalten": {
     "type": "verb",
@@ -7307,7 +7307,7 @@
     "wir": "verabschieden uns",
     "ihr": "verabschiedet euch",
     "Sie": "verabschieden sich",
-    "perfekt_ich": "gefeiert"
+    "perfekt_ich": "verabschiedet"
   },
   "verändern": {
     "type": "verb",
@@ -7317,7 +7317,7 @@
     "wir": "verändern",
     "ihr": "verändert",
     "Sie": "verändern",
-    "perfekt_ich": "geändert"
+    "perfekt_ich": "verändert"
   },
   "verbessern": {
     "type": "verb",
@@ -7337,7 +7337,7 @@
     "wir": "verbreiten",
     "ihr": "verbreitet",
     "Sie": "verbreiten",
-    "perfekt_ich": "gebreitet"
+    "perfekt_ich": "verbreitet"
   },
   "verdoppeln": {
     "type": "verb",
@@ -7377,7 +7377,7 @@
     "wir": "verkürzen",
     "ihr": "verkürzt",
     "Sie": "verkürzen",
-    "perfekt_ich": "gekürzt"
+    "perfekt_ich": "verkürzt"
   },
   "verlängern": {
     "type": "verb",
@@ -7397,7 +7397,7 @@
     "wir": "vermeiden",
     "ihr": "vermeidet",
     "Sie": "vermeiden",
-    "perfekt_ich": "gevorben"
+    "perfekt_ich": "vermieden"
   },
   "veröffentlichen": {
     "type": "verb",
@@ -7427,7 +7427,7 @@
     "wir": "verschweigen",
     "ihr": "verschweigt",
     "Sie": "verschweigen",
-    "perfekt_ich": "geheim gehalten"
+    "perfekt_ich": "verschwiegen"
   },
   "versenden": {
     "type": "verb",
@@ -7437,7 +7437,7 @@
     "wir": "versenden",
     "ihr": "versendet",
     "Sie": "versenden",
-    "perfekt_ich": "gesendet"
+    "perfekt_ich": "versendet"
   },
   "verstärken": {
     "type": "verb",
@@ -7467,7 +7467,7 @@
     "wir": "verwenden",
     "ihr": "verwendet",
     "Sie": "verwenden",
-    "perfekt_ich": "gebenutzt"
+    "perfekt_ich": "verwendet"
   },
   "verzögern": {
     "type": "verb",
@@ -7687,7 +7687,7 @@
     "wir": "zerbrechen",
     "ihr": "zerbrecht",
     "Sie": "zerbrechen",
-    "perfekt_ich": "gebrochen"
+    "perfekt_ich": "zerbrochen"
   },
   "zerlegen": {
     "type": "verb",
@@ -8167,7 +8167,7 @@
     "wir": "erfrischen",
     "ihr": "erfrischt",
     "Sie": "erfrischen",
-    "perfekt_ich": "gefrischt"
+    "perfekt_ich": "erfrischt"
   },
   "ergeben": {
     "type": "verb",
@@ -8181,12 +8181,12 @@
   },
   "erleichtern": {
     "type": "verb",
-    "ich": "leichtere",
-    "du": "leichterst",
-    "er/sie/es": "leichtert",
-    "wir": "leichtern",
-    "ihr": "leichtert",
-    "Sie": "leichtern",
+    "ich": "erleichtere",
+    "du": "erleichterst",
+    "er/sie/es": "erleichtert",
+    "wir": "erleichtern",
+    "ihr": "erleichtert",
+    "Sie": "erleichtern",
     "perfekt_ich": "erleichtert"
   },
   "ermahnen": {
@@ -8197,7 +8197,7 @@
     "wir": "ermahnen",
     "ihr": "ermahnt",
     "Sie": "ermahnen",
-    "perfekt_ich": "gemahnt"
+    "perfekt_ich": "ermahnt"
   },
   "ernennen": {
     "type": "verb",
@@ -8227,7 +8227,7 @@
     "wir": "erstaunen",
     "ihr": "erstaunt",
     "Sie": "erstaunen",
-    "perfekt_ich": "geäppelt"
+    "perfekt_ich": "erstaunt"
   },
   "erwerben": {
     "type": "verb",
@@ -9067,7 +9067,7 @@
     "wir": "sind verheiratet",
     "ihr": "seid verheiratet",
     "Sie": "sind verheiratet",
-    "perfekt_ich": "geheiratet"
+    "perfekt_ich": "verheiratet"
   },
   "verpacken": {
     "type": "verb",
@@ -9137,7 +9137,7 @@
     "wir": "verspotten",
     "ihr": "verspottet",
     "Sie": "verspotten",
-    "perfekt_ich": "gespottet"
+    "perfekt_ich": "verspottet"
   },
   "verstoßen": {
     "type": "verb",
@@ -9151,13 +9151,13 @@
   },
   "vertragen": {
     "type": "verb",
-    "ich": "trage",
-    "du": "trägst",
-    "er/sie/es": "trägt",
-    "wir": "tragen",
-    "ihr": "tragt",
-    "Sie": "tragen",
-    "perfekt_ich": "getragen"
+    "ich": "vertrage",
+    "du": "verträgst",
+    "er/sie/es": "verträgt",
+    "wir": "vertragen",
+    "ihr": "vertragt",
+    "Sie": "vertragen",
+    "perfekt_ich": "vertragen"
   },
   "verursachen": {
     "type": "verb",
@@ -9907,7 +9907,7 @@
     "wir": "er bitten",
     "ihr": "er bittet",
     "Sie": "er bitten",
-    "perfekt_ich": "gebeten"
+    "perfekt_ich": "erbeten"
   },
   "erfassen": {
     "type": "verb",
@@ -9941,13 +9941,13 @@
   },
   "eröffnen": {
     "type": "verb",
-    "ich": "öffne",
-    "du": "öffnest",
-    "er/sie/es": "öffnet",
-    "wir": "öffnen",
-    "ihr": "öffnet",
-    "Sie": "öffnen",
-    "perfekt_ich": "geöffnet"
+    "ich": "eröffne",
+    "du": "eröffnest",
+    "er/sie/es": "eröffnet",
+    "wir": "eröffnen",
+    "ihr": "eröffnet",
+    "Sie": "eröffnen",
+    "perfekt_ich": "eröffnet"
   },
   "erregen": {
     "type": "verb",
@@ -9987,7 +9987,7 @@
     "wir": "erzwingen",
     "ihr": "erzwingt",
     "Sie": "erzwingen",
-    "perfekt_ich": "gezwungen"
+    "perfekt_ich": "erzwungen"
   },
   "festigen": {
     "type": "verb",
@@ -10371,12 +10371,12 @@
   },
   "verfassen": {
     "type": "verb",
-    "ich": "fasse",
-    "du": "fasst",
-    "er/sie/es": "fasst",
-    "wir": "fassen",
-    "ihr": "fasst",
-    "Sie": "fassen",
+    "ich": "verfasse",
+    "du": "verfasst",
+    "er/sie/es": "verfasst",
+    "wir": "verfassen",
+    "ihr": "verfasst",
+    "Sie": "verfassen",
     "perfekt_ich": "verfasst"
   },
   "vernichten": {
@@ -19723,7 +19723,7 @@
     "wir": "erraten",
     "ihr": "erratet",
     "Sie": "erraten",
-    "perfekt_ich": "geraten"
+    "perfekt_ich": "erraten"
   },
   "evaluieren": {
     "type": "verb",
@@ -20013,7 +20013,7 @@
     "wir": "erforschen",
     "ihr": "erforscht",
     "Sie": "erforschen",
-    "perfekt_ich": "geforscht"
+    "perfekt_ich": "erforscht"
   },
   "extrapolieren": {
     "type": "verb",
@@ -21067,12 +21067,12 @@
   },
   "benennen": {
     "type": "verb",
-    "ich": "nennen",
-    "du": "nennst",
-    "er/sie/es": "nennt",
-    "wir": "nennern",
-    "ihr": "nennt",
-    "Sie": "nennt",
+    "ich": "benenne",
+    "du": "benennst",
+    "er/sie/es": "benennt",
+    "wir": "benennen",
+    "ihr": "benennt",
+    "Sie": "benennen",
     "perfekt_ich": "benannt"
   },
   "bezeugen": {
@@ -22487,13 +22487,13 @@
   },
   "erträumen": {
     "type": "verb",
-    "ich": "träume",
+    "ich": "erträume",
     "du": "träumst",
     "er/sie/es": "träumt",
     "wir": "träumen",
     "ihr": "träumt",
     "Sie": "träumen",
-    "perfekt_ich": "geträumt"
+    "perfekt_ich": "erträumt"
   },
   "entlarven": {
     "type": "verb",

@@ -2362,13 +2362,14 @@ function checkAnswer() {
     const allCorrect = allCards.every(c => matchedCards.has(c.german));
 
     // All-or-nothing: partial credit causes confusing mastery drift
-    if (allCorrect) {
-      // Sync siblings to min consecutive so they always reach the threshold together
-      const minConsec = Math.min(...allCards.map(c => getWordState(c.german).consecutive || 0));
-      for (const c of allCards) { progress[c.german] = progress[c.german] || {}; progress[c.german].consecutive = minConsec; }
-      for (const c of allCards) markCorrect(c.german);
-    } else {
-      for (const c of allCards) markWrong(c.german);
+    for (const c of allCards) {
+      if (allCorrect) markCorrect(c.german);
+      else markWrong(c.german);
+    }
+    // If any sibling is now learned, mark all siblings learned (group mastery)
+    if (allCorrect && allCards.some(c => getWordState(c.german).learned)) {
+      for (const c of allCards) { progress[c.german] = progress[c.german] || {}; progress[c.german].learned = true; }
+      saveProgress(progress);
     }
 
     const correctDisplay = allCards.map(c => `<strong>${c.german}</strong> ${buildSpeakBtn(c.german)}`).join(' / ');
@@ -2421,9 +2422,8 @@ function checkAnswer() {
       elFeedback.innerHTML = `<span class="feedback-icon">✗</span> Missing: ${wrongList} &nbsp;·&nbsp; All: ${correctDisplay}${multiTypoBtn}`;
       if (allMissedAreTypos) {
         document.getElementById('btn-multi-typo').addEventListener('click', () => {
-          const minConsec = Math.min(...allCards.map(c => getWordState(c.german).consecutive || 0));
-          for (const c of allCards) { progress[c.german] = progress[c.german] || {}; progress[c.german].consecutive = minConsec; }
           for (const c of allCards) { markCorrect(c.german); if (isMasteredMode) { trackCorrect(c.german); trackMFCorrect(c.german); masteredSessionStreak[c.german] = (masteredSessionStreak[c.german] || 0) + 1; } }
+          if (allCards.some(c => getWordState(c.german).learned)) { for (const c of allCards) { progress[c.german] = progress[c.german] || {}; progress[c.german].learned = true; } saveProgress(progress); }
           if (isMasteredMode) saveMasteredStreak();
           elCard.className = 'card correct';
           elFeedback.className = 'feedback correct';

@@ -1,4 +1,4 @@
-const CACHE = 'gfc-v50';
+const CACHE = 'gfc-v51';
 const ASSETS = [
   '/german-flashcards/manifest.json',
   '/german-flashcards/icon.svg'

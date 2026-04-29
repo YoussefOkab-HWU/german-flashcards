@@ -956,7 +956,8 @@ const TIERS = {"werden":1,"spielen":1,"leben":1,"fragen":1,"antworten":2,"präse
 
 let activeTier = 0; // 0 = all tiers
 
-let SENTENCES = null; // loaded lazily from sentences.json
+let SENTENCES = null;       // populated lazily per learned word from sentences/ dir
+let SENTENCES_INDEX = null; // word → file-id map from sentences_index.json
 let QUESTIONS = null; // loaded lazily from questions.json
 let BREAKDOWNS = null; // loaded lazily from breakdowns.json
 
@@ -1061,9 +1062,14 @@ window.addEventListener('beforeunload', () => {
 });
 
 // Re-sync when app comes back to foreground (iOS kills background connections)
+// Debounced: ignore brief screen-offs (< 10s) to avoid hammering Firestore on every notification
+let _visibilityTimer = null;
 document.addEventListener('visibilitychange', () => {
   if (document.visibilityState === 'visible') {
-    pullFromCloud();
+    clearTimeout(_visibilityTimer);
+    _visibilityTimer = setTimeout(() => pullFromCloud(), 10000);
+  } else {
+    clearTimeout(_visibilityTimer);
   }
 });
 
@@ -1318,20 +1324,19 @@ function getSentenceKey(card) { return `${card.german}|${card.tense}|${card.pron
 // Returns 'male'/'female' if this word is a person noun with both gendered forms in SENTENCES, else null.
 // e.g. "Der Student" → 'male' if "Die Studentin" also exists; "Die Studentin" → 'female' if "Der Student" exists.
 function getPersonGender(word) {
-  if (!SENTENCES) return null;
+  if (!SENTENCES_INDEX && !SENTENCES) return null;
+  // Check index first (always complete); fall back to loaded SENTENCES dict
+  const hasWord = (w) => (SENTENCES_INDEX ? w in SENTENCES_INDEX : false) || (SENTENCES ? w in SENTENCES : false);
   const femSuffix = /^Die\s(.+)in$/i;
   const mascMatch = word.match(/^Der\s(.+)$/i);
   const femMatch  = word.match(femSuffix);
   if (femMatch) {
-    // This is feminine form — check if masculine (Der [stem]) exists
     const stem = femMatch[1];
-    const masc = `Der ${stem}`;
-    return SENTENCES[masc] ? 'female' : null;
+    return hasWord(`Der ${stem}`) ? 'female' : null;
   }
   if (mascMatch) {
-    // This is masculine — check if feminine (Die [word]in) exists
     const fem = `Die ${mascMatch[1]}in`;
-    return SENTENCES[fem] ? 'male' : null;
+    return hasWord(fem) ? 'male' : null;
   }
   return null;
 }
@@ -2076,9 +2081,20 @@ function advanceCard() {
     return;
   }
   if (appMode === 'sentences') {
-    // sentences + questions already loaded if we got here
-    deck = shuffle(buildSentenceDeck());
-    deckPos = 0;
+    // Advance through the already-built deck; rebuild only when exhausted
+    deckPos++;
+    if (deckPos >= deck.length) {
+      deck = shuffle(buildSentenceDeck());
+      deckPos = 0;
+    }
+    if (deck.length === 0) {
+      elCard.className = 'card correct';
+      elWord.style.display = '';
+      elWord.textContent = '🎓';
+      elCounter.textContent = 'All sentences mastered!';
+      elNext.classList.remove('visible');
+      return;
+    }
     showSentenceCard();
     return;
   }
@@ -2862,16 +2878,15 @@ document.querySelectorAll('#grammar-type-filters .filter-btn').forEach(btn => {
   });
 });
 
-// ── Sentences lazy loader ─────────────────────────────────────────────────────
+// ── Sentences lazy loader (per-word files) ───────────────────────────────────
+// Instead of loading 84MB sentences.json at once, loads only the files for
+// words the user has actually learned (~16KB each, fetched in parallel).
 let sentencesLoading = false;
 async function loadSentences() {
-  if (SENTENCES) return true;
   if (sentencesLoading) return false;
   sentencesLoading = true;
-  // Only show loading UI if fetch takes >150ms (i.e. not served from cache)
-  let showedLoading = false;
+
   const loadingTimer = setTimeout(() => {
-    showedLoading = true;
     elCard.className = 'card';
     elWord.textContent = 'Loading sentences…';
     elCounter.textContent = '';
@@ -2881,9 +2896,32 @@ async function loadSentences() {
     elCheck.disabled = true;
     elNext.classList.remove('visible');
   }, 150);
+
   try {
-    const res = await fetch('sentences.json');
-    SENTENCES = await res.json();
+    // Step 1: load the index once (maps word → file id, ~120KB)
+    if (!SENTENCES_INDEX) {
+      const res = await fetch('sentences_index.json');
+      if (!res.ok) throw new Error('index not found');
+      SENTENCES_INDEX = await res.json();
+    }
+
+    // Step 2: fetch per-word files only for learned words not yet loaded
+    if (!SENTENCES) SENTENCES = {};
+    const toLoad = Object.entries(SENTENCES_INDEX)
+      .filter(([word]) => getWordState(word).learned && !(word in SENTENCES));
+
+    const BATCH = 30; // parallel requests per batch
+    for (let i = 0; i < toLoad.length; i += BATCH) {
+      await Promise.all(
+        toLoad.slice(i, i + BATCH).map(async ([word, id]) => {
+          try {
+            const r = await fetch(`sentences/s${id}.json`);
+            if (r.ok) SENTENCES[word] = await r.json();
+          } catch { /* skip on error */ }
+        })
+      );
+    }
+
     clearTimeout(loadingTimer);
     sentencesLoading = false;
     return true;
@@ -3670,7 +3708,8 @@ function showSentenceCard() {
   } else {
     elGenderHint.style.display = 'none';
   }
-  const sentenceWords = SENTENCES ? Object.keys(SENTENCES).filter(w => getWordState(w).learned).length : 0;
+  const sentenceWords = (SENTENCES_INDEX || SENTENCES)
+    ? Object.keys(SENTENCES_INDEX || SENTENCES).filter(w => getWordState(w).learned).length : 0;
   const questionWords = QUESTIONS ? Object.keys(QUESTIONS).filter(w => getWordState(w).learned).length : 0;
   const unlockedWords = Math.max(sentenceWords, questionWords);
   elCounter.textContent = `${deckPos + 1} / ${deck.length} · ${unlockedWords} words unlocked`;

@@ -13,7 +13,12 @@ import sys
 from pathlib import Path
 
 GRAMMAR_FILE = Path(__file__).parent / "grammar.json"
-CORRECTIONS_FILE = Path(__file__).parent / "llm_corrections.json"
+# Priority: wiktionary (most accurate) > filtered LLM > raw LLM
+_wikt     = Path(__file__).parent / "wikt_corrections.json"
+_filtered = Path(__file__).parent / "llm_corrections_filtered.json"
+_raw      = Path(__file__).parent / "llm_corrections.json"
+CORRECTIONS_FILE = _wikt if _wikt.exists() else (_filtered if _filtered.exists() else _raw)
+print(f"Using: {CORRECTIONS_FILE.name}")
 
 DRY_RUN = "--dry-run" in sys.argv
 

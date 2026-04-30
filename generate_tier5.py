@@ -191,9 +191,11 @@ def main():
     tiers = json.loads(tiers_m.group(1))
     app_data = json.loads(data_m.group(1))
 
-    # Build word → type map from DATA
+    # Build word → type map from DATA — only verbs and nouns need grammar entries
     word_type = {}
     for cat, words in app_data.items():
+        if cat not in ("verbs", "nouns"):
+            continue
         for w in words:
             word_type[w["german"]] = "verb" if cat == "verbs" else "noun"
 

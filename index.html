@@ -3995,8 +3995,7 @@ function applyMasteredBarVisibility() {
   elLearnedPanel.style.display = isMastered ? 'none' : '';
   elForgottenPanel.classList.remove('open');
   elBtnViewForgotten.textContent = isMastered ? 'Word stats ▾' : 'Forgotten words ▾';
-  // Swap mode toggle ↔ mastered title
-  document.getElementById('mode-toggle').style.display = isMastered ? 'none' : '';
+  // mode-toggle removed — no longer needed
   document.getElementById('filters').style.display = isMastered ? 'none' : '';
   document.getElementById('main-title').textContent = isMastered ? 'Mastered' : 'German Flashcards';
   // Show/hide mastered subtabs

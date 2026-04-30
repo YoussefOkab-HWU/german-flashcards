@@ -860,11 +860,6 @@
 
 <h1 id="main-title">German Flashcards</h1>
 
-<div class="mode-toggle" id="mode-toggle">
-  <button class="mode-btn active" id="mode-flashcards">Flashcards</button>
-  <button class="mode-btn" id="mode-sentences">Sentences</button>
-  <button class="mode-btn" id="mode-grammar">Grammar</button>
-</div>
 <button class="btn-breakdown-icon" id="mode-breakdown" title="Breakdown explorer">📖</button>
 
 <div id="breakdown-explorer" style="display:none;width:100%;max-width:600px;margin-top:12px;">
@@ -876,7 +871,7 @@
   <span><span class="val learned-val" id="count-learned">0</span> learned</span>
   <span>·</span>
   <span><span class="val remaining-val" id="count-remaining">0</span> remaining</span>
-  <button class="btn-view-learned" id="btn-view-learned">View learned ▾</button>
+  <button class="btn-view-learned" id="btn-view-learned">View mastered ▾</button>
 </div>
 
 <div class="filters" id="filters"></div>
@@ -1628,8 +1623,8 @@ const elSentenceDe      = document.getElementById('sentence-de');
 const elSentenceEn      = document.getElementById('sentence-en');
 const elTenseBadge      = document.getElementById('tense-badge');
 const elTenseFilters    = document.getElementById('tense-filters');
-const elModeFlashcards  = document.getElementById('mode-flashcards');
-const elModeSentences   = document.getElementById('mode-sentences');
+const elModeFlashcards  = { classList: { toggle: () => {} } };
+const elModeSentences   = { classList: { toggle: () => {} } };
 const elExtraInputs     = document.getElementById('extra-inputs');
 const elMasteredBar     = document.getElementById('mastered-bar');
 const elMasteredCount   = document.getElementById('mastered-count');
@@ -2741,7 +2736,7 @@ const elBreakdownExplorer = document.getElementById('breakdown-explorer');
 const elBreakdownList     = document.getElementById('breakdown-list');
 const elBreakdownSearch   = document.getElementById('breakdown-search');
 const elModeBreakdown     = document.getElementById('mode-breakdown');
-const elModeGrammar       = document.getElementById('mode-grammar');
+const elModeGrammar       = { classList: { toggle: () => {} }, addEventListener: () => {} };
 
 // Main app elements to hide/show
 const elMainApp = [
@@ -2840,9 +2835,6 @@ elBreakdownSearch.addEventListener('input', () => {
   breakdownDebounce = setTimeout(() => renderBreakdownExplorer(elBreakdownSearch.value), 200);
 });
 
-elModeFlashcards.addEventListener('click', () => setMode('flashcards'));
-elModeSentences.addEventListener('click', () => setMode('sentences'));
-elModeGrammar.addEventListener('click', () => setMode('grammar'));
 elModeBreakdown.addEventListener('click', () => setMode('breakdown'));
 
 document.getElementById('mastered-tab-all').addEventListener('click', () => {

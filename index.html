@@ -1673,7 +1673,7 @@ function setFilter(filter) {
 
 // ── Progress helpers ─────────────────────────────────────────────────────────
 function getWordState(german) {
-  return progress[german] || { consecutive: 0, learned: false, attempted: false };
+  return progress[german] || { consecutive: 0, learned: false, attempted: false, shown: 0 };
 }
 
 // A retry = attempted before AND currently at 0 consecutive (failed or un-mastered)
@@ -1684,10 +1684,20 @@ function getRetryCards(allCards) {
   });
 }
 
+// Undertested = attempted, not mastered, seen < 5 times, not already in retry queue.
+// Only activated once all new (unseen) cards have been reviewed.
+function getUndertested(allCards) {
+  return allCards.filter(c => {
+    const s = getWordState(c.german);
+    return s.attempted && !s.learned && (s.shown || 0) < 5 && s.consecutive > 0;
+  });
+}
+
 
 function markCorrect(german) {
   const s = getWordState(german);
   s.attempted = true;
+  s.shown = (s.shown || 0) + 1;
   s.consecutive = (s.consecutive || 0) + 1;
   if (s.consecutive >= 3) s.learned = true;
   progress[german] = s;
@@ -1699,6 +1709,7 @@ function markWrong(german) {
   const s = getWordState(german);
   const wasLearned = s.learned; // capture before any mutation
   s.attempted = true;
+  s.shown = (s.shown || 0) + 1;
   s.consecutive = 0;
   s.learned = wasLearned; // explicitly re-assert: wrong answer never removes mastery
   progress[german] = s;
@@ -1787,6 +1798,12 @@ function getNextCard() {
 
   const allRetryWords = new Set(getRetryCards(allCards).map(c => c.german));
 
+  // Are there still any unseen cards? Undertested boost only kicks in when all new cards are done.
+  const hasNewCards = allCards.some(c => {
+    const s = getWordState(c.german);
+    return !s.attempted && !s.learned;
+  });
+
   // Cards in progress (consecutive > 0, not mastered, not a retry)
   // If retries >= 50, treat unseen cards as invisible — only serve in-progress and retries
   const retryBacklog = getRetryCards(allCards).length;
@@ -1806,6 +1823,14 @@ function getNextCard() {
   });
   const freshRetries = allRetriesCooled.filter(c => !shownRecently(c));
 
+  // Undertested cards: shown < 5 times, not in retry queue.
+  // Only activate once all new cards are reviewed. Weight = 0.7 vs retries' 1.0.
+  const freshUndertested = hasNewCards ? [] : getUndertested(allCards).filter(c => {
+    if (shownRecently(c)) return false;
+    if (!lastShownAt[c.german]) return true;
+    return cardCount - lastShownAt[c.german] >= (retryCooldownFor[c.german] || 20);
+  });
+
   // 1 in 50 chance: show a mastered word as ghost (only if we have fresh active cards too)
   const mastered = allCards.filter(c => getWordState(c.german).learned);
   if (freshActive.length > 0 && mastered.length > 0 && Math.random() < 1/50) {
@@ -1818,8 +1843,16 @@ function getNextCard() {
   // every 4 if 20+ retries, every 3 if 40+ retries, every 2 if 70+ retries
   const allRetryCount = getRetryCards(allCards).length;
   const retryInterval = allRetryCount >= 70 ? 2 : allRetryCount >= 40 ? 3 : allRetryCount >= 20 ? 4 : 5;
-  if (freshRetries.length > 0 && cardCount % retryInterval === 0) {
-    const pick = freshRetries[Math.floor(Math.random() * freshRetries.length)];
+  const combinedRetryPool = [...freshRetries, ...freshUndertested];
+  if (combinedRetryPool.length > 0 && cardCount % retryInterval === 0) {
+    // Retries weight 1.0, undertested weight 0.7
+    const weights = combinedRetryPool.map(c => freshRetries.includes(c) ? 1.0 : 0.7);
+    const total = weights.reduce((s, w) => s + w, 0);
+    let r = Math.random() * total;
+    let pick = combinedRetryPool[combinedRetryPool.length - 1];
+    for (let i = 0; i < combinedRetryPool.length; i++) {
+      r -= weights[i]; if (r <= 0) { pick = combinedRetryPool[i]; break; }
+    }
     lastShownAt[pick.german] = cardCount; retryCooldownFor[pick.german] = 15 + Math.floor(Math.random() * 36);
     return pick;
   }
@@ -1831,16 +1864,23 @@ function getNextCard() {
     return pick;
   }
 
-  // No fresh active — fall through to fresh retries
-  if (freshRetries.length > 0) {
-    const pick = freshRetries[Math.floor(Math.random() * freshRetries.length)];
+  // No fresh active — fall through to combined retry + undertested pool
+  if (combinedRetryPool.length > 0) {
+    const weights = combinedRetryPool.map(c => freshRetries.includes(c) ? 1.0 : 0.7);
+    const total = weights.reduce((s, w) => s + w, 0);
+    let r = Math.random() * total;
+    let pick = combinedRetryPool[combinedRetryPool.length - 1];
+    for (let i = 0; i < combinedRetryPool.length; i++) {
+      r -= weights[i]; if (r <= 0) { pick = combinedRetryPool[i]; break; }
+    }
     lastShownAt[pick.german] = cardCount; retryCooldownFor[pick.german] = 15 + Math.floor(Math.random() * 36);
     return pick;
   }
 
   // Everything was shown recently — serve the least-recently-shown retry or active card
   const allRetries = getRetryCards(allCards);
-  const candidates = [...active, ...allRetries];
+  const allUndertestedCards = hasNewCards ? [] : getUndertested(allCards);
+  const candidates = [...active, ...allRetries, ...allUndertestedCards];
   if (candidates.length > 0) {
     candidates.sort((a, b) => (lastShownAt[a.german] || 0) - (lastShownAt[b.german] || 0));
     const pick = candidates[0];

@@ -2224,10 +2224,13 @@ function updateMasteryBar() {
     return;
   }
   const all = buildCards(activeFilter);
-  const learnedCount = all.filter(c => getWordState(c.german).learned).length;
+  const learnedCards = all.filter(c => getWordState(c.german).learned);
+  const learnedCount = new Set(learnedCards.map(c => c.german)).size;
+  const totalCount = new Set(all.map(c => c.german)).size;
   elCountLearned.textContent = learnedCount;
-  elCountRemaining.textContent = all.length - learnedCount;
-  elProgress.style.width = `${(learnedCount / all.length) * 100}%`;
+  elCountRemaining.textContent = totalCount - learnedCount;
+  elProgress.style.width = `${(learnedCount / totalCount) * 100}%`;
+  if (elLearnedPanel.classList.contains('open')) renderLearnedPanel();
 }
 
 function renderDots(german) {
@@ -2245,12 +2248,15 @@ function renderDots(german) {
 function renderLearnedPanel() {
   const all = buildCards('all');
   const learned = all.filter(c => getWordState(c.german).learned);
+  // Deduplicate by German word (some words appear in adj + adv)
+  const seen = new Set();
+  const unique = learned.filter(c => { if (seen.has(c.german)) return false; seen.add(c.german); return true; });
   elLearnedList.innerHTML = '';
-  if (learned.length === 0) {
+  if (unique.length === 0) {
     elLearnedList.innerHTML = '<span style="color:var(--muted);font-size:0.85rem">No words learned yet.</span>';
     return;
   }
-  learned.forEach(c => {
+  unique.forEach(c => {
     const chip = document.createElement('div');
     chip.className = 'learned-chip';
     chip.innerHTML = `${c.german}<span>${c.english}</span>`;

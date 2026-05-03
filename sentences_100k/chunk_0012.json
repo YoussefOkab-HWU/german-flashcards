@@ -5,9 +5,12 @@
     "type": "nominative",
     "score": 4,
     "vocab_refs": [
-      "Das Bild",
+      "drängen",
       "der Maler",
-      "der Fortschritt"
+      "neu",
+      "die Farbe",
+      "der Fortschritt",
+      "Das Bild"
     ]
   },
   {
@@ -16,8 +19,9 @@
     "type": "yn_question",
     "score": 5,
     "vocab_refs": [
-      "ineffektiv",
-      "die Pionierarbeit"
+      "leisten",
+      "die Pionierarbeit",
+      "ineffektiv"
     ]
   },
   {
@@ -26,8 +30,10 @@
     "type": "subclause",
     "score": 5,
     "vocab_refs": [
+      "abreisen",
+      "Die Aubergine",
       "damit",
-      "Die Aubergine"
+      "räumen"
     ]
   },
   {
@@ -36,13 +42,14 @@
     "type": "subclause",
     "score": 5,
     "vocab_refs": [
-      "die Lüge",
-      "unverkennbar",
-      "gerne",
       "mitreden",
-      "wollen",
       "berücksichtigen",
-      "müssen"
+      "wollen",
+      "die Lüge",
+      "sein",
+      "unverkennbar",
+      "müssen",
+      "gerne"
     ]
   },
   {
@@ -51,10 +58,11 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
-      "heute",
       "die Hälfte",
-      "abwesend",
-      "die Klasse"
+      "heute",
+      "die Klasse",
+      "sein",
+      "abwesend"
     ]
   },
   {
@@ -63,12 +71,13 @@
     "type": "future",
     "score": 5,
     "vocab_refs": [
-      "das Laufen",
-      "während",
-      "Die Schülerin",
-      "nicht",
       "werden",
-      "lassen"
+      "nicht",
+      "zulassen",
+      "laborieren",
+      "während",
+      "das Laufen",
+      "Die Schülerin"
     ]
   },
   {
@@ -77,9 +86,10 @@
     "type": "perfect",
     "score": 5,
     "vocab_refs": [
-      "lassen",
-      "Der Notizblock",
       "Die Zahnpasta",
+      "Der Notizblock",
+      "zulassen",
+      "haben",
       "zurückkommen"
     ]
   },
@@ -89,10 +99,12 @@
     "type": "perfect",
     "score": 5,
     "vocab_refs": [
-      "haben",
-      "möglicherweise",
+      "neu",
+      "fördern",
+      "die Bürgerbeteiligung",
       "der Ritus",
-      "die Bürgerbeteiligung"
+      "möglicherweise",
+      "haben"
     ]
   },
   {
@@ -101,9 +113,10 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
-      "ernähren",
+      "anpflanzen",
       "der Kompost",
-      "pflanzen",
+      "müssen",
+      "ernähren",
       "einziehen"
     ]
   },
@@ -114,6 +127,7 @@
     "score": 5,
     "vocab_refs": [
       "die Motivation",
+      "zeigen",
       "der Rückblick"
     ]
   },
@@ -134,6 +148,7 @@
     "score": 5,
     "vocab_refs": [
       "Das Kind",
+      "geben",
       "der Sack",
       "der Farmer"
     ]
@@ -144,10 +159,12 @@
     "type": "future",
     "score": 5,
     "vocab_refs": [
-      "zeigen",
       "Die Ehefrau",
-      "das Modell",
-      "der Nutzen"
+      "machen",
+      "werden",
+      "der Nutzen",
+      "zeigen",
+      "das Modell"
     ]
   },
   {
@@ -156,9 +173,10 @@
     "type": "w_question",
     "score": 5,
     "vocab_refs": [
+      "gewalttätig",
+      "kaum",
       "fördern",
-      "die Gruppe",
-      "kaum"
+      "die Gruppe"
     ]
   },
   {
@@ -167,6 +185,7 @@
     "type": "genitive",
     "score": 5,
     "vocab_refs": [
+      "alt",
       "die Lyrik",
       "der Autor"
     ]
@@ -177,8 +196,8 @@
     "type": "w_question",
     "score": 5,
     "vocab_refs": [
-      "fahren",
-      "Der Urlaub"
+      "Der Urlaub",
+      "wegfahren"
     ]
   },
   {
@@ -187,9 +206,11 @@
     "type": "subclause",
     "score": 5,
     "vocab_refs": [
+      "Das Seminar",
+      "können",
       "das Laufen",
       "sich lohnen",
-      "Das Seminar"
+      "lassen"
     ]
   },
   {
@@ -198,8 +219,9 @@
     "type": "dative",
     "score": 5,
     "vocab_refs": [
-      "die Hypothese",
-      "verarbeiten"
+      "verarbeiten",
+      "gelten",
+      "die Hypothese"
     ]
   },
   {
@@ -208,8 +230,9 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
+      "hilfsbereit",
       "immer",
-      "hilfsbereit"
+      "reagieren"
     ]
   },
   {
@@ -218,9 +241,11 @@
     "type": "perfect",
     "score": 5,
     "vocab_refs": [
-      "die Währung",
+      "Das Jahr",
+      "werden",
       "flüssig",
-      "Das Jahr"
+      "die Währung",
+      "sein"
     ]
   },
   {
@@ -229,8 +254,10 @@
     "type": "future",
     "score": 5,
     "vocab_refs": [
-      "Die Erfahrung",
-      "sein"
+      "sein",
+      "werden",
+      "unaussprechlich",
+      "Die Erfahrung"
     ]
   },
   {
@@ -249,6 +276,7 @@
     "type": "future",
     "score": 5,
     "vocab_refs": [
+      "werden",
       "mitnehmen",
       "nicht",
       "Der Roller"
@@ -260,7 +288,8 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
-      "wiederholt"
+      "wiederholt",
+      "nacherzählen"
     ]
   },
   {
@@ -270,7 +299,8 @@
     "score": 5,
     "vocab_refs": [
       "die Relevanz",
-      "nicht"
+      "nicht",
+      "interessieren"
     ]
   },
   {
@@ -279,7 +309,9 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
-      "die Regierung"
+      "die Regierung",
+      "fordern",
+      "neu"
     ]
   },
   {
@@ -289,9 +321,10 @@
     "score": 5,
     "vocab_refs": [
       "sicher",
-      "nicht",
+      "der Seestern",
+      "werden",
       "beschädigen",
-      "der Seestern"
+      "nicht"
     ]
   },
   {
@@ -300,8 +333,9 @@
     "type": "yn_question",
     "score": 5,
     "vocab_refs": [
+      "erörtern",
       "Die Frage",
-      "erörtern"
+      "können"
     ]
   },
   {
@@ -310,6 +344,7 @@
     "type": "perfect",
     "score": 5,
     "vocab_refs": [
+      "bezeichnen",
       "haben",
       "illogisch",
       "der Anachronismus"
@@ -321,10 +356,10 @@
     "type": "imperative",
     "score": 5,
     "vocab_refs": [
-      "Das Verhalten",
-      "heraus",
+      "die Exponentialfunktion",
       "lernen",
-      "die Exponentialfunktion"
+      "Das Verhalten",
+      "heraus"
     ]
   },
   {
@@ -333,7 +368,9 @@
     "type": "comparative",
     "score": 5,
     "vocab_refs": [
-      "der Deckel"
+      "sein",
+      "der Deckel",
+      "offen"
     ]
   },
   {
@@ -342,6 +379,7 @@
     "type": "reflexive",
     "score": 5,
     "vocab_refs": [
+      "verspotten",
       "Der Fehler"
     ]
   },
@@ -351,6 +389,7 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
+      "nehmen",
       "die Gelegenheit",
       "wörtlich"
     ]
@@ -361,6 +400,8 @@
     "type": "plural",
     "score": 5,
     "vocab_refs": [
+      "neu",
+      "die Kapsel",
       "die Marinade",
       "enthalten"
     ]
@@ -371,8 +412,9 @@
     "type": "imperative",
     "score": 5,
     "vocab_refs": [
-      "passen",
-      "umgehen"
+      "juristisch",
+      "umgehen",
+      "passen"
     ]
   },
   {
@@ -381,9 +423,11 @@
     "type": "separable",
     "score": 5,
     "vocab_refs": [
+      "sorgen",
+      "die Polizei",
       "Das Krankenhaus",
       "die Sicherheit",
-      "die Polizei"
+      "begleiten"
     ]
   },
   {
@@ -392,6 +436,8 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
+      "berücksichtigen",
+      "werden",
       "die Nachhaltigkeit",
       "auch"
     ]
@@ -402,11 +448,12 @@
     "type": "subclause",
     "score": 5,
     "vocab_refs": [
+      "die Zufriedenheit",
+      "hoffen",
+      "Der Brokkoli",
+      "der Rückbau",
       "vortragen",
       "wieder",
-      "die Zufriedenheit",
-      "der Rückbau",
-      "Der Brokkoli",
       "der Professor"
     ]
   },
@@ -416,8 +463,11 @@
     "type": "perfect",
     "score": 5,
     "vocab_refs": [
-      "Der Flur",
-      "neu"
+      "neu",
+      "verändern",
+      "streichen",
+      "haben",
+      "Der Flur"
     ]
   },
   {
@@ -426,12 +476,12 @@
     "type": "future",
     "score": 5,
     "vocab_refs": [
-      "genießen",
-      "die Lyrik",
-      "die Natur",
       "werden",
+      "genießen",
       "wahrnehmen",
-      "der Hirsch"
+      "der Hirsch",
+      "die Lyrik",
+      "die Natur"
     ]
   },
   {
@@ -441,6 +491,7 @@
     "score": 5,
     "vocab_refs": [
       "die Tour",
+      "schön",
       "vorzugsweise"
     ]
   },
@@ -451,9 +502,9 @@
     "score": 5,
     "vocab_refs": [
       "sollen",
+      "versuchen",
       "die Gleichung",
       "die Daten",
-      "versuchen",
       "verbessern"
     ]
   },
@@ -463,9 +514,9 @@
     "type": "accusative",
     "score": 5,
     "vocab_refs": [
-      "verstärken",
       "unsichtbar",
-      "der Hydrant"
+      "der Hydrant",
+      "verstärken"
     ]
   },
   {
@@ -475,7 +526,9 @@
     "score": 5,
     "vocab_refs": [
       "Das Hähnchen",
-      "Die Küche"
+      "kochen",
+      "Die Küche",
+      "haben"
     ]
   },
   {
@@ -485,7 +538,8 @@
     "score": 5,
     "vocab_refs": [
       "Der Hai",
-      "der Fall"
+      "der Fall",
+      "kompromittieren"
     ]
   },
   {
@@ -494,10 +548,12 @@
     "type": "reflexive",
     "score": 5,
     "vocab_refs": [
-      "wichtig",
-      "die Disziplin",
+      "können",
       "ausruhen",
-      "nicht"
+      "die Disziplin",
+      "nicht",
+      "sein",
+      "wichtig"
     ]
   },
   {
@@ -506,6 +562,8 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
+      "das Team",
+      "erträumen",
       "das Konzert"
     ]
   },
@@ -515,6 +573,7 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
+      "trösten",
       "die Situation"
     ]
   },
@@ -524,9 +583,9 @@
     "type": "separable",
     "score": 5,
     "vocab_refs": [
-      "spitz",
       "sinken",
-      "die Industrie"
+      "die Industrie",
+      "spitz"
     ]
   },
   {
@@ -536,6 +595,7 @@
     "score": 5,
     "vocab_refs": [
       "das Drama",
+      "bitten",
       "präzisieren"
     ]
   },
@@ -545,8 +605,10 @@
     "type": "separable",
     "score": 5,
     "vocab_refs": [
+      "der Stau",
       "werden",
-      "der Stau"
+      "abstellen",
+      "können"
     ]
   },
   {
@@ -555,7 +617,9 @@
     "type": "perfect",
     "score": 5,
     "vocab_refs": [
+      "haben",
       "Die Sandale",
+      "verlieren",
       "springen"
     ]
   },
@@ -587,10 +651,10 @@
     "type": "future",
     "score": 5,
     "vocab_refs": [
-      "überschreiten",
       "der Grenzwert",
-      "nicht",
-      "werden"
+      "werden",
+      "überschreiten",
+      "nicht"
     ]
   },
   {
@@ -599,9 +663,10 @@
     "type": "preterite",
     "score": 5,
     "vocab_refs": [
-      "die Kreativität",
       "immer",
-      "Die Vergangenheit"
+      "Die Vergangenheit",
+      "stimulieren",
+      "die Kreativität"
     ]
   },
   {
@@ -610,9 +675,10 @@
     "type": "subclause",
     "score": 5,
     "vocab_refs": [
+      "einmal",
+      "gähnen",
       "Die Minute",
-      "lang",
-      "einmal"
+      "lang"
     ]
   },
   {
@@ -621,9 +687,12 @@
     "type": "plural",
     "score": 5,
     "vocab_refs": [
+      "Die Krankheit",
+      "erkranken",
       "bleiben",
+      "müssen",
       "der Schutzraum",
-      "Die Krankheit"
+      "ansteckend"
     ]
   },
   {
@@ -632,10 +701,11 @@
     "type": "separable",
     "score": 5,
     "vocab_refs": [
+      "sicher",
       "Die Ingenieurin",
-      "zurück",
+      "aufkommen",
       "Die Universität",
-      "sicher"
+      "zurück"
     ]
   },
   {
@@ -644,10 +714,11 @@
     "type": "future",
     "score": 5,
     "vocab_refs": [
-      "kennen",
-      "bedauerlicherweise",
       "das Zivilrecht",
-      "nicht"
+      "werden",
+      "nicht",
+      "kennen",
+      "bedauerlicherweise"
     ]
   },
   {
@@ -657,7 +728,8 @@
     "score": 5,
     "vocab_refs": [
       "die Rückmeldung",
-      "Das Unternehmen"
+      "Das Unternehmen",
+      "aufkommen"
     ]
   },
   {
@@ -667,6 +739,7 @@
     "score": 5,
     "vocab_refs": [
       "gerade",
+      "exponieren",
       "die Galerie"
     ]
   },
@@ -677,6 +750,7 @@
     "score": 5,
     "vocab_refs": [
       "die Einigung",
+      "wichtig",
       "strategisch"
     ]
   },
@@ -686,6 +760,7 @@
     "type": "preterite",
     "score": 5,
     "vocab_refs": [
+      "sich kümmern",
       "somit",
       "die Organisation"
     ]
@@ -696,8 +771,8 @@
     "type": "yn_question",
     "score": 5,
     "vocab_refs": [
-      "mittags",
-      "anzahlen"
+      "anzahlen",
+      "mittags"
     ]
   },
   {
@@ -707,6 +782,7 @@
     "score": 5,
     "vocab_refs": [
       "die Einstellung",
+      "sein",
       "objektiv"
     ]
   },
@@ -716,8 +792,9 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
+      "Der Himmel",
       "Der Mond",
-      "Der Himmel"
+      "schauen"
     ]
   },
   {
@@ -726,10 +803,14 @@
     "type": "nominative",
     "score": 4,
     "vocab_refs": [
-      "Der Mann",
+      "neu",
+      "geben",
       "die Kellnerin",
+      "romantisch",
+      "streichen",
+      "die Kokosnuss",
       "der Kredit",
-      "die Kokosnuss"
+      "Der Mann"
     ]
   },
   {
@@ -739,6 +820,7 @@
     "score": 5,
     "vocab_refs": [
       "Das Bild",
+      "hängen",
       "Der Bilderrahmen"
     ]
   },
@@ -748,10 +830,11 @@
     "type": "preterite",
     "score": 5,
     "vocab_refs": [
-      "der Rentner",
-      "helfen",
+      "immer",
+      "wollen",
+      "mithelfen",
       "verstehen",
-      "immer"
+      "der Rentner"
     ]
   },
   {
@@ -760,6 +843,8 @@
     "type": "perfect",
     "score": 5,
     "vocab_refs": [
+      "haben",
+      "beobachten",
       "Die Schildkröte"
     ]
   },
@@ -789,7 +874,10 @@
     "english": "Where does the empirical knowledge come from?",
     "type": "w_question",
     "score": 5,
-    "vocab_refs": []
+    "vocab_refs": [
+      "empirisch",
+      "aufkommen"
+    ]
   },
   {
     "german": "Wir gehen weg, wenn die Medizin geschlossen bleibt.",
@@ -797,10 +885,11 @@
     "type": "subclause",
     "score": 5,
     "vocab_refs": [
-      "gehen",
-      "Die Medizin",
+      "bleiben",
+      "geschlossen",
       "weg",
-      "geschlossen"
+      "abgehen",
+      "Die Medizin"
     ]
   },
   {
@@ -809,6 +898,7 @@
     "type": "separable",
     "score": 5,
     "vocab_refs": [
+      "langweilen",
       "nachmals"
     ]
   },
@@ -818,7 +908,12 @@
     "type": "plural",
     "score": 5,
     "vocab_refs": [
-      "auffrischen"
+      "neu",
+      "die Interpretation",
+      "alt",
+      "auffrischen",
+      "die Gruppe",
+      "das Lied"
     ]
   },
   {
@@ -827,6 +922,7 @@
     "type": "imperative",
     "score": 5,
     "vocab_refs": [
+      "erfüllen",
       "Das Wissen",
       "die Kategorie"
     ]
@@ -837,9 +933,13 @@
     "type": "future",
     "score": 5,
     "vocab_refs": [
-      "visionär",
-      "flüssig",
+      "neu",
       "Die Idee",
+      "revolutionäre",
+      "visionär",
+      "werden",
+      "flüssig",
+      "sein",
       "aufregend"
     ]
   },
@@ -849,8 +949,9 @@
     "type": "modal",
     "score": 5,
     "vocab_refs": [
-      "Der Termin",
-      "abschließen"
+      "müssen",
+      "abschließen",
+      "Der Termin"
     ]
   },
   {
@@ -859,9 +960,12 @@
     "type": "perfect",
     "score": 5,
     "vocab_refs": [
-      "entlaufen",
+      "Der Leopard",
+      "haben",
+      "sein",
       "zuletzt",
-      "Der Leopard"
+      "sehen",
+      "entlaufen"
     ]
   },
   {
@@ -870,9 +974,13 @@
     "type": "subclause",
     "score": 5,
     "vocab_refs": [
+      "sollen",
       "die Sehenswürdigkeit",
       "damit",
-      "informieren"
+      "sein",
+      "informieren",
+      "wissen",
+      "besuchen"
     ]
   },
   {
@@ -881,9 +989,9 @@
     "type": "future",
     "score": 5,
     "vocab_refs": [
-      "Das Wohnzimmer",
       "werden",
       "integriert",
+      "Das Wohnzimmer",
       "meistens",
       "Die Hardware"
     ]
@@ -895,9 +1003,9 @@
     "score": 5,
     "vocab_refs": [
       "der Unterschied",
-      "nennen",
       "Die Seide",
-      "Die Wolle"
+      "Die Wolle",
+      "nennen"
     ]
   },
   {
@@ -907,7 +1015,11 @@
     "score": 4,
     "vocab_refs": [
       "Das Bild",
-      "Die Künstlerin"
+      "Die Künstlerin",
+      "künstlerisch",
+      "schätzen",
+      "zeigen",
+      "malen"
     ]
   },
   {
@@ -917,9 +1029,9 @@
     "score": 5,
     "vocab_refs": [
       "Die Mitarbeiterin",
-      "nicht",
       "werden",
-      "ausnutzen"
+      "ausnutzen",
+      "nicht"
     ]
   },
   {
@@ -929,10 +1041,11 @@
     "score": 5,
     "vocab_refs": [
       "veröffentlichen",
-      "die These",
+      "testen",
       "dürfen",
       "nicht",
-      "der Wissenschaftler"
+      "der Wissenschaftler",
+      "die These"
     ]
   },
   {
@@ -941,9 +1054,9 @@
     "type": "modal",
     "score": 5,
     "vocab_refs": [
-      "symmetrisch",
       "gestalten",
-      "die Republik"
+      "die Republik",
+      "symmetrisch"
     ]
   },
   {
@@ -952,7 +1065,9 @@
     "type": "yn_question",
     "score": 5,
     "vocab_refs": [
-      "lieben"
+      "mythologisch",
+      "die Geschichte",
+      "liebhaben"
     ]
   },
   {
@@ -961,9 +1076,11 @@
     "type": "accusative",
     "score": 5,
     "vocab_refs": [
-      "partiell",
+      "Die Journalistin",
+      "erarbeiten",
       "die Geschichte",
-      "Die Journalistin"
+      "die Quelle",
+      "partiell"
     ]
   },
   {
@@ -973,11 +1090,11 @@
     "score": 5,
     "vocab_refs": [
       "sollen",
-      "zuhören",
+      "aufmerksam",
       "das Hören",
       "nicht",
       "ignorieren",
-      "aufmerksam"
+      "zuhören"
     ]
   },
   {
@@ -986,8 +1103,9 @@
     "type": "comparative",
     "score": 5,
     "vocab_refs": [
+      "sein",
       "Der Spargel",
-      "sein"
+      "ergiebig"
     ]
   },
   {
@@ -996,9 +1114,10 @@
     "type": "perfect",
     "score": 5,
     "vocab_refs": [
-      "Der Reifen",
+      "nass",
       "haben",
-      "nass"
+      "reif",
+      "wechseln"
     ]
   },
   {
@@ -1007,8 +1126,10 @@
     "type": "w_question",
     "score": 5,
     "vocab_refs": [
-      "Der Schrank",
-      "beinahe"
+      "beinahe",
+      "verstecken",
+      "befinden",
+      "Der Schrank"
     ]
   },
   {
@@ -1018,6 +1139,7 @@
     "score": 5,
     "vocab_refs": [
       "der Kompost",
+      "beeinflussen",
       "nachhaltig"
     ]
   },
@@ -1028,6 +1150,7 @@
     "score": 5,
     "vocab_refs": [
       "Das Kind",
+      "streiten",
       "Der Elternteil"
     ]
   },
@@ -1037,9 +1160,9 @@
     "type": "yn_question",
     "score": 5,
     "vocab_refs": [
-      "zahlen",
-      "heute",
-      "Die Rechnung"
+      "die Zahl",
+      "Die Rechnung",
+      "heute"
     ]
   },
   {
@@ -1048,8 +1171,9 @@
     "type": "w_question",
     "score": 5,
     "vocab_refs": [
-      "experimentieren",
-      "Die Software"
+      "neu",
+      "Die Software",
+      "experimentieren"
     ]
   },
   {
@@ -1058,6 +1182,7 @@
     "type": "future",
     "score": 5,
     "vocab_refs": [
+      "werden",
       "präzise",
       "Die Wassermelone"
     ]
@@ -1068,9 +1193,11 @@
     "type": "comparative",
     "score": 5,
     "vocab_refs": [
-      "methodisch",
       "zugleich",
-      "satirisch"
+      "satirisch",
+      "sein",
+      "bildlich",
+      "methodisch"
     ]
   },
   {
@@ -1079,10 +1206,11 @@
     "type": "future",
     "score": 5,
     "vocab_refs": [
-      "Das Schlafzimmer",
-      "sein",
       "endlich",
-      "blau"
+      "werden",
+      "blau",
+      "sein",
+      "Das Schlafzimmer"
     ]
   },
   {
@@ -1091,10 +1219,12 @@
     "type": "subclause",
     "score": 5,
     "vocab_refs": [
+      "das Repertoire",
       "groß",
-      "die Schauspielerin",
+      "bestimmen",
       "der Realismus",
-      "das Repertoire"
+      "konzentriert",
+      "die Schauspielerin"
     ]
   },
   {
@@ -1103,8 +1233,9 @@
     "type": "dative",
     "score": 5,
     "vocab_refs": [
-      "Der Supermarkt",
-      "besorgt"
+      "neu",
+      "besorgt",
+      "Der Supermarkt"
     ]
   },
   {
@@ -1113,7 +1244,9 @@
     "type": "dative",
     "score": 5,
     "vocab_refs": [
-      "Der Vertrag"
+      "Der Vertrag",
+      "annullieren",
+      "widersprechen"
     ]
   },
   {
@@ -1122,8 +1255,10 @@
     "type": "comparative",
     "score": 5,
     "vocab_refs": [
-      "die Ausbildung",
       "Das Büro",
+      "sein",
+      "anspruchsvoll",
+      "die Ausbildung",
       "geistig"
     ]
   },
@@ -1152,7 +1287,8 @@
     "type": "future",
     "score": 5,
     "vocab_refs": [
-      "messen",
+      "werden",
+      "die Messe",
       "die Heuristik"
     ]
   },
@@ -1162,9 +1298,10 @@
     "type": "yn_question",
     "score": 5,
     "vocab_refs": [
+      "erholsam",
+      "bieten",
       "Die Eltern",
-      "Die Reise",
-      "bieten"
+      "Die Reise"
     ]
   },
   {
@@ -1173,9 +1310,9 @@
     "type": "accusative",
     "score": 5,
     "vocab_refs": [
-      "Die Freude",
       "Der Freund",
-      "umarmen"
+      "umarmen",
+      "Die Freude"
     ]
   },
   {
@@ -1184,8 +1321,9 @@
     "type": "future",
     "score": 5,
     "vocab_refs": [
-      "handeln",
       "respektvoll",
+      "werden",
+      "handeln",
       "die Verwaltungseinheit"
     ]
   },
@@ -1195,7 +1333,9 @@
     "type": "comparative",
     "score": 5,
     "vocab_refs": [
+      "sein",
       "die Sinusfunktion",
+      "kompliziert",
       "bedeutend"
     ]
   },
@@ -1204,7 +1344,10 @@
     "english": "Where do the subjective results come from?",
     "type": "w_question",
     "score": 5,
-    "vocab_refs": []
+    "vocab_refs": [
+      "das Ergebnis",
+      "subjektiv"
+    ]
   },
   {
     "german": "Der Rabbiner verkürzte die Rede, um Zeit zu sparen.",
@@ -1214,7 +1357,9 @@
     "vocab_refs": [
       "Die Zeit",
       "sparen",
-      "der Rabbiner"
+      "reden",
+      "der Rabbiner",
+      "verkürzen"
     ]
   },
   {
@@ -1224,9 +1369,10 @@
     "score": 5,
     "vocab_refs": [
       "künftig",
-      "sorgfältig",
+      "werden",
       "modellieren",
-      "Die Produktion"
+      "Die Produktion",
+      "sorgfältig"
     ]
   },
   {
@@ -1235,6 +1381,8 @@
     "type": "dative",
     "score": 5,
     "vocab_refs": [
+      "neu",
+      "helfen",
       "das Metall",
       "Der Code"
     ]
@@ -1245,8 +1393,9 @@
     "type": "w_question",
     "score": 5,
     "vocab_refs": [
+      "Der Bäcker",
       "das Tablett",
-      "Der Bäcker"
+      "machen"
     ]
   },
   {
@@ -1256,12 +1405,15 @@
     "score": 5,
     "vocab_refs": [
       "fertigstellen",
-      "können",
       "der Bahnausbau",
-      "damit",
-      "werden",
+      "neu",
+      "können",
       "die Zusammenarbeit",
-      "stimulieren"
+      "werden",
+      "damit",
+      "ausnutzen",
+      "stimulieren",
+      "die Technologie"
     ]
   },
   {
@@ -1270,8 +1422,10 @@
     "type": "genitive",
     "score": 5,
     "vocab_refs": [
+      "sehr",
       "die Farbe",
-      "sehr"
+      "neu",
+      "beeindrucken"
     ]
   },
   {
@@ -1280,7 +1434,10 @@
     "type": "imperative",
     "score": 5,
     "vocab_refs": [
-      "Die Hilfe"
+      "melden",
+      "Die Hilfe",
+      "bitten",
+      "gebrauchen"
     ]
   },
   {
@@ -1290,6 +1447,7 @@
     "score": 5,
     "vocab_refs": [
       "die Menschenwürde",
+      "widersprechen",
       "der Terrorismus"
     ]
   },
@@ -1299,10 +1457,11 @@
     "type": "perfect",
     "score": 5,
     "vocab_refs": [
-      "der Ausbruch",
+      "das Virus",
+      "verursachen",
       "Der Chip",
-      "Der Fehler",
-      "das Virus"
+      "der Ausbruch",
+      "Der Fehler"
     ]
   },
   {
@@ -1311,6 +1470,7 @@
     "type": "accusative",
     "score": 5,
     "vocab_refs": [
+      "die Ansicht",
       "erschöpft"
     ]
   },
@@ -1320,8 +1480,9 @@
     "type": "yn_question",
     "score": 5,
     "vocab_refs": [
-      "lächeln",
-      "scheinbar"
+      "scheinbar",
+      "fordern",
+      "lächeln"
     ]
   },
   {
@@ -1330,6 +1491,7 @@
     "type": "preterite",
     "score": 5,
     "vocab_refs": [
+      "verlieren",
       "vergessen",
       "Der Turnschuh"
     ]
@@ -1347,8 +1509,9 @@
     "type": "preterite",
     "score": 5,
     "vocab_refs": [
-      "der Auftrag",
-      "die Bildhauerin"
+      "die Bildhauerin",
+      "abschließen",
+      "der Auftrag"
     ]
   },
   {
@@ -1357,8 +1520,9 @@
     "type": "separable",
     "score": 5,
     "vocab_refs": [
-      "die Doktorarbeit",
-      "bewusst"
+      "bewusst",
+      "entschließen",
+      "die Doktorarbeit"
     ]
   },
   {
@@ -1367,10 +1531,11 @@
     "type": "plural",
     "score": 5,
     "vocab_refs": [
-      "die Kooperation",
-      "das Regelwerk",
+      "Das Unternehmen",
       "objektiv",
-      "Das Unternehmen"
+      "das Regelwerk",
+      "die Kooperation",
+      "evaluieren"
     ]
   },
   {
@@ -1380,8 +1545,9 @@
     "score": 5,
     "vocab_refs": [
       "konzentriert",
-      "der Professor",
-      "Die Vorlesung"
+      "Die Vorlesung",
+      "intensivieren",
+      "der Professor"
     ]
   },
   {
@@ -1391,7 +1557,8 @@
     "score": 5,
     "vocab_refs": [
       "Die Anwältin",
-      "der Kläger"
+      "der Kläger",
+      "entdecken"
     ]
   },
   {
@@ -1400,7 +1567,9 @@
     "type": "perfect",
     "score": 5,
     "vocab_refs": [
-      "die Währung"
+      "die Währung",
+      "haben",
+      "wechseln"
     ]
   },
   {
@@ -1410,8 +1579,10 @@
     "score": 5,
     "vocab_refs": [
       "die Ampulle",
-      "Die Lösung",
-      "das Wachstum"
+      "das Wachstum",
+      "enthalten",
+      "begünstigen",
+      "Die Lösung"
     ]
   },
   {
@@ -1420,8 +1591,10 @@
     "type": "perfect",
     "score": 5,
     "vocab_refs": [
-      "die Lyrik",
-      "künstlerisch"
+      "künstlerisch",
+      "interpretieren",
+      "haben",
+      "die Lyrik"
     ]
   },
   {
@@ -1431,8 +1604,8 @@
     "score": 5,
     "vocab_refs": [
       "verteilen",
-      "Der Pass",
-      "ungleichmäßig"
+      "ungleichmäßig",
+      "Der Pass"
     ]
   },
   {
@@ -1441,10 +1614,11 @@
     "type": "modal",
     "score": 5,
     "vocab_refs": [
-      "Der Browser",
+      "möglich",
       "einsetzen",
+      "sein",
       "insofern",
-      "möglich"
+      "Der Browser"
     ]
   },
   {
@@ -1454,6 +1628,8 @@
     "score": 5,
     "vocab_refs": [
       "vernetzt",
+      "finden",
+      "digital",
       "die Gemeinschaft"
     ]
   },
@@ -1464,7 +1640,8 @@
     "score": 5,
     "vocab_refs": [
       "wieder",
-      "der Landkreis"
+      "der Landkreis",
+      "fahren"
     ]
   },
   {
@@ -1474,6 +1651,7 @@
     "score": 5,
     "vocab_refs": [
       "verschwunden",
+      "sein",
       "der Geist"
     ]
   },
@@ -1483,7 +1661,9 @@
     "type": "w_question",
     "score": 5,
     "vocab_refs": [
-      "anpflanzen"
+      "anpflanzen",
+      "richtig",
+      "gebrauchen"
     ]
   },
   {
@@ -1492,10 +1672,12 @@
     "type": "nominative",
     "score": 4,
     "vocab_refs": [
-      "die Bedeutung",
+      "Der Vater",
       "der Unterschied",
-      "Der Sohn",
-      "Der Vater"
+      "die Bedeutung",
+      "zeigen",
+      "erklären",
+      "Der Sohn"
     ]
   },
   {
@@ -1504,8 +1686,10 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
+      "Die Wohnung",
       "die Versicherung",
-      "Die Wohnung"
+      "bieten",
+      "begrenzen"
     ]
   },
   {
@@ -1514,9 +1698,10 @@
     "type": "perfect",
     "score": 5,
     "vocab_refs": [
+      "haben",
+      "vergessen",
       "das Accessoire",
-      "die Kirche",
-      "vergessen"
+      "die Kirche"
     ]
   },
   {
@@ -1525,10 +1710,11 @@
     "type": "reflexive",
     "score": 5,
     "vocab_refs": [
-      "der Rentner",
+      "beschränken",
       "darauf",
+      "die Zeitung",
       "lesen",
-      "die Zeitung"
+      "der Rentner"
     ]
   },
   {
@@ -1538,7 +1724,10 @@
     "score": 5,
     "vocab_refs": [
       "Der Plan",
-      "der Kontext"
+      "intellektuell",
+      "der Kontext",
+      "haben",
+      "sich vorstellen"
     ]
   },
   {
@@ -1547,10 +1736,11 @@
     "type": "accusative",
     "score": 5,
     "vocab_refs": [
-      "verwenden",
       "silber",
       "Die Mutter",
-      "Der Schmuck"
+      "Der Schmuck",
+      "aufwenden",
+      "kaufen"
     ]
   },
   {
@@ -1559,9 +1749,10 @@
     "type": "yn_question",
     "score": 5,
     "vocab_refs": [
-      "tatsächlich",
       "wieder",
-      "Der Garten"
+      "blühen",
+      "Der Garten",
+      "tatsächlich"
     ]
   },
   {
@@ -1573,7 +1764,8 @@
       "die Kellnerin",
       "fortwährend",
       "weglassen",
-      "Die Information"
+      "Die Information",
+      "wichtig"
     ]
   },
   {
@@ -1582,8 +1774,10 @@
     "type": "dative",
     "score": 5,
     "vocab_refs": [
-      "das Rathaus",
-      "die Ruhezone"
+      "die Ruhezone",
+      "ruhig",
+      "bieten",
+      "das Rathaus"
     ]
   },
   {
@@ -1592,6 +1786,8 @@
     "type": "reflexive",
     "score": 5,
     "vocab_refs": [
+      "haben",
+      "vorbereiten",
       "der Wettbewerb"
     ]
   },
@@ -1613,8 +1809,10 @@
     "score": 5,
     "vocab_refs": [
       "neu",
-      "nötig",
+      "können",
       "werden",
+      "programmieren",
+      "nötig",
       "der Rückgabewert"
     ]
   },
@@ -1624,7 +1822,9 @@
     "type": "preterite",
     "score": 5,
     "vocab_refs": [
+      "regnen",
       "die Korrelation",
+      "ernten",
       "primär"
     ]
   },
@@ -1634,6 +1834,7 @@
     "type": "w_question",
     "score": 5,
     "vocab_refs": [
+      "beschreiben",
       "das Gedicht"
     ]
   },
@@ -1643,6 +1844,7 @@
     "type": "genitive",
     "score": 5,
     "vocab_refs": [
+      "sein",
       "die Verhandlung"
     ]
   },
@@ -1652,10 +1854,10 @@
     "type": "subclause",
     "score": 5,
     "vocab_refs": [
+      "gut",
+      "der Lärm",
       "das Schlafen",
       "Der Freund",
-      "der Lärm",
-      "gut",
       "Die Schülerin"
     ]
   },
@@ -1665,9 +1867,10 @@
     "type": "perfect",
     "score": 5,
     "vocab_refs": [
+      "haben",
       "die Ruhe",
-      "der Angriff",
-      "Die Stadt"
+      "Die Stadt",
+      "der Angriff"
     ]
   },
   {
@@ -1676,9 +1879,11 @@
     "type": "comparative",
     "score": 5,
     "vocab_refs": [
+      "klein",
       "die Kluft",
-      "der Wecker",
-      "das Notizheft"
+      "sein",
+      "das Notizheft",
+      "der Wecker"
     ]
   },
   {
@@ -1687,9 +1892,9 @@
     "type": "modal",
     "score": 5,
     "vocab_refs": [
+      "Die Tradition",
       "fortsetzen",
-      "jährlich",
-      "Die Tradition"
+      "jährlich"
     ]
   },
   {
@@ -1698,8 +1903,9 @@
     "type": "subclause",
     "score": 5,
     "vocab_refs": [
-      "revolutionär",
+      "neu",
       "weg",
+      "revolutionär",
       "die Beziehung"
     ]
   },
@@ -1709,9 +1915,10 @@
     "type": "perfect",
     "score": 5,
     "vocab_refs": [
-      "haben",
       "erfolgreich",
-      "das Projekt"
+      "haben",
+      "das Projekt",
+      "abschließen"
     ]
   },
   {
@@ -1720,8 +1927,8 @@
     "type": "imperative",
     "score": 5,
     "vocab_refs": [
-      "spannend",
-      "machen"
+      "machen",
+      "spannend"
     ]
   },
   {
@@ -1730,8 +1937,8 @@
     "type": "accusative",
     "score": 5,
     "vocab_refs": [
-      "oft",
-      "die Langeweile"
+      "die Langeweile",
+      "oft"
     ]
   },
   {
@@ -1740,8 +1947,9 @@
     "type": "future",
     "score": 5,
     "vocab_refs": [
-      "konzentrieren",
-      "Das Gespräch"
+      "werden",
+      "Das Gespräch",
+      "konzentrieren"
     ]
   },
   {
@@ -1751,10 +1959,11 @@
     "score": 5,
     "vocab_refs": [
       "die Bedeutung",
+      "fallen",
       "schwer",
       "die Redewendung",
-      "der Übersetzer",
-      "verstehen"
+      "verstehen",
+      "der Übersetzer"
     ]
   },
   {
@@ -1763,10 +1972,11 @@
     "type": "separable",
     "score": 5,
     "vocab_refs": [
-      "Der Handschuh",
+      "können",
       "sich anpassen",
-      "anders",
-      "nötig"
+      "nötig",
+      "Der Handschuh",
+      "anders"
     ]
   },
   {
@@ -1775,8 +1985,10 @@
     "type": "preterite",
     "score": 5,
     "vocab_refs": [
+      "die Debatte",
       "erfolglos",
-      "die Debatte"
+      "das Argument",
+      "abbrechen"
     ]
   },
   {
@@ -1785,8 +1997,8 @@
     "type": "imperative",
     "score": 5,
     "vocab_refs": [
-      "die Präsentation",
       "beginnen",
+      "die Präsentation",
       "nicht"
     ]
   },
@@ -1796,9 +2008,10 @@
     "type": "perfect",
     "score": 5,
     "vocab_refs": [
-      "üppig",
       "sehr",
-      "der Teil"
+      "der Teil",
+      "verursachen",
+      "üppig"
     ]
   },
   {
@@ -1808,7 +2021,8 @@
     "score": 5,
     "vocab_refs": [
       "hoffentlich",
-      "der Physiotherapeut"
+      "der Physiotherapeut",
+      "schützen"
     ]
   },
   {
@@ -1818,7 +2032,8 @@
     "score": 5,
     "vocab_refs": [
       "Die Zukunft",
-      "das Vertrauen"
+      "das Vertrauen",
+      "die Extrapolation"
     ]
   },
   {
@@ -1827,10 +2042,10 @@
     "type": "imperative",
     "score": 5,
     "vocab_refs": [
-      "behalten",
+      "beinhalten",
+      "Das Auge",
       "immer",
-      "die Kategorie",
-      "Das Auge"
+      "die Kategorie"
     ]
   },
   {
@@ -1839,10 +2054,11 @@
     "type": "separable",
     "score": 5,
     "vocab_refs": [
+      "erfrischen",
       "der Grund",
-      "immer",
+      "die Philosophie",
       "wieder",
-      "die Philosophie"
+      "immer"
     ]
   },
   {
@@ -1851,9 +2067,9 @@
     "type": "yn_question",
     "score": 5,
     "vocab_refs": [
-      "zentral",
       "Das Ziel",
-      "fliegen"
+      "die Fliege",
+      "zentral"
     ]
   },
   {
@@ -1862,8 +2078,10 @@
     "type": "genitive",
     "score": 5,
     "vocab_refs": [
-      "Die Zukunft",
-      "die Klimakrise"
+      "sein",
+      "die Klimakrise",
+      "groß",
+      "Die Zukunft"
     ]
   },
   {
@@ -1872,7 +2090,8 @@
     "type": "w_question",
     "score": 5,
     "vocab_refs": [
-      "Der Mechaniker"
+      "Der Mechaniker",
+      "stimmen"
     ]
   },
   {
@@ -1881,8 +2100,9 @@
     "type": "reflexive",
     "score": 5,
     "vocab_refs": [
-      "durchdrungen",
+      "sein",
       "etwas",
+      "durchdrungen",
       "Das Schneidebrett"
     ]
   },
@@ -1901,10 +2121,10 @@
     "type": "modal",
     "score": 5,
     "vocab_refs": [
-      "leeren",
-      "die Summe",
+      "müssen",
       "Die Badewanne",
-      "müssen"
+      "leer",
+      "die Summe"
     ]
   },
   {
@@ -1913,8 +2133,8 @@
     "type": "imperative",
     "score": 5,
     "vocab_refs": [
-      "Der Pass",
-      "Der Leopard"
+      "Der Leopard",
+      "Der Pass"
     ]
   },
   {
@@ -1923,8 +2143,10 @@
     "type": "accusative",
     "score": 5,
     "vocab_refs": [
+      "spannend",
       "die Geschichte",
-      "Die Lehrerin"
+      "Die Lehrerin",
+      "erklären"
     ]
   },
   {
@@ -1933,7 +2155,8 @@
     "type": "preterite",
     "score": 5,
     "vocab_refs": [
-      "außerhalb"
+      "außerhalb",
+      "der Geist"
     ]
   },
   {
@@ -1942,9 +2165,9 @@
     "type": "separable",
     "score": 5,
     "vocab_refs": [
-      "fast",
+      "Die Lippe",
       "trocken",
-      "Die Lippe"
+      "fast"
     ]
   },
   {
@@ -1953,10 +2176,11 @@
     "type": "future",
     "score": 5,
     "vocab_refs": [
-      "Die Zukunft",
-      "das Gebäude",
       "verändern",
-      "wahrscheinlich"
+      "werden",
+      "Die Zukunft",
+      "wahrscheinlich",
+      "das Gebäude"
     ]
   },
   {
@@ -1965,7 +2189,8 @@
     "type": "imperative",
     "score": 5,
     "vocab_refs": [
-      "entwöhnen"
+      "entwöhnen",
+      "die Gewohnheit"
     ]
   },
   {
@@ -1973,7 +2198,10 @@
     "english": "Where do the unattractive figures come from?",
     "type": "w_question",
     "score": 5,
-    "vocab_refs": []
+    "vocab_refs": [
+      "unattraktiv",
+      "die Figur"
+    ]
   },
   {
     "german": "Nachdem er das Röntgenbild gesehen hat, droht ihm ein ganz unschönes Erlebnis.",
@@ -1981,8 +2209,11 @@
     "type": "subclause",
     "score": 5,
     "vocab_refs": [
+      "das Röntgenbild",
       "ganz",
-      "das Röntgenbild"
+      "drohen",
+      "haben",
+      "sehen"
     ]
   },
   {
@@ -1991,7 +2222,10 @@
     "type": "comparative",
     "score": 5,
     "vocab_refs": [
-      "das Ritual"
+      "sein",
+      "das Ritual",
+      "schwer",
+      "erwarten"
     ]
   },
   {
@@ -2000,8 +2234,9 @@
     "type": "future",
     "score": 5,
     "vocab_refs": [
+      "werden",
+      "die Regel",
       "weiterhelfen",
-      "regeln",
       "Der Fehler"
     ]
   },
@@ -2011,8 +2246,8 @@
     "type": "w_question",
     "score": 5,
     "vocab_refs": [
-      "Der Supermarkt",
-      "Die Zwiebel"
+      "Die Zwiebel",
+      "Der Supermarkt"
     ]
   },
   {
@@ -2021,8 +2256,9 @@
     "type": "accusative",
     "score": 5,
     "vocab_refs": [
+      "die Regression",
       "das Geheimnis",
-      "die Regression"
+      "teilen"
     ]
   },
   {
@@ -2031,9 +2267,9 @@
     "type": "yn_question",
     "score": 5,
     "vocab_refs": [
-      "die Neugier",
-      "treffen",
-      "der Wunsch"
+      "aufeinandertreffen",
+      "der Wunsch",
+      "die Neugier"
     ]
   },
   {
@@ -2043,8 +2279,8 @@
     "score": 5,
     "vocab_refs": [
       "Das Programm",
-      "richtig",
-      "lernen"
+      "lernen",
+      "richtig"
     ]
   },
   {
@@ -2055,8 +2291,8 @@
     "vocab_refs": [
       "das Laufen",
       "weise",
-      "hinauf",
-      "Der Hügel"
+      "Der Hügel",
+      "hinauf"
     ]
   },
   {
@@ -2065,9 +2301,10 @@
     "type": "reflexive",
     "score": 5,
     "vocab_refs": [
-      "unbedingt",
+      "Das Gespräch",
       "vorbereiten",
-      "Das Gespräch"
+      "unbedingt",
+      "sollen"
     ]
   },
   {
@@ -2076,8 +2313,9 @@
     "type": "accusative",
     "score": 5,
     "vocab_refs": [
+      "der Physiotherapeut",
       "Der Stoff",
-      "der Physiotherapeut"
+      "beschließen"
     ]
   },
   {
@@ -2086,8 +2324,10 @@
     "type": "perfect",
     "score": 5,
     "vocab_refs": [
-      "der Schiedsrichter",
-      "das Ergebnis"
+      "haben",
+      "manipulieren",
+      "das Ergebnis",
+      "der Schiedsrichter"
     ]
   },
   {
@@ -2096,9 +2336,9 @@
     "type": "preterite",
     "score": 5,
     "vocab_refs": [
-      "wichtig",
       "sehr",
-      "die Bildung"
+      "die Bildung",
+      "wichtig"
     ]
   },
   {
@@ -2110,8 +2350,8 @@
       "abholen",
       "dazukommen",
       "können",
-      "der Import",
-      "Das Papier"
+      "Das Papier",
+      "der Import"
     ]
   },
   {
@@ -2120,9 +2360,12 @@
     "type": "w_question",
     "score": 5,
     "vocab_refs": [
+      "können",
+      "auftreten",
+      "der Komponist",
       "nicht",
-      "bedauernswert",
-      "auftreten"
+      "sein",
+      "bedauernswert"
     ]
   },
   {
@@ -2132,8 +2375,9 @@
     "score": 5,
     "vocab_refs": [
       "die Disruption",
+      "der Kontext",
       "nicht",
-      "der Kontext"
+      "stimmen"
     ]
   },
   {
@@ -2142,8 +2386,9 @@
     "type": "preterite",
     "score": 5,
     "vocab_refs": [
-      "da",
       "Das Essen",
+      "da",
+      "essen",
       "bezahlen"
     ]
   },
@@ -2153,11 +2398,12 @@
     "type": "perfect",
     "score": 5,
     "vocab_refs": [
+      "wollen",
       "unverkennbar",
-      "mitdenken",
       "die Messe",
       "danach",
-      "wollen"
+      "haben",
+      "mitdenken"
     ]
   },
   {
@@ -2166,9 +2412,11 @@
     "type": "perfect",
     "score": 5,
     "vocab_refs": [
-      "Der Delfin",
       "das Schwimmen",
-      "begeistert"
+      "Der Delfin",
+      "begeistert",
+      "haben",
+      "sehen"
     ]
   },
   {
@@ -2176,7 +2424,10 @@
     "english": "How many vials are there?",
     "type": "imperative",
     "score": 5,
-    "vocab_refs": []
+    "vocab_refs": [
+      "die Ampulle",
+      "geben"
+    ]
   },
   {
     "german": "Er hat die App trotz der schlechten Bewertungen heruntergeladen.",
@@ -2184,6 +2435,8 @@
     "type": "perfect",
     "score": 5,
     "vocab_refs": [
+      "haben",
+      "herunterladen",
       "Die App"
     ]
   },
@@ -2193,8 +2446,9 @@
     "type": "future",
     "score": 5,
     "vocab_refs": [
-      "der Fall",
-      "werden"
+      "werden",
+      "fremd",
+      "der Fall"
     ]
   },
   {
@@ -2203,6 +2457,8 @@
     "type": "perfect",
     "score": 5,
     "vocab_refs": [
+      "sein",
+      "aufwachen",
       "berechtigterweise"
     ]
   },
@@ -2212,9 +2468,9 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
-      "das Testing",
+      "benötigen",
       "der Fall",
-      "benötigen"
+      "das Testing"
     ]
   },
   {
@@ -2223,9 +2479,11 @@
     "type": "comparative",
     "score": 5,
     "vocab_refs": [
+      "neu",
+      "groß",
       "der Vorteil",
-      "ziemlich",
-      "groß"
+      "sein",
+      "ziemlich"
     ]
   },
   {
@@ -2234,7 +2492,8 @@
     "type": "imperative",
     "score": 5,
     "vocab_refs": [
-      "sich verlassen"
+      "sich verlassen",
+      "bitten"
     ]
   },
   {
@@ -2243,10 +2502,10 @@
     "type": "plural",
     "score": 5,
     "vocab_refs": [
-      "verbessern",
       "werden",
+      "Der Lautsprecher",
       "abändern",
-      "Der Lautsprecher"
+      "verbessern"
     ]
   },
   {
@@ -2256,8 +2515,10 @@
     "score": 5,
     "vocab_refs": [
       "die Figur",
-      "die Atmosphäre",
-      "ergänzen"
+      "werden",
+      "ländlich",
+      "ergänzen",
+      "die Atmosphäre"
     ]
   },
   {
@@ -2279,6 +2540,7 @@
     "score": 5,
     "vocab_refs": [
       "Der Kleiderschrank",
+      "dazugehören",
       "nicht"
     ]
   },
@@ -2289,8 +2551,9 @@
     "score": 5,
     "vocab_refs": [
       "haben",
+      "gestern",
       "Die Heizung",
-      "gestern"
+      "überprüfen"
     ]
   },
   {
@@ -2299,9 +2562,11 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
+      "neu",
       "Das Programm",
-      "die Organisation",
-      "der Akzent"
+      "stellen",
+      "der Akzent",
+      "die Organisation"
     ]
   },
   {
@@ -2310,9 +2575,9 @@
     "type": "yn_question",
     "score": 5,
     "vocab_refs": [
-      "zunächst",
       "Die Milch",
       "trinken",
+      "zunächst",
       "einmal"
     ]
   },
@@ -2334,8 +2599,9 @@
     "type": "imperative",
     "score": 5,
     "vocab_refs": [
-      "Die Wahrheit",
-      "überzeugen"
+      "überzeugen",
+      "vollständig",
+      "Die Wahrheit"
     ]
   },
   {
@@ -2345,8 +2611,8 @@
     "score": 5,
     "vocab_refs": [
       "unnötig",
-      "kontaktieren",
-      "oft"
+      "oft",
+      "kontaktieren"
     ]
   },
   {
@@ -2355,7 +2621,9 @@
     "type": "separable",
     "score": 5,
     "vocab_refs": [
-      "das Konzept"
+      "haben",
+      "das Konzept",
+      "erklären"
     ]
   },
   {
@@ -2364,6 +2632,7 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
+      "führen",
       "Der Fluss",
       "Die Brücke"
     ]
@@ -2375,7 +2644,9 @@
     "score": 5,
     "vocab_refs": [
       "Der Text",
-      "der Astronaut"
+      "haben",
+      "der Astronaut",
+      "produzieren"
     ]
   },
   {
@@ -2384,8 +2655,8 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
-      "die Führung",
-      "anleiten"
+      "anleiten",
+      "die Führung"
     ]
   },
   {
@@ -2394,10 +2665,11 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
-      "sehr",
-      "globalisiert",
       "gut",
-      "Die Blaubeere"
+      "sehr",
+      "schmecken",
+      "Die Blaubeere",
+      "globalisiert"
     ]
   },
   {
@@ -2406,9 +2678,10 @@
     "type": "yn_question",
     "score": 5,
     "vocab_refs": [
-      "der Abfall",
       "sein",
-      "innovativ"
+      "innovativ",
+      "verbieten",
+      "der Abfall"
     ]
   },
   {
@@ -2417,13 +2690,14 @@
     "type": "subclause",
     "score": 5,
     "vocab_refs": [
-      "Die Zeit",
-      "verzögert",
       "das Ideal",
-      "haben",
-      "ausreichend",
+      "Die Zeit",
+      "einräumen",
+      "sein",
+      "verzögert",
       "Das Schiff",
-      "einräumen"
+      "haben",
+      "ausreichend"
     ]
   },
   {
@@ -2432,7 +2706,9 @@
     "type": "separable",
     "score": 5,
     "vocab_refs": [
-      "Die Großmutter"
+      "Die Großmutter",
+      "entspringen",
+      "eröffnen"
     ]
   },
   {
@@ -2441,8 +2717,9 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
-      "Der Roboter",
-      "das Prinzip"
+      "das Prinzip",
+      "transformieren",
+      "Der Roboter"
     ]
   },
   {
@@ -2451,7 +2728,8 @@
     "type": "dative",
     "score": 5,
     "vocab_refs": [
-      "stoppen"
+      "stoppen",
+      "rennen"
     ]
   },
   {
@@ -2460,8 +2738,9 @@
     "type": "genitive",
     "score": 5,
     "vocab_refs": [
-      "die Erde",
-      "der Planet"
+      "sein",
+      "der Planet",
+      "die Erde"
     ]
   },
   {
@@ -2470,6 +2749,7 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
+      "erbitten",
       "der Aphorismus"
     ]
   },
@@ -2479,8 +2759,9 @@
     "type": "subclause",
     "score": 5,
     "vocab_refs": [
-      "besonders",
-      "flüchtig"
+      "schätzen",
+      "flüchtig",
+      "besonders"
     ]
   },
   {
@@ -2489,12 +2770,12 @@
     "type": "modal",
     "score": 5,
     "vocab_refs": [
-      "die Nostalgie",
-      "sinnvoll",
-      "ignorieren",
+      "verändern",
       "nur",
       "anstatt",
-      "verändern"
+      "die Nostalgie",
+      "ignorieren",
+      "sinnvoll"
     ]
   },
   {
@@ -2503,8 +2784,9 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
-      "Das Geld",
-      "Der Benutzer"
+      "Der Benutzer",
+      "spenden",
+      "Das Geld"
     ]
   },
   {
@@ -2513,9 +2795,11 @@
     "type": "modal",
     "score": 5,
     "vocab_refs": [
-      "die Raststätte",
       "jährlich",
-      "werden"
+      "werden",
+      "die Raststätte",
+      "müssen",
+      "reinigen"
     ]
   },
   {
@@ -2524,9 +2808,10 @@
     "type": "comparative",
     "score": 5,
     "vocab_refs": [
-      "demnach",
+      "sein",
       "die Generation",
-      "anders"
+      "anders",
+      "demnach"
     ]
   },
   {
@@ -2535,9 +2820,10 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
-      "die Geschichte",
+      "erwähnen",
+      "Das Abendessen",
       "Der Vater",
-      "Das Abendessen"
+      "die Geschichte"
     ]
   },
   {
@@ -2546,10 +2832,12 @@
     "type": "perfect",
     "score": 5,
     "vocab_refs": [
-      "Die Köchin",
-      "weise",
       "jährlich",
-      "der Sand"
+      "der Sand",
+      "weise",
+      "Die Köchin",
+      "haben",
+      "tun"
     ]
   },
   {
@@ -2558,9 +2846,9 @@
     "type": "future",
     "score": 5,
     "vocab_refs": [
-      "der Durchbruch",
       "erfolgreich",
-      "werden"
+      "werden",
+      "der Durchbruch"
     ]
   },
   {
@@ -2569,9 +2857,10 @@
     "type": "preterite",
     "score": 5,
     "vocab_refs": [
-      "Der Wald",
       "Die Angst",
-      "anschließend"
+      "anschließend",
+      "Der Wald",
+      "erkunden"
     ]
   },
   {
@@ -2581,9 +2870,9 @@
     "score": 5,
     "vocab_refs": [
       "sollen",
-      "das Schlagzeug",
+      "vorsichtig",
       "benutzen",
-      "vorsichtig"
+      "das Schlagzeug"
     ]
   },
   {
@@ -2592,7 +2881,10 @@
     "type": "separable",
     "score": 5,
     "vocab_refs": [
-      "das Projekt"
+      "neu",
+      "das Projekt",
+      "passen",
+      "gleiten"
     ]
   },
   {
@@ -2601,10 +2893,10 @@
     "type": "separable",
     "score": 5,
     "vocab_refs": [
-      "freuen",
-      "bestellen",
+      "Das Abendessen",
       "der Dezember",
-      "Das Abendessen"
+      "bestellen",
+      "freuen"
     ]
   },
   {
@@ -2623,11 +2915,12 @@
     "type": "plural",
     "score": 5,
     "vocab_refs": [
-      "handeln",
       "können",
       "heute",
-      "beeinflussen",
-      "Die Vergangenheit"
+      "der Impuls",
+      "handeln",
+      "Die Vergangenheit",
+      "beeinflussen"
     ]
   },
   {
@@ -2636,9 +2929,9 @@
     "type": "perfect",
     "score": 5,
     "vocab_refs": [
-      "der Umzug",
-      "decken",
       "nicht",
+      "zudecken",
+      "der Umzug",
       "die Windenergie"
     ]
   },
@@ -2648,10 +2941,10 @@
     "type": "future",
     "score": 5,
     "vocab_refs": [
-      "nie",
-      "sich verlassen",
+      "die Unterkunft",
       "werden",
-      "die Unterkunft"
+      "nie",
+      "sich verlassen"
     ]
   },
   {
@@ -2660,10 +2953,11 @@
     "type": "modal",
     "score": 5,
     "vocab_refs": [
-      "Der Mais",
       "frisch",
+      "abtrennen",
       "dürfen",
-      "abtrennen"
+      "sein",
+      "Der Mais"
     ]
   },
   {
@@ -2672,9 +2966,11 @@
     "type": "future",
     "score": 5,
     "vocab_refs": [
-      "wollen",
-      "lösen",
-      "ermitteln"
+      "komplex",
+      "einlösen",
+      "ermitteln",
+      "werden",
+      "wollen"
     ]
   },
   {
@@ -2684,9 +2980,11 @@
     "score": 5,
     "vocab_refs": [
       "erst",
-      "verstehen",
+      "neu",
+      "werden",
       "später",
-      "werden"
+      "die Technologie",
+      "verstehen"
     ]
   },
   {
@@ -2695,9 +2993,10 @@
     "type": "reflexive",
     "score": 5,
     "vocab_refs": [
-      "schlecht",
       "anweisen",
+      "schlecht",
       "nicht",
+      "sein",
       "gegenseitig"
     ]
   },
@@ -2707,11 +3006,13 @@
     "type": "future",
     "score": 5,
     "vocab_refs": [
-      "beispielsweise",
-      "Der Plan",
+      "neu",
       "beenden",
+      "werden",
+      "Der Plan",
       "vorantreiben",
-      "das Chaos"
+      "das Chaos",
+      "beispielsweise"
     ]
   },
   {
@@ -2731,8 +3032,10 @@
     "type": "preterite",
     "score": 5,
     "vocab_refs": [
+      "die Unterstützung",
       "Die Verantwortung",
-      "die Unterstützung"
+      "wichtig",
+      "leisten"
     ]
   },
   {
@@ -2750,7 +3053,9 @@
     "type": "plural",
     "score": 5,
     "vocab_refs": [
+      "sein",
       "frei",
+      "die Quelle",
       "oft"
     ]
   },
@@ -2760,10 +3065,10 @@
     "type": "yn_question",
     "score": 5,
     "vocab_refs": [
-      "Die Fernbedienung",
-      "behalten",
+      "beinhalten",
+      "manchmal",
       "können",
-      "manchmal"
+      "Die Fernbedienung"
     ]
   },
   {
@@ -2772,6 +3077,8 @@
     "type": "preterite",
     "score": 5,
     "vocab_refs": [
+      "glauben",
+      "märchenhaft",
       "die Geschichte"
     ]
   },
@@ -2781,9 +3088,9 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
+      "das Erdbeben",
       "Das Wissen",
-      "erweitern",
-      "das Erdbeben"
+      "ausweiten"
     ]
   },
   {
@@ -2792,11 +3099,11 @@
     "type": "plural",
     "score": 5,
     "vocab_refs": [
-      "Der Verkäufer",
-      "ja",
-      "das Schweinefleisch",
       "rechtfertigen",
-      "müssen"
+      "Der Verkäufer",
+      "müssen",
+      "das Schweinefleisch",
+      "ja"
     ]
   },
   {
@@ -2817,6 +3124,8 @@
     "score": 5,
     "vocab_refs": [
       "die Veränderung",
+      "haben",
+      "stattfinden",
       "besinnen"
     ]
   },
@@ -2836,8 +3145,9 @@
     "type": "accusative",
     "score": 5,
     "vocab_refs": [
+      "wirklich",
       "der Kuckuck",
-      "wirklich"
+      "beeindrucken"
     ]
   },
   {
@@ -2846,9 +3156,11 @@
     "type": "subclause",
     "score": 5,
     "vocab_refs": [
-      "rekonstruieren",
       "auffordern",
+      "enthalten",
+      "rekonstruieren",
       "die Fußnote",
+      "wichtig",
       "der Wissenschaftler"
     ]
   },
@@ -2868,9 +3180,13 @@
     "type": "perfect",
     "score": 5,
     "vocab_refs": [
-      "sofort",
       "Der Hamster",
-      "Die Paprika"
+      "sofort",
+      "einschlafen",
+      "sein",
+      "essen",
+      "Die Paprika",
+      "haben"
     ]
   },
   {
@@ -2879,10 +3195,11 @@
     "type": "modal",
     "score": 5,
     "vocab_refs": [
+      "sollen",
+      "aufeinandertreffen",
       "Die Oma",
-      "wöchentlich",
-      "treffen",
-      "die Schauspielerin"
+      "die Schauspielerin",
+      "wöchentlich"
     ]
   },
   {
@@ -2891,8 +3208,8 @@
     "type": "accusative",
     "score": 5,
     "vocab_refs": [
-      "fahren",
-      "Der Zug"
+      "Der Zug",
+      "wegfahren"
     ]
   },
   {
@@ -2901,9 +3218,13 @@
     "type": "reflexive",
     "score": 5,
     "vocab_refs": [
+      "können",
       "sehr",
-      "helfen",
-      "Das Video"
+      "bewegen",
+      "fragen",
+      "Das Video",
+      "mithelfen",
+      "haben"
     ]
   },
   {
@@ -2913,7 +3234,8 @@
     "score": 5,
     "vocab_refs": [
       "die Unterstützung",
-      "der Klimaschutz"
+      "der Klimaschutz",
+      "empfangen"
     ]
   },
   {
@@ -2933,8 +3255,9 @@
     "type": "w_question",
     "score": 5,
     "vocab_refs": [
+      "Das Hemd",
       "Der Preis",
-      "Das Hemd"
+      "mindern"
     ]
   },
   {
@@ -2943,11 +3266,11 @@
     "type": "perfect",
     "score": 5,
     "vocab_refs": [
-      "vornehmen",
-      "gehen",
-      "haben",
       "Die Woche",
-      "spazieren"
+      "abgehen",
+      "spazieren",
+      "haben",
+      "vornehm"
     ]
   },
   {
@@ -2956,10 +3279,11 @@
     "type": "plural",
     "score": 5,
     "vocab_refs": [
-      "verdienen",
       "verschweigen",
-      "Das Geld",
-      "trotzdem"
+      "der Chirurg",
+      "trotzdem",
+      "verdienen",
+      "Das Geld"
     ]
   },
   {
@@ -2978,9 +3302,10 @@
     "type": "comparative",
     "score": 5,
     "vocab_refs": [
-      "künftig",
       "werden",
-      "die Nation"
+      "künftig",
+      "die Nation",
+      "fair"
     ]
   },
   {
@@ -2989,10 +3314,10 @@
     "type": "future",
     "score": 5,
     "vocab_refs": [
-      "der Abbau",
-      "ergiebig",
+      "werden",
       "durchführen",
-      "werden"
+      "ergiebig",
+      "der Abbau"
     ]
   },
   {
@@ -3001,6 +3326,7 @@
     "type": "w_question",
     "score": 5,
     "vocab_refs": [
+      "sein",
       "Der Apfel"
     ]
   },
@@ -3010,9 +3336,11 @@
     "type": "separable",
     "score": 5,
     "vocab_refs": [
-      "aufbauen",
+      "können",
+      "vereinen",
+      "die Geschichte",
       "die Fantasie",
-      "vereinen"
+      "aufbauen"
     ]
   },
   {
@@ -3031,7 +3359,9 @@
     "english": "Where do the competitive ideas come from?",
     "type": "w_question",
     "score": 5,
-    "vocab_refs": []
+    "vocab_refs": [
+      "kompetitiv"
+    ]
   },
   {
     "german": "Wir konzentrieren uns auf unser gemeinsames Ziel.",
@@ -3039,8 +3369,8 @@
     "type": "reflexive",
     "score": 5,
     "vocab_refs": [
-      "konzentrieren",
-      "Das Ziel"
+      "Das Ziel",
+      "konzentrieren"
     ]
   },
   {
@@ -3049,9 +3379,12 @@
     "type": "accusative",
     "score": 5,
     "vocab_refs": [
-      "schwer",
       "bloß",
-      "umgehen"
+      "können",
+      "unsicher",
+      "schwer",
+      "umgehen",
+      "die Struktur"
     ]
   },
   {
@@ -3060,9 +3393,9 @@
     "type": "future",
     "score": 5,
     "vocab_refs": [
-      "das Merkmal",
-      "finden",
       "werden",
+      "finden",
+      "das Merkmal",
       "gesellschaftlich"
     ]
   },
@@ -3072,8 +3405,10 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
-      "ruhen",
-      "deswegen"
+      "deswegen",
+      "die Partei",
+      "die Verhandlung",
+      "ruhen"
     ]
   },
   {
@@ -3082,10 +3417,11 @@
     "type": "subclause",
     "score": 5,
     "vocab_refs": [
-      "kalt",
       "draußen",
+      "wollen",
+      "nicht",
       "Die Mütze",
-      "nicht"
+      "kalt"
     ]
   },
   {
@@ -3094,8 +3430,8 @@
     "type": "w_question",
     "score": 5,
     "vocab_refs": [
-      "erschaffen",
-      "der Bildhauer"
+      "der Bildhauer",
+      "erschaffen"
     ]
   },
   {
@@ -3105,8 +3441,8 @@
     "score": 5,
     "vocab_refs": [
       "Das System",
-      "bedienen",
-      "anweisen"
+      "anweisen",
+      "bedienen"
     ]
   },
   {
@@ -3115,7 +3451,8 @@
     "type": "w_question",
     "score": 5,
     "vocab_refs": [
-      "Der Server"
+      "Der Server",
+      "befinden"
     ]
   },
   {
@@ -3126,9 +3463,9 @@
     "vocab_refs": [
       "abwaschen",
       "können",
-      "schützen",
+      "nicht",
       "weg",
-      "nicht"
+      "schützen"
     ]
   },
   {
@@ -3137,9 +3474,10 @@
     "type": "w_question",
     "score": 5,
     "vocab_refs": [
+      "wirklich",
+      "haben",
       "Die Wunde",
-      "die Länge",
-      "wirklich"
+      "die Länge"
     ]
   },
   {
@@ -3160,7 +3498,8 @@
     "vocab_refs": [
       "schon",
       "haben",
-      "Die Rechnung"
+      "Die Rechnung",
+      "bezahlen"
     ]
   },
   {
@@ -3169,9 +3508,11 @@
     "type": "future",
     "score": 5,
     "vocab_refs": [
-      "der Hackathon",
+      "werden",
+      "sein",
+      "interessant",
       "besuchen",
-      "interessant"
+      "der Hackathon"
     ]
   },
   {
@@ -3180,10 +3521,10 @@
     "type": "subclause",
     "score": 5,
     "vocab_refs": [
-      "die Tragödie",
-      "seither",
       "versinken",
-      "nicht"
+      "seither",
+      "nicht",
+      "die Tragödie"
     ]
   },
   {
@@ -3202,7 +3543,9 @@
     "type": "preterite",
     "score": 5,
     "vocab_refs": [
+      "zerstören",
       "der Tornado",
+      "verursachen",
       "die Enttäuschung"
     ]
   },
@@ -3212,8 +3555,8 @@
     "type": "reflexive",
     "score": 5,
     "vocab_refs": [
-      "gegenseitig",
-      "informieren"
+      "informieren",
+      "gegenseitig"
     ]
   },
   {
@@ -3222,8 +3565,9 @@
     "type": "imperative",
     "score": 5,
     "vocab_refs": [
-      "Der Mitarbeiter",
       "entlassen",
+      "Der Mitarbeiter",
+      "bitten",
       "nicht"
     ]
   },
@@ -3233,9 +3577,10 @@
     "type": "dative",
     "score": 5,
     "vocab_refs": [
-      "der Rückbau",
+      "Das Jahr",
       "vorne",
-      "Das Jahr"
+      "verschieben",
+      "der Rückbau"
     ]
   },
   {
@@ -3244,8 +3589,10 @@
     "type": "perfect",
     "score": 5,
     "vocab_refs": [
-      "Der Hügel",
-      "laut"
+      "sein",
+      "stürzen",
+      "laut",
+      "Der Hügel"
     ]
   },
   {
@@ -3254,10 +3601,11 @@
     "type": "yn_question",
     "score": 5,
     "vocab_refs": [
+      "können",
       "unbedenklich",
-      "Das Kind",
+      "spielen",
       "das Feuer",
-      "spielen"
+      "Das Kind"
     ]
   },
   {
@@ -3266,9 +3614,10 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
-      "zielstrebig",
+      "sein",
       "das Potenzial",
-      "sein"
+      "zielstrebig",
+      "besitzen"
     ]
   },
   {
@@ -3287,9 +3636,10 @@
     "score": 5,
     "vocab_refs": [
       "verteilen",
-      "größtenteils",
+      "unzuverlässig",
       "die Zutat",
-      "außerhalb"
+      "außerhalb",
+      "größtenteils"
     ]
   },
   {
@@ -3308,7 +3658,9 @@
     "score": 5,
     "vocab_refs": [
       "die Verwaltungseinheit",
-      "das Projekt"
+      "führen",
+      "das Projekt",
+      "humorvoll"
     ]
   },
   {
@@ -3328,8 +3680,11 @@
     "score": 5,
     "vocab_refs": [
       "sehr",
+      "inzwischen",
+      "lesen",
       "Das Buch",
-      "inzwischen"
+      "gefallen",
+      "haben"
     ]
   },
   {
@@ -3339,6 +3694,7 @@
     "score": 5,
     "vocab_refs": [
       "wahr",
+      "nehmen",
       "Die Forscherin"
     ]
   },
@@ -3358,8 +3714,9 @@
     "type": "preterite",
     "score": 5,
     "vocab_refs": [
-      "das Ergebnis",
-      "die Zahl"
+      "die Zahl",
+      "multiplizieren",
+      "das Ergebnis"
     ]
   },
   {
@@ -3368,8 +3725,8 @@
     "type": "w_question",
     "score": 5,
     "vocab_refs": [
-      "Der Preis",
-      "schätzen"
+      "schätzen",
+      "Der Preis"
     ]
   },
   {
@@ -3388,9 +3745,9 @@
     "type": "w_question",
     "score": 5,
     "vocab_refs": [
-      "halten",
+      "der Pragmatismus",
       "disharmonisch",
-      "der Pragmatismus"
+      "halten"
     ]
   },
   {
@@ -3399,8 +3756,11 @@
     "type": "perfect",
     "score": 5,
     "vocab_refs": [
+      "industriell",
       "Die Kappe",
+      "gestalten",
       "Der Benutzer",
+      "haben",
       "der Stil"
     ]
   },
@@ -3422,7 +3782,8 @@
     "score": 5,
     "vocab_refs": [
       "der Farn",
-      "entstehen"
+      "entstehen",
+      "klein"
     ]
   },
   {
@@ -3432,8 +3793,12 @@
     "score": 5,
     "vocab_refs": [
       "ernst",
+      "sollen",
+      "der Nachteil",
       "werden",
-      "schwerwiegend"
+      "sein",
+      "schwerwiegend",
+      "nehmen"
     ]
   },
   {
@@ -3442,8 +3807,8 @@
     "type": "accusative",
     "score": 5,
     "vocab_refs": [
-      "können",
-      "geben"
+      "geben",
+      "können"
     ]
   },
   {
@@ -3452,8 +3817,10 @@
     "type": "plural",
     "score": 5,
     "vocab_refs": [
-      "lenken",
-      "versuchen"
+      "die Metapher",
+      "versuchen",
+      "die Organisation",
+      "lenken"
     ]
   },
   {
@@ -3462,12 +3829,15 @@
     "type": "subclause",
     "score": 5,
     "vocab_refs": [
-      "die Bilanz",
-      "haben",
       "Der Bus",
-      "unvollständig",
+      "die Bilanz",
+      "fahren",
+      "nicht",
       "Der Fahrer",
-      "nicht"
+      "auflisten",
+      "abstellen",
+      "haben",
+      "unvollständig"
     ]
   },
   {
@@ -3476,9 +3846,9 @@
     "type": "subclause",
     "score": 5,
     "vocab_refs": [
-      "der Einbruch",
-      "die Polizei",
       "müssen",
+      "die Polizei",
+      "der Einbruch",
       "kontrollieren"
     ]
   },
@@ -3488,9 +3858,10 @@
     "type": "separable",
     "score": 5,
     "vocab_refs": [
-      "das Stichwort",
+      "erbitten",
       "allerdings",
-      "Der Artikel"
+      "Der Artikel",
+      "das Stichwort"
     ]
   },
   {
@@ -3499,8 +3870,8 @@
     "type": "imperative",
     "score": 5,
     "vocab_refs": [
-      "die Diät",
-      "Das Unternehmen"
+      "Das Unternehmen",
+      "die Diät"
     ]
   },
   {
@@ -3509,12 +3880,15 @@
     "type": "nominative",
     "score": 5,
     "vocab_refs": [
+      "neu",
+      "Die Aufgabe",
+      "rufen",
+      "erklären",
+      "Der Schüler",
+      "Die Klingel",
       "zurück",
       "Der Lehrer",
-      "Die Klingel",
-      "Das Klassenzimmer",
-      "Die Aufgabe",
-      "Der Schüler"
+      "Das Klassenzimmer"
     ]
   },
   {
@@ -3523,8 +3897,9 @@
     "type": "imperative",
     "score": 5,
     "vocab_refs": [
+      "das Selbstverständnis",
       "etwas",
-      "das Selbstverständnis"
+      "bitten"
     ]
   },
   {
@@ -3533,6 +3908,8 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
+      "neu",
+      "führen",
       "der Umzug",
       "Die Stadt",
       "der Mittelpunkt"
@@ -3544,6 +3921,7 @@
     "type": "yn_question",
     "score": 5,
     "vocab_refs": [
+      "beschulen",
       "mehrfach"
     ]
   },
@@ -3553,10 +3931,10 @@
     "type": "subclause",
     "score": 5,
     "vocab_refs": [
-      "die Physik",
-      "verstehen",
       "das Dokument",
-      "auch"
+      "auch",
+      "verstehen",
+      "die Physik"
     ]
   },
   {
@@ -3565,7 +3943,8 @@
     "type": "imperative",
     "score": 5,
     "vocab_refs": [
-      "Das Abendessen"
+      "Das Abendessen",
+      "aufkommen"
     ]
   },
   {
@@ -3574,9 +3953,9 @@
     "type": "yn_question",
     "score": 5,
     "vocab_refs": [
-      "kommen",
       "die Messe",
-      "jährlich"
+      "jährlich",
+      "aufkommen"
     ]
   },
   {
@@ -3585,8 +3964,9 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
-      "sauber",
-      "Die Pfanne"
+      "sein",
+      "Die Pfanne",
+      "sauber"
     ]
   },
   {
@@ -3595,8 +3975,8 @@
     "type": "separable",
     "score": 5,
     "vocab_refs": [
-      "oben",
-      "leuchten"
+      "leuchten",
+      "oben"
     ]
   },
   {
@@ -3605,10 +3985,10 @@
     "type": "modal",
     "score": 5,
     "vocab_refs": [
+      "die Abstimmung",
       "rechtzeitig",
       "können",
-      "mindern",
-      "die Abstimmung"
+      "mindern"
     ]
   },
   {
@@ -3617,8 +3997,11 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
+      "sitzen",
+      "Das Abendessen",
       "Der Herd",
-      "Das Abendessen"
+      "kochen",
+      "spartanisch"
     ]
   },
   {
@@ -3627,9 +4010,10 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
-      "oben",
+      "schärfen",
+      "das Objekt",
       "Die Kamera",
-      "das Objekt"
+      "oben"
     ]
   },
   {
@@ -3639,8 +4023,8 @@
     "score": 5,
     "vocab_refs": [
       "sich setzen",
-      "die Daten",
-      "geben"
+      "geben",
+      "die Daten"
     ]
   },
   {
@@ -3649,9 +4033,10 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
-      "weich",
+      "Das Fleisch",
       "die Marinade",
-      "Das Fleisch"
+      "machen",
+      "weich"
     ]
   },
   {
@@ -3660,8 +4045,9 @@
     "type": "perfect",
     "score": 5,
     "vocab_refs": [
-      "das Reiten",
-      "nie"
+      "nie",
+      "haben",
+      "das Reiten"
     ]
   },
   {
@@ -3670,8 +4056,8 @@
     "type": "separable",
     "score": 5,
     "vocab_refs": [
-      "die Möwe",
-      "weg"
+      "weg",
+      "die Möwe"
     ]
   },
   {
@@ -3691,8 +4077,9 @@
     "type": "comparative",
     "score": 5,
     "vocab_refs": [
-      "die Realität",
+      "können",
       "berichtigen",
+      "die Realität",
       "der Ernährungsberater"
     ]
   },
@@ -3702,8 +4089,9 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
-      "verstehen",
       "das Handbuch",
+      "helfen",
+      "verstehen",
       "die Komödie"
     ]
   },
@@ -3713,8 +4101,8 @@
     "type": "plural",
     "score": 5,
     "vocab_refs": [
-      "die Gesellschaft",
-      "halten"
+      "halten",
+      "die Gesellschaft"
     ]
   },
   {
@@ -3723,10 +4111,12 @@
     "type": "accusative",
     "score": 5,
     "vocab_refs": [
-      "gerne",
-      "der Hackathon",
+      "hierauf",
       "nicht",
-      "hierauf"
+      "ziehen",
+      "mögen",
+      "gerne",
+      "der Hackathon"
     ]
   },
   {
@@ -3735,12 +4125,13 @@
     "type": "modal",
     "score": 5,
     "vocab_refs": [
-      "das Modul",
-      "benutzen",
-      "der Politiker",
       "gefährlich",
       "dürfen",
-      "nicht"
+      "nicht",
+      "sein",
+      "benutzen",
+      "das Modul",
+      "der Politiker"
     ]
   },
   {
@@ -3749,8 +4140,8 @@
     "type": "plural",
     "score": 5,
     "vocab_refs": [
-      "Das Wissen",
       "benötigen",
+      "Das Wissen",
       "Das Unternehmen",
       "die Translation"
     ]
@@ -3761,10 +4152,10 @@
     "type": "future",
     "score": 5,
     "vocab_refs": [
+      "werden",
       "kontrollieren",
       "gleichstellen",
-      "der Strukturwandel",
-      "werden"
+      "der Strukturwandel"
     ]
   },
   {
@@ -3773,10 +4164,12 @@
     "type": "perfect",
     "score": 5,
     "vocab_refs": [
-      "haben",
-      "glücklich",
+      "gewinnen",
+      "besonders",
       "das Spiel",
-      "besonders"
+      "sein",
+      "glücklich",
+      "haben"
     ]
   },
   {
@@ -3785,9 +4178,13 @@
     "type": "perfect",
     "score": 5,
     "vocab_refs": [
+      "neu",
       "die Bürgerinitiative",
+      "vereinbaren",
+      "Der Termin",
       "das Referat",
-      "Der Termin"
+      "unterbrechen",
+      "haben"
     ]
   },
   {
@@ -3796,7 +4193,9 @@
     "type": "comparative",
     "score": 5,
     "vocab_refs": [
-      "das Dokument"
+      "das Dokument",
+      "wichtig",
+      "beinhalten"
     ]
   },
   {
@@ -3805,10 +4204,11 @@
     "type": "dative",
     "score": 5,
     "vocab_refs": [
-      "wichtig",
       "leiten",
-      "Die Diskussion",
-      "der Mittelpunkt"
+      "sein",
+      "wichtig",
+      "der Mittelpunkt",
+      "Die Diskussion"
     ]
   },
   {
@@ -3817,7 +4217,8 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
-      "folgen"
+      "die Folge",
+      "die Vorschrift"
     ]
   },
   {
@@ -3826,11 +4227,13 @@
     "type": "future",
     "score": 5,
     "vocab_refs": [
+      "neu",
+      "geben",
+      "werden",
       "die Energie",
-      "die Natur",
       "sich nähern",
       "wieder",
-      "geben"
+      "die Natur"
     ]
   },
   {
@@ -3839,9 +4242,12 @@
     "type": "nominative",
     "score": 5,
     "vocab_refs": [
-      "die Chronologie",
+      "sollen",
       "spielen",
-      "Der Musiker"
+      "die Chronologie",
+      "Der Musiker",
+      "zeigen",
+      "erklären"
     ]
   },
   {
@@ -3851,7 +4257,8 @@
     "score": 5,
     "vocab_refs": [
       "die Farbe",
-      "der Film"
+      "der Film",
+      "visualisieren"
     ]
   },
   {
@@ -3860,9 +4267,10 @@
     "type": "imperative",
     "score": 5,
     "vocab_refs": [
-      "der Winkel",
+      "müssen",
+      "vergleichen",
       "das Koordinatensystem",
-      "vergleichen"
+      "der Winkel"
     ]
   },
   {
@@ -3871,8 +4279,9 @@
     "type": "w_question",
     "score": 5,
     "vocab_refs": [
-      "Das Rezept",
-      "Die Paprika"
+      "Die Paprika",
+      "benötigen",
+      "Das Rezept"
     ]
   },
   {
@@ -3881,9 +4290,10 @@
     "type": "perfect",
     "score": 5,
     "vocab_refs": [
+      "haben",
       "unmittelbar",
-      "einschalten",
-      "Der Toaster"
+      "Der Toaster",
+      "einschalten"
     ]
   },
   {
@@ -3893,8 +4303,8 @@
     "score": 5,
     "vocab_refs": [
       "vorsichtig",
-      "der Trainer",
-      "der Spieler"
+      "der Spieler",
+      "der Trainer"
     ]
   },
   {
@@ -3903,7 +4313,8 @@
     "type": "accusative",
     "score": 5,
     "vocab_refs": [
-      "atmen"
+      "atmen",
+      "geruchlos"
     ]
   },
   {
@@ -3912,9 +4323,10 @@
     "type": "accusative",
     "score": 5,
     "vocab_refs": [
+      "die Werbung",
       "Die Firma",
-      "bestimmt",
-      "die Werbung"
+      "der Konsument",
+      "bestimmt"
     ]
   },
   {
@@ -3922,7 +4334,11 @@
     "english": "I don't like barbaric movies.",
     "type": "accusative",
     "score": 5,
-    "vocab_refs": []
+    "vocab_refs": [
+      "mögen",
+      "der Film",
+      "barbarisch"
+    ]
   },
   {
     "german": "Sie werden die Vernunft wehren, obwohl der Tintenfisch sie anfeuert.",
@@ -3930,10 +4346,10 @@
     "type": "future",
     "score": 5,
     "vocab_refs": [
-      "der Tintenfisch",
+      "werden",
       "die Vernunft",
       "wehren",
-      "werden"
+      "der Tintenfisch"
     ]
   },
   {
@@ -3942,7 +4358,9 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
-      "der Terminplaner"
+      "berücksichtigen",
+      "der Terminplaner",
+      "gesellschaftlich"
     ]
   },
   {
@@ -3951,10 +4369,12 @@
     "type": "preterite",
     "score": 5,
     "vocab_refs": [
-      "Der Blumenkohl",
       "da",
+      "suchen",
+      "Der Blumenkohl",
+      "Der Supermarkt",
       "Das Rezept",
-      "Der Supermarkt"
+      "bereichern"
     ]
   },
   {
@@ -3963,10 +4383,10 @@
     "type": "future",
     "score": 5,
     "vocab_refs": [
-      "Der Wald",
+      "werden",
       "bauen",
       "irgendwo",
-      "werden"
+      "Der Wald"
     ]
   },
   {
@@ -3975,8 +4395,10 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
-      "Die Strategie",
+      "glauben",
+      "neu",
       "die Effizienz",
+      "Die Strategie",
       "der Rabbiner"
     ]
   },
@@ -3996,9 +4418,9 @@
     "type": "imperative",
     "score": 5,
     "vocab_refs": [
+      "der Punkt",
       "interpretieren",
-      "umfassend",
-      "der Punkt"
+      "umfassend"
     ]
   },
   {
@@ -4007,9 +4429,9 @@
     "type": "w_question",
     "score": 5,
     "vocab_refs": [
-      "mitschreiben",
       "nachträglich",
-      "die Definition"
+      "die Definition",
+      "mitschreiben"
     ]
   },
   {
@@ -4018,8 +4440,8 @@
     "type": "accusative",
     "score": 5,
     "vocab_refs": [
-      "vorsichtig",
       "das Molekül",
+      "vorsichtig",
       "aufmerksam"
     ]
   },
@@ -4029,8 +4451,9 @@
     "type": "separable",
     "score": 5,
     "vocab_refs": [
-      "die Karte",
-      "sicher"
+      "sicher",
+      "können",
+      "die Karte"
     ]
   },
   {
@@ -4039,8 +4462,9 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
-      "extrem",
-      "Das Auto"
+      "parken",
+      "Das Auto",
+      "extrem"
     ]
   },
   {
@@ -4049,10 +4473,11 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
+      "der Punkt",
+      "nicht",
       "sein",
       "hier",
-      "der Punkt",
-      "nicht"
+      "bringen"
     ]
   },
   {
@@ -4061,9 +4486,10 @@
     "type": "future",
     "score": 5,
     "vocab_refs": [
-      "Der Satz",
+      "werden",
       "finden",
-      "langweilig"
+      "langweilig",
+      "Der Satz"
     ]
   },
   {
@@ -4081,9 +4507,12 @@
     "type": "nominative",
     "score": 5,
     "vocab_refs": [
+      "unzuverlässig",
       "Der Plan",
-      "Der Manager",
-      "auch"
+      "erklären",
+      "drohen",
+      "auch",
+      "Der Manager"
     ]
   },
   {
@@ -4092,10 +4521,10 @@
     "type": "yn_question",
     "score": 5,
     "vocab_refs": [
-      "rekonstruieren",
       "der Widerspruch",
       "trauen",
-      "müssen"
+      "müssen",
+      "rekonstruieren"
     ]
   },
   {
@@ -4104,11 +4533,12 @@
     "type": "accusative",
     "score": 5,
     "vocab_refs": [
-      "wählen",
-      "weg",
+      "die Nachfrage",
+      "zielstrebig",
       "nicht",
       "ignorieren",
-      "die Nachfrage"
+      "weg",
+      "wählen"
     ]
   },
   {
@@ -4117,11 +4547,11 @@
     "type": "plural",
     "score": 5,
     "vocab_refs": [
-      "besuchen",
-      "lernen",
       "Die Klinik",
       "Die Woche",
-      "Der Schüler"
+      "lernen",
+      "Der Schüler",
+      "besuchen"
     ]
   },
   {
@@ -4130,9 +4560,11 @@
     "type": "w_question",
     "score": 5,
     "vocab_refs": [
-      "der Komponist",
+      "neu",
       "die Musik",
-      "schreiben"
+      "der Komponist",
+      "beschließen",
+      "abschreiben"
     ]
   },
   {
@@ -4141,8 +4573,9 @@
     "type": "imperative",
     "score": 5,
     "vocab_refs": [
+      "hassen",
       "nicht",
-      "hassen"
+      "chaotisch"
     ]
   },
   {
@@ -4152,7 +4585,8 @@
     "score": 5,
     "vocab_refs": [
       "der Kläger",
-      "die Argumentation"
+      "die Argumentation",
+      "widerlegen"
     ]
   },
   {
@@ -4161,6 +4595,7 @@
     "type": "accusative",
     "score": 5,
     "vocab_refs": [
+      "neu",
       "Der Laptop"
     ]
   },
@@ -4170,12 +4605,12 @@
     "type": "future",
     "score": 5,
     "vocab_refs": [
-      "das Drama",
       "der Schauspieler",
+      "die Komödie",
       "spielen",
-      "auch",
       "werden",
-      "die Komödie"
+      "das Drama",
+      "auch"
     ]
   },
   {
@@ -4184,10 +4619,12 @@
     "type": "subclause",
     "score": 5,
     "vocab_refs": [
-      "sofort",
-      "wieder",
       "Das Meerschweinchen",
-      "die Szene"
+      "sofort",
+      "wollen",
+      "die Szene",
+      "wieder",
+      "entdecken"
     ]
   },
   {
@@ -4196,7 +4633,8 @@
     "type": "accusative",
     "score": 5,
     "vocab_refs": [
-      "die Möglichkeit"
+      "die Möglichkeit",
+      "interessieren"
     ]
   },
   {
@@ -4205,6 +4643,7 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
+      "setzen",
       "Der Schreibtisch",
       "etwas",
       "das Verlängerungskabel"
@@ -4216,9 +4655,11 @@
     "type": "genitive",
     "score": 5,
     "vocab_refs": [
+      "alt",
+      "beruhigen",
+      "Die Uhr",
       "langsam",
-      "die Stille",
-      "Die Uhr"
+      "die Stille"
     ]
   },
   {
@@ -4238,8 +4679,9 @@
     "type": "preterite",
     "score": 5,
     "vocab_refs": [
-      "plötzlich",
-      "die Richtung"
+      "die Richtung",
+      "sich ändern",
+      "plötzlich"
     ]
   },
   {
@@ -4248,8 +4690,10 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
+      "leiden",
+      "die Technologie",
       "schlecht",
-      "leiden"
+      "modern"
     ]
   },
   {
@@ -4258,10 +4702,11 @@
     "type": "subclause",
     "score": 5,
     "vocab_refs": [
+      "Das Licht",
       "die Ruhe",
-      "einschlafen",
+      "warm",
       "unterdessen",
-      "Das Licht"
+      "einschlafen"
     ]
   },
   {
@@ -4270,8 +4715,8 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
-      "nachmals",
-      "die Nudeln"
+      "die Nudeln",
+      "nachmals"
     ]
   },
   {
@@ -4280,6 +4725,7 @@
     "type": "accusative",
     "score": 5,
     "vocab_refs": [
+      "können",
       "abschätzen"
     ]
   },
@@ -4320,8 +4766,9 @@
     "type": "comparative",
     "score": 5,
     "vocab_refs": [
-      "Der Markt",
+      "haben",
       "Die Stadt",
+      "Der Markt",
       "Der Supermarkt"
     ]
   },
@@ -4332,8 +4779,9 @@
     "score": 5,
     "vocab_refs": [
       "gut",
-      "spielen",
-      "der Fußball"
+      "der Fußball",
+      "können",
+      "spielen"
     ]
   },
   {
@@ -4342,6 +4790,7 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
+      "werden",
       "durchhalten",
       "können"
     ]
@@ -4352,8 +4801,9 @@
     "type": "dative",
     "score": 5,
     "vocab_refs": [
-      "das Fundament",
-      "das Projekt"
+      "fehlen",
+      "das Projekt",
+      "das Fundament"
     ]
   },
   {
@@ -4362,8 +4812,9 @@
     "type": "accusative",
     "score": 5,
     "vocab_refs": [
-      "die Pyramide",
-      "ausdrucksstark"
+      "ausdrucksstark",
+      "zeigen",
+      "die Pyramide"
     ]
   },
   {
@@ -4372,9 +4823,10 @@
     "type": "perfect",
     "score": 5,
     "vocab_refs": [
+      "gestalten",
       "haben",
-      "der Slogan",
-      "experimentell"
+      "experimentell",
+      "der Slogan"
     ]
   },
   {
@@ -4383,10 +4835,13 @@
     "type": "nominative",
     "score": 5,
     "vocab_refs": [
+      "neu",
+      "geben",
       "Die Stunde",
       "Der Plan",
       "das Thema",
       "Die Lehrerin",
+      "erklären",
       "Der Schüler"
     ]
   },
@@ -4396,7 +4851,9 @@
     "type": "yn_question",
     "score": 5,
     "vocab_refs": [
-      "der Physiotherapeut"
+      "der Physiotherapeut",
+      "detailliert",
+      "besitzen"
     ]
   },
   {
@@ -4405,9 +4862,10 @@
     "type": "perfect",
     "score": 5,
     "vocab_refs": [
-      "der Kommunismus",
       "verschwinden",
-      "lassen"
+      "haben",
+      "der Kommunismus",
+      "zulassen"
     ]
   },
   {
@@ -4416,9 +4874,10 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
-      "die Taktik",
+      "neu",
       "erstaunen",
-      "die Ziege"
+      "die Ziege",
+      "die Taktik"
     ]
   },
   {
@@ -4427,8 +4886,9 @@
     "type": "separable",
     "score": 5,
     "vocab_refs": [
-      "bedauerlicherweise",
-      "sich ergeben"
+      "sich ergeben",
+      "der Sinn",
+      "bedauerlicherweise"
     ]
   },
   {
@@ -4437,10 +4897,13 @@
     "type": "plural",
     "score": 5,
     "vocab_refs": [
-      "auch",
       "manchmal",
-      "laut",
-      "Die Wissenschaft"
+      "Die Wissenschaft",
+      "der Fortschritt",
+      "sein",
+      "beeindrucken",
+      "auch",
+      "laut"
     ]
   },
   {
@@ -4449,10 +4912,11 @@
     "type": "preterite",
     "score": 5,
     "vocab_refs": [
-      "zufrieden",
       "der Geschmack",
+      "zufrieden",
       "Der Kuchen",
-      "rund"
+      "rund",
+      "passen"
     ]
   },
   {
@@ -4461,10 +4925,12 @@
     "type": "perfect",
     "score": 5,
     "vocab_refs": [
+      "Die Brücke",
       "parallel",
-      "Die Straße",
+      "bauen",
       "Die Universität",
-      "Die Brücke"
+      "haben",
+      "Die Straße"
     ]
   },
   {
@@ -4474,7 +4940,9 @@
     "score": 5,
     "vocab_refs": [
       "das Szenario",
-      "der Realismus"
+      "der Realismus",
+      "sehen",
+      "widersprechen"
     ]
   },
   {
@@ -4484,9 +4952,9 @@
     "score": 5,
     "vocab_refs": [
       "der Sieger",
-      "Der Garten",
       "dürfen",
-      "lassen"
+      "Der Garten",
+      "zulassen"
     ]
   },
   {
@@ -4497,7 +4965,9 @@
     "vocab_refs": [
       "das Gemälde",
       "die Malerin",
-      "unverzüglich"
+      "verkaufen",
+      "unverzüglich",
+      "haben"
     ]
   },
   {
@@ -4505,7 +4975,9 @@
     "english": "I would like to have the flash drive back, please.",
     "type": "accusative",
     "score": 5,
-    "vocab_refs": []
+    "vocab_refs": [
+      "bitten"
+    ]
   },
   {
     "german": "Die Limonade schmeckt uns sehr gut und erfrischend.",
@@ -4513,9 +4985,11 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
-      "Die Limonade",
+      "erfrischen",
+      "gut",
       "sehr",
-      "gut"
+      "schmecken",
+      "Die Limonade"
     ]
   },
   {
@@ -4524,10 +4998,11 @@
     "type": "subclause",
     "score": 5,
     "vocab_refs": [
+      "leuchten",
       "der Permafrost",
       "hell",
-      "die Ursache",
-      "besonders"
+      "besonders",
+      "die Ursache"
     ]
   },
   {
@@ -4536,8 +5011,10 @@
     "type": "reflexive",
     "score": 5,
     "vocab_refs": [
-      "gründlich",
-      "Das Bett"
+      "Das Bett",
+      "waschen",
+      "gehen",
+      "gründlich"
     ]
   },
   {
@@ -4546,9 +5023,11 @@
     "type": "future",
     "score": 5,
     "vocab_refs": [
-      "benutzen",
-      "nicht",
+      "können",
       "Das Auto",
+      "werden",
+      "nicht",
+      "benutzen",
       "fürchten"
     ]
   },
@@ -4558,8 +5037,10 @@
     "type": "comparative",
     "score": 5,
     "vocab_refs": [
+      "Die Software",
+      "sein",
       "linguistisch",
-      "Die Software"
+      "neu"
     ]
   },
   {
@@ -4568,10 +5049,13 @@
     "type": "subclause",
     "score": 5,
     "vocab_refs": [
-      "das Sehen",
-      "die Brosche",
       "Die Sonnenbrille",
-      "vielleicht"
+      "können",
+      "vielleicht",
+      "das Sehen",
+      "leicht",
+      "finden",
+      "die Brosche"
     ]
   },
   {
@@ -4580,8 +5064,9 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
+      "transzendent",
       "die Realität",
-      "transzendent"
+      "abstrahieren"
     ]
   },
   {
@@ -4590,8 +5075,8 @@
     "type": "w_question",
     "score": 5,
     "vocab_refs": [
-      "systematisch",
-      "Die Chefin"
+      "Die Chefin",
+      "systematisch"
     ]
   },
   {
@@ -4601,9 +5086,10 @@
     "score": 5,
     "vocab_refs": [
       "leben",
-      "der Zufall",
+      "können",
+      "die Ordnung",
       "beeinflussen",
-      "die Ordnung"
+      "der Zufall"
     ]
   },
   {
@@ -4612,11 +5098,12 @@
     "type": "modal",
     "score": 5,
     "vocab_refs": [
-      "der Pragmatismus",
-      "anwenden",
-      "einfach",
-      "sich ändern",
+      "können",
       "nicht",
+      "einfach",
+      "anwenden",
+      "der Pragmatismus",
+      "sich ändern",
       "die Bank"
     ]
   },
@@ -4626,6 +5113,7 @@
     "type": "yn_question",
     "score": 5,
     "vocab_refs": [
+      "sein",
       "zielstrebig"
     ]
   },
@@ -4636,8 +5124,9 @@
     "score": 5,
     "vocab_refs": [
       "der Konsens",
-      "die Szene",
-      "erkennen"
+      "erkennen",
+      "zeigen",
+      "die Szene"
     ]
   },
   {
@@ -4646,10 +5135,10 @@
     "type": "separable",
     "score": 5,
     "vocab_refs": [
-      "Die Zukunft",
       "das Smartphone",
-      "kommunizieren",
       "werden",
+      "kommunizieren",
+      "Die Zukunft",
       "vorzeigen"
     ]
   },
@@ -4659,8 +5148,9 @@
     "type": "comparative",
     "score": 5,
     "vocab_refs": [
-      "Die Stunde",
-      "der Korridor"
+      "sein",
+      "der Korridor",
+      "Die Stunde"
     ]
   },
   {
@@ -4669,8 +5159,11 @@
     "type": "perfect",
     "score": 5,
     "vocab_refs": [
-      "das Gebet",
-      "geheimnisvoll"
+      "voll",
+      "bleiben",
+      "geheimnisvoll",
+      "sein",
+      "das Gebet"
     ]
   },
   {
@@ -4679,9 +5172,11 @@
     "type": "imperative",
     "score": 5,
     "vocab_refs": [
+      "das Gedicht",
       "vorlesen",
       "können",
-      "das Gedicht"
+      "bitten",
+      "harmonisch"
     ]
   },
   {
@@ -4699,8 +5194,8 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
-      "das Unterbewusstsein",
-      "manchmal"
+      "manchmal",
+      "das Unterbewusstsein"
     ]
   },
   {
@@ -4710,6 +5205,7 @@
     "score": 5,
     "vocab_refs": [
       "leisten",
+      "können",
       "Die Frage"
     ]
   },
@@ -4728,7 +5224,8 @@
     "type": "accusative",
     "score": 5,
     "vocab_refs": [
-      "Der Junge",
+      "benennen",
+      "jung",
       "Das Hähnchen"
     ]
   },
@@ -4738,7 +5235,8 @@
     "type": "w_question",
     "score": 5,
     "vocab_refs": [
-      "Der Projektor"
+      "Der Projektor",
+      "aufkommen"
     ]
   },
   {
@@ -4747,9 +5245,12 @@
     "type": "accusative",
     "score": 5,
     "vocab_refs": [
-      "brauchen",
-      "noch",
-      "der Beamer"
+      "neu",
+      "alt",
+      "gebrauchen",
+      "der Beamer",
+      "sein",
+      "noch"
     ]
   },
   {
@@ -4758,9 +5259,9 @@
     "type": "modal",
     "score": 5,
     "vocab_refs": [
-      "Der Pass",
       "müssen",
-      "prüfen"
+      "prüfen",
+      "Der Pass"
     ]
   },
   {
@@ -4770,7 +5271,8 @@
     "score": 5,
     "vocab_refs": [
       "das Modell",
-      "Das Papier"
+      "Das Papier",
+      "bauen"
     ]
   },
   {
@@ -4779,8 +5281,11 @@
     "type": "plural",
     "score": 5,
     "vocab_refs": [
+      "die Lage",
       "ungleichmäßig",
-      "gegenüber"
+      "anordnen",
+      "gegenüber",
+      "der Querschnitt"
     ]
   },
   {
@@ -4789,8 +5294,9 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
-      "Der Bruder",
-      "Der Pass"
+      "abschreiben",
+      "Der Pass",
+      "Der Bruder"
     ]
   },
   {
@@ -4800,7 +5306,8 @@
     "score": 5,
     "vocab_refs": [
       "die Brosche",
-      "stabil"
+      "stabil",
+      "sehen"
     ]
   },
   {
@@ -4809,8 +5316,11 @@
     "type": "modal",
     "score": 5,
     "vocab_refs": [
-      "das Vertrauen",
+      "neu",
+      "sollen",
       "etwas",
+      "das Vertrauen",
+      "lernen",
       "allmählich"
     ]
   },
@@ -4820,10 +5330,10 @@
     "type": "w_question",
     "score": 5,
     "vocab_refs": [
-      "kommen",
-      "immer",
       "wieder",
-      "die Bucht"
+      "immer",
+      "die Bucht",
+      "aufkommen"
     ]
   },
   {
@@ -4832,8 +5342,8 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
-      "regeln",
       "unterliegen",
+      "die Regel",
       "Die Schule"
     ]
   },
@@ -4843,8 +5353,10 @@
     "type": "separable",
     "score": 5,
     "vocab_refs": [
-      "das Gebäude",
-      "die Verwaltungseinheit"
+      "zeitgemäß",
+      "die Verwaltungseinheit",
+      "entwerfen",
+      "das Gebäude"
     ]
   },
   {
@@ -4853,8 +5365,10 @@
     "type": "genitive",
     "score": 5,
     "vocab_refs": [
+      "sein",
+      "können",
       "der Kompromiss",
-      "sein"
+      "neu"
     ]
   },
   {
@@ -4863,7 +5377,10 @@
     "type": "separable",
     "score": 5,
     "vocab_refs": [
-      "die Meinungsfreiheit"
+      "die Meinungsfreiheit",
+      "wichtig",
+      "dazugehören",
+      "rechen"
     ]
   },
   {
@@ -4872,8 +5389,10 @@
     "type": "comparative",
     "score": 5,
     "vocab_refs": [
+      "die Soße",
       "Die Suppe",
-      "die Soße"
+      "lecker",
+      "schmecken"
     ]
   },
   {
@@ -4883,7 +5402,9 @@
     "score": 5,
     "vocab_refs": [
       "dunkel",
-      "Das Auto"
+      "werden",
+      "Das Auto",
+      "parken"
     ]
   },
   {
@@ -4903,9 +5424,11 @@
     "type": "comparative",
     "score": 5,
     "vocab_refs": [
+      "werden",
       "die Chronologie",
+      "inzwischen",
       "genau",
-      "inzwischen"
+      "erforschen"
     ]
   },
   {
@@ -4914,9 +5437,10 @@
     "type": "plural",
     "score": 5,
     "vocab_refs": [
-      "Das Essen",
-      "bereiten",
-      "die Feier"
+      "die Feier",
+      "würzig",
+      "zubereiten",
+      "Das Essen"
     ]
   },
   {
@@ -4925,8 +5449,8 @@
     "type": "separable",
     "score": 5,
     "vocab_refs": [
-      "widersprechen",
-      "Die Küche"
+      "Die Küche",
+      "widersprechen"
     ]
   },
   {
@@ -4935,9 +5459,11 @@
     "type": "reflexive",
     "score": 5,
     "vocab_refs": [
+      "neu",
       "die Funktion",
+      "das Team",
       "kritisch",
-      "das Team"
+      "evaluieren"
     ]
   },
   {
@@ -4946,10 +5472,10 @@
     "type": "future",
     "score": 5,
     "vocab_refs": [
-      "beiläufig",
-      "werden",
       "das Szenario",
-      "diskutieren"
+      "werden",
+      "diskutieren",
+      "beiläufig"
     ]
   },
   {
@@ -4958,8 +5484,9 @@
     "type": "modal",
     "score": 5,
     "vocab_refs": [
-      "sich kümmern",
       "die Rose",
+      "sich kümmern",
+      "werden",
       "nicht",
       "müssen",
       "tun"
@@ -4971,7 +5498,8 @@
     "type": "plural",
     "score": 5,
     "vocab_refs": [
-      "Der Großvater"
+      "Der Großvater",
+      "teilen"
     ]
   },
   {
@@ -4980,8 +5508,10 @@
     "type": "perfect",
     "score": 5,
     "vocab_refs": [
-      "Der Drucker",
-      "nicht"
+      "haben",
+      "speichern",
+      "nicht",
+      "Der Drucker"
     ]
   },
   {
@@ -4990,10 +5520,12 @@
     "type": "future",
     "score": 5,
     "vocab_refs": [
+      "neu",
+      "das Lineal",
+      "werden",
       "testen",
-      "die Disruption",
       "herauskommen",
-      "das Lineal"
+      "die Disruption"
     ]
   },
   {
@@ -5002,10 +5534,12 @@
     "type": "comparative",
     "score": 5,
     "vocab_refs": [
-      "Das Geschäft",
-      "können",
       "erfolgreich",
-      "beibringen"
+      "können",
+      "beibringen",
+      "die Herausforderung",
+      "Das Geschäft",
+      "haben"
     ]
   },
   {
@@ -5014,7 +5548,7 @@
     "type": "genitive",
     "score": 5,
     "vocab_refs": [
-      "gehen",
+      "abgehen",
       "beabsichtigen"
     ]
   },
@@ -5024,8 +5558,10 @@
     "type": "perfect",
     "score": 5,
     "vocab_refs": [
-      "unprofessionell",
-      "das Ballett"
+      "tanzen",
+      "haben",
+      "das Ballett",
+      "unprofessionell"
     ]
   },
   {
@@ -5034,6 +5570,7 @@
     "type": "reflexive",
     "score": 5,
     "vocab_refs": [
+      "interessieren",
       "das Heimweh"
     ]
   },
@@ -5043,6 +5580,7 @@
     "type": "perfect",
     "score": 5,
     "vocab_refs": [
+      "haben",
       "vergeben"
     ]
   },
@@ -5052,10 +5590,11 @@
     "type": "separable",
     "score": 5,
     "vocab_refs": [
-      "Der Gewinn",
+      "nur",
+      "rechnen",
       "Der Kauf",
-      "noch",
-      "nur"
+      "Der Gewinn",
+      "noch"
     ]
   },
   {
@@ -5064,8 +5603,9 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
-      "verwenden",
-      "Das Messer"
+      "können",
+      "Das Messer",
+      "aufwenden"
     ]
   },
   {
@@ -5074,8 +5614,9 @@
     "type": "modal",
     "score": 5,
     "vocab_refs": [
-      "überall",
+      "werden",
       "genießen",
+      "überall",
       "Der Frühling"
     ]
   },
@@ -5085,6 +5626,8 @@
     "type": "perfect",
     "score": 5,
     "vocab_refs": [
+      "haben",
+      "zeigen",
       "die Ironie"
     ]
   },
@@ -5094,7 +5637,8 @@
     "type": "nominative",
     "score": 5,
     "vocab_refs": [
-      "der Fotograf"
+      "der Fotograf",
+      "geben"
     ]
   },
   {
@@ -5103,10 +5647,11 @@
     "type": "comparative",
     "score": 5,
     "vocab_refs": [
-      "verschwenderisch",
-      "reichhaltig",
       "Der Hamster",
+      "reichhaltig",
       "Der Mensch",
+      "sein",
+      "verschwenderisch",
       "metaphorisch"
     ]
   },
@@ -5116,10 +5661,10 @@
     "type": "yn_question",
     "score": 5,
     "vocab_refs": [
-      "besuchen",
+      "müssen",
       "manchmal",
-      "der Buchhalter",
-      "müssen"
+      "besuchen",
+      "der Buchhalter"
     ]
   },
   {
@@ -5128,9 +5673,10 @@
     "type": "accusative",
     "score": 5,
     "vocab_refs": [
-      "glücklich",
       "sein",
-      "die Richtung"
+      "implizieren",
+      "die Richtung",
+      "glücklich"
     ]
   },
   {
@@ -5139,9 +5685,10 @@
     "type": "plural",
     "score": 5,
     "vocab_refs": [
+      "Das Jahr",
       "Die Suppe",
       "ähnlich",
-      "Das Jahr"
+      "schmecken"
     ]
   },
   {
@@ -5151,8 +5698,8 @@
     "score": 5,
     "vocab_refs": [
       "erneut",
-      "verwenden",
-      "das Puder"
+      "das Puder",
+      "aufwenden"
     ]
   },
   {
@@ -5162,9 +5709,9 @@
     "score": 5,
     "vocab_refs": [
       "hin",
+      "bauen",
       "Der Smoothie",
-      "normalerweise",
-      "bauen"
+      "normalerweise"
     ]
   },
   {
@@ -5173,10 +5720,10 @@
     "type": "separable",
     "score": 5,
     "vocab_refs": [
-      "das Verlangen",
-      "Die Zeit",
       "Der Kuchen",
-      "immer"
+      "immer",
+      "Die Zeit",
+      "das Verlangen"
     ]
   },
   {
@@ -5185,7 +5732,8 @@
     "type": "plural",
     "score": 5,
     "vocab_refs": [
-      "helfen"
+      "mithelfen",
+      "die Optikerin"
     ]
   },
   {
@@ -5195,7 +5743,8 @@
     "score": 5,
     "vocab_refs": [
       "die Regel",
-      "nicht"
+      "nicht",
+      "stimmen"
     ]
   },
   {
@@ -5204,8 +5753,9 @@
     "type": "accusative",
     "score": 5,
     "vocab_refs": [
-      "die Rezension",
-      "definitiv"
+      "definitiv",
+      "sein",
+      "die Rezension"
     ]
   },
   {
@@ -5215,7 +5765,8 @@
     "score": 5,
     "vocab_refs": [
       "der Horizont",
-      "weg"
+      "weg",
+      "zeigen"
     ]
   },
   {
@@ -5224,9 +5775,9 @@
     "type": "yn_question",
     "score": 5,
     "vocab_refs": [
+      "der Kompost",
       "sollen",
-      "verwenden",
-      "der Kompost"
+      "aufwenden"
     ]
   },
   {
@@ -5235,8 +5786,10 @@
     "type": "w_question",
     "score": 5,
     "vocab_refs": [
+      "der Krieg",
+      "aufkommen",
       "die Zusammenfassung",
-      "der Krieg"
+      "neu"
     ]
   },
   {
@@ -5245,12 +5798,12 @@
     "type": "accusative",
     "score": 5,
     "vocab_refs": [
-      "Die Erfahrung",
+      "nur",
       "können",
       "gewöhnlich",
-      "verstehen",
+      "Die Erfahrung",
       "Die Medizin",
-      "nur"
+      "verstehen"
     ]
   },
   {
@@ -5260,8 +5813,9 @@
     "score": 5,
     "vocab_refs": [
       "überdenken",
+      "Die Lösung",
       "die Windenergie",
-      "Die Lösung"
+      "zukunftsweisend"
     ]
   },
   {
@@ -5270,10 +5824,14 @@
     "type": "nominative",
     "score": 5,
     "vocab_refs": [
-      "Die Hoffnung",
+      "neu",
       "leben",
+      "geben",
+      "Die Hoffnung",
+      "die Autorin",
       "weg",
-      "die Autorin"
+      "zeigen",
+      "abschreiben"
     ]
   },
   {
@@ -5282,6 +5840,7 @@
     "type": "imperative",
     "score": 5,
     "vocab_refs": [
+      "warm",
       "Der Freund",
       "Das Wort",
       "trösten"
@@ -5294,8 +5853,10 @@
     "score": 5,
     "vocab_refs": [
       "Der Satz",
+      "beginnen",
+      "das Zitat",
       "haben",
-      "das Zitat"
+      "religiös"
     ]
   },
   {
@@ -5305,7 +5866,8 @@
     "score": 5,
     "vocab_refs": [
       "Die Medizin",
-      "Die Hand"
+      "Die Hand",
+      "halten"
     ]
   },
   {
@@ -5315,6 +5877,7 @@
     "score": 5,
     "vocab_refs": [
       "der Kommunismus",
+      "glauben",
       "Der Anhänger"
     ]
   },
@@ -5324,10 +5887,11 @@
     "type": "future",
     "score": 5,
     "vocab_refs": [
-      "mischen",
-      "die Forelle",
+      "der Aufschnitt",
+      "werden",
       "nicht",
-      "der Aufschnitt"
+      "mischen",
+      "die Forelle"
     ]
   },
   {
@@ -5336,9 +5900,11 @@
     "type": "perfect",
     "score": 5,
     "vocab_refs": [
-      "haben",
+      "sich ärgern",
+      "der Tsunami",
       "der Schaden",
-      "der Tsunami"
+      "anrichten",
+      "haben"
     ]
   },
   {
@@ -5347,8 +5913,8 @@
     "type": "modal",
     "score": 5,
     "vocab_refs": [
-      "nachprüfen",
-      "die Taxonomie"
+      "die Taxonomie",
+      "nachprüfen"
     ]
   },
   {
@@ -5357,8 +5923,9 @@
     "type": "accusative",
     "score": 5,
     "vocab_refs": [
+      "die Menschenwürde",
       "oft",
-      "die Menschenwürde"
+      "analysieren"
     ]
   },
   {
@@ -5367,8 +5934,9 @@
     "type": "perfect",
     "score": 5,
     "vocab_refs": [
-      "die Liste",
       "haben",
+      "aufschreiben",
+      "die Liste",
       "gestern"
     ]
   },
@@ -5378,9 +5946,9 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
+      "schnell",
       "Das Streichholz",
-      "das Feuer",
-      "schnell"
+      "das Feuer"
     ]
   },
   {
@@ -5399,7 +5967,8 @@
     "type": "genitive",
     "score": 5,
     "vocab_refs": [
-      "Der Vertrag"
+      "Der Vertrag",
+      "annullieren"
     ]
   },
   {
@@ -5409,6 +5978,7 @@
     "score": 5,
     "vocab_refs": [
       "die Raumstation",
+      "können",
       "Der Plan",
       "sich erinnern",
       "auch"
@@ -5420,9 +5990,10 @@
     "type": "future",
     "score": 5,
     "vocab_refs": [
+      "werden",
+      "die Rhetorik",
       "Der Künstler",
-      "imitieren",
-      "die Rhetorik"
+      "imitieren"
     ]
   },
   {
@@ -5431,11 +6002,11 @@
     "type": "separable",
     "score": 5,
     "vocab_refs": [
-      "mindern",
-      "anmerken",
       "der Nachteil",
       "werden",
-      "nachher"
+      "nachher",
+      "mindern",
+      "anmerken"
     ]
   },
   {
@@ -5444,9 +6015,9 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
-      "Der Tag",
       "daran",
-      "arbeiten"
+      "laborieren",
+      "Der Tag"
     ]
   },
   {
@@ -5466,8 +6037,9 @@
     "type": "future",
     "score": 5,
     "vocab_refs": [
-      "hauptsächlich",
+      "werden",
       "das Bogenschießen",
+      "hauptsächlich",
       "beobachten"
     ]
   },
@@ -5477,7 +6049,9 @@
     "type": "w_question",
     "score": 5,
     "vocab_refs": [
-      "Der Reis"
+      "Der Reis",
+      "reif",
+      "aufkommen"
     ]
   },
   {
@@ -5486,8 +6060,9 @@
     "type": "perfect",
     "score": 5,
     "vocab_refs": [
-      "haben",
-      "Das Papier"
+      "Das Papier",
+      "abwägen",
+      "haben"
     ]
   },
   {
@@ -5496,7 +6071,9 @@
     "type": "w_question",
     "score": 5,
     "vocab_refs": [
-      "Die Idee"
+      "Die Idee",
+      "motivierend",
+      "aufkommen"
     ]
   },
   {
@@ -5505,13 +6082,13 @@
     "type": "modal",
     "score": 5,
     "vocab_refs": [
-      "bleiben",
-      "unbedingt",
-      "können",
-      "ruhig",
-      "auch",
       "der Sieg",
-      "müssen"
+      "können",
+      "unbedingt",
+      "bleiben",
+      "ruhig",
+      "müssen",
+      "auch"
     ]
   },
   {
@@ -5520,7 +6097,9 @@
     "type": "plural",
     "score": 5,
     "vocab_refs": [
-      "Der Whisky"
+      "Der Whisky",
+      "enthalten",
+      "bezaubernd"
     ]
   },
   {
@@ -5529,9 +6108,9 @@
     "type": "accusative",
     "score": 5,
     "vocab_refs": [
-      "Der Satz",
+      "der Terrorismus",
       "Die Polizistin",
-      "der Terrorismus"
+      "Der Satz"
     ]
   },
   {
@@ -5540,11 +6119,11 @@
     "type": "future",
     "score": 5,
     "vocab_refs": [
-      "der Politiker",
-      "das Jahrhundert",
       "vergessen",
+      "werden",
       "nicht",
-      "werden"
+      "das Jahrhundert",
+      "der Politiker"
     ]
   },
   {
@@ -5554,7 +6133,8 @@
     "score": 5,
     "vocab_refs": [
       "gerade",
-      "Die Brücke"
+      "Die Brücke",
+      "befinden"
     ]
   },
   {
@@ -5563,9 +6143,11 @@
     "type": "imperative",
     "score": 5,
     "vocab_refs": [
-      "Die Insel",
+      "leiten",
       "Das Meer",
-      "die Gruppe"
+      "die Gruppe",
+      "bitten",
+      "Die Insel"
     ]
   },
   {
@@ -5574,6 +6156,7 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
+      "installieren",
       "der Akkord"
     ]
   },
@@ -5583,6 +6166,7 @@
     "type": "perfect",
     "score": 5,
     "vocab_refs": [
+      "abnehmen",
       "die Qualifikation"
     ]
   },
@@ -5593,9 +6177,11 @@
     "score": 5,
     "vocab_refs": [
       "das Smartphone",
-      "werden",
       "das Testing",
-      "sorgfältig"
+      "werden",
+      "müssen",
+      "sorgfältig",
+      "evaluieren"
     ]
   },
   {
@@ -5604,6 +6190,7 @@
     "type": "imperative",
     "score": 5,
     "vocab_refs": [
+      "bitten",
       "stellen"
     ]
   },
@@ -5614,8 +6201,10 @@
     "score": 5,
     "vocab_refs": [
       "Der Plan",
+      "ermüdet",
       "Die Kälte",
-      "ermüdet"
+      "einhalten",
+      "haben"
     ]
   },
   {
@@ -5624,9 +6213,9 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
-      "Der Fluss",
       "außerhalb",
-      "Das Tal"
+      "Das Tal",
+      "Der Fluss"
     ]
   },
   {
@@ -5635,8 +6224,9 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
-      "das Abenteuer",
-      "die Nichte"
+      "nehmen",
+      "die Nichte",
+      "das Abenteuer"
     ]
   },
   {
@@ -5645,8 +6235,9 @@
     "type": "future",
     "score": 5,
     "vocab_refs": [
-      "Der Nagel",
-      "überdies"
+      "werden",
+      "überdies",
+      "Der Nagel"
     ]
   },
   {
@@ -5655,8 +6246,9 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
+      "das Festival",
       "Der Vogel",
-      "das Festival"
+      "zubereiten"
     ]
   },
   {
@@ -5666,9 +6258,10 @@
     "score": 5,
     "vocab_refs": [
       "analysieren",
+      "die Muschel",
+      "rollen",
       "das Ökosystem",
-      "verstehen",
-      "die Muschel"
+      "verstehen"
     ]
   },
   {
@@ -5677,10 +6270,11 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
-      "Der Bär",
       "vorübergehend",
+      "Der Bär",
       "laut",
-      "der Dschungel"
+      "der Dschungel",
+      "stampfen"
     ]
   },
   {
@@ -5689,6 +6283,7 @@
     "type": "dative",
     "score": 5,
     "vocab_refs": [
+      "schenken",
       "die Oper",
       "Das Ticket"
     ]
@@ -5699,8 +6294,8 @@
     "type": "separable",
     "score": 5,
     "vocab_refs": [
-      "Das Wissen",
-      "Der Pullover"
+      "Der Pullover",
+      "Das Wissen"
     ]
   },
   {
@@ -5709,9 +6304,11 @@
     "type": "plural",
     "score": 5,
     "vocab_refs": [
-      "sorgfältig",
+      "überprüfen",
+      "werden",
+      "die Unterschrift",
       "müssen",
-      "werden"
+      "sorgfältig"
     ]
   },
   {
@@ -5720,11 +6317,12 @@
     "type": "comparative",
     "score": 5,
     "vocab_refs": [
-      "Die Zukunft",
+      "sein",
       "die Vorhersage",
+      "wirklich",
+      "Die Zukunft",
       "eigenständig",
-      "visualisieren",
-      "wirklich"
+      "visualisieren"
     ]
   },
   {
@@ -5733,8 +6331,9 @@
     "type": "plural",
     "score": 5,
     "vocab_refs": [
-      "Die Stadt",
-      "beliebt"
+      "sein",
+      "beliebt",
+      "Die Stadt"
     ]
   },
   {
@@ -5743,8 +6342,10 @@
     "type": "separable",
     "score": 5,
     "vocab_refs": [
-      "übergreifend",
-      "hin"
+      "wissen",
+      "hin",
+      "wirken",
+      "übergreifend"
     ]
   },
   {
@@ -5753,7 +6354,8 @@
     "type": "imperative",
     "score": 5,
     "vocab_refs": [
-      "zeigen"
+      "zeigen",
+      "realistisch"
     ]
   },
   {
@@ -5762,9 +6364,12 @@
     "type": "comparative",
     "score": 5,
     "vocab_refs": [
-      "sofort",
+      "die Ordnungszahl",
+      "werden",
       "detailliert",
-      "die Ordnungszahl"
+      "sofort",
+      "nachvollziehen",
+      "sein"
     ]
   },
   {
@@ -5773,10 +6378,12 @@
     "type": "plural",
     "score": 5,
     "vocab_refs": [
+      "werden",
       "Der Bericht",
-      "vertrauenswürdig",
+      "inkonsistent",
       "nicht",
-      "werden"
+      "vertrauenswürdig",
+      "finden"
     ]
   },
   {
@@ -5785,6 +6392,7 @@
     "type": "reflexive",
     "score": 5,
     "vocab_refs": [
+      "zählen",
       "immer"
     ]
   },
@@ -5794,9 +6402,9 @@
     "type": "modal",
     "score": 5,
     "vocab_refs": [
+      "aufdecken",
       "die Lieferkette",
-      "Der Polizist",
-      "aufdecken"
+      "Der Polizist"
     ]
   },
   {
@@ -5805,9 +6413,10 @@
     "type": "perfect",
     "score": 5,
     "vocab_refs": [
-      "sich ärgern",
-      "die Kontroverse",
-      "langfristig"
+      "haben",
+      "kontrovers",
+      "langfristig",
+      "sich ärgern"
     ]
   },
   {
@@ -5816,6 +6425,8 @@
     "type": "comparative",
     "score": 5,
     "vocab_refs": [
+      "sein",
+      "archaisch",
       "das Stereotyp"
     ]
   },
@@ -5825,12 +6436,12 @@
     "type": "perfect",
     "score": 5,
     "vocab_refs": [
-      "haben",
+      "aufbleiben",
+      "zulassen",
+      "das Ganze",
       "die Kopfschmerzen",
       "Die Nacht",
-      "aufbleiben",
-      "lassen",
-      "das Ganze"
+      "haben"
     ]
   },
   {
@@ -5839,7 +6450,7 @@
     "type": "accusative",
     "score": 5,
     "vocab_refs": [
-      "stärken",
+      "die Stärke",
       "gegenseitig"
     ]
   },
@@ -5858,10 +6469,12 @@
     "type": "preterite",
     "score": 5,
     "vocab_refs": [
+      "neu",
+      "vorne",
       "Der See",
       "die Familie",
       "Das Haus",
-      "vorne"
+      "bauen"
     ]
   },
   {
@@ -5870,8 +6483,9 @@
     "type": "preterite",
     "score": 5,
     "vocab_refs": [
+      "die Verteidigung",
       "fortwährend",
-      "die Verteidigung"
+      "partizipieren"
     ]
   },
   {
@@ -5889,10 +6503,10 @@
     "type": "separable",
     "score": 5,
     "vocab_refs": [
-      "das Sehen",
-      "brechen",
+      "neu",
       "das Konzept",
-      "neu"
+      "brechen",
+      "das Sehen"
     ]
   },
   {
@@ -5901,9 +6515,11 @@
     "type": "w_question",
     "score": 5,
     "vocab_refs": [
-      "Der Mann",
       "Das Seminar",
-      "der Sack"
+      "bringen",
+      "besuchen",
+      "der Sack",
+      "Der Mann"
     ]
   },
   {
@@ -5912,9 +6528,10 @@
     "type": "preterite",
     "score": 5,
     "vocab_refs": [
-      "ausnahmsweise",
       "öffentlich",
-      "das Denkmal"
+      "das Denkmal",
+      "ausnahmsweise",
+      "rückgängig machen"
     ]
   },
   {
@@ -5923,8 +6540,9 @@
     "type": "w_question",
     "score": 5,
     "vocab_refs": [
-      "der Reifenwechsel",
-      "der Vortrag"
+      "beginnen",
+      "der Vortrag",
+      "der Reifenwechsel"
     ]
   },
   {
@@ -5944,8 +6562,10 @@
     "score": 5,
     "vocab_refs": [
       "neu",
+      "widerlich",
       "Die Tür",
-      "widerlich"
+      "blau",
+      "wechseln"
     ]
   },
   {
@@ -5954,9 +6574,12 @@
     "type": "plural",
     "score": 5,
     "vocab_refs": [
+      "die Politik",
+      "lesen",
       "deshalb",
+      "interessieren",
       "immer",
-      "die Politik"
+      "haben"
     ]
   },
   {
@@ -5965,6 +6588,7 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
+      "verstecken",
       "Die Schachtel"
     ]
   },
@@ -5974,11 +6598,12 @@
     "type": "comparative",
     "score": 5,
     "vocab_refs": [
-      "wichtig",
-      "extrem",
-      "der Freihandel",
       "die Fairness",
-      "genauso"
+      "extrem",
+      "genauso",
+      "sein",
+      "wichtig",
+      "der Freihandel"
     ]
   },
   {
@@ -5987,10 +6612,12 @@
     "type": "plural",
     "score": 5,
     "vocab_refs": [
-      "grün",
       "können",
+      "grün",
+      "die Farbe",
       "rot",
-      "das Beispiel"
+      "das Beispiel",
+      "die Koralle"
     ]
   },
   {
@@ -5999,6 +6626,7 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
+      "neu",
       "testen"
     ]
   },
@@ -6009,7 +6637,8 @@
     "score": 5,
     "vocab_refs": [
       "die Fußgängerzone",
-      "der Rabbiner"
+      "der Rabbiner",
+      "machen"
     ]
   },
   {
@@ -6018,10 +6647,10 @@
     "type": "future",
     "score": 5,
     "vocab_refs": [
-      "benutzen",
-      "zuletzt",
+      "werden",
       "die Umleitung",
-      "werden"
+      "benutzen",
+      "zuletzt"
     ]
   },
   {
@@ -6030,9 +6659,9 @@
     "type": "imperative",
     "score": 5,
     "vocab_refs": [
-      "beraten",
       "ausführlich",
-      "der Rabbiner"
+      "der Rabbiner",
+      "beraten"
     ]
   },
   {
@@ -6041,7 +6670,9 @@
     "type": "preterite",
     "score": 5,
     "vocab_refs": [
-      "die Expansion"
+      "die Expansion",
+      "die Herausforderung",
+      "neu"
     ]
   },
   {
@@ -6059,7 +6690,8 @@
     "type": "accusative",
     "score": 5,
     "vocab_refs": [
-      "vorschlagen"
+      "vorschlagen",
+      "unreif"
     ]
   },
   {
@@ -6069,9 +6701,10 @@
     "score": 5,
     "vocab_refs": [
       "die Supernova",
+      "werden",
       "sofort",
-      "betrachten",
-      "werden"
+      "sein",
+      "betrachten"
     ]
   },
   {
@@ -6080,10 +6713,10 @@
     "type": "separable",
     "score": 5,
     "vocab_refs": [
-      "jetzt",
-      "entspannen",
       "halt",
-      "Der Garten"
+      "entspannen",
+      "Der Garten",
+      "jetzt"
     ]
   },
   {
@@ -6093,6 +6726,8 @@
     "score": 5,
     "vocab_refs": [
       "Die Künstlerin",
+      "nominiert",
+      "berichtigen",
       "die Zeitung"
     ]
   },
@@ -6102,6 +6737,7 @@
     "type": "accusative",
     "score": 5,
     "vocab_refs": [
+      "verlockend",
       "aufklären",
       "die Heuristik"
     ]
@@ -6124,9 +6760,9 @@
     "score": 5,
     "vocab_refs": [
       "intensiv",
-      "besuchen",
       "lernen",
-      "der Unterricht"
+      "der Unterricht",
+      "besuchen"
     ]
   },
   {
@@ -6135,6 +6771,7 @@
     "type": "future",
     "score": 5,
     "vocab_refs": [
+      "werden",
       "die Nichte",
       "beachten"
     ]
@@ -6145,9 +6782,10 @@
     "type": "accusative",
     "score": 5,
     "vocab_refs": [
-      "der Friseur",
+      "neu",
       "Der Besen",
-      "besorgt"
+      "besorgt",
+      "der Friseur"
     ]
   },
   {
@@ -6156,10 +6794,10 @@
     "type": "yn_question",
     "score": 5,
     "vocab_refs": [
-      "nichtsdestoweniger",
+      "müssen",
       "die Meinung",
-      "überdenken",
-      "müssen"
+      "nichtsdestoweniger",
+      "überdenken"
     ]
   },
   {
@@ -6168,8 +6806,9 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
+      "außergewöhnlich",
       "die Familie",
-      "außergewöhnlich"
+      "liebhaben"
     ]
   },
   {
@@ -6178,9 +6817,10 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
-      "Die Reise",
       "begleiten",
-      "die Astronautin"
+      "virtuell",
+      "die Astronautin",
+      "Die Reise"
     ]
   },
   {
@@ -6189,9 +6829,10 @@
     "type": "subclause",
     "score": 5,
     "vocab_refs": [
+      "sein",
       "korrekt",
-      "nicht",
-      "Das Problem"
+      "Das Problem",
+      "nicht"
     ]
   },
   {
@@ -6200,9 +6841,10 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
-      "langsam",
+      "intolerabel",
       "Die Verbindung",
-      "intolerabel"
+      "sein",
+      "langsam"
     ]
   },
   {
@@ -6211,9 +6853,9 @@
     "type": "plural",
     "score": 5,
     "vocab_refs": [
-      "verwenden",
+      "andererseits",
       "das Parfüm",
-      "andererseits"
+      "aufwenden"
     ]
   },
   {
@@ -6222,8 +6864,9 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
+      "Die Person",
       "kaum",
-      "Die Person"
+      "erschüttern"
     ]
   },
   {
@@ -6232,6 +6875,7 @@
     "type": "future",
     "score": 5,
     "vocab_refs": [
+      "werden",
       "Die Therapie",
       "beibringen"
     ]
@@ -6241,7 +6885,10 @@
     "english": "Who leads the coordination of the new project?",
     "type": "w_question",
     "score": 5,
-    "vocab_refs": []
+    "vocab_refs": [
+      "leiten",
+      "neu"
+    ]
   },
   {
     "german": "Können Sie den Prolog einblenden?",
@@ -6249,9 +6896,9 @@
     "type": "accusative",
     "score": 5,
     "vocab_refs": [
-      "können",
       "der Prolog",
-      "einblenden"
+      "einblenden",
+      "können"
     ]
   },
   {
@@ -6260,6 +6907,7 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
+      "widersprechen",
       "Der Künstler"
     ]
   },
@@ -6270,6 +6918,9 @@
     "score": 5,
     "vocab_refs": [
       "gut",
+      "sein",
+      "Das Foto",
+      "aufnehmen",
       "außergewöhnlich"
     ]
   },
@@ -6279,9 +6930,9 @@
     "type": "yn_question",
     "score": 5,
     "vocab_refs": [
-      "zeigen",
       "der Pfirsich",
-      "Der Vater"
+      "Der Vater",
+      "zeigen"
     ]
   },
   {
@@ -6290,7 +6941,10 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
-      "das Urteil"
+      "sein",
+      "beteiligen",
+      "das Urteil",
+      "einseitig"
     ]
   },
   {
@@ -6299,9 +6953,11 @@
     "type": "comparative",
     "score": 5,
     "vocab_refs": [
+      "hell",
+      "sein",
       "Die Nacht",
-      "Der Mond",
-      "der Komet"
+      "der Komet",
+      "Der Mond"
     ]
   },
   {
@@ -6310,8 +6966,9 @@
     "type": "w_question",
     "score": 5,
     "vocab_refs": [
+      "Das Geschäft",
       "Das Essen",
-      "Das Geschäft"
+      "die Erdnuss"
     ]
   },
   {
@@ -6321,7 +6978,9 @@
     "score": 5,
     "vocab_refs": [
       "Das Fenster",
-      "karg"
+      "sein",
+      "karg",
+      "gefallen"
     ]
   },
   {
@@ -6330,8 +6989,8 @@
     "type": "reflexive",
     "score": 5,
     "vocab_refs": [
-      "immer",
-      "wieder"
+      "wieder",
+      "immer"
     ]
   },
   {
@@ -6340,9 +6999,11 @@
     "type": "separable",
     "score": 5,
     "vocab_refs": [
-      "der Teil",
       "sicherlich",
-      "Das Gespräch"
+      "intellektuell",
+      "der Teil",
+      "Das Gespräch",
+      "nehmen"
     ]
   },
   {
@@ -6360,8 +7021,10 @@
     "type": "perfect",
     "score": 5,
     "vocab_refs": [
-      "der Monsun",
-      "Das Jahr"
+      "Das Jahr",
+      "haben",
+      "verursachen",
+      "der Monsun"
     ]
   },
   {
@@ -6370,6 +7033,7 @@
     "type": "separable",
     "score": 5,
     "vocab_refs": [
+      "finden",
       "das Rentensystem",
       "nirgends"
     ]
@@ -6380,10 +7044,10 @@
     "type": "modal",
     "score": 5,
     "vocab_refs": [
-      "die Relevanz",
-      "können",
       "wollen",
-      "nachrechnen"
+      "die Relevanz",
+      "nachrechnen",
+      "können"
     ]
   },
   {
@@ -6392,12 +7056,13 @@
     "type": "subclause",
     "score": 5,
     "vocab_refs": [
-      "Die Datei",
-      "Das Essen",
       "verzichten",
       "damit",
+      "Die Datei",
+      "laborieren",
+      "Das Essen",
       "Der Benutzer",
-      "arbeiten"
+      "senden"
     ]
   },
   {
@@ -6406,9 +7071,9 @@
     "type": "imperative",
     "score": 5,
     "vocab_refs": [
-      "Der Chip",
       "sich setzen",
-      "Das Gerät"
+      "Das Gerät",
+      "Der Chip"
     ]
   },
   {
@@ -6417,8 +7082,8 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
-      "Die Sprache",
-      "sprechen"
+      "sprechen",
+      "Die Sprache"
     ]
   },
   {
@@ -6427,6 +7092,7 @@
     "type": "w_question",
     "score": 5,
     "vocab_refs": [
+      "setzen",
       "die Notiz",
       "Der Code",
       "zusammen"
@@ -6439,7 +7105,8 @@
     "score": 5,
     "vocab_refs": [
       "der Roman",
-      "die Spannung"
+      "die Spannung",
+      "verfolgen"
     ]
   },
   {
@@ -6460,6 +7127,7 @@
     "score": 5,
     "vocab_refs": [
       "der Fall",
+      "orientieren",
       "Der Wald"
     ]
   },
@@ -6470,8 +7138,8 @@
     "score": 5,
     "vocab_refs": [
       "Das Essen",
-      "satt",
-      "Der Abend"
+      "Der Abend",
+      "satt"
     ]
   },
   {
@@ -6480,7 +7148,8 @@
     "type": "w_question",
     "score": 5,
     "vocab_refs": [
-      "die Bestandsaufnahme"
+      "die Bestandsaufnahme",
+      "aufwendig"
     ]
   },
   {
@@ -6489,8 +7158,10 @@
     "type": "comparative",
     "score": 5,
     "vocab_refs": [
-      "Der Vater",
-      "Die Cousine"
+      "sein",
+      "Die Cousine",
+      "nervös",
+      "Der Vater"
     ]
   },
   {
@@ -6500,7 +7171,8 @@
     "score": 5,
     "vocab_refs": [
       "singen",
-      "typischerweise"
+      "typischerweise",
+      "das Lied"
     ]
   },
   {
@@ -6509,6 +7181,7 @@
     "type": "perfect",
     "score": 5,
     "vocab_refs": [
+      "sein",
       "allein",
       "die Synagoge"
     ]
@@ -6520,6 +7193,8 @@
     "score": 5,
     "vocab_refs": [
       "Der Fuß",
+      "haben",
+      "beschädigen",
       "Der Unfall"
     ]
   },
@@ -6529,9 +7204,9 @@
     "type": "preterite",
     "score": 5,
     "vocab_refs": [
+      "Der Platz",
       "Die Bar",
-      "gemeinsam",
-      "Der Platz"
+      "gemeinsam"
     ]
   },
   {
@@ -6540,9 +7215,9 @@
     "type": "imperative",
     "score": 5,
     "vocab_refs": [
-      "Die Seide",
       "das Quadrat",
-      "ausschneiden"
+      "ausschneiden",
+      "Die Seide"
     ]
   },
   {
@@ -6552,6 +7227,7 @@
     "score": 5,
     "vocab_refs": [
       "die Branche",
+      "erkennen",
       "der Nutzen"
     ]
   },
@@ -6561,16 +7237,16 @@
     "type": "subclause",
     "score": 5,
     "vocab_refs": [
+      "daraufhin",
+      "überprüfen",
+      "Die Heizung",
       "die Creme",
       "erbitten",
-      "die Flüchtlinge",
-      "daraufhin",
-      "Die Heizung",
+      "sich verlassen",
+      "zulassen",
       "der Bezirk",
       "auslaufen",
-      "sich verlassen",
-      "lassen",
-      "überprüfen"
+      "die Flüchtlinge"
     ]
   },
   {
@@ -6579,10 +7255,11 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
-      "fröhlich",
+      "machen",
       "singen",
       "motivieren",
-      "machen"
+      "fröhlich",
+      "das Lied"
     ]
   },
   {
@@ -6591,10 +7268,11 @@
     "type": "comparative",
     "score": 5,
     "vocab_refs": [
-      "das Interesse",
-      "die Zeitschrift",
       "teuer",
+      "die Zeitschrift",
+      "sein",
       "unverhältnismäßig",
+      "das Interesse",
       "eingeschlossen"
     ]
   },
@@ -6604,8 +7282,11 @@
     "type": "accusative",
     "score": 5,
     "vocab_refs": [
+      "neu",
+      "schauen",
+      "Das Theater",
       "der Film",
-      "Das Theater"
+      "besuchen"
     ]
   },
   {
@@ -6614,8 +7295,9 @@
     "type": "w_question",
     "score": 5,
     "vocab_refs": [
-      "unscharf",
-      "Das Bild"
+      "sein",
+      "Das Bild",
+      "unscharf"
     ]
   },
   {
@@ -6624,9 +7306,11 @@
     "type": "comparative",
     "score": 5,
     "vocab_refs": [
-      "das Nordlicht",
-      "Der Abend",
       "heute",
+      "Der Abend",
+      "hell",
+      "das Nordlicht",
+      "sein",
       "gestern"
     ]
   },
@@ -6636,9 +7320,10 @@
     "type": "preterite",
     "score": 5,
     "vocab_refs": [
-      "die Energie",
       "Die Diskussion",
-      "während"
+      "kompliziert",
+      "während",
+      "die Energie"
     ]
   },
   {
@@ -6647,6 +7332,7 @@
     "type": "preterite",
     "score": 5,
     "vocab_refs": [
+      "unnötig",
       "leben",
       "das Gewicht"
     ]
@@ -6657,9 +7343,10 @@
     "type": "future",
     "score": 5,
     "vocab_refs": [
-      "portabel",
+      "werden",
       "das Saxofon",
-      "machen"
+      "machen",
+      "portabel"
     ]
   },
   {
@@ -6668,9 +7355,11 @@
     "type": "perfect",
     "score": 5,
     "vocab_refs": [
-      "die Rehabilitation",
+      "analysieren",
+      "die Wirtschaft",
+      "haben",
       "der Politologe",
-      "die Wirtschaft"
+      "die Rehabilitation"
     ]
   },
   {
@@ -6679,9 +7368,9 @@
     "type": "yn_question",
     "score": 5,
     "vocab_refs": [
-      "Der Zucker",
       "schlucken",
-      "anschließend"
+      "anschließend",
+      "Der Zucker"
     ]
   },
   {
@@ -6690,9 +7379,11 @@
     "type": "accusative",
     "score": 5,
     "vocab_refs": [
+      "Das Auge",
       "sofort",
+      "fühlen",
       "fallen",
-      "Das Auge"
+      "anziehen"
     ]
   },
   {
@@ -6701,8 +7392,10 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
-      "die Installation",
-      "Die Software"
+      "neu",
+      "benötigen",
+      "Die Software",
+      "die Installation"
     ]
   },
   {
@@ -6712,8 +7405,9 @@
     "score": 5,
     "vocab_refs": [
       "bleiben",
+      "Das Zimmer",
       "dennoch",
-      "Das Zimmer"
+      "fahren"
     ]
   },
   {
@@ -6723,7 +7417,9 @@
     "score": 5,
     "vocab_refs": [
       "der Durchbruch",
-      "bedingt"
+      "bedingt",
+      "sein",
+      "erklären"
     ]
   },
   {
@@ -6732,6 +7428,7 @@
     "type": "accusative",
     "score": 5,
     "vocab_refs": [
+      "bedauern",
       "der Antrag",
       "der Professor"
     ]
@@ -6742,10 +7439,13 @@
     "type": "perfect",
     "score": 5,
     "vocab_refs": [
-      "Der Freund",
-      "das Notizheft",
       "daran",
-      "kaufen"
+      "Der Freund",
+      "sich erinnern",
+      "das Notizheft",
+      "kaufen",
+      "haben",
+      "besuchen"
     ]
   },
   {
@@ -6754,10 +7454,14 @@
     "type": "separable",
     "score": 5,
     "vocab_refs": [
+      "neu",
       "Der Stoff",
+      "werden",
+      "technologisch",
+      "die Möglichkeit",
       "sein",
       "eröffnen",
-      "technologisch"
+      "fortschreiten"
     ]
   },
   {
@@ -6766,8 +7470,9 @@
     "type": "perfect",
     "score": 5,
     "vocab_refs": [
-      "haben",
+      "sich entscheiden",
       "absichtlich",
+      "haben",
       "der Feminismus"
     ]
   },
@@ -6777,9 +7482,9 @@
     "type": "w_question",
     "score": 5,
     "vocab_refs": [
-      "das Badminton",
+      "das Turnier",
       "sich bewerben",
-      "das Turnier"
+      "das Badminton"
     ]
   },
   {
@@ -6797,6 +7502,7 @@
     "type": "w_question",
     "score": 5,
     "vocab_refs": [
+      "beauftragen",
       "das Projekt"
     ]
   },
@@ -6806,6 +7512,7 @@
     "type": "genitive",
     "score": 5,
     "vocab_refs": [
+      "alt",
       "Die Lösung"
     ]
   },
@@ -6815,11 +7522,11 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
-      "zunächst",
-      "das Wandern",
       "wollen",
+      "zunächst",
       "einmal",
-      "genießen"
+      "genießen",
+      "das Wandern"
     ]
   },
   {
@@ -6828,9 +7535,11 @@
     "type": "plural",
     "score": 5,
     "vocab_refs": [
+      "die Telefonzelle",
+      "oft",
       "altmodisch",
-      "bräunlich",
-      "oft"
+      "sein",
+      "bräunlich"
     ]
   },
   {
@@ -6839,9 +7548,9 @@
     "type": "yn_question",
     "score": 5,
     "vocab_refs": [
+      "der Ausbau",
       "das Interesse",
-      "haben",
-      "der Ausbau"
+      "haben"
     ]
   },
   {
@@ -6851,6 +7560,7 @@
     "score": 5,
     "vocab_refs": [
       "die Aktualisierung",
+      "können",
       "manipulieren"
     ]
   },
@@ -6860,8 +7570,8 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
-      "klammern",
-      "die Ohrringe"
+      "die Ohrringe",
+      "klammern"
     ]
   },
   {
@@ -6870,9 +7580,10 @@
     "type": "imperative",
     "score": 5,
     "vocab_refs": [
-      "verstärken",
       "der Lippenstift",
-      "die Vorstellung"
+      "die Vorstellung",
+      "stellen",
+      "verstärken"
     ]
   },
   {
@@ -6881,10 +7592,11 @@
     "type": "perfect",
     "score": 5,
     "vocab_refs": [
-      "haben",
       "die Veränderung",
       "erreichen",
-      "das Volksbegehren"
+      "das Volksbegehren",
+      "einbringen",
+      "haben"
     ]
   },
   {
@@ -6893,7 +7605,11 @@
     "type": "dative",
     "score": 5,
     "vocab_refs": [
-      "die Psychologin"
+      "der Traum",
+      "die Psychologin",
+      "subtil",
+      "erklären",
+      "die Ursache"
     ]
   },
   {
@@ -6902,7 +7618,8 @@
     "type": "genitive",
     "score": 5,
     "vocab_refs": [
-      "die Ruhezone"
+      "die Ruhezone",
+      "fördern"
     ]
   },
   {
@@ -6911,10 +7628,12 @@
     "type": "perfect",
     "score": 5,
     "vocab_refs": [
-      "ausgeben",
       "Der Freund",
+      "das Parfüm",
+      "ausgeben",
       "die Briefmarke",
-      "das Parfüm"
+      "haben",
+      "senden"
     ]
   },
   {
@@ -6923,10 +7642,12 @@
     "type": "perfect",
     "score": 5,
     "vocab_refs": [
-      "Das Mädchen",
-      "manifestiert",
       "dadurch",
-      "Die Lösung"
+      "Die Lösung",
+      "manifestiert",
+      "haben",
+      "enttäuschen",
+      "Das Mädchen"
     ]
   },
   {
@@ -6935,10 +7656,11 @@
     "type": "dative",
     "score": 5,
     "vocab_refs": [
-      "sehr",
-      "die Mentalität",
       "gut",
-      "das Land"
+      "sehr",
+      "gefallen",
+      "das Land",
+      "die Mentalität"
     ]
   },
   {
@@ -6948,11 +7670,12 @@
     "score": 5,
     "vocab_refs": [
       "die Prognose",
+      "unterentwickelt",
       "zunehmend",
       "die Trauer",
-      "immer",
-      "unterentwickelt",
-      "noch"
+      "sein",
+      "noch",
+      "immer"
     ]
   },
   {
@@ -6961,10 +7684,11 @@
     "type": "dative",
     "score": 5,
     "vocab_refs": [
-      "der Kasten",
+      "die Säule",
       "stabil",
       "sein",
-      "die Säule"
+      "fehlen",
+      "der Kasten"
     ]
   },
   {
@@ -6973,9 +7697,11 @@
     "type": "genitive",
     "score": 5,
     "vocab_refs": [
+      "können",
+      "die Heuristik",
       "sehr",
       "sein",
-      "die Heuristik"
+      "erfahren"
     ]
   },
   {
@@ -6985,7 +7711,8 @@
     "score": 5,
     "vocab_refs": [
       "effektiv",
-      "das Teiler"
+      "das Teiler",
+      "räumen"
     ]
   },
   {
@@ -6994,9 +7721,9 @@
     "type": "future",
     "score": 5,
     "vocab_refs": [
-      "zusammenbrechen",
       "werden",
-      "mittags"
+      "mittags",
+      "zusammenbrechen"
     ]
   },
   {
@@ -7005,8 +7732,9 @@
     "type": "w_question",
     "score": 5,
     "vocab_refs": [
-      "die Industrie",
-      "das Wachstum"
+      "das Wachstum",
+      "misstrauen",
+      "die Industrie"
     ]
   },
   {
@@ -7016,7 +7744,8 @@
     "score": 5,
     "vocab_refs": [
       "Das Essen",
-      "Der Koch"
+      "Der Koch",
+      "liefern"
     ]
   },
   {
@@ -7025,12 +7754,14 @@
     "type": "nominative",
     "score": 4,
     "vocab_refs": [
-      "das Backup",
       "der Kegel",
-      "der Chor",
+      "wiederholt",
+      "können",
       "Der Vater",
       "mitlesen",
-      "wiederholt"
+      "der Chor",
+      "das Backup",
+      "ermahnen"
     ]
   },
   {
@@ -7040,8 +7771,9 @@
     "score": 5,
     "vocab_refs": [
       "sehr",
-      "Die Plattform",
-      "ausführlich"
+      "sein",
+      "ausführlich",
+      "Die Plattform"
     ]
   },
   {
@@ -7050,9 +7782,10 @@
     "type": "modal",
     "score": 5,
     "vocab_refs": [
-      "der Zustand",
       "der Bedarf",
-      "aufladen"
+      "können",
+      "aufladen",
+      "der Zustand"
     ]
   },
   {
@@ -7061,10 +7794,12 @@
     "type": "dative",
     "score": 5,
     "vocab_refs": [
+      "rechnen",
       "Der Sturm",
+      "Die Rechnung",
       "der Schaden",
       "sorgfältig",
-      "Die Rechnung"
+      "stellen"
     ]
   },
   {
@@ -7074,8 +7809,9 @@
     "score": 5,
     "vocab_refs": [
       "Das Essen",
-      "Das Brötchen",
-      "Die Butter"
+      "Die Butter",
+      "fragen",
+      "Das Brötchen"
     ]
   },
   {
@@ -7084,9 +7820,9 @@
     "type": "future",
     "score": 5,
     "vocab_refs": [
-      "verschließen",
       "Die Tür",
-      "werden"
+      "werden",
+      "verschließen"
     ]
   },
   {
@@ -7094,7 +7830,9 @@
     "english": "Despite the great ambition, they lost to the rival.",
     "type": "genitive",
     "score": 4,
-    "vocab_refs": []
+    "vocab_refs": [
+      "groß"
+    ]
   },
   {
     "german": "Warum blenden die Satelliten uns ab?",
@@ -7102,7 +7840,8 @@
     "type": "w_question",
     "score": 5,
     "vocab_refs": [
-      "blenden"
+      "blenden",
+      "der Satellit"
     ]
   },
   {
@@ -7112,9 +7851,11 @@
     "score": 5,
     "vocab_refs": [
       "Der Tisch",
-      "der Ökonom",
+      "der Kalender",
       "nicht",
-      "der Kalender"
+      "verallgemeinern",
+      "legen",
+      "der Ökonom"
     ]
   },
   {
@@ -7125,7 +7866,8 @@
     "vocab_refs": [
       "gefallen",
       "hier",
-      "nicht"
+      "nicht",
+      "aggressiv"
     ]
   },
   {
@@ -7134,6 +7876,8 @@
     "type": "perfect",
     "score": 5,
     "vocab_refs": [
+      "fahren",
+      "sein",
       "gleichwohl"
     ]
   },
@@ -7143,8 +7887,8 @@
     "type": "w_question",
     "score": 5,
     "vocab_refs": [
-      "gerne",
-      "einkaufen"
+      "einkaufen",
+      "gerne"
     ]
   },
   {
@@ -7153,8 +7897,9 @@
     "type": "accusative",
     "score": 5,
     "vocab_refs": [
-      "Der Satz",
-      "die Installation"
+      "verkürzen",
+      "die Installation",
+      "Der Satz"
     ]
   },
   {
@@ -7163,8 +7908,9 @@
     "type": "imperative",
     "score": 5,
     "vocab_refs": [
-      "das Thema",
-      "sprechen"
+      "sprechen",
+      "bekannt",
+      "das Thema"
     ]
   },
   {
@@ -7173,9 +7919,11 @@
     "type": "accusative",
     "score": 5,
     "vocab_refs": [
+      "die Klasse",
+      "leiten",
+      "sein",
       "der Freitag",
-      "Der Tag",
-      "die Klasse"
+      "Der Tag"
     ]
   },
   {
@@ -7185,8 +7933,10 @@
     "score": 5,
     "vocab_refs": [
       "das Gemälde",
+      "werden",
+      "künstlerisch",
       "überwiegend",
-      "künstlerisch"
+      "evaluieren"
     ]
   },
   {
@@ -7195,8 +7945,9 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
-      "der Ketchup",
-      "aufräumen"
+      "aufräumen",
+      "können",
+      "der Ketchup"
     ]
   },
   {
@@ -7205,9 +7956,10 @@
     "type": "perfect",
     "score": 5,
     "vocab_refs": [
-      "die Diskretion",
       "instinktiv",
-      "abgelehnt"
+      "abgelehnt",
+      "die Diskretion",
+      "haben"
     ]
   },
   {
@@ -7216,6 +7968,8 @@
     "type": "w_question",
     "score": 5,
     "vocab_refs": [
+      "programmieren",
+      "sozial",
       "Das Netzwerk"
     ]
   },
@@ -7226,8 +7980,8 @@
     "score": 5,
     "vocab_refs": [
       "der Tennis",
-      "das Meeting",
       "ablegen",
+      "das Meeting",
       "spielen"
     ]
   },
@@ -7237,9 +7991,11 @@
     "type": "plural",
     "score": 5,
     "vocab_refs": [
-      "offensichtlich",
+      "arm",
+      "die Disparität",
+      "sein",
       "reich",
-      "arm"
+      "offensichtlich"
     ]
   },
   {
@@ -7248,9 +8004,9 @@
     "type": "yn_question",
     "score": 5,
     "vocab_refs": [
-      "entfalten",
+      "das Treibhausgas",
       "müssen",
-      "das Treibhausgas"
+      "entfalten"
     ]
   },
   {
@@ -7259,10 +8015,12 @@
     "type": "plural",
     "score": 5,
     "vocab_refs": [
-      "verteilen",
       "demnach",
+      "verteilen",
+      "sein",
+      "müssen",
       "sorgfältig",
-      "müssen"
+      "die Ressource"
     ]
   },
   {
@@ -7271,10 +8029,11 @@
     "type": "future",
     "score": 5,
     "vocab_refs": [
-      "voraussagen",
+      "verändern",
+      "werden",
       "der Ausbau",
       "die Beziehung",
-      "verändern"
+      "voraussagen"
     ]
   },
   {
@@ -7283,7 +8042,8 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
-      "die Gleichung"
+      "die Gleichung",
+      "schätzen"
     ]
   },
   {
@@ -7292,10 +8052,10 @@
     "type": "separable",
     "score": 5,
     "vocab_refs": [
-      "seltener",
+      "Der Upload",
       "früher",
-      "vollenden",
-      "Der Upload"
+      "seltener",
+      "vollenden"
     ]
   },
   {
@@ -7304,8 +8064,8 @@
     "type": "modal",
     "score": 5,
     "vocab_refs": [
-      "mutieren",
-      "werden"
+      "werden",
+      "mutieren"
     ]
   },
   {
@@ -7314,10 +8074,12 @@
     "type": "subclause",
     "score": 5,
     "vocab_refs": [
-      "frei",
+      "bleiben",
       "Das Hähnchen",
-      "weg",
       "damit",
+      "weg",
+      "abwägen",
+      "frei",
       "Der Lauch",
       "Das Essen"
     ]
@@ -7328,8 +8090,9 @@
     "type": "w_question",
     "score": 5,
     "vocab_refs": [
-      "der Übersetzer",
-      "Die Woche"
+      "Die Woche",
+      "reißen",
+      "der Übersetzer"
     ]
   },
   {
@@ -7339,6 +8102,7 @@
     "score": 5,
     "vocab_refs": [
       "bügeln",
+      "bitten",
       "Das Hemd"
     ]
   },
@@ -7348,10 +8112,11 @@
     "type": "future",
     "score": 5,
     "vocab_refs": [
-      "reinigen",
-      "anders",
+      "verändern",
+      "werden",
       "die Abstraktion",
-      "verändern"
+      "anders",
+      "reinigen"
     ]
   },
   {
@@ -7360,6 +8125,7 @@
     "type": "accusative",
     "score": 5,
     "vocab_refs": [
+      "werden",
       "zeigen",
       "arm"
     ]
@@ -7370,8 +8136,9 @@
     "type": "w_question",
     "score": 5,
     "vocab_refs": [
-      "wichtig",
-      "das Bügeleisen"
+      "sein",
+      "das Bügeleisen",
+      "wichtig"
     ]
   },
   {
@@ -7380,7 +8147,9 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
-      "die Raststätte"
+      "wohnen",
+      "die Raststätte",
+      "begleiten"
     ]
   },
   {
@@ -7389,9 +8158,11 @@
     "type": "separable",
     "score": 5,
     "vocab_refs": [
-      "freuen",
+      "lang",
       "der Dienstag",
-      "Der Tag"
+      "sein",
+      "Der Tag",
+      "freuen"
     ]
   },
   {
@@ -7399,7 +8170,10 @@
     "english": "You refresh yourself with a drink after the stressful training.",
     "type": "reflexive",
     "score": 5,
-    "vocab_refs": []
+    "vocab_refs": [
+      "erfrischen",
+      "stressig"
+    ]
   },
   {
     "german": "Wo hinfällt der Volleyball nach dem Satz?",
@@ -7407,8 +8181,8 @@
     "type": "w_question",
     "score": 5,
     "vocab_refs": [
-      "Der Satz",
-      "der Volleyball"
+      "der Volleyball",
+      "Der Satz"
     ]
   },
   {
@@ -7417,10 +8191,10 @@
     "type": "modal",
     "score": 5,
     "vocab_refs": [
-      "vorläufig",
-      "zahlen",
+      "die Zahl",
       "vorhaben",
-      "können"
+      "können",
+      "vorläufig"
     ]
   },
   {
@@ -7429,8 +8203,10 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
-      "Das Auto",
-      "Das Licht"
+      "stoppen",
+      "Das Licht",
+      "rot",
+      "Das Auto"
     ]
   },
   {
@@ -7439,10 +8215,10 @@
     "type": "subclause",
     "score": 5,
     "vocab_refs": [
-      "halten",
-      "wichtig",
       "Die Wahrheit",
-      "nicht"
+      "wichtig",
+      "nicht",
+      "halten"
     ]
   },
   {
@@ -7452,8 +8228,8 @@
     "score": 5,
     "vocab_refs": [
       "der Commit",
-      "durchbrechen",
-      "machen"
+      "machen",
+      "durchbrechen"
     ]
   },
   {
@@ -7462,9 +8238,9 @@
     "type": "accusative",
     "score": 5,
     "vocab_refs": [
+      "fassen",
       "einzigartig",
-      "der September",
-      "fassen"
+      "der September"
     ]
   },
   {
@@ -7473,9 +8249,10 @@
     "type": "subclause",
     "score": 5,
     "vocab_refs": [
-      "der Unterschied",
+      "sein",
+      "unverzichtbar",
       "Das Wissen",
-      "unverzichtbar"
+      "der Unterschied"
     ]
   },
   {
@@ -7484,8 +8261,8 @@
     "type": "preterite",
     "score": 5,
     "vocab_refs": [
-      "der Antrag",
-      "die Krankenkasse"
+      "die Krankenkasse",
+      "der Antrag"
     ]
   },
   {
@@ -7495,6 +8272,8 @@
     "score": 5,
     "vocab_refs": [
       "die Ruhezone",
+      "sehen",
+      "drehen",
       "der Engel"
     ]
   },
@@ -7505,7 +8284,10 @@
     "score": 5,
     "vocab_refs": [
       "die Dynamik",
-      "Die Kollegin"
+      "beobachten",
+      "Die Kollegin",
+      "das Team",
+      "haben"
     ]
   },
   {
@@ -7514,6 +8296,8 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
+      "wichtig",
+      "geben",
       "das Etikett"
     ]
   },
@@ -7523,10 +8307,10 @@
     "type": "future",
     "score": 5,
     "vocab_refs": [
-      "der Zusammenhang",
+      "werden",
       "schenken",
-      "das Gänseblümchen",
-      "werden"
+      "der Zusammenhang",
+      "das Gänseblümchen"
     ]
   },
   {
@@ -7535,10 +8319,12 @@
     "type": "w_question",
     "score": 5,
     "vocab_refs": [
-      "haben",
-      "das Verhältnis",
+      "Der Erfolg",
       "der Regisseur",
-      "Der Erfolg"
+      "das Verhältnis",
+      "werden",
+      "haben",
+      "bestreben"
     ]
   },
   {
@@ -7547,9 +8333,9 @@
     "type": "accusative",
     "score": 5,
     "vocab_refs": [
+      "der Bedarf",
       "das Reiten",
-      "Das Pferd",
-      "der Bedarf"
+      "Das Pferd"
     ]
   },
   {
@@ -7558,7 +8344,10 @@
     "type": "yn_question",
     "score": 5,
     "vocab_refs": [
-      "das Festival"
+      "das Festival",
+      "der Moment",
+      "humorvoll",
+      "erzeugen"
     ]
   },
   {
@@ -7567,8 +8356,9 @@
     "type": "imperative",
     "score": 5,
     "vocab_refs": [
-      "nennen",
-      "die Digitalisierung"
+      "der Vorteil",
+      "die Digitalisierung",
+      "nennen"
     ]
   },
   {
@@ -7577,11 +8367,11 @@
     "type": "future",
     "score": 5,
     "vocab_refs": [
-      "verstehen",
-      "das Leid",
-      "nicht",
       "werden",
-      "wahrscheinlich"
+      "nicht",
+      "wahrscheinlich",
+      "das Leid",
+      "verstehen"
     ]
   },
   {
@@ -7590,8 +8380,9 @@
     "type": "w_question",
     "score": 5,
     "vocab_refs": [
-      "allein",
-      "die Führung"
+      "sein",
+      "die Führung",
+      "allein"
     ]
   },
   {
@@ -7600,9 +8391,11 @@
     "type": "modal",
     "score": 5,
     "vocab_refs": [
-      "der Politiker",
       "aufgreifen",
-      "müssen"
+      "das Thema",
+      "kontrovers",
+      "müssen",
+      "der Politiker"
     ]
   },
   {
@@ -7612,6 +8405,7 @@
     "score": 5,
     "vocab_refs": [
       "Der Preis",
+      "bedrohen",
       "die Wirtschaft"
     ]
   },
@@ -7621,8 +8415,9 @@
     "type": "plural",
     "score": 5,
     "vocab_refs": [
-      "sich entscheiden",
-      "rechtzeitig"
+      "komplex",
+      "rechtzeitig",
+      "sich entscheiden"
     ]
   },
   {
@@ -7631,9 +8426,11 @@
     "type": "comparative",
     "score": 5,
     "vocab_refs": [
-      "Das Museum",
       "der Vergleich",
-      "Das Jahr"
+      "Das Jahr",
+      "Das Museum",
+      "sein",
+      "besuchen"
     ]
   },
   {
@@ -7643,7 +8440,9 @@
     "score": 5,
     "vocab_refs": [
       "scannen",
-      "die Intelligenz"
+      "die Intelligenz",
+      "können",
+      "künstlich"
     ]
   },
   {
@@ -7652,8 +8451,9 @@
     "type": "w_question",
     "score": 5,
     "vocab_refs": [
+      "müssen",
       "verwalten",
-      "müssen"
+      "die Überweisung"
     ]
   },
   {
@@ -7662,11 +8462,13 @@
     "type": "subclause",
     "score": 5,
     "vocab_refs": [
-      "Die Musikerin",
-      "die Musik",
       "bereits",
-      "erringen",
+      "Die Musikerin",
+      "neu",
+      "die Musik",
       "die Aufmerksamkeit",
+      "präsentieren",
+      "erringen",
       "aufregend"
     ]
   },
@@ -7676,6 +8478,7 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
+      "enthalten",
       "das Schmelzwasser",
       "Die Tasse"
     ]
@@ -7687,8 +8490,10 @@
     "score": 5,
     "vocab_refs": [
       "erreichen",
+      "disharmonisch",
+      "weglassen",
       "die Intonation",
-      "weglassen"
+      "das Element"
     ]
   },
   {
@@ -7698,8 +8503,10 @@
     "score": 4,
     "vocab_refs": [
       "Der Bäcker",
+      "Der Kuchen",
       "fertigen",
-      "Der Kuchen"
+      "zeigen",
+      "imaginär"
     ]
   },
   {
@@ -7708,8 +8515,9 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
+      "greifbar",
       "die Gelegenheit",
-      "greifbar"
+      "liegen"
     ]
   },
   {
@@ -7718,8 +8526,9 @@
     "type": "genitive",
     "score": 5,
     "vocab_refs": [
-      "weise",
-      "bekannt"
+      "sein",
+      "bekannt",
+      "weise"
     ]
   },
   {
@@ -7728,6 +8537,8 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
+      "der Physiotherapeut",
+      "herbeiführen",
       "Die Frau",
       "Der Hof"
     ]
@@ -7738,9 +8549,10 @@
     "type": "accusative",
     "score": 5,
     "vocab_refs": [
-      "nachts",
       "Das Kind",
-      "Das Licht"
+      "Das Licht",
+      "knipsen",
+      "nachts"
     ]
   },
   {
@@ -7749,9 +8561,9 @@
     "type": "subclause",
     "score": 5,
     "vocab_refs": [
+      "werden",
       "der Priester",
       "das Umweltbewusstsein",
-      "werden",
       "aufmerksam"
     ]
   },
@@ -7761,8 +8573,10 @@
     "type": "future",
     "score": 5,
     "vocab_refs": [
-      "Der Lieferwagen",
+      "werden",
+      "sein",
       "erstaunlicherweise",
+      "Der Lieferwagen",
       "stinken"
     ]
   },
@@ -7772,8 +8586,8 @@
     "type": "perfect",
     "score": 5,
     "vocab_refs": [
-      "Der Plan",
       "haben",
+      "Der Plan",
       "nicht"
     ]
   },
@@ -7783,7 +8597,9 @@
     "type": "comparative",
     "score": 5,
     "vocab_refs": [
+      "legendär",
       "die Redewendung",
+      "sein",
       "die Lehre"
     ]
   },
@@ -7793,8 +8609,9 @@
     "type": "comparative",
     "score": 5,
     "vocab_refs": [
-      "die Situation",
-      "genauso"
+      "sein",
+      "genauso",
+      "die Situation"
     ]
   },
   {
@@ -7804,8 +8621,8 @@
     "score": 5,
     "vocab_refs": [
       "anschlagen",
-      "können",
       "der Spieler",
+      "können",
       "der Akkord"
     ]
   },
@@ -7815,7 +8632,9 @@
     "type": "comparative",
     "score": 5,
     "vocab_refs": [
-      "die Karte"
+      "sein",
+      "die Karte",
+      "regional"
     ]
   },
   {
@@ -7824,9 +8643,12 @@
     "type": "comparative",
     "score": 5,
     "vocab_refs": [
+      "komplex",
+      "werden",
+      "sein",
       "das Steuerrecht",
       "die Quantität",
-      "werden"
+      "müssen"
     ]
   },
   {
@@ -7835,10 +8657,13 @@
     "type": "nominative",
     "score": 4,
     "vocab_refs": [
+      "neu",
+      "geben",
       "Der Programmierer",
-      "die Daten",
       "Der Server",
-      "Der Code"
+      "die Daten",
+      "Der Code",
+      "liefern"
     ]
   },
   {
@@ -7848,6 +8673,7 @@
     "score": 5,
     "vocab_refs": [
       "ruhig",
+      "beobachten",
       "Der Park"
     ]
   },
@@ -7858,7 +8684,8 @@
     "score": 4,
     "vocab_refs": [
       "haben",
-      "Das Gefühl"
+      "Das Gefühl",
+      "frei"
     ]
   },
   {
@@ -7867,8 +8694,9 @@
     "type": "perfect",
     "score": 5,
     "vocab_refs": [
-      "die Neugier",
-      "erschrecken"
+      "haben",
+      "erschrecken",
+      "die Neugier"
     ]
   },
   {
@@ -7888,10 +8716,10 @@
     "type": "future",
     "score": 5,
     "vocab_refs": [
-      "verbinden",
-      "sorgfältig",
+      "die Architektur",
       "werden",
-      "die Architektur"
+      "verbinden",
+      "sorgfältig"
     ]
   },
   {
@@ -7900,8 +8728,11 @@
     "type": "plural",
     "score": 5,
     "vocab_refs": [
+      "die Emotion",
+      "trotzdem",
       "der Teil",
-      "trotzdem"
+      "sein",
+      "wichtig"
     ]
   },
   {
@@ -7910,7 +8741,8 @@
     "type": "accusative",
     "score": 5,
     "vocab_refs": [
-      "ordnen",
+      "die Ampulle",
+      "zuordnen",
       "sorgfältig"
     ]
   },
@@ -7930,9 +8762,9 @@
     "type": "yn_question",
     "score": 5,
     "vocab_refs": [
-      "abends",
       "der Durchbruch",
-      "besuchen"
+      "besuchen",
+      "abends"
     ]
   },
   {
@@ -7941,7 +8773,8 @@
     "type": "imperative",
     "score": 5,
     "vocab_refs": [
-      "Die Datenbank"
+      "Die Datenbank",
+      "treten"
     ]
   },
   {
@@ -7950,14 +8783,15 @@
     "type": "subclause",
     "score": 5,
     "vocab_refs": [
-      "das Vertrauen",
-      "ehrlich",
-      "auch",
       "manchmal",
-      "ganz",
       "Das Gefühl",
+      "ganz",
+      "erzählen",
       "nicht",
-      "müssen"
+      "ehrlich",
+      "das Vertrauen",
+      "müssen",
+      "auch"
     ]
   },
   {
@@ -7976,8 +8810,8 @@
     "type": "accusative",
     "score": 5,
     "vocab_refs": [
-      "der Umschlag",
-      "verstecken"
+      "verstecken",
+      "der Umschlag"
     ]
   },
   {
@@ -7986,9 +8820,10 @@
     "type": "comparative",
     "score": 5,
     "vocab_refs": [
+      "sein",
       "wichtig",
-      "der Export",
-      "die Implikation"
+      "die Implikation",
+      "der Export"
     ]
   },
   {
@@ -7997,10 +8832,12 @@
     "type": "future",
     "score": 5,
     "vocab_refs": [
-      "Die Zeit",
-      "die Meinung",
       "der Punkt",
-      "verlieren"
+      "die Meinung",
+      "Die Zeit",
+      "werden",
+      "verlieren",
+      "bringen"
     ]
   },
   {
@@ -8009,10 +8846,11 @@
     "type": "modal",
     "score": 5,
     "vocab_refs": [
-      "sagen",
-      "Der Ingenieur",
+      "sollen",
+      "anrufen",
       "mitkommen",
-      "anrufen"
+      "sagen",
+      "Der Ingenieur"
     ]
   },
   {
@@ -8021,6 +8859,8 @@
     "type": "perfect",
     "score": 5,
     "vocab_refs": [
+      "einarbeiten",
+      "romantisch",
       "der Aphorismus",
       "haben"
     ]
@@ -8031,9 +8871,9 @@
     "type": "yn_question",
     "score": 5,
     "vocab_refs": [
-      "die These",
+      "müssen",
       "umschreiben",
-      "müssen"
+      "die These"
     ]
   },
   {
@@ -8042,6 +8882,8 @@
     "type": "comparative",
     "score": 5,
     "vocab_refs": [
+      "sein",
+      "wichtig",
       "Die Wirbelsäule"
     ]
   },
@@ -8052,6 +8894,7 @@
     "score": 5,
     "vocab_refs": [
       "die Daten",
+      "diskutieren",
       "geheimnisvoll"
     ]
   },
@@ -8061,9 +8904,9 @@
     "type": "preterite",
     "score": 5,
     "vocab_refs": [
+      "der Regisseur",
       "die Handlung",
-      "die Wüste",
-      "der Regisseur"
+      "die Wüste"
     ]
   },
   {
@@ -8072,9 +8915,9 @@
     "type": "preterite",
     "score": 5,
     "vocab_refs": [
+      "schlucken",
       "Der Spinat",
-      "jedoch",
-      "schlucken"
+      "jedoch"
     ]
   },
   {
@@ -8082,7 +8925,11 @@
     "english": "Where the T-shirt is laid out depends on the circumstances.",
     "type": "w_question",
     "score": 5,
-    "vocab_refs": []
+    "vocab_refs": [
+      "werden",
+      "hängen",
+      "auslegen"
+    ]
   },
   {
     "german": "Wann wird das Paket geliefert?",
@@ -8090,7 +8937,9 @@
     "type": "w_question",
     "score": 5,
     "vocab_refs": [
-      "das Paket"
+      "werden",
+      "das Paket",
+      "liefern"
     ]
   },
   {
@@ -8099,8 +8948,8 @@
     "type": "yn_question",
     "score": 5,
     "vocab_refs": [
-      "öffentlich",
       "Die Journalistin",
+      "öffentlich",
       "müssen"
     ]
   },
@@ -8110,9 +8959,9 @@
     "type": "yn_question",
     "score": 5,
     "vocab_refs": [
+      "ausfüllen",
       "können",
-      "der Antrag",
-      "ausfüllen"
+      "der Antrag"
     ]
   },
   {
@@ -8121,11 +8970,11 @@
     "type": "future",
     "score": 5,
     "vocab_refs": [
-      "malen",
-      "der Witz",
       "können",
+      "werden",
+      "der Witz",
       "nicht",
-      "werden"
+      "malen"
     ]
   },
   {
@@ -8134,6 +8983,7 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
+      "sein",
       "der Podcast"
     ]
   },
@@ -8143,6 +8993,7 @@
     "type": "preterite",
     "score": 5,
     "vocab_refs": [
+      "reichen",
       "Das Geld",
       "Der Urlaub",
       "nicht"
@@ -8154,6 +9005,8 @@
     "type": "reflexive",
     "score": 5,
     "vocab_refs": [
+      "schützen",
+      "lang",
       "die Erschöpfung"
     ]
   },
@@ -8163,6 +9016,7 @@
     "type": "dative",
     "score": 5,
     "vocab_refs": [
+      "vereinigen",
       "Das Ziel"
     ]
   },
@@ -8175,7 +9029,8 @@
       "weitergeben",
       "grundsätzlich",
       "wollen",
-      "Das Buch"
+      "Das Buch",
+      "betrachten"
     ]
   },
   {
@@ -8184,6 +9039,7 @@
     "type": "comparative",
     "score": 5,
     "vocab_refs": [
+      "sein",
       "Die Freundin",
       "energiereich"
     ]
@@ -8203,9 +9059,11 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
-      "plötzlich",
+      "beseitigen",
+      "Der Garten",
       "Der Frost",
-      "Der Garten"
+      "die Kette",
+      "plötzlich"
     ]
   },
   {
@@ -8214,9 +9072,10 @@
     "type": "modal",
     "score": 5,
     "vocab_refs": [
+      "einräumen",
+      "werden",
       "die Niederlage",
-      "nicht",
-      "einräumen"
+      "nicht"
     ]
   },
   {
@@ -8225,10 +9084,10 @@
     "type": "future",
     "score": 5,
     "vocab_refs": [
-      "der Bundestag",
-      "werden",
       "drängen",
-      "der Wissenschaftler"
+      "werden",
+      "der Wissenschaftler",
+      "der Bundestag"
     ]
   },
   {
@@ -8237,9 +9096,10 @@
     "type": "future",
     "score": 5,
     "vocab_refs": [
+      "wahrscheinlich",
+      "werden",
       "Die Tradition",
-      "sich ändern",
-      "wahrscheinlich"
+      "sich ändern"
     ]
   },
   {
@@ -8248,9 +9108,9 @@
     "type": "reflexive",
     "score": 5,
     "vocab_refs": [
-      "morgens",
       "weg",
-      "machen"
+      "machen",
+      "morgens"
     ]
   },
   {
@@ -8259,8 +9119,11 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
+      "neu",
+      "etwas",
+      "forschen",
       "die Vorstellung",
-      "etwas"
+      "bemerken"
     ]
   },
   {
@@ -8269,8 +9132,13 @@
     "type": "plural",
     "score": 5,
     "vocab_refs": [
+      "neu",
+      "beenden",
+      "versuchen",
+      "die Methode",
       "anwenden",
-      "beenden"
+      "die Technologie",
+      "unordentlich"
     ]
   },
   {
@@ -8279,9 +9147,10 @@
     "type": "modal",
     "score": 5,
     "vocab_refs": [
-      "unberechtigt",
       "Die Entscheidung",
-      "erzwingen"
+      "müssen",
+      "erzwingen",
+      "unberechtigt"
     ]
   },
   {
@@ -8290,9 +9159,13 @@
     "type": "subclause",
     "score": 5,
     "vocab_refs": [
+      "können",
       "hungrig",
+      "anbraten",
+      "sein",
+      "lecker",
       "Das Essen",
-      "anbraten"
+      "verbessern"
     ]
   },
   {
@@ -8301,8 +9174,10 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
-      "bereichern",
-      "die Überführung"
+      "die Überführung",
+      "die Technologie",
+      "fortschrittlich",
+      "bereichern"
     ]
   },
   {
@@ -8311,9 +9186,12 @@
     "type": "perfect",
     "score": 5,
     "vocab_refs": [
+      "leider",
       "Die Tür",
+      "treten",
+      "sein",
       "Der Finger",
-      "leider"
+      "haben"
     ]
   },
   {
@@ -8322,7 +9200,8 @@
     "type": "imperative",
     "score": 5,
     "vocab_refs": [
-      "Der See"
+      "Der See",
+      "trösten"
     ]
   },
   {
@@ -8331,7 +9210,8 @@
     "type": "w_question",
     "score": 5,
     "vocab_refs": [
-      "zunächst"
+      "zunächst",
+      "garantieren"
     ]
   },
   {
@@ -8340,9 +9220,11 @@
     "type": "subclause",
     "score": 5,
     "vocab_refs": [
+      "hören",
+      "lebendig",
       "einzigartig",
       "der Dialekt",
-      "lebendig"
+      "begeistert"
     ]
   },
   {
@@ -8351,10 +9233,10 @@
     "type": "w_question",
     "score": 5,
     "vocab_refs": [
-      "pflanzen",
-      "zuletzt",
       "hin",
       "nicht",
+      "zuletzt",
+      "anpflanzen",
       "das Elektroauto"
     ]
   },
@@ -8365,8 +9247,8 @@
     "score": 5,
     "vocab_refs": [
       "der Diplomat",
-      "die Situation",
-      "klären"
+      "klären",
+      "die Situation"
     ]
   },
   {
@@ -8375,7 +9257,8 @@
     "type": "imperative",
     "score": 5,
     "vocab_refs": [
-      "die Ruhe"
+      "die Ruhe",
+      "entspannen"
     ]
   },
   {
@@ -8384,11 +9267,12 @@
     "type": "future",
     "score": 5,
     "vocab_refs": [
+      "neu",
       "zusammen",
-      "der Film",
-      "morgen",
+      "werden",
       "schauen",
-      "werden"
+      "morgen",
+      "der Film"
     ]
   },
   {
@@ -8397,6 +9281,7 @@
     "type": "dative",
     "score": 5,
     "vocab_refs": [
+      "streiten",
       "die Leistung",
       "nicht"
     ]
@@ -8407,12 +9292,14 @@
     "type": "subclause",
     "score": 5,
     "vocab_refs": [
-      "zeigen",
-      "bedeutungsvoll",
-      "der Freihandel",
-      "sein",
+      "manchmal",
+      "die Ziffer",
+      "können",
       "frustrierend",
-      "manchmal"
+      "sein",
+      "bedeutungsvoll",
+      "zeigen",
+      "der Freihandel"
     ]
   },
   {
@@ -8430,6 +9317,8 @@
     "type": "perfect",
     "score": 5,
     "vocab_refs": [
+      "finden",
+      "haben",
       "integriert"
     ]
   },
@@ -8439,7 +9328,8 @@
     "type": "preterite",
     "score": 5,
     "vocab_refs": [
-      "Die Zukunft"
+      "Die Zukunft",
+      "befinden"
     ]
   },
   {
@@ -8457,8 +9347,9 @@
     "type": "imperative",
     "score": 5,
     "vocab_refs": [
-      "die Bekannte",
       "der Rest",
+      "bekannt",
+      "bitten",
       "benachrichtigen"
     ]
   },
@@ -8468,9 +9359,11 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
+      "ungebildet",
       "fragen",
       "Der Kopf",
-      "ungebildet"
+      "sein",
+      "stellen"
     ]
   },
   {
@@ -8479,7 +9372,8 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
-      "die Motivation"
+      "die Motivation",
+      "bewältigen"
     ]
   },
   {
@@ -8488,8 +9382,9 @@
     "type": "genitive",
     "score": 5,
     "vocab_refs": [
-      "die Autobahn",
-      "der Stau"
+      "der Stau",
+      "verzögert",
+      "die Autobahn"
     ]
   },
   {
@@ -8498,9 +9393,10 @@
     "type": "accusative",
     "score": 5,
     "vocab_refs": [
+      "das Rennen",
       "haben",
       "der Zweifel",
-      "das Rennen"
+      "gewinnen"
     ]
   },
   {
@@ -8509,13 +9405,18 @@
     "type": "nominative",
     "score": 5,
     "vocab_refs": [
-      "einbringen",
+      "neu",
       "pünktlich",
-      "der Regisseur",
-      "die Reihe",
+      "können",
       "Der Preis",
-      "der Film",
-      "Die Uhr"
+      "der Regisseur",
+      "werden",
+      "beginnen",
+      "Die Uhr",
+      "die Reihe",
+      "präsentieren",
+      "einbringen",
+      "der Film"
     ]
   },
   {
@@ -8524,7 +9425,9 @@
     "type": "perfect",
     "score": 5,
     "vocab_refs": [
-      "Die Information"
+      "Die Information",
+      "haben",
+      "übermitteln"
     ]
   },
   {
@@ -8533,11 +9436,13 @@
     "type": "nominative",
     "score": 4,
     "vocab_refs": [
-      "Der Mann",
       "Der Tisch",
-      "Die Frau",
+      "gießen",
+      "Der Kaffee",
+      "tippen",
       "die Karte",
-      "Der Kaffee"
+      "Die Frau",
+      "Der Mann"
     ]
   },
   {
@@ -8547,8 +9452,8 @@
     "score": 5,
     "vocab_refs": [
       "der Handel",
-      "können",
       "gestalten",
+      "können",
       "nachhaltig"
     ]
   },
@@ -8558,6 +9463,7 @@
     "type": "w_question",
     "score": 5,
     "vocab_refs": [
+      "glauben",
       "Die Hoffnung"
     ]
   },
@@ -8567,8 +9473,10 @@
     "type": "plural",
     "score": 5,
     "vocab_refs": [
-      "oft",
       "begründen",
+      "die Pflicht",
+      "oft",
+      "unpünktlich",
       "Der Schüler"
     ]
   },
@@ -8578,8 +9486,9 @@
     "type": "future",
     "score": 5,
     "vocab_refs": [
-      "arbeiten",
-      "dauerhaft"
+      "werden",
+      "dauerhaft",
+      "laborieren"
     ]
   },
   {
@@ -8588,9 +9497,11 @@
     "type": "accusative",
     "score": 5,
     "vocab_refs": [
+      "das Instrument",
       "der Chirurg",
       "Der Nagel",
-      "das Instrument"
+      "ergreifen",
+      "spitz"
     ]
   },
   {
@@ -8600,8 +9511,9 @@
     "score": 5,
     "vocab_refs": [
       "das Symbol",
-      "chaotisch",
-      "Die Wand"
+      "Die Wand",
+      "hängen",
+      "chaotisch"
     ]
   },
   {
@@ -8610,11 +9522,12 @@
     "type": "modal",
     "score": 5,
     "vocab_refs": [
+      "duschen",
       "Der Wasserhahn",
-      "ausschalten",
-      "während",
       "dürfen",
-      "nicht"
+      "nicht",
+      "während",
+      "ausschalten"
     ]
   },
   {
@@ -8625,6 +9538,7 @@
     "vocab_refs": [
       "Der Verband",
       "absichtlich",
+      "haben",
       "nicht"
     ]
   },
@@ -8644,6 +9558,8 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
+      "beruhigen",
+      "unstrukturiert",
       "die Situation"
     ]
   },
@@ -8653,9 +9569,10 @@
     "type": "perfect",
     "score": 5,
     "vocab_refs": [
-      "das Notizheft",
       "mindestens",
-      "der Kreis"
+      "der Kreis",
+      "haben",
+      "das Notizheft"
     ]
   },
   {
@@ -8665,6 +9582,7 @@
     "score": 5,
     "vocab_refs": [
       "der Kellner",
+      "geben",
       "Der Gast",
       "Der Teller"
     ]
@@ -8675,9 +9593,9 @@
     "type": "yn_question",
     "score": 5,
     "vocab_refs": [
-      "zumachen",
       "müssen",
-      "das Denkmal"
+      "das Denkmal",
+      "zumachen"
     ]
   },
   {
@@ -8687,6 +9605,7 @@
     "score": 5,
     "vocab_refs": [
       "blühend",
+      "beeinflussen",
       "die Psychologie",
       "progressiv"
     ]
@@ -8697,8 +9616,8 @@
     "type": "modal",
     "score": 5,
     "vocab_refs": [
-      "unterstreichen",
-      "Das Essen"
+      "Das Essen",
+      "unterstreichen"
     ]
   },
   {
@@ -8707,10 +9626,11 @@
     "type": "modal",
     "score": 5,
     "vocab_refs": [
-      "die Mehrheit",
+      "geben",
       "können",
+      "nicht",
       "abstimmen",
-      "nicht"
+      "die Mehrheit"
     ]
   },
   {
@@ -8719,8 +9639,8 @@
     "type": "imperative",
     "score": 5,
     "vocab_refs": [
-      "werden",
       "bodenständig",
+      "werden",
       "stets"
     ]
   },
@@ -8732,7 +9652,9 @@
     "vocab_refs": [
       "die Zone",
       "die Heuristik",
-      "Die Lösung"
+      "Die Lösung",
+      "setzen",
+      "erwarten"
     ]
   },
   {
@@ -8741,8 +9663,8 @@
     "type": "imperative",
     "score": 5,
     "vocab_refs": [
-      "Das Licht",
-      "heben"
+      "heben",
+      "Das Licht"
     ]
   },
   {
@@ -8751,6 +9673,7 @@
     "type": "comparative",
     "score": 5,
     "vocab_refs": [
+      "sein",
       "groß",
       "die Dimension"
     ]
@@ -8761,10 +9684,10 @@
     "type": "subclause",
     "score": 5,
     "vocab_refs": [
-      "kontrollieren",
-      "die Scheidung",
       "dramatisch",
-      "der Spieler"
+      "der Spieler",
+      "kontrollieren",
+      "die Scheidung"
     ]
   },
   {
@@ -8773,9 +9696,11 @@
     "type": "perfect",
     "score": 5,
     "vocab_refs": [
+      "aufschreiben",
+      "sprechen",
+      "die Silbe",
       "haben",
-      "laut",
-      "die Silbe"
+      "laut"
     ]
   },
   {
@@ -8784,9 +9709,9 @@
     "type": "separable",
     "score": 5,
     "vocab_refs": [
+      "gelegentlich",
       "herunterladen",
       "das Konto",
-      "gelegentlich",
       "überprüfen"
     ]
   },
@@ -8797,8 +9722,8 @@
     "score": 5,
     "vocab_refs": [
       "Der Freund",
-      "Die Hilfe",
-      "annehmen"
+      "annehmen",
+      "Die Hilfe"
     ]
   },
   {
@@ -8808,8 +9733,8 @@
     "score": 5,
     "vocab_refs": [
       "immer",
-      "spielen",
-      "die Spinne"
+      "die Spinne",
+      "spielen"
     ]
   },
   {
@@ -8818,8 +9743,8 @@
     "type": "dative",
     "score": 5,
     "vocab_refs": [
-      "das Fazit",
-      "Die Hand"
+      "Die Hand",
+      "das Fazit"
     ]
   },
   {
@@ -8828,6 +9753,7 @@
     "type": "accusative",
     "score": 5,
     "vocab_refs": [
+      "berichtigen",
       "die Ernährung"
     ]
   },
@@ -8847,10 +9773,10 @@
     "type": "comparative",
     "score": 5,
     "vocab_refs": [
-      "lächeln",
-      "Die Verkäuferin",
+      "freundlich",
       "souverän",
-      "freundlich"
+      "Die Verkäuferin",
+      "lächeln"
     ]
   },
   {
@@ -8859,9 +9785,11 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
-      "merkwürdigerweise",
       "der Kompass",
-      "das Ganze"
+      "dauern",
+      "finden",
+      "das Ganze",
+      "merkwürdigerweise"
     ]
   },
   {
@@ -8870,9 +9798,10 @@
     "type": "yn_question",
     "score": 5,
     "vocab_refs": [
-      "bestimmt",
       "Die Universität",
-      "Der Aufzug"
+      "abgehen",
+      "Der Aufzug",
+      "bestimmt"
     ]
   },
   {
@@ -8881,8 +9810,11 @@
     "type": "separable",
     "score": 5,
     "vocab_refs": [
-      "bestimmt",
-      "das Parlament"
+      "das Parlament",
+      "neu",
+      "kodifizieren",
+      "das Gesetz",
+      "bestimmt"
     ]
   },
   {
@@ -8891,9 +9823,13 @@
     "type": "subclause",
     "score": 5,
     "vocab_refs": [
-      "Das Wissen",
+      "unterscheiden",
       "das Verständnis",
-      "die Urbanisierung"
+      "lieben",
+      "typisch",
+      "die Urbanisierung",
+      "die Ansicht",
+      "Das Wissen"
     ]
   },
   {
@@ -8902,10 +9838,11 @@
     "type": "accusative",
     "score": 5,
     "vocab_refs": [
-      "grün",
-      "Die Zunge",
       "organisch",
-      "wohlgemerkt"
+      "grün",
+      "sein",
+      "wohlgemerkt",
+      "Die Zunge"
     ]
   },
   {
@@ -8914,8 +9851,10 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
-      "kommen",
-      "Der Sturm"
+      "groß",
+      "können",
+      "Der Sturm",
+      "aufkommen"
     ]
   },
   {
@@ -8924,6 +9863,7 @@
     "type": "genitive",
     "score": 5,
     "vocab_refs": [
+      "prägen",
       "die Geschichte"
     ]
   },
@@ -8943,7 +9883,10 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
-      "der Anstieg"
+      "die Primzahl",
+      "entspringen",
+      "der Anstieg",
+      "komplex"
     ]
   },
   {
@@ -8952,7 +9895,8 @@
     "type": "accusative",
     "score": 5,
     "vocab_refs": [
-      "erschrecken"
+      "erschrecken",
+      "betrunken"
     ]
   },
   {
@@ -8961,9 +9905,11 @@
     "type": "accusative",
     "score": 5,
     "vocab_refs": [
-      "anheben",
+      "können",
+      "nicht",
+      "sein",
       "schwer",
-      "nicht"
+      "anheben"
     ]
   },
   {
@@ -8972,9 +9918,11 @@
     "type": "comparative",
     "score": 5,
     "vocab_refs": [
-      "Der Mann",
+      "richten",
+      "haben",
       "richtig",
-      "Das Problem"
+      "Das Problem",
+      "Der Mann"
     ]
   },
   {
@@ -8983,8 +9931,8 @@
     "type": "imperative",
     "score": 5,
     "vocab_refs": [
-      "besinnen",
-      "der Wissenschaftler"
+      "der Wissenschaftler",
+      "besinnen"
     ]
   },
   {
@@ -8993,9 +9941,9 @@
     "type": "separable",
     "score": 5,
     "vocab_refs": [
-      "gemeinsam",
+      "diskutieren",
       "das Thema",
-      "diskutieren"
+      "gemeinsam"
     ]
   },
   {
@@ -9004,8 +9952,9 @@
     "type": "accusative",
     "score": 5,
     "vocab_refs": [
-      "der Anstieg",
-      "die Krise"
+      "sprechen",
+      "die Krise",
+      "der Anstieg"
     ]
   },
   {
@@ -9023,11 +9972,13 @@
     "type": "subclause",
     "score": 5,
     "vocab_refs": [
-      "Die Landschaft",
-      "fotografieren",
+      "fantastisch",
+      "die Fotografin",
       "deshalb",
+      "Die Landschaft",
       "danach",
-      "die Fotografin"
+      "sehnen",
+      "fotografieren"
     ]
   },
   {
@@ -9036,7 +9987,8 @@
     "type": "w_question",
     "score": 5,
     "vocab_refs": [
-      "Die Strategie"
+      "Die Strategie",
+      "kommunizieren"
     ]
   },
   {
@@ -9045,6 +9997,7 @@
     "type": "future",
     "score": 5,
     "vocab_refs": [
+      "werden",
       "zurechtfinden",
       "der Grundriss"
     ]
@@ -9055,9 +10008,11 @@
     "type": "dative",
     "score": 5,
     "vocab_refs": [
-      "Der Mann",
+      "alt",
+      "fehlen",
+      "weitermachen",
       "der Wille",
-      "weitermachen"
+      "Der Mann"
     ]
   },
   {
@@ -9066,6 +10021,7 @@
     "type": "accusative",
     "score": 5,
     "vocab_refs": [
+      "drohen",
       "die Skulptur"
     ]
   },
@@ -9075,10 +10031,11 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
+      "sein",
+      "unbequem",
       "das Holz",
       "anfassen",
-      "kalt",
-      "unbequem"
+      "kalt"
     ]
   },
   {
@@ -9087,9 +10044,9 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
-      "Die Reise",
+      "ansparen",
       "Das Geld",
-      "ansparen"
+      "Die Reise"
     ]
   },
   {
@@ -9098,7 +10055,10 @@
     "type": "nominative",
     "score": 5,
     "vocab_refs": [
+      "geben",
+      "kaufen",
       "Das Kind",
+      "haben",
       "Die Frau",
       "der Geburtstag"
     ]
@@ -9119,8 +10079,8 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
-      "verstehen",
-      "der Rückgabewert"
+      "der Rückgabewert",
+      "verstehen"
     ]
   },
   {
@@ -9129,11 +10089,15 @@
     "type": "subclause",
     "score": 5,
     "vocab_refs": [
-      "erfüllen",
-      "weiß",
       "die Vorschrift",
+      "weiß",
+      "werden",
+      "erfüllen",
+      "sein",
       "Die Lösung",
-      "sein"
+      "erholsam",
+      "beteiligen",
+      "bestreben"
     ]
   },
   {
@@ -9142,8 +10106,9 @@
     "type": "accusative",
     "score": 5,
     "vocab_refs": [
-      "das Klischee",
-      "oft"
+      "sehen",
+      "oft",
+      "das Klischee"
     ]
   },
   {
@@ -9152,6 +10117,8 @@
     "type": "preterite",
     "score": 5,
     "vocab_refs": [
+      "sein",
+      "legen",
       "das Bewusstsein",
       "allmählich",
       "Die Hardware"
@@ -9163,8 +10130,9 @@
     "type": "w_question",
     "score": 5,
     "vocab_refs": [
+      "der Bahnausbau",
       "Die Hilfe",
-      "der Bahnausbau"
+      "aufkommen"
     ]
   },
   {
@@ -9174,9 +10142,9 @@
     "score": 5,
     "vocab_refs": [
       "wichtig",
-      "der Gegensatz",
-      "lernen",
       "behaupten",
+      "lernen",
+      "der Gegensatz",
       "Der Schüler"
     ]
   },
@@ -9186,8 +10154,10 @@
     "type": "accusative",
     "score": 5,
     "vocab_refs": [
-      "Die Reise",
-      "während"
+      "während",
+      "lang",
+      "langweilen",
+      "Die Reise"
     ]
   },
   {
@@ -9196,7 +10166,9 @@
     "type": "w_question",
     "score": 5,
     "vocab_refs": [
-      "die Geburt"
+      "sein",
+      "die Geburt",
+      "planen"
     ]
   },
   {
@@ -9205,8 +10177,10 @@
     "type": "reflexive",
     "score": 5,
     "vocab_refs": [
-      "Die Strategie",
       "erfolgreich",
+      "adaptiv",
+      "Die Strategie",
+      "haben",
       "die Bank"
     ]
   },
@@ -9216,8 +10190,9 @@
     "type": "w_question",
     "score": 5,
     "vocab_refs": [
-      "die Technologie",
-      "beaufsichtigen"
+      "neu",
+      "beaufsichtigen",
+      "die Technologie"
     ]
   },
   {
@@ -9227,6 +10202,7 @@
     "score": 5,
     "vocab_refs": [
       "geradewegs",
+      "abgehen",
       "das Meeting"
     ]
   },
@@ -9237,9 +10213,10 @@
     "score": 5,
     "vocab_refs": [
       "auswerten",
-      "wichtig",
       "sehr",
-      "die Statistik"
+      "sein",
+      "die Statistik",
+      "wichtig"
     ]
   },
   {
@@ -9249,6 +10226,7 @@
     "score": 5,
     "vocab_refs": [
       "drohen",
+      "der Konflikt",
       "leider"
     ]
   },
@@ -9258,7 +10236,8 @@
     "type": "w_question",
     "score": 5,
     "vocab_refs": [
-      "Der Essig"
+      "Der Essig",
+      "aufkommen"
     ]
   },
   {
@@ -9267,8 +10246,9 @@
     "type": "dative",
     "score": 5,
     "vocab_refs": [
-      "regeln",
-      "getrennt"
+      "getrennt",
+      "die Regel",
+      "erklären"
     ]
   },
   {
@@ -9277,6 +10257,7 @@
     "type": "yn_question",
     "score": 5,
     "vocab_refs": [
+      "besuchen",
       "Das Theater"
     ]
   },
@@ -9287,8 +10268,8 @@
     "score": 5,
     "vocab_refs": [
       "beschäftigt",
-      "zuletzt",
-      "nicht"
+      "nicht",
+      "zuletzt"
     ]
   },
   {
@@ -9297,10 +10278,10 @@
     "type": "modal",
     "score": 5,
     "vocab_refs": [
+      "einlösen",
       "der Ausbruch",
-      "können",
       "zusammenarbeiten",
-      "lösen"
+      "können"
     ]
   },
   {
@@ -9309,8 +10290,10 @@
     "type": "genitive",
     "score": 5,
     "vocab_refs": [
-      "oft",
-      "die Hauptstadt"
+      "sein",
+      "die Hauptstadt",
+      "wichtig",
+      "oft"
     ]
   },
   {
@@ -9320,9 +10303,11 @@
     "score": 5,
     "vocab_refs": [
       "leidend",
-      "sein",
       "die Minderheit",
-      "nicht"
+      "dazugehören",
+      "werden",
+      "nicht",
+      "sein"
     ]
   },
   {
@@ -9331,9 +10316,10 @@
     "type": "perfect",
     "score": 5,
     "vocab_refs": [
-      "diskriminierend",
       "haben",
-      "Der Saft"
+      "kaufen",
+      "Der Saft",
+      "diskriminierend"
     ]
   },
   {
@@ -9342,12 +10328,12 @@
     "type": "plural",
     "score": 5,
     "vocab_refs": [
-      "Der Mitarbeiter",
-      "gerne",
       "können",
+      "Der Mitarbeiter",
+      "erklären",
       "die Dialektik",
-      "die Masterarbeit",
-      "erklären"
+      "gerne",
+      "die Masterarbeit"
     ]
   },
   {
@@ -9356,10 +10342,12 @@
     "type": "subclause",
     "score": 5,
     "vocab_refs": [
-      "Der Lehrer",
-      "sich verlassen",
-      "der Unterricht",
+      "beginnen",
       "die Klasse",
+      "sich verlassen",
+      "Der Lehrer",
+      "haben",
+      "der Unterricht",
       "Das Problem"
     ]
   },
@@ -9369,10 +10357,11 @@
     "type": "future",
     "score": 5,
     "vocab_refs": [
+      "machen",
       "der Kompromiss",
+      "werden",
       "Die Verkäuferin",
-      "schnell",
-      "machen"
+      "schnell"
     ]
   },
   {
@@ -9382,8 +10371,8 @@
     "score": 5,
     "vocab_refs": [
       "sehr",
-      "oft",
       "der Dramatiker",
+      "oft",
       "expressiv"
     ]
   },
@@ -9393,6 +10382,8 @@
     "type": "comparative",
     "score": 5,
     "vocab_refs": [
+      "effektiv",
+      "ermöglichen",
       "konzentrieren"
     ]
   },
@@ -9402,8 +10393,9 @@
     "type": "imperative",
     "score": 5,
     "vocab_refs": [
-      "zeigen",
-      "das Werk"
+      "interessant",
+      "das Werk",
+      "zeigen"
     ]
   },
   {
@@ -9412,9 +10404,9 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
-      "Das Geld",
+      "der Beamer",
       "regelmäßig",
-      "der Beamer"
+      "Das Geld"
     ]
   },
   {
@@ -9423,7 +10415,8 @@
     "type": "imperative",
     "score": 5,
     "vocab_refs": [
-      "sich melden"
+      "sich melden",
+      "bitten"
     ]
   },
   {
@@ -9432,8 +10425,10 @@
     "type": "accusative",
     "score": 5,
     "vocab_refs": [
-      "zeigen",
-      "die Karte"
+      "die Karte",
+      "können",
+      "bitten",
+      "zeigen"
     ]
   },
   {
@@ -9443,8 +10438,9 @@
     "score": 5,
     "vocab_refs": [
       "Die Aufgabe",
+      "misslingen",
       "nicht",
-      "misslingen"
+      "dürfen"
     ]
   },
   {
@@ -9453,12 +10449,14 @@
     "type": "nominative",
     "score": 5,
     "vocab_refs": [
+      "die Chronologie",
+      "Das Hemd",
       "der Ketchup",
       "Der Freund",
+      "zeigen",
       "der Verweis",
-      "die Chronologie",
-      "Das Mädchen",
-      "Das Hemd"
+      "erklären",
+      "Das Mädchen"
     ]
   },
   {
@@ -9476,8 +10474,10 @@
     "type": "modal",
     "score": 5,
     "vocab_refs": [
-      "kreativ",
       "werden",
+      "nutzen",
+      "kreativ",
+      "müssen",
       "das Elektroauto"
     ]
   },
@@ -9487,6 +10487,7 @@
     "type": "comparative",
     "score": 5,
     "vocab_refs": [
+      "sein",
       "Das Stadion",
       "Der Ozean"
     ]
@@ -9497,9 +10498,10 @@
     "type": "comparative",
     "score": 5,
     "vocab_refs": [
+      "sein",
       "einseitig",
       "objektiv",
-      "die Kontroverse"
+      "kontrovers"
     ]
   },
   {
@@ -9508,7 +10510,8 @@
     "type": "w_question",
     "score": 5,
     "vocab_refs": [
-      "Die Strategie"
+      "Die Strategie",
+      "kodifizieren"
     ]
   },
   {
@@ -9517,9 +10520,11 @@
     "type": "preterite",
     "score": 5,
     "vocab_refs": [
-      "ausschließlich",
       "das Rindfleisch",
-      "beinahe"
+      "ausschließlich",
+      "essen",
+      "beinahe",
+      "haben"
     ]
   },
   {
@@ -9528,6 +10533,7 @@
     "type": "imperative",
     "score": 5,
     "vocab_refs": [
+      "europäisch",
       "Die Lösung",
       "nahelegen"
     ]
@@ -9538,10 +10544,12 @@
     "type": "modal",
     "score": 5,
     "vocab_refs": [
-      "einschränken",
+      "können",
+      "das Verbot",
+      "nicht",
       "der Fortschritt",
       "die Regierung",
-      "nicht"
+      "einschränken"
     ]
   },
   {
@@ -9550,9 +10558,11 @@
     "type": "future",
     "score": 5,
     "vocab_refs": [
-      "das Leid",
       "der Aal",
-      "vernichten"
+      "werden",
+      "vernichten",
+      "das Leid",
+      "tun"
     ]
   },
   {
@@ -9572,10 +10582,11 @@
     "type": "separable",
     "score": 5,
     "vocab_refs": [
-      "heiß",
       "zugleich",
+      "sein",
+      "melancholisch",
       "Der Kürbis",
-      "melancholisch"
+      "heiß"
     ]
   },
   {
@@ -9584,8 +10595,9 @@
     "type": "future",
     "score": 5,
     "vocab_refs": [
-      "Der Kreisverkehr",
-      "leuchten"
+      "werden",
+      "leuchten",
+      "Der Kreisverkehr"
     ]
   },
   {
@@ -9594,8 +10606,9 @@
     "type": "genitive",
     "score": 5,
     "vocab_refs": [
-      "die Möglichkeit",
-      "unbestreitbar"
+      "sein",
+      "unbestreitbar",
+      "die Möglichkeit"
     ]
   },
   {
@@ -9604,10 +10617,12 @@
     "type": "perfect",
     "score": 5,
     "vocab_refs": [
-      "haben",
       "der Geist",
-      "koordinieren",
-      "nicht"
+      "versuchen",
+      "nicht",
+      "sein",
+      "haben",
+      "koordinieren"
     ]
   },
   {
@@ -9616,9 +10631,10 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
+      "sein",
       "durchdrungen",
-      "die Energie",
-      "die Projektion"
+      "die Projektion",
+      "die Energie"
     ]
   },
   {
@@ -9627,9 +10643,9 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
-      "reflektiert",
       "die Antithese",
       "Die Mutter",
+      "reflektiert",
       "aufmerksam"
     ]
   },
@@ -9639,9 +10655,9 @@
     "type": "future",
     "score": 5,
     "vocab_refs": [
+      "werden",
       "sich abwenden",
-      "nicht",
-      "werden"
+      "nicht"
     ]
   },
   {
@@ -9650,6 +10666,7 @@
     "type": "comparative",
     "score": 5,
     "vocab_refs": [
+      "sein",
       "Der Upload"
     ]
   },
@@ -9659,10 +10676,11 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
-      "nachlässig",
       "zugleich",
       "die Eigenschaft",
-      "weltlich"
+      "weltlich",
+      "sein",
+      "nachlässig"
     ]
   },
   {
@@ -9671,10 +10689,12 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
-      "wichtig",
+      "schreien",
       "sehr",
-      "der Umweltschutz",
       "das Recycling",
+      "sein",
+      "wichtig",
+      "der Umweltschutz",
       "die Menge"
     ]
   },
@@ -9685,8 +10705,11 @@
     "score": 5,
     "vocab_refs": [
       "beschäftigt",
+      "die Schauspielerin",
+      "rollen",
+      "vorbereiten",
       "vorzugsweise",
-      "die Schauspielerin"
+      "haben"
     ]
   },
   {
@@ -9695,8 +10718,10 @@
     "type": "accusative",
     "score": 5,
     "vocab_refs": [
-      "Die Fernbedienung",
-      "aufheben"
+      "sein",
+      "können",
+      "aufheben",
+      "Die Fernbedienung"
     ]
   },
   {
@@ -9705,10 +10730,11 @@
     "type": "comparative",
     "score": 5,
     "vocab_refs": [
-      "zurück",
+      "monatlich",
       "die Gelegenheit",
+      "aufkommen",
       "wieder",
-      "monatlich"
+      "zurück"
     ]
   },
   {
@@ -9717,6 +10743,7 @@
     "type": "perfect",
     "score": 5,
     "vocab_refs": [
+      "haben",
       "verborgen"
     ]
   },
@@ -9725,7 +10752,9 @@
     "english": "We list the problems that await us.",
     "type": "present",
     "score": 5,
-    "vocab_refs": []
+    "vocab_refs": [
+      "die Liste"
+    ]
   },
   {
     "german": "Das Souvenir erinnert mir an den Urlaub in Mexiko.",
@@ -9733,8 +10762,9 @@
     "type": "dative",
     "score": 5,
     "vocab_refs": [
-      "das Souvenir",
-      "Der Urlaub"
+      "sich erinnern",
+      "Der Urlaub",
+      "das Souvenir"
     ]
   },
   {
@@ -9743,13 +10773,15 @@
     "type": "comparative",
     "score": 5,
     "vocab_refs": [
-      "jetzt",
-      "fast",
-      "früh",
       "heute",
       "Der Parkplatz",
+      "fast",
+      "belegen",
+      "früh",
+      "unregelmäßig",
       "leer",
-      "unregelmäßig"
+      "sein",
+      "jetzt"
     ]
   },
   {
@@ -9768,10 +10800,10 @@
     "type": "yn_question",
     "score": 5,
     "vocab_refs": [
-      "die Party",
-      "Der Abend",
       "die Musik",
+      "die Party",
       "heute",
+      "Der Abend",
       "improvisieren"
     ]
   },
@@ -9782,11 +10814,11 @@
     "score": 5,
     "vocab_refs": [
       "Der Preis",
-      "vergeben",
       "dürfen",
-      "sich verlassen",
       "nicht",
-      "das Turnier"
+      "das Turnier",
+      "sich verlassen",
+      "vergeben"
     ]
   },
   {
@@ -9795,8 +10827,9 @@
     "type": "dative",
     "score": 5,
     "vocab_refs": [
-      "die Realität",
-      "der Film"
+      "zeigen",
+      "der Film",
+      "die Realität"
     ]
   },
   {
@@ -9814,8 +10847,8 @@
     "type": "imperative",
     "score": 5,
     "vocab_refs": [
-      "regelmäßig",
       "Das Wort",
+      "regelmäßig",
       "lernen"
     ]
   },
@@ -9825,7 +10858,8 @@
     "type": "w_question",
     "score": 5,
     "vocab_refs": [
-      "die Achse"
+      "die Achse",
+      "stützen"
     ]
   },
   {
@@ -9834,10 +10868,10 @@
     "type": "future",
     "score": 5,
     "vocab_refs": [
-      "parken",
-      "nicht",
       "werden",
-      "tippen"
+      "tippen",
+      "parken",
+      "nicht"
     ]
   },
   {
@@ -9846,10 +10880,12 @@
     "type": "plural",
     "score": 5,
     "vocab_refs": [
-      "reflektieren",
+      "neu",
       "können",
       "versuchen",
       "anstatt",
+      "reflektieren",
+      "die Perspektive",
       "Das Problem"
     ]
   },
@@ -9859,9 +10895,10 @@
     "type": "w_question",
     "score": 5,
     "vocab_refs": [
-      "das Accessoire",
+      "müssen",
       "knipsen",
-      "beschaffen"
+      "beschaffen",
+      "das Accessoire"
     ]
   },
   {
@@ -9870,8 +10907,8 @@
     "type": "w_question",
     "score": 5,
     "vocab_refs": [
-      "Die Wahrheit",
-      "stellen"
+      "stellen",
+      "Die Wahrheit"
     ]
   },
   {
@@ -9880,8 +10917,9 @@
     "type": "plural",
     "score": 5,
     "vocab_refs": [
-      "Der Mann",
-      "treffen"
+      "aufeinandertreffen",
+      "wichtig",
+      "Der Mann"
     ]
   },
   {
@@ -9890,9 +10928,10 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
-      "das Stockwerk",
       "schnell",
-      "Der Aufzug"
+      "das Stockwerk",
+      "Der Aufzug",
+      "bringen"
     ]
   },
   {
@@ -9901,8 +10940,9 @@
     "type": "yn_question",
     "score": 5,
     "vocab_refs": [
-      "vertiefen",
-      "die Veränderung"
+      "beginnen",
+      "die Veränderung",
+      "vertiefen"
     ]
   },
   {
@@ -9911,7 +10951,10 @@
     "type": "future",
     "score": 5,
     "vocab_refs": [
+      "neu",
+      "stifte",
       "werden",
+      "ansprechen",
       "modern"
     ]
   },
@@ -9921,9 +10964,10 @@
     "type": "modal",
     "score": 5,
     "vocab_refs": [
+      "sollen",
+      "der Rückenschmerz",
       "nicht",
-      "ignorieren",
-      "der Rückenschmerz"
+      "ignorieren"
     ]
   },
   {
@@ -9932,7 +10976,10 @@
     "type": "reflexive",
     "score": 5,
     "vocab_refs": [
-      "nicht"
+      "dazugehören",
+      "sich beschweren",
+      "nicht",
+      "fühlen"
     ]
   },
   {
@@ -9941,8 +10988,8 @@
     "type": "w_question",
     "score": 5,
     "vocab_refs": [
-      "brauchen",
-      "Der Käse"
+      "Der Käse",
+      "gebrauchen"
     ]
   },
   {
@@ -9951,6 +10998,8 @@
     "type": "w_question",
     "score": 5,
     "vocab_refs": [
+      "geizig",
+      "aufkommen",
       "der Teamgeist"
     ]
   },
@@ -9970,10 +11019,12 @@
     "type": "comparative",
     "score": 5,
     "vocab_refs": [
-      "Der Hubschrauber",
-      "der Angriff",
       "die Mautstelle",
-      "unverzüglich"
+      "unverzüglich",
+      "sein",
+      "fliegen",
+      "Der Hubschrauber",
+      "der Angriff"
     ]
   },
   {
@@ -9982,8 +11033,9 @@
     "type": "perfect",
     "score": 5,
     "vocab_refs": [
+      "erfolgreich",
       "haben",
-      "erfolgreich"
+      "abschließen"
     ]
   },
   {
@@ -9993,7 +11045,9 @@
     "score": 5,
     "vocab_refs": [
       "trotzdem",
-      "der Glaube"
+      "der Glaube",
+      "sein",
+      "virtuell"
     ]
   },
   {
@@ -10002,9 +11056,10 @@
     "type": "reflexive",
     "score": 5,
     "vocab_refs": [
-      "fordern",
       "legen",
-      "fest"
+      "fest",
+      "fordern",
+      "klar"
     ]
   },
   {
@@ -10014,8 +11069,9 @@
     "score": 5,
     "vocab_refs": [
       "sehr",
-      "sorgfältig",
-      "typischerweise"
+      "typischerweise",
+      "planen",
+      "sorgfältig"
     ]
   },
   {
@@ -10024,6 +11080,7 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
+      "sehen",
       "appetitlich",
       "Der Apfel",
       "Der Teller"
@@ -10035,8 +11092,8 @@
     "type": "imperative",
     "score": 5,
     "vocab_refs": [
-      "präsentieren",
-      "die Sonnenfinsternis"
+      "die Sonnenfinsternis",
+      "präsentieren"
     ]
   },
   {
@@ -10045,10 +11102,11 @@
     "type": "separable",
     "score": 5,
     "vocab_refs": [
+      "die Wärme",
+      "Das Licht",
       "die Erde",
       "Die Sonne",
-      "die Wärme",
-      "Das Licht"
+      "erzeugen"
     ]
   },
   {
@@ -10057,7 +11115,9 @@
     "type": "genitive",
     "score": 5,
     "vocab_refs": [
-      "die Ursache"
+      "die Ursache",
+      "liegen",
+      "sensibilisiert"
     ]
   },
   {
@@ -10077,10 +11137,10 @@
     "type": "future",
     "score": 5,
     "vocab_refs": [
-      "Die Zeit",
-      "haben",
       "werden",
-      "künstlerisch"
+      "künstlerisch",
+      "Die Zeit",
+      "haben"
     ]
   },
   {
@@ -10089,7 +11149,9 @@
     "type": "preterite",
     "score": 5,
     "vocab_refs": [
+      "sein",
       "Das Büro",
+      "kommen",
       "gestern"
     ]
   },
@@ -10100,6 +11162,8 @@
     "score": 5,
     "vocab_refs": [
       "Der Beitrag",
+      "helfen",
+      "sehen",
       "jetzt"
     ]
   },
@@ -10109,8 +11173,9 @@
     "type": "accusative",
     "score": 5,
     "vocab_refs": [
+      "Der Brief",
       "Der Freund",
-      "Der Brief"
+      "abschreiben"
     ]
   },
   {
@@ -10119,9 +11184,11 @@
     "type": "future",
     "score": 5,
     "vocab_refs": [
+      "das Parlament",
       "sich setzen",
-      "sich ändern",
-      "das Parlament"
+      "werden",
+      "ethisch",
+      "sich ändern"
     ]
   },
   {
@@ -10130,6 +11197,7 @@
     "type": "yn_question",
     "score": 5,
     "vocab_refs": [
+      "minimieren",
       "Der Verlust"
     ]
   },
@@ -10140,6 +11208,7 @@
     "score": 5,
     "vocab_refs": [
       "Die Angst",
+      "beschleunigen",
       "allmählich"
     ]
   },
@@ -10149,7 +11218,9 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
-      "Der Winter"
+      "leiten",
+      "Der Winter",
+      "neu"
     ]
   },
   {
@@ -10170,9 +11241,10 @@
     "type": "future",
     "score": 5,
     "vocab_refs": [
-      "analysieren",
       "die Stichprobe",
-      "empirisch"
+      "empirisch",
+      "analysieren",
+      "werden"
     ]
   },
   {
@@ -10181,6 +11253,7 @@
     "type": "separable",
     "score": 5,
     "vocab_refs": [
+      "sein",
       "ungerecht",
       "Die Reise"
     ]
@@ -10191,8 +11264,9 @@
     "type": "imperative",
     "score": 5,
     "vocab_refs": [
+      "zusammenschließen",
       "sofort",
-      "zusammenschließen"
+      "teilen"
     ]
   },
   {
@@ -10202,8 +11276,9 @@
     "score": 5,
     "vocab_refs": [
       "die Spannung",
+      "wahrnehmen",
       "der Film",
-      "wahrnehmen"
+      "können"
     ]
   },
   {
@@ -10213,7 +11288,8 @@
     "score": 5,
     "vocab_refs": [
       "die Scham",
-      "sprachgewandt"
+      "sprachgewandt",
+      "ermöglichen"
     ]
   },
   {
@@ -10223,6 +11299,7 @@
     "score": 5,
     "vocab_refs": [
       "der Deckel",
+      "wollen",
       "nicht"
     ]
   },
@@ -10232,9 +11309,9 @@
     "type": "modal",
     "score": 5,
     "vocab_refs": [
-      "die Party",
-      "Das Kleid",
       "müssen",
+      "Das Kleid",
+      "die Party",
       "packen"
     ]
   },
@@ -10244,9 +11321,11 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
-      "der Einbau",
       "industriell",
-      "werden"
+      "der Einbau",
+      "können",
+      "werden",
+      "zusammensetzen"
     ]
   },
   {
@@ -10255,8 +11334,9 @@
     "type": "accusative",
     "score": 5,
     "vocab_refs": [
-      "fördern",
-      "letztlich"
+      "letztlich",
+      "sozial",
+      "fördern"
     ]
   },
   {
@@ -10264,7 +11344,9 @@
     "english": "He grills the sausages despite the rain.",
     "type": "present",
     "score": 5,
-    "vocab_refs": []
+    "vocab_refs": [
+      "grillen"
+    ]
   },
   {
     "german": "Die Semantik hat sich im Laufe der Geschichte ständig weiterentwickelt.",
@@ -10274,7 +11356,10 @@
     "vocab_refs": [
       "ständig",
       "die Semantik",
-      "die Geschichte"
+      "die Geschichte",
+      "laufen",
+      "weiterentwickeln",
+      "haben"
     ]
   },
   {
@@ -10283,8 +11368,9 @@
     "type": "genitive",
     "score": 5,
     "vocab_refs": [
-      "die Zunahme",
-      "Das Problem"
+      "sein",
+      "Das Problem",
+      "die Zunahme"
     ]
   },
   {
@@ -10293,9 +11379,10 @@
     "type": "future",
     "score": 5,
     "vocab_refs": [
-      "dokumentieren",
+      "werden",
+      "Die Vergangenheit",
       "sorgfältig",
-      "Die Vergangenheit"
+      "dokumentieren"
     ]
   },
   {
@@ -10305,6 +11392,8 @@
     "score": 5,
     "vocab_refs": [
       "Der Rock",
+      "haben",
+      "stricken",
       "einmal"
     ]
   },
@@ -10314,9 +11403,10 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
-      "Der Tiger",
+      "sein",
+      "Der Honig",
       "unattraktiv",
-      "Der Honig"
+      "Der Tiger"
     ]
   },
   {
@@ -10335,11 +11425,13 @@
     "type": "subclause",
     "score": 5,
     "vocab_refs": [
-      "wichtig",
-      "sehr",
+      "der Historiker",
       "trotzdem",
+      "sehr",
+      "sein",
+      "wichtig",
       "künstlich",
-      "der Historiker"
+      "malen"
     ]
   },
   {
@@ -10348,6 +11440,8 @@
     "type": "comparative",
     "score": 5,
     "vocab_refs": [
+      "sein",
+      "wichtig",
       "das Thema"
     ]
   },
@@ -10357,9 +11451,10 @@
     "type": "preterite",
     "score": 5,
     "vocab_refs": [
-      "erholsam",
       "das Aufwachen",
-      "ruhig"
+      "ruhig",
+      "erholsam",
+      "visualisieren"
     ]
   },
   {
@@ -10368,7 +11463,7 @@
     "type": "w_question",
     "score": 5,
     "vocab_refs": [
-      "gehen",
+      "abgehen",
       "Die Woche"
     ]
   },
@@ -10379,6 +11474,7 @@
     "score": 5,
     "vocab_refs": [
       "gleich",
+      "steigen",
       "langsam",
       "Das Fieber"
     ]
@@ -10389,6 +11485,9 @@
     "type": "dative",
     "score": 5,
     "vocab_refs": [
+      "neu",
+      "schenken",
+      "brauchen",
       "Der Laptop"
     ]
   },
@@ -10398,12 +11497,12 @@
     "type": "preterite",
     "score": 5,
     "vocab_refs": [
-      "zurück",
-      "Die Erfahrung",
+      "einlösen",
+      "der Griff",
       "analysieren",
+      "Die Erfahrung",
       "die Situation",
-      "lösen",
-      "der Griff"
+      "zurück"
     ]
   },
   {
@@ -10412,10 +11511,11 @@
     "type": "preterite",
     "score": 5,
     "vocab_refs": [
-      "bald",
       "die Relevanz",
-      "wieder",
-      "aufzeigen"
+      "bald",
+      "werden",
+      "aufzeigen",
+      "wieder"
     ]
   },
   {
@@ -10424,7 +11524,8 @@
     "type": "yn_question",
     "score": 5,
     "vocab_refs": [
-      "die Bevölkerung"
+      "die Bevölkerung",
+      "beruhigen"
     ]
   },
   {
@@ -10433,10 +11534,10 @@
     "type": "imperative",
     "score": 5,
     "vocab_refs": [
-      "handeln",
-      "immer",
       "die Umwelt",
-      "verantwortungsbewusst"
+      "verantwortungsbewusst",
+      "handeln",
+      "immer"
     ]
   },
   {
@@ -10445,8 +11546,9 @@
     "type": "reflexive",
     "score": 5,
     "vocab_refs": [
-      "gelb",
-      "Die Zitrone"
+      "färben",
+      "Die Zitrone",
+      "gelb"
     ]
   },
   {
@@ -10455,11 +11557,12 @@
     "type": "comparative",
     "score": 5,
     "vocab_refs": [
-      "besetzt",
+      "der Vergleich",
       "schrumpfend",
-      "immer",
+      "sein",
       "der Zirkus",
-      "der Vergleich"
+      "besetzt",
+      "immer"
     ]
   },
   {
@@ -10468,7 +11571,8 @@
     "type": "comparative",
     "score": 5,
     "vocab_refs": [
-      "die Migration"
+      "die Migration",
+      "verursachen"
     ]
   },
   {
@@ -10478,8 +11582,10 @@
     "score": 5,
     "vocab_refs": [
       "der Herzschlag",
+      "der Moment",
       "der Teenager",
-      "der Moment"
+      "beobachten",
+      "haben"
     ]
   },
   {
@@ -10488,10 +11594,10 @@
     "type": "modal",
     "score": 5,
     "vocab_refs": [
-      "das Röhrchen",
-      "wollen",
+      "Der Honig",
       "ergänzen",
-      "Der Honig"
+      "das Röhrchen",
+      "wollen"
     ]
   },
   {
@@ -10500,8 +11606,8 @@
     "type": "imperative",
     "score": 5,
     "vocab_refs": [
-      "senden",
       "die Telefonzelle",
+      "senden",
       "Das Foto"
     ]
   },
@@ -10521,9 +11627,10 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
-      "glücklich",
       "zufrieden",
-      "das Lied"
+      "machen",
+      "das Lied",
+      "glücklich"
     ]
   },
   {
@@ -10532,7 +11639,8 @@
     "type": "reflexive",
     "score": 5,
     "vocab_refs": [
-      "lassen"
+      "neu",
+      "zulassen"
     ]
   },
   {
@@ -10541,12 +11649,14 @@
     "type": "separable",
     "score": 5,
     "vocab_refs": [
-      "weich",
-      "backen",
-      "damit",
       "gut",
+      "werden",
+      "damit",
+      "sein",
+      "backen",
       "der Teig",
-      "werden"
+      "weich",
+      "müssen"
     ]
   },
   {
@@ -10555,10 +11665,12 @@
     "type": "genitive",
     "score": 5,
     "vocab_refs": [
+      "neu",
       "führen",
-      "Der Plan",
+      "können",
       "der Rückschlag",
-      "neu"
+      "Der Plan",
+      "entwickelt"
     ]
   },
   {
@@ -10567,10 +11679,10 @@
     "type": "future",
     "score": 5,
     "vocab_refs": [
-      "präzise",
-      "die Avocado",
       "werden",
-      "schneiden"
+      "die Avocado",
+      "schneiden",
+      "präzise"
     ]
   },
   {
@@ -10579,9 +11691,9 @@
     "type": "modal",
     "score": 5,
     "vocab_refs": [
-      "der Soziologe",
+      "berücksichtigen",
       "die Menschenwürde",
-      "berücksichtigen"
+      "der Soziologe"
     ]
   },
   {
@@ -10590,9 +11702,10 @@
     "type": "plural",
     "score": 5,
     "vocab_refs": [
-      "die Daten",
+      "komplex",
       "die Interpretation",
-      "benötigen"
+      "benötigen",
+      "die Daten"
     ]
   },
   {
@@ -10602,7 +11715,9 @@
     "score": 5,
     "vocab_refs": [
       "gewöhnlich",
-      "Die Stadt"
+      "Die Stadt",
+      "die Herausforderung",
+      "stellen"
     ]
   },
   {
@@ -10611,8 +11726,8 @@
     "type": "imperative",
     "score": 5,
     "vocab_refs": [
-      "aussortieren",
       "müssen",
+      "aussortieren",
       "Das Problem"
     ]
   },
@@ -10622,9 +11737,10 @@
     "type": "dative",
     "score": 5,
     "vocab_refs": [
-      "Der Lehrer",
       "Der Schlüssel",
-      "Das Klassenzimmer"
+      "dazugehören",
+      "Das Klassenzimmer",
+      "Der Lehrer"
     ]
   },
   {
@@ -10633,6 +11749,7 @@
     "type": "preterite",
     "score": 5,
     "vocab_refs": [
+      "beklagen",
       "die Organisation"
     ]
   },
@@ -10642,10 +11759,11 @@
     "type": "separable",
     "score": 5,
     "vocab_refs": [
-      "das Drama",
+      "können",
+      "nicht",
       "jetzt",
-      "annehmen",
-      "nicht"
+      "das Drama",
+      "annehmen"
     ]
   },
   {
@@ -10654,8 +11772,10 @@
     "type": "perfect",
     "score": 5,
     "vocab_refs": [
+      "die Pragmatik",
+      "haben",
       "fraglos",
-      "die Pragmatik"
+      "verstehen"
     ]
   },
   {
@@ -10664,6 +11784,7 @@
     "type": "present",
     "score": 5,
     "vocab_refs": [
+      "beschreiben",
       "die Mission",
       "das Akronym"
     ]
@@ -10674,10 +11795,10 @@
     "type": "modal",
     "score": 5,
     "vocab_refs": [
-      "können",
-      "der Streit",
+      "absichtlich",
       "vermeiden",
-      "absichtlich"
+      "der Streit",
+      "können"
     ]
   },
   {

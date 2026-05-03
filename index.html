@@ -3919,7 +3919,7 @@ async function loadMoreSentenceChunks(maxChunks) {
   while (sentenceChunksLoaded < SENTENCE_CHUNKS_TOTAL && loaded < maxChunks) {
     const sentences = await loadSentenceChunk(sentenceChunksLoaded++);
     for (const s of sentences) {
-      if (s.vocab_refs && s.vocab_refs.some(w => mastered.has(w))) {
+      if (s.vocab_refs && s.vocab_refs.length > 0 && s.vocab_refs.every(w => mastered.has(w))) {
         sentenceDeck.push(s);
       }
     }

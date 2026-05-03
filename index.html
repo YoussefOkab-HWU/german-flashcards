@@ -611,6 +611,18 @@
   .tier-option.tier-mastered:hover { border-color: #ffd700; }
   .tier-option.tier-mastered .tier-num { color: #ffd700; }
   .tier-option.tier-core { border-color: rgba(0,200,255,0.2); }
+  .tier-sentences { border-color: rgba(255,180,0,0.3); }
+  .tier-option.tier-sentences:hover { border-color: #ffb400; }
+  .tier-option.tier-sentences .tier-num { color: #ffb400; }
+  .sentence-counter-bar {
+    display: none;
+    align-items: center;
+    gap: 18px;
+    margin-bottom: 20px;
+    font-size: 0.9rem;
+    color: var(--muted);
+  }
+  .sentence-counter-bar .val { font-size: 1.1rem; font-weight: 700; color: #ffb400; }
   .tier-option.tier-core:hover { border-color: #00c8ff; }
   .tier-option.tier-core .tier-num { color: #00c8ff; }
 
@@ -855,6 +867,11 @@
       <div class="tier-name">Core Verbs</div>
       <div class="tier-count">haben · sein · werden</div>
     </div>
+    <div class="tier-option tier-sentences" onclick="startSentencePractice()">
+      <div class="tier-num">✍</div>
+      <div class="tier-name">Sentences</div>
+      <div class="tier-count" id="sentence-tier-count">98,625 sentences</div>
+    </div>
   </div>
 </div>
 
@@ -867,6 +884,12 @@
   <div id="breakdown-list"></div>
 </div>
 
+<div class="sentence-counter-bar" id="sentence-counter-bar">
+  <span>✍ <span class="val" id="sentence-attempted-count">0</span> attempted this session</span>
+  <span>·</span>
+  <span id="sentence-total-count">0 sentences available</span>
+  <button class="btn-view-learned" onclick="exitSentenceMode()">← Back</button>
+</div>
 <div class="masterybar">
   <span><span class="val learned-val" id="count-learned">0</span> learned</span>
   <span>·</span>
@@ -2732,9 +2755,9 @@ function skipCard() {
 }
 
 // ── Event listeners ──────────────────────────────────────────────────────────
-elCheck.addEventListener('click', checkAnswer);
-elSkip.addEventListener('click', () => { skipCard(); elSkip.blur(); });
-elNext.addEventListener('click', advanceCard);
+elCheck.addEventListener('click', () => { if (isSentenceMode) checkSentenceAnswer(); else checkAnswer(); });
+elSkip.addEventListener('click', () => { if (isSentenceMode) { skipSentenceCard(); } else { skipCard(); } elSkip.blur(); });
+elNext.addEventListener('click', () => { if (isSentenceMode) showNextSentenceCard(); else advanceCard(); });
 
 // Disable Check for noun cards until an article is typed
 function hasArticle(val) {
@@ -3855,6 +3878,186 @@ function showTierSelect() {
   const masteredCount = buildCards('all').filter(c => getWordState(c.german).learned).length;
   const el = document.getElementById('mastered-tier-count');
   if (el) el.textContent = `${masteredCount} mastered`;
+}
+
+
+// ── Sentence Practice Mode ────────────────────────────────────────────────────
+
+let isSentenceMode    = false;
+let sentenceDeck      = [];   // all filtered sentences (loaded lazily)
+let sentenceChunksLoaded = 0;
+let sentenceCurrentCard  = null;
+let sentenceAnswered     = false;
+const SENTENCE_CHUNKS_TOTAL = 99;
+const SENTENCE_MIN_REFS     = 1;
+const SENTENCE_BASE_URL     = '/german-flashcards/sentences_100k/';
+
+function getSentenceSessionCount() {
+  return parseInt(sessionStorage.getItem('sentAttempted') || '0', 10);
+}
+function incSentenceSession() {
+  const n = getSentenceSessionCount() + 1;
+  sessionStorage.setItem('sentAttempted', n);
+  return n;
+}
+function getMasteredSet() {
+  return new Set(Object.keys(progress).filter(k => progress[k] && progress[k].learned));
+}
+
+async function loadSentenceChunk(n) {
+  const pad = String(n).padStart(4, '0');
+  try {
+    const resp = await fetch(`${SENTENCE_BASE_URL}chunk_${pad}.json`);
+    if (!resp.ok) return [];
+    return await resp.json();
+  } catch { return []; }
+}
+
+async function loadMoreSentenceChunks(maxChunks) {
+  const mastered = getMasteredSet();
+  let loaded = 0;
+  while (sentenceChunksLoaded < SENTENCE_CHUNKS_TOTAL && loaded < maxChunks) {
+    const sentences = await loadSentenceChunk(sentenceChunksLoaded++);
+    for (const s of sentences) {
+      if (s.vocab_refs && s.vocab_refs.some(w => mastered.has(w))) {
+        sentenceDeck.push(s);
+      }
+    }
+    loaded++;
+  }
+  updateSentenceCounter();
+}
+
+async function startSentencePractice() {
+  isSentenceMode   = true;
+  isMasteredMode   = false;
+  isCoreVerbMode   = false;
+  activeTier       = 0;
+  sentenceDeck     = [];
+  sentenceChunksLoaded = 0;
+  sessionStorage.setItem('sentAttempted', '0');
+
+  document.getElementById('tier-select-screen').style.display = 'none';
+  document.getElementById('sentence-counter-bar').style.display = 'flex';
+  document.getElementById('masterybar') && (document.getElementById('masterybar').style.display = 'none');
+
+  // Show card shell
+  document.getElementById('main-title').style.display = 'none';
+  document.getElementById('filters').style.display = 'none';
+  if (document.getElementById('tense-filters')) document.getElementById('tense-filters').style.display = 'none';
+  document.getElementById('card-wrap').style.display = '';
+  document.getElementById('input-area').style.display = '';
+  document.getElementById('umlaut-bar').classList.remove('hidden');
+  document.getElementById('btn-next').style.display = 'none';
+
+  // Set input to German direction
+  const inp = document.getElementById('answer-input');
+  inp.placeholder = 'Schreib den deutschen Satz…';
+  inp.value = '';
+
+  // Show loading card
+  document.getElementById('german-word').textContent = 'Loading sentences…';
+  document.getElementById('feedback').className = 'feedback hidden';
+  document.getElementById('mastery-dots').innerHTML = '';
+  document.getElementById('card-counter').textContent = '';
+  document.getElementById('category-badge').textContent = '';
+  document.getElementById('gender-hint').style.display = 'none';
+  document.getElementById('word-breakdown').style.display = 'none';
+
+  // Load first 10 chunks then show first card
+  await loadMoreSentenceChunks(10);
+  showNextSentenceCard();
+
+  // Continue loading rest in background
+  (async () => {
+    while (sentenceChunksLoaded < SENTENCE_CHUNKS_TOTAL) {
+      await loadMoreSentenceChunks(5);
+      await new Promise(r => setTimeout(r, 100));
+    }
+  })();
+}
+
+function showNextSentenceCard() {
+  if (!isSentenceMode) return;
+  if (sentenceDeck.length === 0) {
+    document.getElementById('german-word').textContent =
+      'No sentences match your mastered vocabulary yet. Keep learning words!';
+    return;
+  }
+
+  const idx = Math.floor(Math.random() * sentenceDeck.length);
+  sentenceCurrentCard = sentenceDeck[idx];
+  sentenceAnswered = false;
+
+  document.getElementById('german-word').textContent = sentenceCurrentCard.english;
+  document.getElementById('feedback').className = 'feedback hidden';
+  document.getElementById('btn-next').style.display = 'none';
+  document.getElementById('mastery-dots').innerHTML = '';
+  document.getElementById('word-breakdown').style.display = 'none';
+  document.getElementById('category-badge').textContent = sentenceCurrentCard.type || '';
+  document.getElementById('card-counter').textContent = '';
+
+  const inp = document.getElementById('answer-input');
+  inp.value = '';
+  inp.placeholder = 'Schreib den deutschen Satz…';
+  inp.disabled = false;
+  inp.focus();
+}
+
+function checkSentenceAnswer() {
+  if (!isSentenceMode || !sentenceCurrentCard || sentenceAnswered) return;
+  const typed = document.getElementById('answer-input').value.trim();
+  if (!typed) return;
+
+  sentenceAnswered = true;
+  const count = incSentenceSession();
+  updateSentenceCounter();
+
+  // Fuzzy check: ≥60% word overlap (case-insensitive, ignore punctuation)
+  const norm = s => s.toLowerCase().replace(/[.,!?;:"""„''–-]/g, '').trim();
+  const typedSet  = new Set(norm(typed).split(/\s+/).filter(Boolean));
+  const expected  = norm(sentenceCurrentCard.german).split(/\s+/).filter(Boolean);
+  const matches   = expected.filter(w => typedSet.has(w)).length;
+  const correct   = matches / expected.length >= 0.6;
+
+  const missed = expected.filter(w => !typedSet.has(w));
+  const fb = document.getElementById('feedback');
+  if (correct) {
+    fb.className = 'feedback correct';
+    fb.innerHTML = `✓ <strong>${sentenceCurrentCard.german}</strong>`;
+  } else {
+    fb.className = 'feedback incorrect';
+    fb.innerHTML = `✗ Missing: <strong>${missed.join(', ')}</strong> · All: <strong>${sentenceCurrentCard.german}</strong>`;
+  }
+
+  document.getElementById('answer-input').disabled = true;
+  document.getElementById('btn-next').style.display = 'block';
+}
+
+function skipSentenceCard() {
+  if (!isSentenceMode) return;
+  showNextSentenceCard();
+}
+
+function exitSentenceMode() {
+  isSentenceMode = false;
+  sentenceDeck   = [];
+  sentenceChunksLoaded = 0;
+  document.getElementById('sentence-counter-bar').style.display = 'none';
+  document.getElementById('masterybar') && (document.getElementById('masterybar').style.display = '');
+  document.getElementById('main-title').style.display = '';
+  document.getElementById('card-wrap').style.display = 'none';
+  document.getElementById('input-area').style.display = 'none';
+  document.getElementById('umlaut-bar').classList.add('hidden');
+  document.getElementById('tier-select-screen').style.display = '';
+  document.getElementById('btn-next').style.display = 'none';
+}
+
+function updateSentenceCounter() {
+  const el = document.getElementById('sentence-attempted-count');
+  if (el) el.textContent = getSentenceSessionCount();
+  const tot = document.getElementById('sentence-total-count');
+  if (tot) tot.textContent = `${sentenceDeck.length.toLocaleString()} sentences available`;
 }
 
 function startAppWithTier(tier) {

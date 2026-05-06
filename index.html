@@ -4344,10 +4344,24 @@ function normalizeGerman(s) {
     .replace(/^(der|die|das|ein|eine)\s+/i, ''); // strip articles
 }
 
+// Known German synonyms accepted in EN→DE mode (bidirectional)
+const DE_ALTS = {
+  'warum':   ['wieso', 'weshalb', 'weswegen'],
+  'wieso':   ['warum', 'weshalb', 'weswegen'],
+  'weshalb': ['warum', 'wieso', 'weswegen'],
+  'weswegen':['warum', 'wieso', 'weshalb'],
+};
+
 function isGermanMatch(input, card) {
-  // Exact match only — must match this specific card's German word
-  // Wrong article = wrong answer
-  return input.trim().toLowerCase() === card.german.trim().toLowerCase();
+  const inp = input.trim().toLowerCase();
+  const target = card.german.trim().toLowerCase();
+  if (inp === target) return true;
+  // Check built-in German alternatives
+  const alts = DE_ALTS[target] || [];
+  if (alts.some(a => inp === a.toLowerCase())) return true;
+  // Check user-added synonyms (stored in localStorage)
+  const custom = synonyms[card.german] || [];
+  return custom.some(s => inp === s.trim().toLowerCase());
 }
 
 // ── Init ─────────────────────────────────────────────────────────────────────

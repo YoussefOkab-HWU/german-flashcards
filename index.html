@@ -934,7 +934,7 @@
 </div>
 
 <div class="mastered-bar" id="mastered-bar">
-  <span id="mastered-bar-stats"><span class="val gold" id="mastered-count">0</span> mastered · <span class="val green" id="mastered-avg-acc">–</span></span>
+  <span id="mastered-bar-stats"><span class="val gold" id="mastered-count">0</span> mastered · <span class="val green" id="mastered-avg-acc">–</span> · <span class="val" id="daily-mastered-count" style="color:#87ceeb">0</span> today</span>
   <button class="btn-view-forgotten" id="btn-view-forgotten">Word stats ▾</button>
 </div>
 
@@ -1059,6 +1059,29 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 const CLOUD_DOC = db.collection('gfc').doc('youssef');
+function getQatarDate() { return new Date(Date.now() + 3*3600*1000).toISOString().slice(0,10); }
+const getDailyDoc = () => db.collection('gfc').doc('youssef').collection('dailyStats').doc(getQatarDate());
+let dailyMasteredCount = 0;
+let _dailyCardCounted = false;
+function incrementDailyCount() {
+  if (_dailyCardCounted) return;
+  _dailyCardCounted = true;
+  dailyMasteredCount++;
+  const el = document.getElementById('daily-mastered-count');
+  if (el) el.textContent = dailyMasteredCount;
+  getDailyDoc().set({ count: firebase.firestore.FieldValue.increment(1) }, { merge: true })
+    .catch(e => console.warn('Daily count error:', e));
+}
+function startDailyCountListener() {
+  getDailyDoc().onSnapshot(snap => {
+    const count = snap.exists ? (snap.data().count || 0) : 0;
+    if (count !== dailyMasteredCount) {
+      dailyMasteredCount = count;
+      const el = document.getElementById('daily-mastered-count');
+      if (el) el.textContent = count;
+    }
+  }, err => console.warn('Daily count listener error:', err));
+}
 
 let syncTimer = null;
 let syncMaxTimer = null;
@@ -1316,6 +1339,7 @@ async function pullFromCloud() {
     }
   } catch(e) {}
   startCloudListener();
+  startDailyCountListener();
 }
 
 // ── Progress ─────────────────────────────────────────────────────────────────
@@ -2014,6 +2038,7 @@ function resetDeck() {
 
 function showCard() {
   answered = false;
+  _dailyCardCounted = false;
   elInput.value = '';
   elInput.style.display = '';
   elInput.disabled = false;
@@ -2432,6 +2457,7 @@ function checkAnswer() {
   // ── Multi-answer: en-de with sibling cards (same English, multiple Germans) ──
   if (langDir === 'en-de' && currentSiblings.length > 0) {
     for (const c of [card, ...currentSiblings]) { trackShown(c.german); if (isMasteredMode) trackMFShown(c.german); }
+    if (isMasteredMode) incrementDailyCount();
     const allCards = [card, ...currentSiblings];
     const inputs = getAllInputs().map(i => i.value.trim());
 
@@ -2541,7 +2567,7 @@ function checkAnswer() {
   const consecutiveBeforeAnswer = getWordState(card.german).consecutive;
 
   trackShown(card.german);
-  if (isMasteredMode) trackMFShown(card.german);
+  if (isMasteredMode) { trackMFShown(card.german); incrementDailyCount(); }
   if (isCorrect) {
     markCorrect(card.german);
     trackCorrect(card.german);
@@ -2683,7 +2709,7 @@ function skipCard() {
   const isGrammarCard = appMode === 'grammar' || (isMasteredAllMode && masteredAllDeck[masteredAllPos]?._allType === 'grammar');
   const card = isGrammarCard ? (isMasteredAllMode ? masteredAllDeck[masteredAllPos] : grammarQueue[0]) : deck[deckPos];
   if (!card) return;
-  if (isMasteredMode && !isGrammarCard) { trackShown(card.german); trackMFShown(card.german); }
+  if (isMasteredMode && !isGrammarCard) { trackShown(card.german); trackMFShown(card.german); incrementDailyCount(); }
 
   if (isGrammarCard) {
     markGrammarWrong(card.grammarKey || card.key);
@@ -3260,6 +3286,7 @@ function buildMasteredAllDeck() {
 }
 
 function showMasteredAllCard() {
+  _dailyCardCounted = false;
   // Rebuild every 30 cards so ordering stays fresh as accuracy updates
   if (masteredAllPos >= masteredAllDeck.length || masteredAllPos % 30 === 0) {
     const wasPos = masteredAllPos;

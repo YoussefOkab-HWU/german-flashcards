@@ -2735,6 +2735,7 @@ function skipCard() {
       const pos = Math.min(3, grammarQueue.length);
       grammarQueue.splice(pos, 0, card);
     }
+    if (isMasteredMode) incrementDailyCount();
     return;
   }
 

@@ -934,7 +934,7 @@
 </div>
 
 <div class="mastered-bar" id="mastered-bar">
-  <span id="mastered-bar-stats"><span class="val gold" id="mastered-count">0</span> mastered · <span class="val green" id="mastered-avg-acc">–</span> · <span class="val" id="daily-mastered-count" style="color:#87ceeb">0</span> today</span>
+  <span id="mastered-bar-stats"><span class="val gold" id="mastered-count">0</span> mastered · <span class="val green" id="mastered-avg-acc">–</span></span>
   <button class="btn-view-forgotten" id="btn-view-forgotten">Word stats ▾</button>
 </div>
 
@@ -1068,7 +1068,7 @@ function incrementDailyCount() {
   _dailyCardCounted = true;
   dailyMasteredCount++;
   const el = document.getElementById('daily-mastered-count');
-  if (el) el.textContent = dailyMasteredCount;
+  if (el) el.textContent = dailyMasteredCount; else updateMasteryBar();
   getDailyDoc().set({ count: firebase.firestore.FieldValue.increment(1) }, { merge: true })
     .catch(e => console.warn('Daily count error:', e));
 }
@@ -1078,7 +1078,7 @@ function startDailyCountListener() {
     if (count !== dailyMasteredCount) {
       dailyMasteredCount = count;
       const el = document.getElementById('daily-mastered-count');
-      if (el) el.textContent = count;
+      if (el) el.textContent = count; else updateMasteryBar();
     }
   }, err => console.warn('Daily count listener error:', err));
 }
@@ -2245,7 +2245,7 @@ function updateMasteryBar() {
     const flashCount = masteredFlash.length;
     const gramCount = Object.values(grammarProgress).filter(s => s.learned).length;
     const statsEl = document.getElementById('mastered-bar-stats');
-    statsEl.innerHTML = `<span class="val gold">${flashCount}</span> flash <span class="val green">${flashAvg}</span> · <span class="val gold">${gramCount}</span> grammar <span class="val green">${gramAvg}</span>`;
+    statsEl.innerHTML = `<span class="val gold">${flashCount}</span> flash <span class="val green">${flashAvg}</span> · <span class="val gold">${gramCount}</span> grammar <span class="val green">${gramAvg}</span> · <span class="val" id="daily-mastered-count" style="color:#87ceeb">${dailyMasteredCount}</span> today`;
     return;
   }
   const all = buildCards(activeFilter);
@@ -3327,7 +3327,7 @@ function updateMasteredGrammarBar() {
   const avgPct = seen.length === 0 ? null
     : Math.round(seen.reduce((s, a) => s + a.correct / a.shown, 0) / seen.length * 100);
   const statsEl = document.getElementById('mastered-bar-stats');
-  statsEl.innerHTML = `<span class="val gold">${total}</span> grammar mastered · <span class="val green">${avgPct === null ? '–' : avgPct + '%'}</span>`;
+  statsEl.innerHTML = `<span class="val gold">${total}</span> grammar mastered · <span class="val green">${avgPct === null ? '–' : avgPct + '%'}</span> · <span class="val" id="daily-mastered-count" style="color:#87ceeb">${dailyMasteredCount}</span> today`;
 }
 
 function showMasteredGrammarCard() {

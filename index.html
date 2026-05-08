@@ -1355,11 +1355,21 @@ async function pullFromCloud() {
 // progress[key] = { consecutive: 0..3, learned: false }
 // key = german word (unique enough across categories)
 function loadProgress() {
-  try { return JSON.parse(localStorage.getItem('gfc_progress') || '{}'); }
-  catch { return {}; }
+  try {
+    const p = decompressProgress(localStorage.getItem('gfc_progress') || '{}');
+    return p || {};
+  } catch { return {}; }
 }
 function saveProgressLocal(p) {
-  localStorage.setItem('gfc_progress', JSON.stringify(p));
+  const data = compressProgress(p);
+  try {
+    localStorage.setItem('gfc_progress', data);
+  } catch(e) {
+    // Quota exceeded — free space by clearing non-critical cached data, then retry
+    try { localStorage.removeItem('gfc_accuracy'); } catch {}
+    try { localStorage.removeItem('gfc_mf_accuracy'); } catch {}
+    try { localStorage.setItem('gfc_progress', data); } catch {}
+  }
 }
 function saveProgress(p) {
   saveProgressLocal(p);
@@ -1373,7 +1383,7 @@ function loadSentenceProgress() {
   catch { return {}; }
 }
 function saveSentenceProgressLocal() {
-  localStorage.setItem('gfc_sent_progress', JSON.stringify(sentenceProgress));
+  try { localStorage.setItem('gfc_sent_progress', JSON.stringify(sentenceProgress)); } catch {}
 }
 function saveSentenceProgress() {
   saveSentenceProgressLocal();
@@ -1424,7 +1434,7 @@ function loadGrammarProgress() {
   catch { return {}; }
 }
 function saveGrammarProgressLocal() {
-  localStorage.setItem('gfc_grammar_progress', JSON.stringify(grammarProgress));
+  try { localStorage.setItem('gfc_grammar_progress', JSON.stringify(grammarProgress)); } catch {}
 }
 function saveGrammarProgress() {
   saveGrammarProgressLocal();
@@ -1461,7 +1471,7 @@ function saveAccuracy(sync = true) {
   for (const k of Object.keys(accuracy)) {
     if (accuracy[k].correct > accuracy[k].shown) accuracy[k].correct = accuracy[k].shown;
   }
-  localStorage.setItem('gfc_accuracy', JSON.stringify(accuracy));
+  try { localStorage.setItem('gfc_accuracy', JSON.stringify(accuracy)); } catch {}
   if (sync) scheduleCloudSync();
 }
 function getAccuracy(word) {
@@ -1495,7 +1505,7 @@ function loadMasteredFlashAccuracy() {
   try { return JSON.parse(localStorage.getItem('gfc_mf_accuracy') || '{}'); } catch { return {}; }
 }
 function saveMasteredFlashAccuracy() {
-  localStorage.setItem('gfc_mf_accuracy', JSON.stringify(masteredFlashAccuracy));
+  try { localStorage.setItem('gfc_mf_accuracy', JSON.stringify(masteredFlashAccuracy)); } catch {}
   scheduleCloudSync();
 }
 function getMFAccuracy(word) {
@@ -1556,7 +1566,7 @@ function isInRedemption(word) {
 }
 
 function saveSynonyms(s) {
-  localStorage.setItem('gfc_synonyms', JSON.stringify(s));
+  try { localStorage.setItem('gfc_synonyms', JSON.stringify(s)); } catch {}
 }
 
 // ── State ────────────────────────────────────────────────────────────────────
@@ -1793,7 +1803,7 @@ function loadMasteredStreak() {
   try { return JSON.parse(localStorage.getItem('gfc_mastered_streak') || '{}'); } catch { return {}; }
 }
 function saveMasteredStreak() {
-  localStorage.setItem('gfc_mastered_streak', JSON.stringify(masteredSessionStreak));
+  try { localStorage.setItem('gfc_mastered_streak', JSON.stringify(masteredSessionStreak)); } catch {}
 }
 const masteredSessionStreak = loadMasteredStreak(); // german -> consecutive correct overall
 
@@ -3170,7 +3180,7 @@ function loadMasteredGrammarAccuracy() {
   try { return JSON.parse(localStorage.getItem('gfc_mg_accuracy') || '{}'); } catch { return {}; }
 }
 function saveMasteredGrammarAccuracy() {
-  localStorage.setItem('gfc_mg_accuracy', JSON.stringify(masteredGrammarAccuracy));
+  try { localStorage.setItem('gfc_mg_accuracy', JSON.stringify(masteredGrammarAccuracy)); } catch {}
   scheduleCloudSync();
 }
 function trackMGShown(key) {

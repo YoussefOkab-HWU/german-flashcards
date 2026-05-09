@@ -1180,9 +1180,9 @@ function pushToCloud() {
     progress: compressProgress(progress),
     sentenceProgress: JSON.stringify(sentenceProgress),
     grammarProgress: JSON.stringify(grammarProgress),
-    accuracy: accuracy,
-    mgAccuracy: masteredGrammarAccuracy,
-    mfAccuracy: masteredFlashAccuracy,
+    accuracy: JSON.stringify(accuracy),
+    mgAccuracy: JSON.stringify(masteredGrammarAccuracy),
+    mfAccuracy: JSON.stringify(masteredFlashAccuracy),
     updatedAt: firebase.firestore.FieldValue.serverTimestamp()
   }, { merge: true }).then(() => setSyncStatus('ok')).catch(e => { console.warn('Firestore write error:', e); setSyncStatus('error'); });
 }
@@ -1249,7 +1249,8 @@ function startCloudListener() {
       saveGrammarProgressLocal();
     }
     if (data.accuracy) {
-      for (const [k, rv] of Object.entries(data.accuracy)) {
+      const _accuracy = parseCloudField(data.accuracy) || {};
+      for (const [k, rv] of Object.entries(_accuracy)) {
         const lv = accuracy[k];
         if (!lv) { accuracy[k] = rv; continue; }
         accuracy[k] = {
@@ -1260,7 +1261,8 @@ function startCloudListener() {
       saveAccuracy(false);
     }
     if (data.mgAccuracy) {
-      for (const [k, rv] of Object.entries(data.mgAccuracy)) {
+      const _mgAccuracy = parseCloudField(data.mgAccuracy) || {};
+      for (const [k, rv] of Object.entries(_mgAccuracy)) {
         const lv = masteredGrammarAccuracy[k];
         if (!lv) { masteredGrammarAccuracy[k] = rv; continue; }
         masteredGrammarAccuracy[k] = {
@@ -1271,7 +1273,8 @@ function startCloudListener() {
       saveMasteredGrammarAccuracy();
     }
     if (data.mfAccuracy) {
-      for (const [k, rv] of Object.entries(data.mfAccuracy)) {
+      const _mfAccuracy = parseCloudField(data.mfAccuracy) || {};
+      for (const [k, rv] of Object.entries(_mfAccuracy)) {
         const lv = masteredFlashAccuracy[k];
         if (!lv) { masteredFlashAccuracy[k] = rv; continue; }
         const inRedemption = !!(lv.redemption || rv.redemption);
@@ -1324,7 +1327,8 @@ async function pullFromCloud() {
         saveGrammarProgressLocal();
       }
       if (data.accuracy) {
-        for (const [k, rv] of Object.entries(data.accuracy)) {
+        const _accuracy = parseCloudField(data.accuracy) || {};
+        for (const [k, rv] of Object.entries(_accuracy)) {
           const lv = accuracy[k];
           if (!lv) { accuracy[k] = rv; continue; }
           accuracy[k] = {
@@ -1335,7 +1339,8 @@ async function pullFromCloud() {
         saveAccuracy(false);
       }
       if (data.mgAccuracy) {
-        for (const [k, rv] of Object.entries(data.mgAccuracy)) {
+        const _mgAccuracy = parseCloudField(data.mgAccuracy) || {};
+        for (const [k, rv] of Object.entries(_mgAccuracy)) {
           const lv = masteredGrammarAccuracy[k];
           if (!lv) { masteredGrammarAccuracy[k] = rv; continue; }
           masteredGrammarAccuracy[k] = {
@@ -1346,7 +1351,8 @@ async function pullFromCloud() {
         saveMasteredGrammarAccuracy();
       }
       if (data.mfAccuracy) {
-        for (const [k, rv] of Object.entries(data.mfAccuracy)) {
+        const _mfAccuracy = parseCloudField(data.mfAccuracy) || {};
+        for (const [k, rv] of Object.entries(_mfAccuracy)) {
           const lv = masteredFlashAccuracy[k];
           if (!lv) { masteredFlashAccuracy[k] = rv; continue; }
           const inRedemption = !!(lv.redemption || rv.redemption);

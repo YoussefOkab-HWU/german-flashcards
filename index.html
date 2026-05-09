@@ -1064,7 +1064,18 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 const CLOUD_DOC = db.collection('gfc').doc('youssef');
 function getQatarDate() { return new Date(Date.now() + 3*3600*1000).toISOString().slice(0,10); }
-let dailyMasteredCount = 0;
+// Load daily count from localStorage — resets automatically when date changes
+function loadDailyCount() {
+  try {
+    const stored = JSON.parse(localStorage.getItem('gfc_daily') || 'null');
+    if (stored && stored.date === getQatarDate()) return stored.count || 0;
+  } catch {}
+  return 0;
+}
+function saveDailyCount() {
+  try { localStorage.setItem('gfc_daily', JSON.stringify({ date: getQatarDate(), count: dailyMasteredCount })); } catch {}
+}
+let dailyMasteredCount = loadDailyCount();
 let _dailyCardCounted = false;
 function _updateDailyDisplay() {
   const el = document.getElementById('daily-mastered-count');
@@ -1074,22 +1085,19 @@ function incrementDailyCount() {
   if (_dailyCardCounted) return;
   _dailyCardCounted = true;
   dailyMasteredCount++;
+  saveDailyCount();
   _updateDailyDisplay();
   const today = getQatarDate();
-  CLOUD_DOC.update({
-    'dailyAttempts.date': today,
-    'dailyAttempts.count': firebase.firestore.FieldValue.increment(1)
-  }).catch(() => {
-    // Document may not exist yet — use set with merge
-    CLOUD_DOC.set({ dailyAttempts: { date: today, count: dailyMasteredCount } }, { merge: true })
-      .catch(e => console.warn('Daily count error:', e));
-  });
+  // Always set (not increment) so stale cloud counts don't carry over to new days
+  CLOUD_DOC.set({ dailyAttempts: { date: today, count: dailyMasteredCount } }, { merge: true })
+    .catch(e => console.warn('Daily count error:', e));
 }
 function applyRemoteDailyCount(data) {
   if (!data || !data.dailyAttempts) return;
   const { date, count } = data.dailyAttempts;
   if (date === getQatarDate() && (count || 0) > dailyMasteredCount) {
     dailyMasteredCount = count || 0;
+    saveDailyCount();
     _updateDailyDisplay();
   }
 }

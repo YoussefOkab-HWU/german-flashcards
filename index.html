@@ -696,6 +696,9 @@
   .mastered-bar .val { font-weight: 700; font-size: 1rem; }
   .mastered-bar .val.gold { color: #ffd700; }
   .mastered-bar .val.green { color: var(--green); }
+  #sync-dot { font-size: 0.75rem; cursor: default; user-select: none; transition: color 0.3s; }
+  #sync-dot.syncing { animation: syncpulse 1s infinite; }
+  @keyframes syncpulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
 
   /* German special character buttons */
   .umlaut-bar {
@@ -935,6 +938,7 @@
 
 <div class="mastered-bar" id="mastered-bar">
   <span id="mastered-bar-stats"><span class="val gold" id="mastered-count">0</span> mastered · <span class="val green" id="mastered-avg-acc">–</span></span>
+  <span id="sync-dot" title="Sync status">⬤</span>
   <button class="btn-view-forgotten" id="btn-view-forgotten">Word stats ▾</button>
 </div>
 
@@ -1097,9 +1101,19 @@ let cloudListenerActive = false;
 // can tell "this snapshot is my own echo" and skip the redundant local saves.
 const MY_CLIENT_ID = Math.random().toString(36).slice(2) + Date.now().toString(36);
 
+function setSyncStatus(status) {
+  const dot = document.getElementById('sync-dot');
+  if (!dot) return;
+  dot.classList.remove('syncing');
+  if (status === 'ok')      { dot.style.color = '#4caf50'; dot.title = 'Synced'; }
+  else if (status === 'syncing') { dot.style.color = '#ffb400'; dot.classList.add('syncing'); dot.title = 'Syncing…'; }
+  else if (status === 'error')   { dot.style.color = '#f44336'; dot.title = 'Sync failed — check Firebase rules'; }
+  else                           { dot.style.color = 'var(--muted)'; dot.title = 'Not synced yet'; }
+}
+
 function scheduleCloudSync() {
   clearTimeout(syncTimer);
-  syncTimer = setTimeout(() => { clearTimeout(syncMaxTimer); syncMaxTimer = null; pushToCloud(); }, 3000);
+  syncTimer = setTimeout(() => { clearTimeout(syncMaxTimer); syncMaxTimer = null; setSyncStatus('syncing'); pushToCloud(); }, 3000);
   // Max-wait: always push within 10 seconds even if cards keep coming
   if (!syncMaxTimer) {
     syncMaxTimer = setTimeout(() => { clearTimeout(syncTimer); syncMaxTimer = null; pushToCloud(); }, 10000);
@@ -1118,7 +1132,7 @@ let _visibilityTimer = null;
 document.addEventListener('visibilitychange', () => {
   if (document.visibilityState === 'visible') {
     clearTimeout(_visibilityTimer);
-    _visibilityTimer = setTimeout(() => pullFromCloud(), 10000);
+    _visibilityTimer = setTimeout(() => pullFromCloud(), 2000);
   } else {
     clearTimeout(_visibilityTimer);
   }
@@ -1170,7 +1184,7 @@ function pushToCloud() {
     mgAccuracy: masteredGrammarAccuracy,
     mfAccuracy: masteredFlashAccuracy,
     updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-  }, { merge: true }).catch(e => console.warn('Firestore write error:', e));
+  }, { merge: true }).then(() => setSyncStatus('ok')).catch(e => { console.warn('Firestore write error:', e); setSyncStatus('error'); });
 }
 
 // Merge: always take the highest consecutive streak from either device.
@@ -1347,7 +1361,7 @@ async function pullFromCloud() {
       }
       applyRemoteDailyCount(data);
     }
-  } catch(e) {}
+  } catch(e) { console.warn('Firestore pull error:', e); setSyncStatus('error'); }
   startCloudListener();
 }
 

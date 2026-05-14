@@ -4080,6 +4080,7 @@ function showNextSentenceCard() {
   sentenceCurrentCard = sentenceDeck[idx];
   sentenceAnswered = false;
 
+  document.getElementById('card').classList.remove('correct', 'wrong');
   document.getElementById('german-word').textContent = sentenceCurrentCard.english;
   document.getElementById('feedback').className = 'feedback hidden';
   document.getElementById('btn-next').style.display = 'none';
@@ -4087,6 +4088,7 @@ function showNextSentenceCard() {
   document.getElementById('word-breakdown').style.display = 'none';
   document.getElementById('category-badge').textContent = sentenceCurrentCard.type || '';
   document.getElementById('card-counter').textContent = '';
+  elCheck.disabled = false;
 
   const inp = document.getElementById('answer-input');
   inp.value = '';
@@ -4112,22 +4114,36 @@ function checkSentenceAnswer() {
   const correct   = matches / expected.length >= 0.6;
 
   const missed = expected.filter(w => !typedSet.has(w));
+  const card = document.getElementById('card');
   const fb = document.getElementById('feedback');
   if (correct) {
+    card.classList.add('correct');
     fb.className = 'feedback correct';
     fb.innerHTML = `✓ <strong>${sentenceCurrentCard.german}</strong>`;
   } else {
+    card.classList.add('wrong');
     fb.className = 'feedback incorrect';
     fb.innerHTML = `✗ Missing: <strong>${missed.join(', ')}</strong> · All: <strong>${sentenceCurrentCard.german}</strong>`;
   }
 
+  elCheck.disabled = true;
   document.getElementById('answer-input').disabled = true;
   document.getElementById('btn-next').style.display = 'block';
 }
 
 function skipSentenceCard() {
-  if (!isSentenceMode) return;
-  showNextSentenceCard();
+  if (!isSentenceMode || !sentenceCurrentCard || sentenceAnswered) return;
+  sentenceAnswered = true;
+
+  const card = document.getElementById('card');
+  card.classList.add('wrong');
+  const fb = document.getElementById('feedback');
+  fb.className = 'feedback incorrect';
+  fb.innerHTML = `⏭ <strong>${sentenceCurrentCard.german}</strong>`;
+
+  elCheck.disabled = true;
+  document.getElementById('answer-input').disabled = true;
+  document.getElementById('btn-next').style.display = 'block';
 }
 
 function exitSentenceMode() {

@@ -2548,7 +2548,7 @@ function checkAnswer() {
 
     if (allCorrect) {
       for (const c of allCards) { trackCorrect(c.german); if (isMasteredMode) { trackMFCorrect(c.german); masteredSessionStreak[c.german] = (masteredSessionStreak[c.german] || 0) + 1; } }
-      if (isMasteredMode) { saveMasteredStreak(); globalSessionStreak++; }
+      if (isMasteredMode) { saveMasteredStreak(); globalSessionStreak++; const _t=getUnlearnedCards().length,_sl=globalSessionStreak>=3?` · 🔥${globalSessionStreak} streak`:""; elCounter.textContent=`${_t} mastered words${_sl}`; }
       const state = getWordState(card.german);
       let suffix;
       if (isMasteredMode) {
@@ -2628,7 +2628,7 @@ function checkAnswer() {
   if (isCorrect) {
     markCorrect(card.german);
     trackCorrect(card.german);
-    if (isMasteredMode) { trackMFCorrect(card.german); masteredSessionStreak[card.german] = (masteredSessionStreak[card.german] || 0) + 1; saveMasteredStreak(); globalSessionStreak++; }
+    if (isMasteredMode) { trackMFCorrect(card.german); masteredSessionStreak[card.german] = (masteredSessionStreak[card.german] || 0) + 1; saveMasteredStreak(); globalSessionStreak++; const _t=getUnlearnedCards().length,_sl=globalSessionStreak>=3?` · 🔥${globalSessionStreak} streak`:""; elCounter.textContent=`${_t} mastered words${_sl}`; }
     const consecutive = getWordState(card.german).consecutive;
     const learned = getWordState(card.german).learned;
     elCard.classList.add('correct');

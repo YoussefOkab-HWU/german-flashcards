@@ -1844,7 +1844,7 @@ function saveMasteredStreak() {
   try { localStorage.setItem('gfc_mastered_streak', JSON.stringify(masteredSessionStreak)); } catch {}
 }
 const masteredSessionStreak = loadMasteredStreak(); // german -> consecutive correct overall
-let globalSessionStreak = 0; // resets to 0 on any wrong answer this session
+
 
 // Returns true if this card was shown too recently to show again
 function shownRecently(c) {
@@ -2170,7 +2170,7 @@ function showCard() {
   elBadge.textContent = activeFilter === 'all' ? '' : card.category;
   if (isMasteredMode) {
     const total = getUnlearnedCards().length;
-    const streakLabel = globalSessionStreak >= 3 ? ` · 🔥${globalSessionStreak} streak` : '';
+    const streakLabel = getMFStreak(card.german) >= 3 ? ` · 🔥${getMFStreak(card.german)} streak` : '';
     const redemptionLabel = isInRedemption(card.german) ? ' · ⚡ Redemption Arc' : '';
     elCounter.textContent = `${total} mastered words${streakLabel}${redemptionLabel}`;
     // Show mastered-mode accuracy history on the card itself
@@ -2548,7 +2548,7 @@ function checkAnswer() {
 
     if (allCorrect) {
       for (const c of allCards) { trackCorrect(c.german); if (isMasteredMode) { trackMFCorrect(c.german); masteredSessionStreak[c.german] = (masteredSessionStreak[c.german] || 0) + 1; } }
-      if (isMasteredMode) { saveMasteredStreak(); globalSessionStreak++; const _t=getUnlearnedCards().length,_sl=globalSessionStreak>=3?` · 🔥${globalSessionStreak} streak`:""; elCounter.textContent=`${_t} mastered words${_sl}`; }
+      if (isMasteredMode) { saveMasteredStreak(); const _t=getUnlearnedCards().length,_ms=getMFStreak(card.german),_sl=_ms>=3?` · 🔥${_ms} streak`:""; elCounter.textContent=`${_t} mastered words${_sl}`; }
       const state = getWordState(card.german);
       let suffix;
       if (isMasteredMode) {
@@ -2572,7 +2572,7 @@ function checkAnswer() {
         });
       }
     } else {
-      if (isMasteredMode) { for (const c of allCards) { masteredSessionStreak[c.german] = 0; trackMFWrong(c.german); } saveMasteredStreak(); globalSessionStreak = 0; }
+      if (isMasteredMode) { for (const c of allCards) { masteredSessionStreak[c.german] = 0; trackMFWrong(c.german); } saveMasteredStreak(); const _t2=getUnlearnedCards().length; elCounter.textContent=`${_t2} mastered words`; }
       if (!isMasteredMode) { const _r = getUnlearnedCards().length, _p = getRetryCards(buildCards(activeFilter)).length; elCounter.textContent = _p > 0 ? `${_r} remaining · ${_p} to retry` : `${_r} remaining`; }
       elCard.classList.add('wrong');
       elFeedback.className = 'feedback wrong';
@@ -2628,7 +2628,7 @@ function checkAnswer() {
   if (isCorrect) {
     markCorrect(card.german);
     trackCorrect(card.german);
-    if (isMasteredMode) { trackMFCorrect(card.german); masteredSessionStreak[card.german] = (masteredSessionStreak[card.german] || 0) + 1; saveMasteredStreak(); globalSessionStreak++; const _t=getUnlearnedCards().length,_sl=globalSessionStreak>=3?` · 🔥${globalSessionStreak} streak`:""; elCounter.textContent=`${_t} mastered words${_sl}`; }
+    if (isMasteredMode) { trackMFCorrect(card.german); masteredSessionStreak[card.german] = (masteredSessionStreak[card.german] || 0) + 1; saveMasteredStreak(); const _t=getUnlearnedCards().length,_ms=getMFStreak(card.german),_sl=_ms>=3?` · 🔥${_ms} streak`:""; elCounter.textContent=`${_t} mastered words${_sl}`; }
     const consecutive = getWordState(card.german).consecutive;
     const learned = getWordState(card.german).learned;
     elCard.classList.add('correct');
@@ -2655,7 +2655,7 @@ function checkAnswer() {
     renderDots(card.german);
   } else {
     markWrong(card.german);
-    if (isMasteredMode) { masteredSessionStreak[card.german] = 0; saveMasteredStreak(); trackMFWrong(card.german); globalSessionStreak = 0; }
+    if (isMasteredMode) { masteredSessionStreak[card.german] = 0; saveMasteredStreak(); trackMFWrong(card.german); const _t3=getUnlearnedCards().length; elCounter.textContent=`${_t3} mastered words`; }
     { const _r = getUnlearnedCards().length, _p = getRetryCards(buildCards(activeFilter)).length; elCounter.textContent = _p > 0 ? `${_r} remaining · ${_p} to retry` : `${_r} remaining`; }
     elCard.classList.add('wrong');
     elFeedback.className = 'feedback wrong';
@@ -2766,7 +2766,7 @@ function skipCard() {
   const isGrammarCard = appMode === 'grammar' || (isMasteredAllMode && masteredAllDeck[masteredAllPos]?._allType === 'grammar');
   const card = isGrammarCard ? (isMasteredAllMode ? masteredAllDeck[masteredAllPos] : grammarQueue[0]) : deck[deckPos];
   if (!card) return;
-  if (isMasteredMode && !isGrammarCard) { trackShown(card.german); trackMFShown(card.german); incrementDailyCount(); globalSessionStreak = 0; }
+  if (isMasteredMode && !isGrammarCard) { trackShown(card.german); trackMFShown(card.german); incrementDailyCount(); }
 
   if (isGrammarCard) {
     markGrammarWrong(card.grammarKey || card.key);

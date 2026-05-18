@@ -2560,17 +2560,9 @@ function checkAnswer() {
       }
       elCard.classList.add('correct');
       elFeedback.className = 'feedback correct';
-      const rdBtnMulti = isMasteredMode && getMFStreak(card.german) >= 10 && !isInRedemption(card.german)
-        ? `<button id="btn-redemption" style="margin-left:12px;padding:3px 14px;border-radius:8px;border:1px solid rgba(255,200,50,0.6);background:rgba(255,180,0,0.15);color:#ffd700;font-size:0.82rem;font-weight:700;cursor:pointer">⚡ Redemption Arc</button>`
-        : '';
-      elFeedback.innerHTML = `<span class="feedback-icon">✓</span> Correct! &nbsp;${correctDisplay}<span style="opacity:.7;font-size:.9em;margin-left:6px">${suffix}</span>${rdBtnMulti}`;
-      if (rdBtnMulti) {
-        document.getElementById('btn-redemption').addEventListener('click', () => {
-          activateRedemptionArc(card.german);
-          const b = document.getElementById('btn-redemption');
-          if (b) { b.textContent = '⚡ Active!'; b.disabled = true; b.style.opacity = '0.6'; }
-        });
-      }
+      if (isMasteredMode && getMFStreak(card.german) >= 10 && !isInRedemption(card.german)) activateRedemptionArc(card.german);
+      const arcLabel = isMasteredMode && isInRedemption(card.german) ? ' ⚡' : '';
+      elFeedback.innerHTML = `<span class="feedback-icon">✓</span> Correct! &nbsp;${correctDisplay}<span style="opacity:.7;font-size:.9em;margin-left:6px">${suffix}${arcLabel}</span>`;
     } else {
       if (isMasteredMode) { for (const c of allCards) { masteredSessionStreak[c.german] = 0; trackMFWrong(c.german); } saveMasteredStreak(); const _t2=getUnlearnedCards().length; elCounter.textContent=`${_t2} mastered words`; }
       if (!isMasteredMode) { const _r = getUnlearnedCards().length, _p = getRetryCards(buildCards(activeFilter)).length; elCounter.textContent = _p > 0 ? `${_r} remaining · ${_p} to retry` : `${_r} remaining`; }
@@ -2641,17 +2633,9 @@ function checkAnswer() {
       suffix = learned ? ' 🎓 Mastered!' : ` (${consecutive}/3)`;
     }
     const speakInline = langDir === 'en-de' ? speakBtn : '';
-    const rdBtn = isMasteredMode && getMFStreak(card.german) >= 10 && !isInRedemption(card.german)
-      ? `<button id="btn-redemption" style="margin-left:12px;padding:3px 14px;border-radius:8px;border:1px solid rgba(255,200,50,0.6);background:rgba(255,180,0,0.15);color:#ffd700;font-size:0.82rem;font-weight:700;cursor:pointer">⚡ Redemption Arc</button>`
-      : '';
-    elFeedback.innerHTML = `<span class="feedback-icon">✓</span> Correct! &nbsp;<strong>${correctDisplay}</strong>${speakInline}<span style="opacity:.7;font-size:.9em;margin-left:6px">${suffix}</span>${rdBtn}`;
-    if (rdBtn) {
-      document.getElementById('btn-redemption').addEventListener('click', () => {
-        activateRedemptionArc(card.german);
-        const b = document.getElementById('btn-redemption');
-        if (b) { b.textContent = '⚡ Active!'; b.disabled = true; b.style.opacity = '0.6'; }
-      });
-    }
+    if (isMasteredMode && getMFStreak(card.german) >= 10 && !isInRedemption(card.german)) activateRedemptionArc(card.german);
+    const arcLabel = isMasteredMode && isInRedemption(card.german) ? ' ⚡' : '';
+    elFeedback.innerHTML = `<span class="feedback-icon">✓</span> Correct! &nbsp;<strong>${correctDisplay}</strong>${speakInline}<span style="opacity:.7;font-size:.9em;margin-left:6px">${suffix}${arcLabel}</span>`;
     renderDots(card.german);
   } else {
     markWrong(card.german);

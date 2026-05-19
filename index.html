@@ -2797,9 +2797,11 @@ function skipCard() {
   // Multi-answer skip: mark all siblings wrong
   const wasSkipMastered = getWordState(card.german).learned;
   if (langDir === 'en-de' && currentSiblings.length > 0) {
-    for (const c of [card, ...currentSiblings]) markWrong(c.german);
+    for (const c of [card, ...currentSiblings]) { markWrong(c.german); if (isMasteredMode) { trackMFWrong(c.german); masteredSessionStreak[c.german] = 0; } }
+    if (isMasteredMode) saveMasteredStreak();
   } else {
     markWrong(card.german);
+    if (isMasteredMode) { trackMFWrong(card.german); masteredSessionStreak[card.german] = 0; saveMasteredStreak(); }
   }
   { const _r = getUnlearnedCards().length, _p = getRetryCards(buildCards(activeFilter)).length; elCounter.textContent = _p > 0 ? `${_r} remaining · ${_p} to retry` : `${_r} remaining`; }
 

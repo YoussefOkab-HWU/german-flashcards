@@ -2292,7 +2292,8 @@ function updateMasteryBar() {
   }
   if (isMasteredMode && (isMasteredAllMode || !isMasteredGrammarMode)) {
     const all = buildCards(activeFilter);
-    const masteredFlash = all.filter(c => getWordState(c.german).learned);
+    const _mfSeen = new Set();
+    const masteredFlash = all.filter(c => getWordState(c.german).learned && !_mfSeen.has(c.german) && _mfSeen.add(c.german));
     const flashSeen = masteredFlash.filter(c => getMFAccuracy(c.german).shown > 0);
     const flashSum = flashSeen.reduce((s, c) => s + getMFAccuracyPct(c.german), 0);
 

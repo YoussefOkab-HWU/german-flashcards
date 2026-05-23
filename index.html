@@ -1999,8 +1999,11 @@ function getNextCard() {
 // ── Deck management ──────────────────────────────────────────────────────────
 function getUnlearnedCards() {
   const cards = buildCards(activeFilter);
-  if (isMasteredMode) return cards.filter(c => getWordState(c.german).learned);
-  return cards.filter(c => !getWordState(c.german).learned);
+  const filtered = isMasteredMode
+    ? cards.filter(c => getWordState(c.german).learned)
+    : cards.filter(c => !getWordState(c.german).learned);
+  const seen = new Set();
+  return filtered.filter(c => { if (seen.has(c.german)) return false; seen.add(c.german); return true; });
 }
 
 function resetDeck() {
@@ -2399,7 +2402,8 @@ function renderForgottenPanel() {
   const h2 = document.querySelector('#forgotten-panel h2');
   if (h2) h2.textContent = isMasteredMode ? 'Mastered Word Stats — sorted by success rate' : 'Forgotten Words';
   const all = buildCards('all');
-  const mastered = all.filter(c => getWordState(c.german).learned);
+  const _ms = new Set();
+  const mastered = all.filter(c => getWordState(c.german).learned && !_ms.has(c.german) && _ms.add(c.german));
   elForgottenList.innerHTML = '';
 
   if (mastered.length === 0) {

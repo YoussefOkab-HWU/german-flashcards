@@ -1929,11 +1929,12 @@ function getNextCard() {
   const freshRetries = allRetriesCooled.filter(c => !shownRecently(c));
 
   // Undertested cards: shown < 5 times, not in retry queue.
-  // Only activate once all new cards are reviewed. Weight = 0.7 vs retries' 1.0.
-  const freshUndertested = hasNewCards ? [] : getUndertested(allCards).filter(c => {
+  // Always cycle back (not gated on new cards), but use a longer cooldown when new cards still exist.
+  const freshUndertested = getUndertested(allCards).filter(c => {
     if (shownRecently(c)) return false;
+    const cooldown = hasNewCards ? 30 : (retryCooldownFor[c.german] || 20);
     if (!lastShownAt[c.german]) return true;
-    return cardCount - lastShownAt[c.german] >= (retryCooldownFor[c.german] || 20);
+    return cardCount - lastShownAt[c.german] >= cooldown;
   });
 
   // 1 in 50 chance: show a mastered word as ghost (only if we have fresh active cards too)
@@ -1984,7 +1985,7 @@ function getNextCard() {
 
   // Everything was shown recently — serve the least-recently-shown retry or active card
   const allRetries = getRetryCards(allCards);
-  const allUndertestedCards = hasNewCards ? [] : getUndertested(allCards);
+  const allUndertestedCards = getUndertested(allCards);
   const candidates = [...active, ...allRetries, ...allUndertestedCards];
   if (candidates.length > 0) {
     candidates.sort((a, b) => (lastShownAt[a.german] || 0) - (lastShownAt[b.german] || 0));

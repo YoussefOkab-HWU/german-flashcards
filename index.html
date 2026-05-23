@@ -2300,13 +2300,11 @@ function updateMasteryBar() {
     const grammarSeen = Object.entries(masteredGrammarAccuracy).filter(([, a]) => a.shown > 0);
     const grammarSum = grammarSeen.reduce((s, [, a]) => s + Math.round(a.correct / a.shown * 100), 0);
 
-    const flashAvg = flashSeen.length === 0 ? '–' : Math.round(flashSum / flashSeen.length) + '%';
-    const gramAvg  = grammarSeen.length === 0 ? '–' : Math.round(grammarSum / grammarSeen.length) + '%';
+    const flashAvg = flashSeen.length === 0 ? '–' : (flashSum / flashSeen.length).toFixed(2) + '%';
 
     const flashCount = masteredFlash.length;
-    const gramCount = Object.values(grammarProgress).filter(s => s.learned).length;
     const statsEl = document.getElementById('mastered-bar-stats');
-    statsEl.innerHTML = `<span class="val gold">${flashCount}</span> flash <span class="val green">${flashAvg}</span> · <span class="val gold">${gramCount}</span> grammar <span class="val green">${gramAvg}</span> · <span class="val" id="daily-mastered-count" style="color:#87ceeb">${dailyMasteredCount}</span> today`;
+    statsEl.innerHTML = `<span class="val gold">${flashCount}</span> flash <span class="val green">${flashAvg}</span> · <span class="val" id="daily-mastered-count" style="color:#87ceeb">${dailyMasteredCount}</span> today`;
     return;
   }
   const all = buildCards(activeFilter);

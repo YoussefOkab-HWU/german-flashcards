@@ -1932,7 +1932,7 @@ function getNextCard() {
   // Always cycle back (not gated on new cards), but use a longer cooldown when new cards still exist.
   const freshUndertested = getUndertested(allCards).filter(c => {
     if (shownRecently(c)) return false;
-    const cooldown = hasNewCards ? 30 : (retryCooldownFor[c.german] || 20);
+    const cooldown = hasNewCards ? 5 : (retryCooldownFor[c.german] || 20);
     if (!lastShownAt[c.german]) return true;
     return cardCount - lastShownAt[c.german] >= cooldown;
   });

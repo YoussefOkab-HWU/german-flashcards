@@ -1886,8 +1886,8 @@ function getNextCard() {
       return pick;
     }
 
-    // Every 5th card: boost a word from the under-tested pool (shown < 5) to build up sample
-    if (cardCount % 5 === 0) {
+    // Every 3rd card: boost a word from the under-tested pool (shown < 5) to build up sample
+    if (cardCount % 3 === 0) {
       const undertested = mastered.filter(c => {
         const shown = getMFAccuracy(c.german).shown;
         return shown > 0 && shown < 5 && !shownRecently(c);

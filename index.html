@@ -1601,7 +1601,7 @@ function getMFStreak(word) {
 }
 function getMFUndertestedLabel() {
   const cards = getUnlearnedCards();
-  const n = cards.filter(c => getMFAccuracy(c.german).shown < 5).length;
+  const n = cards.filter(c => getMFAccuracy(c.german).shown < 3).length;
   if (n === 0) return '';
   const pct = Math.round(n / cards.length * 100);
   return ` · ${n} not fully tested (${pct}%)`;
@@ -1886,11 +1886,11 @@ function getNextCard() {
       return pick;
     }
 
-    // Every 3rd card: boost a word from the under-tested pool (shown < 5) to build up sample
+    // Every 3rd card: boost a word from the under-tested pool (shown < 3) to build up sample
     if (cardCount % 3 === 0) {
       const undertested = mastered.filter(c => {
         const shown = getMFAccuracy(c.german).shown;
-        return shown > 0 && shown < 5 && !shownRecently(c);
+        return shown > 0 && shown < 3 && !shownRecently(c);
       });
       if (undertested.length > 0) {
         const pick = undertested[Math.floor(Math.random() * undertested.length)];
@@ -2315,7 +2315,7 @@ function updateMasteryBar() {
     const all = buildCards(activeFilter);
     const _mfSeen = new Set();
     const masteredFlash = all.filter(c => getWordState(c.german).learned && !_mfSeen.has(c.german) && _mfSeen.add(c.german));
-    const flashSeen = masteredFlash.filter(c => getMFAccuracy(c.german).shown >= 5);
+    const flashSeen = masteredFlash.filter(c => getMFAccuracy(c.german).shown >= 3);
     const flashSum = flashSeen.reduce((s, c) => s + getMFAccuracyPct(c.german), 0);
 
     const grammarSeen = Object.entries(masteredGrammarAccuracy).filter(([, a]) => a.shown > 0);
@@ -2324,8 +2324,11 @@ function updateMasteryBar() {
     const flashAvg = flashSeen.length === 0 ? '–' : (flashSum / flashSeen.length).toFixed(2) + '%';
 
     const flashCount = masteredFlash.length;
+    const undertestedN = masteredFlash.filter(c => getMFAccuracy(c.german).shown < 3).length;
+    const undertestedPct = flashCount > 0 ? Math.round(undertestedN / flashCount * 100) : 0;
+    const undertestedStr = undertestedN > 0 ? ` · <span style="color:#aaa">${undertestedPct}% not fully tested</span>` : '';
     const statsEl = document.getElementById('mastered-bar-stats');
-    statsEl.innerHTML = `<span class="val gold">${flashCount}</span> flash <span class="val green">${flashAvg}</span> · <span class="val" id="daily-mastered-count" style="color:#87ceeb">${dailyMasteredCount}</span> today`;
+    statsEl.innerHTML = `<span class="val gold">${flashCount}</span> flash <span class="val green">${flashAvg}</span>${undertestedStr} · <span class="val" id="daily-mastered-count" style="color:#87ceeb">${dailyMasteredCount}</span> today`;
     return;
   }
   const all = buildCards(activeFilter);

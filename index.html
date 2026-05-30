@@ -1890,7 +1890,7 @@ function getNextCard() {
     if (cardCount % 3 === 0) {
       const undertested = mastered.filter(c => {
         const shown = getMFAccuracy(c.german).shown;
-        return shown > 0 && shown < 3 && !shownRecently(c);
+        return shown < 3 && !shownRecently(c);
       });
       if (undertested.length > 0) {
         const pick = undertested[Math.floor(Math.random() * undertested.length)];

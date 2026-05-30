@@ -2687,10 +2687,7 @@ function checkAnswer() {
       ? `<button id="btn-unmaster" style="margin-left:12px;padding:3px 12px;border-radius:8px;border:1px solid rgba(255,100,100,0.5);background:rgba(255,60,60,0.15);color:#f88;font-size:0.82rem;font-weight:600;cursor:pointer">Unmaster it?</button>`
       : '';
     const accSuffix = isMasteredMode ? (() => { const a = getMFAccuracyLabel(card.german); return a ? `<span style="opacity:.7;font-size:.88em;margin-left:8px">accuracy: ${a}</span>` : ''; })() : '';
-    const resetBtn = isMasteredMode
-      ? `<button id="btn-reset-stats" style="margin-left:12px;padding:3px 12px;border-radius:8px;border:1px solid rgba(255,255,255,0.3);background:rgba(255,255,255,0.08);color:#ccc;font-size:0.82rem;font-weight:600;cursor:pointer">Reset stats</button>`
-      : '';
-    elFeedback.innerHTML = `<span class="feedback-icon">✗</span> Wrong! Correct: <strong style="margin-left:4px">${correctDisplay}</strong>${speakInline}${typoBtn}${acceptBtn}${unmasterBtn}${accSuffix}${resetBtn}`;
+    elFeedback.innerHTML = `<span class="feedback-icon">✗</span> Wrong! Correct: <strong style="margin-left:4px">${correctDisplay}</strong>${speakInline}${typoBtn}${acceptBtn}${unmasterBtn}${accSuffix}`;
     renderDots(card.german);
     if (isTypo) {
       document.getElementById('btn-typo').addEventListener('click', () => fixTypo(card, consecutiveBeforeAnswer));
@@ -2700,16 +2697,6 @@ function checkAnswer() {
     }
     if (wasMastered) {
       document.getElementById('btn-unmaster').addEventListener('click', () => unmasterWord(card.german));
-    }
-    if (isMasteredMode) {
-      document.getElementById('btn-reset-stats').addEventListener('click', () => {
-        masteredFlashAccuracy[card.german] = { shown: 0, correct: 0, streak: 0 };
-        saveMFAccuracy();
-        updateMasteryBar();
-        elFeedback.querySelector('#btn-reset-stats').remove();
-        const accEl = elFeedback.querySelector('span[style*="opacity"]');
-        if (accEl) accEl.remove();
-      });
     }
   }
 
@@ -3214,6 +3201,14 @@ if (!localStorage.getItem('fix_mf_seed')) {
   }
   if (seeded > 0) saveMasteredFlashAccuracy();
   localStorage.setItem('fix_mf_seed', '1');
+}
+// One-time reset: besprechen and diskutieren definitions were clarified
+if (!localStorage.getItem('gfc_reset_discuss')) {
+  ['besprechen', 'diskutieren'].forEach(w => {
+    masteredFlashAccuracy[w] = { shown: 0, correct: 0, streak: 0 };
+  });
+  saveMasteredFlashAccuracy();
+  localStorage.setItem('gfc_reset_discuss', '1');
 }
 let mgCardCount = 0;
 const mgLastShownAt = {}; // grammarKey → mgCardCount when last shown

@@ -1552,13 +1552,14 @@ function getMFAccuracy(word) {
 function getMFAccuracyPct(word) {
   const a = getMFAccuracy(word);
   if (a.shown === 0) return null;
-  return Math.round((a.correct / a.shown) * 100);
+  return Math.min(100, Math.round((a.correct / a.shown) * 100));
 }
 function getMFAccuracyLabel(word) {
   const a = getMFAccuracy(word);
   if (a.shown === 0) return null;
-  const pct = Math.round((a.correct / a.shown) * 100);
-  return `${a.correct}/${a.shown} (${pct}%)`;
+  const pct = Math.min(100, Math.round((a.correct / a.shown) * 100));
+  const correct = Math.min(a.correct, a.shown);
+  return `${correct}/${a.shown} (${pct}%)`;
 }
 function trackMFShown(word) {
   if (!masteredFlashAccuracy[word]) masteredFlashAccuracy[word] = { shown: 0, correct: 0, streak: 0, redemption: false };
@@ -3201,6 +3202,18 @@ if (!localStorage.getItem('fix_mf_seed')) {
   }
   if (seeded > 0) saveMasteredFlashAccuracy();
   localStorage.setItem('fix_mf_seed', '1');
+}
+// One-time fix: cap correct <= shown for all mastered flash entries
+if (!localStorage.getItem('gfc_fix_mf_cap')) {
+  let fixed = false;
+  for (const w of Object.keys(masteredFlashAccuracy)) {
+    if (masteredFlashAccuracy[w].correct > masteredFlashAccuracy[w].shown) {
+      masteredFlashAccuracy[w].correct = masteredFlashAccuracy[w].shown;
+      fixed = true;
+    }
+  }
+  if (fixed) saveMasteredFlashAccuracy();
+  localStorage.setItem('gfc_fix_mf_cap', '1');
 }
 // One-time reset: besprechen and diskutieren definitions were clarified
 if (!localStorage.getItem('gfc_reset_discuss2')) {

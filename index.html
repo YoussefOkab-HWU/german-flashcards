@@ -1711,6 +1711,12 @@ let appMode = 'flashcards';
 let langDir = 'de-en'; // 'de-en' or 'en-de'
 let answered = false;
 
+// Strip parentheticals like "(Sport treiben = to do sport)" from card prompts
+// so the German answer word embedded in the English definition doesn't give it away.
+function stripHintParens(text) {
+  return text.replace(/\s*\([^)]*=[^)]*\)/g, '').trim();
+}
+
 // ── DOM refs ─────────────────────────────────────────────────────────────────
 const elWord        = document.getElementById('german-word');
 const elBadge       = document.getElementById('category-badge');
@@ -2187,9 +2193,11 @@ function showCard() {
   }
   elInput.focus();
 
-  // Show German or English depending on direction
+  // Show German or English depending on direction.
+  // Strip hint parentheticals (e.g. "Sport treiben = to do sport") from the English
+  // prompt so the German answer isn't embedded in the question.
   const displayWord = langDir === 'en-de'
-    ? (card.category === 'nouns' ? 'the ' + card.english : card.english)
+    ? (card.category === 'nouns' ? 'the ' + stripHintParens(card.english) : stripHintParens(card.english))
     : card.german;
   elWord.textContent = displayWord;
   elBadge.textContent = activeFilter === 'all' ? '' : card.category;

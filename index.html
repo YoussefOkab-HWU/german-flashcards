@@ -922,6 +922,7 @@
 <div class="tense-filters" id="mastered-subtabs" style="display:none">
   <button class="filter-btn active" id="mastered-tab-all">All</button>
   <button class="filter-btn" id="mastered-tab-flashcards">Flashcards</button>
+  <button class="filter-btn" id="mastered-tab-catchup">Catch-up</button>
   <button class="filter-btn" id="mastered-tab-grammar">Grammar</button>
 </div>
 
@@ -1717,6 +1718,7 @@ if (!localStorage.getItem('fix_sibling_accuracy')) {
 let isMasteredMode = false;
 let isMasteredGrammarMode = false;
 let isMasteredAllMode = false;
+let isMasteredCatchupMode = false;
 let deck = [];
 let deckPos = 0;
 let grammarQueue = [];     // active working window for grammar drill
@@ -1897,7 +1899,11 @@ function getNextCard() {
 
   // In mastered mode: unseen words first (strictly), then weighted random by accuracy
   if (isMasteredMode) {
-    const mastered = allCards.filter(c => getWordState(c.german).learned);
+    const allMastered = allCards.filter(c => getWordState(c.german).learned);
+    // Catch-up mode: restrict entirely to words shown fewer than 3 times
+    const mastered = isMasteredCatchupMode
+      ? allMastered.filter(c => getMFAccuracy(c.german).shown < 3)
+      : allMastered;
     if (mastered.length === 0) return null;
 
     // Strictly prioritise never-reviewed words — show them all before anything else
@@ -2219,10 +2225,15 @@ function showCard() {
   elWord.textContent = displayWord;
   elBadge.textContent = activeFilter === 'all' ? '' : card.category;
   if (isMasteredMode) {
-    const total = getUnlearnedCards().length;
-    const streakLabel = getMFStreak(card.german) >= 3 ? ` · 🔥${getMFStreak(card.german)} streak` : '';
-    const redemptionLabel = isInRedemption(card.german) ? ' · ⚡ Redemption Arc' : '';
-    elCounter.textContent = `${total} mastered words${streakLabel}${redemptionLabel}${getMFUndertestedLabel()}`;
+    if (isMasteredCatchupMode) {
+      const remaining = buildCards(activeFilter).filter(c => getWordState(c.german).learned && getMFAccuracy(c.german).shown < 3).length;
+      elCounter.textContent = `${remaining} remaining · catch-up`;
+    } else {
+      const total = getUnlearnedCards().length;
+      const streakLabel = getMFStreak(card.german) >= 3 ? ` · 🔥${getMFStreak(card.german)} streak` : '';
+      const redemptionLabel = isInRedemption(card.german) ? ' · ⚡ Redemption Arc' : '';
+      elCounter.textContent = `${total} mastered words${streakLabel}${redemptionLabel}${getMFUndertestedLabel()}`;
+    }
     // Show mastered-mode accuracy history on the card itself
     const a = getMFAccuracy(card.german);
     const masteredAccEl = document.getElementById('mastered-card-acc');
@@ -2298,7 +2309,21 @@ function advanceCard() {
     return;
   }
   const nextCard = getNextCard();
-  if (!nextCard) { showAllLearned(); return; }
+  if (!nextCard) {
+    if (isMasteredCatchupMode) {
+      elCard.className = 'card correct';
+      elWord.style.display = '';
+      elWord.textContent = '🎓';
+      elCounter.textContent = 'All caught up — 0 not fully tested!';
+      elBadge.textContent = '';
+      elMasteryDots.innerHTML = '';
+      elFeedback.className = 'feedback hidden';
+      elNext.classList.remove('visible');
+      return;
+    }
+    showAllLearned();
+    return;
+  }
   deck = [nextCard];
   deckPos = 0;
   updateMasteryBar();
@@ -3034,8 +3059,12 @@ document.getElementById('mastered-tab-all').addEventListener('click', () => {
   startMasteredAllMode();
 });
 document.getElementById('mastered-tab-flashcards').addEventListener('click', () => {
-  if (!isMasteredGrammarMode && !isMasteredAllMode) return;
+  if (!isMasteredGrammarMode && !isMasteredAllMode && !isMasteredCatchupMode) return;
   stopMasteredAllModes();
+});
+document.getElementById('mastered-tab-catchup').addEventListener('click', () => {
+  if (isMasteredCatchupMode) return;
+  startMasteredCatchupMode();
 });
 document.getElementById('mastered-tab-grammar').addEventListener('click', () => {
   if (isMasteredGrammarMode) return;
@@ -3349,10 +3378,35 @@ function stopMasteredGrammarDrill() {
 function stopMasteredAllModes() {
   isMasteredGrammarMode = false;
   isMasteredAllMode = false;
+  isMasteredCatchupMode = false;
   document.getElementById('mastered-tab-grammar').classList.remove('active');
   document.getElementById('mastered-tab-all').classList.remove('active');
+  document.getElementById('mastered-tab-catchup').classList.remove('active');
   document.getElementById('mastered-tab-flashcards').classList.add('active');
   appMode = 'flashcards';
+  elInput.style.display = '';
+  document.getElementById('grammar-prompt').style.display = 'none';
+  document.getElementById('grammar-fields').style.display = 'none';
+  updateMasteryBar();
+  resetDeck();
+}
+
+function startMasteredCatchupMode() {
+  const catchupCards = buildCards('all').filter(c => getWordState(c.german).learned && getMFAccuracy(c.german).shown < 3);
+  if (catchupCards.length === 0) {
+    // Nothing to catch up — stay on flashcards tab
+    stopMasteredAllModes();
+    elCounter.textContent = 'All words fully tested — nothing to catch up!';
+    return;
+  }
+  isMasteredCatchupMode = true;
+  isMasteredGrammarMode = false;
+  isMasteredAllMode = false;
+  appMode = 'flashcards';
+  document.getElementById('mastered-tab-catchup').classList.add('active');
+  document.getElementById('mastered-tab-flashcards').classList.remove('active');
+  document.getElementById('mastered-tab-grammar').classList.remove('active');
+  document.getElementById('mastered-tab-all').classList.remove('active');
   elInput.style.display = '';
   document.getElementById('grammar-prompt').style.display = 'none';
   document.getElementById('grammar-fields').style.display = 'none';

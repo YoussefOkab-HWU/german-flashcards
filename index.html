@@ -1417,9 +1417,12 @@ function saveProgressLocal(p) {
   try {
     localStorage.setItem('gfc_progress', data);
   } catch(e) {
-    // Quota exceeded — free space by clearing non-critical cached data, then retry
+    // Quota exceeded — free space by clearing non-critical cached data, then retry.
+    // Never delete gfc_mf_accuracy or gfc_mg_accuracy — those are hard to rebuild
+    // and losing them corrupts Firebase on the next push.
+    try { localStorage.removeItem('gfc_synonyms'); } catch {}
+    try { localStorage.removeItem('gfc_mastered_streak'); } catch {}
     try { localStorage.removeItem('gfc_accuracy'); } catch {}
-    try { localStorage.removeItem('gfc_mf_accuracy'); } catch {}
     try { localStorage.setItem('gfc_progress', data); } catch {}
   }
 }

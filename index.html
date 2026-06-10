@@ -1396,6 +1396,7 @@ async function pullFromCloud() {
       applyRemoteDailyCount(data);
     }
   } catch(e) { console.warn('Firestore pull error:', e); setSyncStatus('error'); }
+  cloudPullDone = true;
   startCloudListener();
 }
 

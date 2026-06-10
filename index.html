@@ -3228,6 +3228,22 @@ if (!localStorage.getItem('fix_mf_seed')) {
   if (seeded > 0) saveMasteredFlashAccuracy();
   localStorage.setItem('fix_mf_seed', '1');
 }
+// One-time fix: restore mfAccuracy for mastered words that lost their data
+// (quota-exceeded bug wiped gfc_mf_accuracy from localStorage, then pushToCloud
+// wrote empty data to Firebase — re-seed from regular accuracy as best estimate).
+if (!localStorage.getItem('fix_mf_reseed_v1')) {
+  let reseeded = 0;
+  for (const word of Object.keys(accuracy)) {
+    const mf = masteredFlashAccuracy[word];
+    const ac = accuracy[word];
+    if ((!mf || mf.shown === 0) && ac && ac.shown > 0) {
+      masteredFlashAccuracy[word] = { shown: ac.shown, correct: ac.correct, streak: 0, redemption: false };
+      reseeded++;
+    }
+  }
+  if (reseeded > 0) saveMasteredFlashAccuracy();
+  localStorage.setItem('fix_mf_reseed_v1', '1');
+}
 // One-time fix: cap correct <= shown for all mastered flash entries
 if (!localStorage.getItem('gfc_fix_mf_cap')) {
   let fixed = false;

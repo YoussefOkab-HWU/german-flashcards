@@ -1131,7 +1131,10 @@ function setSyncStatus(status) {
 
 function scheduleCloudSync() {
   clearTimeout(syncTimer);
-  syncTimer = setTimeout(() => { clearTimeout(syncMaxTimer); syncMaxTimer = null; setSyncStatus('syncing'); pushToCloud(); }, 3000);
+  // In mastered mode, sync after 1s — progress is hard to reconstruct if the
+  // process is killed (sudo reboot, crash) before the debounce fires.
+  const delay = isMasteredMode ? 1000 : 3000;
+  syncTimer = setTimeout(() => { clearTimeout(syncMaxTimer); syncMaxTimer = null; setSyncStatus('syncing'); pushToCloud(); }, delay);
   // Max-wait: always push within 10 seconds even if cards keep coming
   if (!syncMaxTimer) {
     syncMaxTimer = setTimeout(() => { clearTimeout(syncTimer); syncMaxTimer = null; pushToCloud(); }, 10000);

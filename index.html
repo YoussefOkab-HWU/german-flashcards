@@ -1132,9 +1132,7 @@ function setSyncStatus(status) {
 
 function scheduleCloudSync() {
   clearTimeout(syncTimer);
-  // In mastered mode, sync after 1s — progress is hard to reconstruct if the
-  // process is killed (sudo reboot, crash) before the debounce fires.
-  const delay = isMasteredMode ? 1000 : 3000;
+  const delay = 3000;
   syncTimer = setTimeout(() => { clearTimeout(syncMaxTimer); syncMaxTimer = null; setSyncStatus('syncing'); pushToCloud(); }, delay);
   // Max-wait: always push within 10 seconds even if cards keep coming
   if (!syncMaxTimer) {
@@ -3379,6 +3377,7 @@ function stopMasteredAllModes() {
   isMasteredGrammarMode = false;
   isMasteredAllMode = false;
   isMasteredCatchupMode = false;
+  isMasteredMode = false;
   document.getElementById('mastered-tab-grammar').classList.remove('active');
   document.getElementById('mastered-tab-all').classList.remove('active');
   document.getElementById('mastered-tab-catchup').classList.remove('active');
@@ -3400,6 +3399,7 @@ function startMasteredCatchupMode() {
     return;
   }
   isMasteredCatchupMode = true;
+  isMasteredMode = true;  // required so trackMFShown/trackMFCorrect/trackMFWrong fire
   isMasteredGrammarMode = false;
   isMasteredAllMode = false;
   appMode = 'flashcards';
@@ -4566,6 +4566,8 @@ function startApp(dir) {
       const el = document.getElementById('mastered-tier-count');
       if (el) el.textContent = `${masteredCount} mastered`;
     }
+    // Always push once after cloud pull to flush any local-only changes to Firebase
+    setTimeout(() => { if (cloudPullDone) pushToCloud(); }, 2000);
     if (isMasteredAllMode) updateMasteryBar(); else resetDeck();
   });
 }

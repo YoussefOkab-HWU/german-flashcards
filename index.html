@@ -4541,6 +4541,24 @@ function startApp(dir) {
         .then(() => localStorage.setItem('fix_senden_streak', '1'))
         .catch(() => {});
     }
+    // One-time fix: mark all remaining tier-1 words as mastered
+    if (!localStorage.getItem('fix_tier1_complete')) {
+      let changed = false;
+      for (const [word, tier] of Object.entries(TIERS)) {
+        if (tier === 1 && !getWordState(word).learned) {
+          progress[word] = { consecutive: 5, learned: true, attempted: true };
+          changed = true;
+        }
+      }
+      if (changed) {
+        saveProgressLocal(progress);
+        CLOUD_DOC.set({ progress: compressProgress(progress) }, { merge: true })
+          .then(() => localStorage.setItem('fix_tier1_complete', '1'))
+          .catch(() => {});
+      } else {
+        localStorage.setItem('fix_tier1_complete', '1');
+      }
+    }
     // Refresh mastered count on tier select screen if still visible
     const tierScreen = document.getElementById('tier-select-screen');
     if (tierScreen && tierScreen.style.display !== 'none') {

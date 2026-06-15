@@ -1165,7 +1165,6 @@ function startCloudListener() {
       progress = mergeProgress(progress, remoteProgress);
       saveProgressLocal(progress);
     }
-    }
     const remoteGP = parseCloudField(data.grammarProgress);
     if (remoteGP) {
       for (const [k, rv] of Object.entries(remoteGP)) {
@@ -1246,7 +1245,6 @@ async function pullFromCloud() {
         // Merge instead of overwrite — never let Firebase corrupt learned:true → false
         progress = mergeProgress(progress, remoteProgress);
         saveProgressLocal(progress);
-      }
       }
       const remoteGP = parseCloudField(data.grammarProgress);
       if (remoteGP) {
@@ -2121,8 +2119,6 @@ function advanceCard() {
       return;
     }
     showGrammarCard();
-    return;
-  }
     return;
   }
   const nextCard = getNextCard();

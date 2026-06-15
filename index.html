@@ -430,63 +430,6 @@
   }
   .btn-breakdown-icon.active { background: var(--accent-dim); border-color: var(--accent); }
   .btn-breakdown-icon:hover { background: var(--surface2); border-color: var(--accent); }
-
-  /* Tense filters (sentences mode) */
-  .tense-filters {
-    display: none;
-    gap: 8px;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin-bottom: 16px;
-  }
-  .tense-filters.visible { display: flex; }
-
-  /* Sentence card content */
-  .sentence-de {
-    font-size: 1.5rem;
-    font-weight: 600;
-    line-height: 1.5;
-    color: var(--text);
-    text-align: center;
-  }
-  .sentence-blank { color: var(--accent); border-bottom: 2px solid var(--accent); padding: 0 4px; }
-  .sentence-en {
-    font-size: 0.95rem;
-    color: var(--muted);
-    text-align: center;
-    font-style: italic;
-    margin-top: 4px;
-  }
-  .tense-badge {
-    position: absolute;
-    top: 16px;
-    left: 20px;
-    font-size: 0.7rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    padding: 3px 10px;
-    border-radius: 10px;
-    background: var(--surface2);
-    color: var(--muted);
-  }
-  .tense-badge.present { color: #6cf; background: #0d2233; }
-  .tense-badge.past    { color: var(--yellow); background: #2a2000; }
-  .tense-badge.future  { color: #b47fff; background: #1e0d33; }
-  .tense-badge.question { color: var(--green); background: var(--green-dim); }
-  .gender-hint {
-    display: inline-block;
-    font-size: 0.72rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    padding: 3px 10px;
-    border-radius: 10px;
-    margin-left: 6px;
-  }
-  .gender-hint.male   { color: #6cf; background: #0d2233; }
-  .gender-hint.female { color: #f8a; background: #2a0018; }
-
   /* ── Grammar mode ── */
   .grammar-prompt {
     font-size: 1.5rem;
@@ -614,18 +557,6 @@
   .tier-option.tier-mastered:hover { border-color: #ffd700; }
   .tier-option.tier-mastered .tier-num { color: #ffd700; }
   .tier-option.tier-core { border-color: rgba(0,200,255,0.2); }
-  .tier-sentences { border-color: rgba(255,180,0,0.3); }
-  .tier-option.tier-sentences:hover { border-color: #ffb400; }
-  .tier-option.tier-sentences .tier-num { color: #ffb400; }
-  .sentence-counter-bar {
-    display: none;
-    align-items: center;
-    gap: 18px;
-    margin-bottom: 20px;
-    font-size: 0.9rem;
-    color: var(--muted);
-  }
-  .sentence-counter-bar .val { font-size: 1.1rem; font-weight: 700; color: #ffb400; }
   .tier-option.tier-core:hover { border-color: #00c8ff; }
   .tier-option.tier-core .tier-num { color: #00c8ff; }
 
@@ -760,7 +691,6 @@
     }
 
     .german-word { font-size: 2.2rem; }
-    .sentence-de { font-size: 1.15rem; }
     .mastery-dots { margin-top: 8px; }
     .feedback { font-size: 0.88rem; padding: 8px 12px; }
 
@@ -878,11 +808,6 @@
       <div class="tier-name">Special</div>
       <div class="tier-count">700 key nouns</div>
     </div>
-    <div class="tier-option tier-sentences" onclick="startSentencePractice()">
-      <div class="tier-num">✍</div>
-      <div class="tier-name">Sentences</div>
-      <div class="tier-count" id="sentence-tier-count">98,625 sentences</div>
-    </div>
   </div>
 </div>
 
@@ -893,13 +818,6 @@
 <div id="breakdown-explorer" style="display:none;width:100%;max-width:600px;margin-top:12px;">
   <input type="text" id="breakdown-search" placeholder="Search words…" autocomplete="off" />
   <div id="breakdown-list"></div>
-</div>
-
-<div class="sentence-counter-bar" id="sentence-counter-bar">
-  <span>✍ <span class="val" id="sentence-attempted-count">0</span> attempted this session</span>
-  <span>·</span>
-  <span id="sentence-total-count">0 sentences available</span>
-  <button class="btn-view-learned" onclick="exitSentenceMode()">← Back</button>
 </div>
 <div class="masterybar">
   <span><span class="val learned-val" id="count-learned">0</span> learned</span>
@@ -936,9 +854,7 @@
     <div id="mastered-card-acc" style="display:none;font-size:0.82rem;font-weight:600;margin-top:-4px"></div>
     <div id="mastered-unseen-badge" style="display:none;font-size:0.72rem;opacity:0.45;font-weight:600;margin-bottom:4px"></div>
     <button class="btn-speak" id="btn-speak-word" style="display:none" title="Pronounce">🔊</button>
-    <div class="sentence-de" id="sentence-de" style="display:none"></div>
-    <div class="sentence-en" id="sentence-en" style="display:none"></div>
-    <div class="grammar-prompt" id="grammar-prompt" style="display:none"></div>
+<div class="grammar-prompt" id="grammar-prompt" style="display:none"></div>
     <div class="grammar-fields" id="grammar-fields" style="display:none"></div>
     <div class="mastery-dots" id="mastery-dots"></div>
     <div class="feedback hidden" id="feedback"></div>
@@ -989,8 +905,6 @@ let activeTier = 0; // 0 = all tiers
 let isSpecialMode = false;
 const SPECIAL = new Set(['die Ressource', 'Der Mechaniker', 'das Werkzeug', 'Das Abendessen', 'der Fotograf', 'die Zutat', 'Das Medikament', 'die Fliege', 'der Produzent', 'der Psychologe', 'Der Programmierer', 'der Geruch', 'die Notiz', 'das Feedback', 'die Skulptur', 'die Gleichung', 'die Memoiren', 'die Innovation', 'der Diskurs', 'die Emotion', 'Der Bäcker', 'der Protagonist', 'der Monolog', 'die Simulation', 'das Versagen', 'der Chirurg', 'der Komponist', 'das Notizheft', 'das Elektroauto', 'die Pyramide', 'Die Verkäuferin', 'der Aufsatz', 'der Influencer', 'der Astronaut', 'die Psychologin', 'Der Teller', 'der Slogan', 'die Nichte', 'das Schmecken', 'die Fotografin', 'die Bedrohung', 'die Rückmeldung', 'die Bürgerinitiative', 'Der Tourist', 'das Regelwerk', 'Die Programmiererin', 'der Planet', 'die Bachelorarbeit', 'Der Snack', 'das Backup', 'Der Notizblock', 'der Kompass', 'die Variable', 'die Hypothese', 'die Grammatik', 'die Währung', 'die Metapher', 'Der Upload', 'das Budget', 'die Sehenswürdigkeit', 'das Saxofon', 'der Aphorismus', 'der Kellner', 'der Vermerk', 'die Anmerkung', 'das Cello', 'die Menschenwürde', 'Das Feuerzeug', 'Die Touristin', 'der Farmer', 'Das Visum', 'die Untergruppe', 'die Wegbereiterin', 'die Vorhersage', 'das Modul', 'der Physiotherapeut', 'die Wüste', 'die Kokosnuss', 'der Kaktus', 'die Kathedrale', 'der Klimawandel', 'das Ritual', 'die Abweichung', 'die Schaufel', 'das Formular', 'Der Cocktail', 'die Eigenschaft', 'Die Seide', 'der Bildhauer', 'das Diagramm', 'die Sozialarbeiterin', 'die Projektion', 'der Optiker', 'die Dolmetscherin', 'die Schraube', 'die Baumwolle', 'die Disruption', 'der Nationalpark', 'Der Apfel', 'das Akronym', 'die Diskrepanz', 'die Tragödie', 'die Installation', 'der Sportplatz', 'der Ratgeber', 'der Rabatt', 'das Zeugnis', 'die Muschel', 'Die Wassermelone', 'die Bildhauerin', 'das Gänseblümchen', 'der Uhu', 'die Fotografie', 'das Wohlbefinden', 'der Deckel', 'die Metaphysik', 'der Blutdruck', 'der Bundeskanzler', 'die Physiotherapie', 'das Verlängerungskabel', 'der Otter', 'Der Saft', 'die Gleichheit', 'die Norm', 'die Baustelle', 'die Bucht', 'Der Pilot', 'das Souvenir', 'der Vektor', 'Die Automatisierung', 'Der Hamster', 'die Besonderheit', 'die Spinne', 'das Deployment', 'der Dolmetscher', 'der Knoten', 'die Fairness', 'die Potenz', 'das Hindernis', 'der Epilog', 'Der Honig', 'die Verschmutzung', 'Die Ingenieurin', 'die Astronautin', 'der Umbau', 'der Lärmpegel', 'Der Traktor', 'der Beamer', 'die Fassade', 'Der Cousin', 'die Disziplin', 'das Jahrtausend', 'das Sprichwort', 'die Diskriminierung', 'der Säugling', 'die Abnahme', 'die Windenergie', 'der Taifun', 'die Qualle', 'Der Generator', 'das Volumen', 'das Fernweh', 'Die Pasta', 'Der Notfall', 'der Affe', 'die Versionierung', 'die Konfiguration', 'Der Bleistift', 'der Senf', 'der Grundriss', 'das Olivenöl', 'der Zirkus', 'der Akkord', 'das Verkehrszeichen', 'die Verwaltungseinheit', 'das Methan', 'die Doktorarbeit', 'die Einigung', 'die Begeisterung', 'die Komplexität', 'Der Schreibtisch', 'die Cashewnuss', 'der Schutzraum', 'das Eichhörnchen', 'Der Brokkoli', 'der Ritus', 'der Monsun', 'die DNA', 'das Orchester', 'die Bilanz', 'die Vorstadt', 'der Ketchup', 'die Entspannung', 'die Tierärztin', 'das Ladekabel', 'die Geige', 'der Rhythmus', 'das Ökosystem', 'das Accessoire', 'Der Anzug', 'das Handbuch', 'die Synthese', 'die Buchhalterin', 'Der Chip', 'die Fußgängerzone', 'das Vorurteil', 'der Imam', 'die Nostalgie', 'das Debugging', 'die Nomenklatur', 'die Abkürzung', 'die Harfe', 'die Ruhezone', 'die Neugier', 'die Komponistin', 'die Solarenergie', 'Der Download', 'die Walnuss', 'Der Spinat', 'die Analogie', 'Der Karton', 'die Ziege', 'Die Blume', 'die Matrix', 'der Impfstoff', 'die Extrapolation', 'das Jahrzehnt', 'das Brett', 'die Nonne', 'der Dramatiker', 'die Ente', 'der Rabbiner', 'das Schweinefleisch', 'die Masterarbeit', 'die Brosche', 'das Windrad', 'das Temperament', 'die Empathie', 'das Vokabular', 'das Unkraut', 'die Nudeln', 'der Elektriker', 'Der Blumenkohl', 'Der Lieferwagen', 'das Stichwort', 'die Giraffe', 'der Schreibblock', 'die Weiterbildung', 'die Feuerschutzzone', 'die Briefmarke', 'die Schicht', 'das Klischee', 'die Mondfinsternis', 'das Pflaster', 'der Seestern', 'der Antagonist', 'die Bandbreite', 'Der Gletscher', 'die Ameise', 'der Buchhalter', 'der Pelikan', 'das Teleskop', 'der Spatz', 'Der Hai', 'die Globalisierung', 'die Trompete', 'die Checkliste', 'die Kurzgeschichte', 'die Deflation', 'das Kaninchen', 'das Krokodil', 'das Testing', 'die Anpassung', 'Der Wal', 'das Schlagzeug', 'der Tornado', 'der Storch', 'das Parfüm', 'die Asymmetrie', 'die Semantik', 'das Bildungssystem', 'der Ernährungsberater', 'Der Scanner', 'die Einsamkeit', 'die Bürgerbeteiligung', 'der Sozialarbeiter', 'der Nachteil', 'Das Schneidebrett', 'Das Klassenzimmer', 'der Wisent', 'das Kohlendioxid', 'Die Passagierin', 'Die Kreuzung', 'der Rohstoff', 'Der Briefkasten', 'Der Lautsprecher', 'Der Mixer', 'die Kalkulation', 'die Versammlungsfreiheit', 'der Euphemismus', 'der Rückblick', 'das Huhn', 'der Biber', 'der Schraubenzieher', 'Der Elternteil', 'die Regression', 'die Pädagogik', 'das Volksbegehren', 'der Commit', 'die Ontologie', 'die Marmelade', 'die Unzufriedenheit', 'Das Taxi', 'die Schwäche', 'das Naturschutzgebiet', 'die Zukunftsplanung', 'der Felsen', 'die Reflexion', 'die Effizienz', 'die Synagoge', 'Die Mülltonne', 'das Gewölbe', 'die Dose', 'der Graph', 'das Rentensystem', 'der Luchs', 'die Bankkarte', 'die Tulpe', 'das Schmelzwasser', 'die Veranda', 'der Merge', 'Die Tablette', 'die Redewendung', 'Der Prozessor', 'Das Mineralwasser', 'das Paradies', 'die Hausarbeit', 'der Prolog', 'die Inflation', 'das Bakterium', 'die Fußnote', 'der Pinsel', 'Das Leder', 'Das Fitnessstudio', 'das Recycling', 'Der Vulkan', 'Das Bücherregal', 'die Harmonie', 'der Engpass', 'der Bahnausbau', 'der Dschungel', 'die Amsel', 'die Korrelation', 'der Kalkulationsfehler', 'Der Stadtplan', 'Die Biene', 'der Gehweg', 'Die Fahrkarte', 'der Pfirsich', 'die Avocado', 'der Einbau', 'Das Armband', 'die Intuition', 'Der Kürbis', 'Die Nachbarin', 'die Autobiografie', 'der Aal', 'die Ruine', 'die Lieferkette', 'der Satellit', 'der Asteroid', 'das Gummi', 'der Lebensraum', 'Der Fahrplan', 'die Heidelbeere', 'Die Matratze', 'die Mautstelle', 'der Ehrgeiz', 'der Kuckuck', 'Die Kerze', 'Das Handtuch', 'die Kuppel', 'die Ungleichheit', 'der Komet', 'Der Projektor', 'die Pistazie', 'Die Architektin', 'Der Igel', 'die Telefonzelle', 'der Weitsprung', 'Der Papagei', 'Das Tablet', 'der Flamingo', 'die Hitzewelle', 'der Freihandel', 'die Expertise', 'das Glossar', 'der Dachs', 'der Hummer', 'Der Espresso', 'die Wiederherstellung', 'Das Meerschweinchen', 'die Sehnsucht', 'Der Router', 'das Tablett', 'die Rekursion', 'die Dialektik', 'Die Mütze', 'die Umlaufbahn', 'die Meinungsfreiheit', 'die Symmetrie', 'der Elch', 'der Rasenmäher', 'Die Bluse', 'das Karate', 'das Erdgeschoss', 'der Kontrabass', 'der Wettkampf', 'der Albtraum', 'die Terminologie', 'das Paradoxon', 'die Partizipation', 'der Knochenbruch', 'Die Bäckerin', 'die Geografie', 'Der Gorilla', 'Die Grapefruit', 'die Ohrringe', 'das Viereck', 'das Röntgenbild', 'die Unterführung', 'der Horizont', 'Der Mietwagen', 'Das Haustier', 'das Röhrchen', 'die Zelle', 'Die Halskette', 'Die Ananas', 'der Abbau', 'die Exklusion', 'der Tierarzt', 'Die Kaffeemaschine', 'die Haselnuss', 'Der Brunnen', 'der Tintenfisch', 'die Orchidee', 'die Eiskappe', 'die Schnittmenge', 'das Plugin', 'das Fundament', 'der Teig', 'Der Staubsauger', 'Der Kugelschreiber', 'die Teilmenge', 'das Molekül', 'die Verpackung', 'der Rückenschmerz', 'die Bratsche', 'der Lavendel', 'Der Cappuccino', 'Der Kakao', 'die Silbe', 'die Evolution', 'der Kegel', 'die Phonetik', 'die Heuristik', 'die Raststätte', 'Die Melone', 'die Kältewelle', 'Der Vorhang', 'der Akt', 'die Pipeline', 'Der Passagier', 'die Prothese', 'die Dankbarkeit', 'die Optimierung', 'Die Handtasche', 'Der Frosch', 'Die Impfung', 'die Überweisung', 'die Erleichterung', 'der Kanister', 'der Kontinent', 'Die Pfanne', 'der Quotient', 'die Hefe', 'das Gewichtheben', 'die Ökologie', 'die Kanne', 'der Pfau', 'die Pressefreiheit', 'der Buchstabe', 'das Fechten', 'Die Allee', 'das Unterbewusstsein', 'die Verschlüsselung', 'das Mitgefühl', 'die Kreativität', 'der Terminplaner', 'der Schwan', 'die Steppe', 'Der Akku', 'die Landflucht', 'die Ampulle', 'der Akzent', 'die Modernisierung', 'die Inklusion', 'Die Mechanikerin', 'die Rehabilitation', 'die Ladestation', 'Die Zwiebel', 'Das Streichholz', 'Die Brieftasche', 'Die Einfahrt', 'der Permafrost', 'Die Ratte', 'Der Besen', 'das Badminton', 'der Meilenstein', 'das Etikett', 'der Quellcode', 'die Geometrie', 'die Evaluation', 'der Tsunami', 'Die Hardware', 'die Eifersucht', 'Der Kreisverkehr', 'die Urbanisierung', 'der Bluttest', 'die Autorität', 'die Chirurgin', 'Die Mango', 'die Kladde', 'das Riechen', 'der Tank', 'die Pragmatik', 'Der Radiergummi', 'Der Sensor', 'die Approximation', 'der Grenzwert', 'die Chronologie', 'der Strukturwandel', 'Der Beutel', 'die Galaxie', 'die Ampelanlage', 'Die Apotheke', 'das Gif', 'die Ausdauer', 'das Nachhaltigkeitsziel', 'das Koordinatensystem', 'die Ironie', 'Die Aubergine', 'das Unentschieden', 'die Parole', 'der Reifenwechsel', 'Der Smoothie', 'Der Teppich', 'die Posaune', 'der Rückbau', 'die Quantität', 'das Bügeleisen', 'die Zeremonie', 'die Thora', 'der Logarithmus', 'die Pionierarbeit', 'die Brombeere', 'das Zebra', 'Der Champagner', 'Das Gewürz', 'das Lineal', 'der Weltraum', 'Der Regenwald', 'der Aufschnitt', 'das Familienrecht', 'Das Badezimmer', 'Die Zahnpasta', 'Der Monitor', 'Die Spritze', 'die Primzahl', 'Die Schildkröte', 'die Klassifikation', 'Die Schnittstelle', 'der Staffellauf', 'die Branche', 'die Supernova', 'der Divisor', 'der Wechselkurs', 'der Appetit', 'das Integral', 'die Sonnenblume', 'der Korridor', 'der Durst', 'Das Schwein', 'der Lidschatten', 'die Trommel', 'die Multiplikation', 'die Intensivstation', 'die Gießkanne', 'der Busch', 'die Krankenversorgung', 'der Sprint', 'das Repository', 'die Biodiversität', 'der Bibliothekar', 'das Puder', 'die Repräsentation', 'Die Seife', 'die Unterkunft', 'die Epistemologie', 'die Taxonomie', 'der Parkschein', 'Der Leopard', 'die Raumfahrt', 'die Ungleichung', 'die Vernunft', 'die Intonation', 'die Antithese', 'Das Laken', 'der Instinkt', 'die Varianz', 'das Fachwissen', 'die Geologie', 'die Dürre', 'Die Suchmaschine', 'die Standardabweichung', 'Der Waschbär', 'der Datenschutz', 'die Stichprobe', 'die Iteration', 'der Lippenstift', 'das Rugby', 'das Moos', 'die Raumstation', 'das Treibhausgas', 'die Astronomie', 'die Koralle', 'die Wasserkraft', 'Das Shampoo', 'das Ozon', 'die Möwe', 'die Quittung', 'das Blockchain', 'die Moschee', 'die Hierarchie', 'die Solidarität', 'der Rückschlag', 'Der Knoblauch', 'der Krankenwagen', 'die Morphologie', 'Der Heizkörper', 'der Löwenzahn', 'die Erschöpfung', 'der Kompost', 'Der Wodka', 'Die Wurst', 'Der Kamm', 'die Häufigkeit', 'das Postamt', 'das Komplement', 'die Schwerelosigkeit', 'das Magnetfeld', 'die Glühbirne', 'Die Traube', 'das Atom', 'der Basketball', 'die Übereinstimmung', 'Der Handschuh', 'die Sonnenfinsternis', 'der Erdrutsch', 'Die Allergie', 'die Algebra', 'die Säule', 'Der Hubschrauber', 'die Bibliothekarin', 'die Marinade', 'das Backpulver', 'die Bibliografie', 'die Chancengleichheit', 'Die Kommode', 'der Badeanzug', 'die Klimazone', 'Die Couch', 'der Tennis', 'das Stereotyp', 'der Behälter', 'die Tonleiter', 'der Fingernagel', 'die Exponentialfunktion', 'die Überschwemmung', 'der Hydrant', 'Der Mülleimer', 'das Mietrecht', 'Die Geldbörse', 'Die Tüte', 'der Föhn', 'das Territorium', 'der Takt', 'der Schmetterling', 'das Skifahren', 'die Niederschrift']);
 
-let SENTENCES = null;       // populated lazily per learned word from sentences/ dir
-let SENTENCES_INDEX = null; // word → file-id map from sentences_index.json
 let QUESTIONS = null; // loaded lazily from questions.json
 let BREAKDOWNS = null; // loaded lazily from breakdowns.json
 
@@ -1203,7 +1117,6 @@ function pushToCloud() {
   const payload = {
     clientId: MY_CLIENT_ID,
     progress: compressProgress(progress),
-    sentenceProgress: JSON.stringify(sentenceProgress),
     grammarProgress: JSON.stringify(grammarProgress),
     accuracy: JSON.stringify(accuracy),
     mgAccuracy: JSON.stringify(masteredGrammarAccuracy),
@@ -1252,18 +1165,6 @@ function startCloudListener() {
       progress = mergeProgress(progress, remoteProgress);
       saveProgressLocal(progress);
     }
-    const remoteSP = parseCloudField(data.sentenceProgress);
-    if (remoteSP) {
-      for (const [k, rv] of Object.entries(remoteSP)) {
-        const lv = sentenceProgress[k];
-        if (!lv) { sentenceProgress[k] = rv; continue; }
-        const bothAttempted = (lv.consecutive > 0 || lv.learned) && (rv.consecutive > 0 || rv.learned);
-        const consecutive = bothAttempted
-          ? Math.min(lv.consecutive || 0, rv.consecutive || 0)
-          : Math.max(lv.consecutive || 0, rv.consecutive || 0);
-        sentenceProgress[k] = { consecutive, learned: consecutive >= 3 };
-      }
-      saveSentenceProgressLocal();
     }
     const remoteGP = parseCloudField(data.grammarProgress);
     if (remoteGP) {
@@ -1346,10 +1247,6 @@ async function pullFromCloud() {
         progress = mergeProgress(progress, remoteProgress);
         saveProgressLocal(progress);
       }
-      const remoteSP = parseCloudField(data.sentenceProgress);
-      if (remoteSP) {
-        sentenceProgress = remoteSP;
-        saveSentenceProgressLocal();
       }
       const remoteGP = parseCloudField(data.grammarProgress);
       if (remoteGP) {
@@ -1429,21 +1326,7 @@ function saveProgress(p) {
   saveProgressLocal(p);
   scheduleCloudSync();
 }
-
-// sentenceProgress[key] = { consecutive: 0..3, learned: false }
 // key = "word|tense|pronoun"
-function loadSentenceProgress() {
-  try { return JSON.parse(localStorage.getItem('gfc_sent_progress') || '{}'); }
-  catch { return {}; }
-}
-function saveSentenceProgressLocal() {
-  try { localStorage.setItem('gfc_sent_progress', JSON.stringify(sentenceProgress)); } catch {}
-}
-function saveSentenceProgress() {
-  saveSentenceProgressLocal();
-  scheduleCloudSync();
-}
-function getSentenceKey(card) { return `${card.german}|${card.tense}|${card.pronoun}`; }
 
 // Returns 'male'/'female' if this word is a person noun with both gendered forms in SENTENCES, else null.
 // e.g. "Der Student" → 'male' if "Die Studentin" also exists; "Die Studentin" → 'female' if "Der Student" exists.
@@ -1463,22 +1346,6 @@ function getPersonGender(word) {
     return hasWord(fem) ? 'male' : null;
   }
   return null;
-}
-function getSentenceState(card) { return sentenceProgress[getSentenceKey(card)] || { consecutive: 0, learned: false }; }
-function markSentenceCorrect(card) {
-  const key = getSentenceKey(card);
-  const s = getSentenceState(card);
-  s.consecutive = (s.consecutive || 0) + 1;
-  if (s.consecutive >= 3) s.learned = true;
-  sentenceProgress[key] = s;
-  saveSentenceProgress();
-}
-function markSentenceWrong(card) {
-  const key = getSentenceKey(card);
-  const s = getSentenceState(card);
-  s.consecutive = 0;
-  sentenceProgress[key] = s;
-  saveSentenceProgress();
 }
 
 // grammarProgress[key] = { consecutive: 0..3, learned: false }
@@ -1651,7 +1518,6 @@ if (!localStorage.getItem('fix_dermoment2')) {
   saveProgressLocal(progress);
   localStorage.setItem('fix_dermoment2', '1');
 }
-let sentenceProgress = loadSentenceProgress();
 let grammarProgress = loadGrammarProgress();
 // One-time migration: flashcard mastery threshold lowered from 5 to 3
 if (!localStorage.getItem('fix_mastery_threshold_3')) {
@@ -1754,12 +1620,9 @@ const elLearnedList     = document.getElementById('learned-list');
 const elBtnViewLearned  = document.getElementById('btn-view-learned');
 const elUmlautBar       = document.getElementById('umlaut-bar');
 const elLangScreen      = document.getElementById('lang-select-screen');
-const elSentenceDe      = document.getElementById('sentence-de');
-const elSentenceEn      = document.getElementById('sentence-en');
 const elTenseBadge      = document.getElementById('tense-badge');
 const elTenseFilters    = document.getElementById('tense-filters');
 const elModeFlashcards  = { classList: { toggle: () => {} } };
-const elModeSentences   = { classList: { toggle: () => {} } };
 const elExtraInputs     = document.getElementById('extra-inputs');
 const elMasteredBar     = document.getElementById('mastered-bar');
 const elMasteredCount   = document.getElementById('mastered-count');
@@ -1828,7 +1691,6 @@ function getUndertested(allCards) {
   });
 }
 
-
 function markCorrect(german) {
   const s = getWordState(german);
   s.attempted = true;
@@ -1875,7 +1737,6 @@ function saveMasteredStreak() {
   try { localStorage.setItem('gfc_mastered_streak', JSON.stringify(masteredSessionStreak)); } catch {}
 }
 const masteredSessionStreak = loadMasteredStreak(); // german -> consecutive correct overall
-
 
 // Returns true if this card was shown too recently to show again
 function shownRecently(c) {
@@ -2089,30 +1950,6 @@ function resetDeck() {
     });
     return;
   }
-  if (appMode === 'sentences') {
-    loadSentencesAndQuestions().then(ok => {
-      if (!ok) return;
-      const cards = buildSentenceDeck();
-      if (cards.length === 0) {
-        elCard.className = 'card';
-        elWord.style.display = '';
-        elWord.textContent = '🔒';
-        elCounter.textContent = 'Master words in Flashcards to unlock sentences';
-        elMasteryDots.innerHTML = '';
-        elFeedback.className = 'feedback hidden';
-        elInput.disabled = true;
-        elCheck.disabled = true;
-        return;
-      }
-      deck = shuffle(cards);
-      deckPos = 0;
-      elWord.style.display = 'none';
-      document.getElementById('category-badge').style.display = 'none';
-      elMasteryDots.innerHTML = '';
-      showSentenceCard();
-    });
-    return;
-  }
   const cards = getUnlearnedCards();
   if (cards.length === 0) {
     if (isMasteredMode) {
@@ -2132,8 +1969,6 @@ function resetDeck() {
   // Show flashcard-only elements
   elWord.style.display = '';
   document.getElementById('category-badge').style.display = '';
-  elSentenceDe.style.display = 'none';
-  elSentenceEn.style.display = 'none';
   elTenseBadge.style.display = 'none';
   document.getElementById('gender-hint').style.display = 'none';
   document.getElementById('grammar-prompt').style.display = 'none';
@@ -2288,22 +2123,6 @@ function advanceCard() {
     showGrammarCard();
     return;
   }
-  if (appMode === 'sentences') {
-    // Advance through the already-built deck; rebuild only when exhausted
-    deckPos++;
-    if (deckPos >= deck.length) {
-      deck = shuffle(buildSentenceDeck());
-      deckPos = 0;
-    }
-    if (deck.length === 0) {
-      elCard.className = 'card correct';
-      elWord.style.display = '';
-      elWord.textContent = '🎓';
-      elCounter.textContent = 'All sentences mastered!';
-      elNext.classList.remove('visible');
-      return;
-    }
-    showSentenceCard();
     return;
   }
   const nextCard = getNextCard();
@@ -2576,7 +2395,6 @@ function checkAnswer() {
     // fall through to normal flashcard check below
   }
   if (isMasteredGrammarMode) { checkMasteredGrammarAnswer(); return; }
-  if (appMode === 'sentences') { checkSentenceAnswer(); return; }
   if (appMode === 'grammar') { checkGrammarAnswer(); return; }
   if (answered) return;
   const card = deck[deckPos];
@@ -2855,21 +2673,6 @@ function skipCard() {
     if (isMasteredMode) incrementDailyCount();
     return;
   }
-
-  if (appMode === 'sentences') {
-    markSentenceWrong(card);
-    answered = true;
-    elInput.disabled = true;
-    elCheck.disabled = true;
-    elTenseBadge.style.display = '';
-    elCard.classList.add('wrong');
-    elFeedback.className = 'feedback wrong';
-    const target = langDir === 'en-de' ? card.de : card.en;
-    elFeedback.innerHTML = `<span class="feedback-icon">↷</span> Skipped — <strong>${target}</strong>`;
-    elNext.classList.add('visible');
-    return;
-  }
-
   // Multi-answer skip: mark all siblings wrong
   const wasSkipMastered = getWordState(card.german).learned;
   if (langDir === 'en-de' && currentSiblings.length > 0) {
@@ -2907,9 +2710,9 @@ function skipCard() {
 }
 
 // ── Event listeners ──────────────────────────────────────────────────────────
-elCheck.addEventListener('click', () => { if (isSentenceMode) checkSentenceAnswer(); else checkAnswer(); });
-elSkip.addEventListener('click', () => { if (isSentenceMode) { skipSentenceCard(); } else { skipCard(); } elSkip.blur(); });
-elNext.addEventListener('click', () => { if (isSentenceMode) showNextSentenceCard(); else advanceCard(); });
+elCheck.addEventListener('click', () => { checkAnswer(); });
+elSkip.addEventListener('click', () => { skipCard(); elSkip.blur(); });
+elNext.addEventListener('click', () => { advanceCard(); });
 
 // Disable Check for noun cards until an article is typed
 function hasArticle(val) {
@@ -2970,7 +2773,6 @@ const elMainApp = [
 function setMode(mode) {
   appMode = mode;
   elModeFlashcards.classList.toggle('active', mode === 'flashcards');
-  elModeSentences.classList.toggle('active', mode === 'sentences');
   elModeGrammar.classList.toggle('active', mode === 'grammar');
   elModeBreakdown.classList.toggle('active', mode === 'breakdown');
 
@@ -2989,7 +2791,6 @@ function setMode(mode) {
   }
 
   hideBreakdown();
-  elTenseFilters.classList.toggle('visible', mode === 'sentences');
   document.getElementById('grammar-type-filters').style.display = mode === 'grammar' ? 'flex' : 'none';
   document.getElementById('filters').style.display = mode === 'flashcards' ? '' : 'none';
   if (mode === 'flashcards') {
@@ -3000,7 +2801,7 @@ function setMode(mode) {
   }
   // Grammar mode hides the main text input (uses its own fields), others show it
   elInput.style.display = mode === 'grammar' ? 'none' : '';
-  elInput.placeholder = mode === 'sentences' ? 'Type the English translation…' : (langDir === 'en-de' ? 'Schreib das deutsche Wort...' : 'Type English translation…');
+  elInput.placeholder = langDir === 'en-de' ? 'Schreib das deutsche Wort...' : 'Type English translation…';
 
   resetDeck();
 }
@@ -3097,62 +2898,6 @@ document.querySelectorAll('#grammar-type-filters .filter-btn').forEach(btn => {
     resetDeck();
   });
 });
-
-// ── Sentences lazy loader (per-word files) ───────────────────────────────────
-// Instead of loading 84MB sentences.json at once, loads only the files for
-// words the user has actually learned (~16KB each, fetched in parallel).
-let sentencesLoading = false;
-async function loadSentences() {
-  if (sentencesLoading) return false;
-  sentencesLoading = true;
-
-  const loadingTimer = setTimeout(() => {
-    elCard.className = 'card';
-    elWord.textContent = 'Loading sentences…';
-    elCounter.textContent = '';
-    elMasteryDots.innerHTML = '';
-    elFeedback.className = 'feedback hidden';
-    elInput.disabled = true;
-    elCheck.disabled = true;
-    elNext.classList.remove('visible');
-  }, 150);
-
-  try {
-    // Step 1: load the index once (maps word → file id, ~120KB)
-    if (!SENTENCES_INDEX) {
-      const res = await fetch('sentences_index.json');
-      if (!res.ok) throw new Error('index not found');
-      SENTENCES_INDEX = await res.json();
-    }
-
-    // Step 2: fetch per-word files only for learned words not yet loaded
-    if (!SENTENCES) SENTENCES = {};
-    const toLoad = Object.entries(SENTENCES_INDEX)
-      .filter(([word]) => getWordState(word).learned && !(word in SENTENCES));
-
-    const BATCH = 30; // parallel requests per batch
-    for (let i = 0; i < toLoad.length; i += BATCH) {
-      await Promise.all(
-        toLoad.slice(i, i + BATCH).map(async ([word, id]) => {
-          try {
-            const r = await fetch(`sentences/s${id}.json`);
-            if (r.ok) SENTENCES[word] = await r.json();
-          } catch { /* skip on error */ }
-        })
-      );
-    }
-
-    clearTimeout(loadingTimer);
-    sentencesLoading = false;
-    return true;
-  } catch(e) {
-    clearTimeout(loadingTimer);
-    elWord.textContent = 'Failed to load sentences. Check your connection.';
-    sentencesLoading = false;
-    return false;
-  }
-}
-
 let questionsLoading = false;
 async function loadQuestions() {
   if (QUESTIONS) return true;
@@ -3175,22 +2920,6 @@ async function loadBreakdowns() {
     const res = await fetch('breakdowns.json');
     BREAKDOWNS = await res.json();
   } catch(e) { BREAKDOWNS = {}; }
-}
-
-async function loadSentencesAndQuestions() {
-  const loadingTimer = setTimeout(() => {
-    elCard.className = 'card';
-    elWord.textContent = 'Loading…';
-    elCounter.textContent = '';
-    elMasteryDots.innerHTML = '';
-    elFeedback.className = 'feedback hidden';
-    elInput.disabled = true;
-    elCheck.disabled = true;
-    elNext.classList.remove('visible');
-  }, 150);
-  const [s, q] = await Promise.all([loadSentences(), loadQuestions()]);
-  clearTimeout(loadingTimer);
-  return s || q; // ok if at least one loaded
 }
 
 // ── Grammar mode ──────────────────────────────────────────────────────────────
@@ -3532,8 +3261,6 @@ function showMasteredGrammarCard() {
   document.getElementById('gender-hint').style.display = 'none';
   elTenseBadge.style.display = 'none';
   elMasteryDots.innerHTML = '';
-  elSentenceDe.style.display = 'none';
-  elSentenceEn.style.display = 'none';
   const masteredAccEl = document.getElementById('mastered-card-acc');
   if (masteredAccEl) masteredAccEl.style.display = 'none';
 
@@ -3734,11 +3461,8 @@ function showGrammarCard() {
   document.getElementById('gender-hint').style.display = 'none';
   elTenseBadge.style.display = 'none';
   elMasteryDots.innerHTML = '';
-  elSentenceDe.style.display = 'none';
   const _accEl = document.getElementById('mastered-card-acc');
   if (_accEl) _accEl.style.display = 'none';
-  elSentenceEn.style.display = 'none';
-
   const elPrompt = document.getElementById('grammar-prompt');
   const elFields = document.getElementById('grammar-fields');
   elPrompt.style.display = '';
@@ -3894,173 +3618,6 @@ function checkGrammarAnswer() {
   }
   elNext.classList.add('visible');
 }
-
-// ── Sentences deck ────────────────────────────────────────────────────────────
-function buildSentenceDeck() {
-  const tenses = activeTense === 'all' ? ['present', 'past', 'future'] : [activeTense];
-  const pronouns = ['ich', 'du', 'er/sie', 'wir', 'ihr'];
-  const cards = [];
-  // Build a map from lowercased word → actual progress key used in DATA
-  if (!buildSentenceDeck._keyMap) {
-    const map = {};
-    for (const cat of Object.values(DATA)) {
-      for (const entry of cat) map[entry.german.toLowerCase()] = entry.german;
-    }
-    buildSentenceDeck._keyMap = map;
-  }
-  const keyMap = buildSentenceDeck._keyMap;
-
-  if (SENTENCES) {
-    for (const [word, data] of Object.entries(SENTENCES)) {
-      const progressKey = keyMap[word.toLowerCase()] || word;
-      if (!getWordState(progressKey).learned) continue;
-      if (activeTier > 0 && TIERS[progressKey] !== activeTier) continue;
-      for (const tense of tenses) {
-        if (!data[tense]) continue;
-        for (const pronoun of pronouns) {
-          const list = data[tense][pronoun];
-          if (!list || !list.length) continue;
-          const stub = { german: word, tense, pronoun };
-          if (getSentenceState(stub).learned) continue;
-          const pick = list[Math.floor(Math.random() * list.length)];
-          cards.push({ german: word, tense, pronoun, de: pick.de, en: pick.en });
-        }
-      }
-    }
-  }
-
-  // Add question cards (pronoun = 'question' sentinel)
-  if (QUESTIONS) {
-    for (const [word, data] of Object.entries(QUESTIONS)) {
-      const progressKey = keyMap[word.toLowerCase()] || word;
-      if (!getWordState(progressKey).learned) continue;
-      if (activeTier > 0 && TIERS[progressKey] !== activeTier) continue;
-      for (const tense of tenses) {
-        if (!data[tense] || !data[tense].length) continue;
-        const stub = { german: word, tense, pronoun: 'question' };
-        if (getSentenceState(stub).learned) continue;
-        const pick = data[tense][Math.floor(Math.random() * data[tense].length)];
-        cards.push({ german: word, tense, pronoun: 'question', de: pick.de, en: pick.en });
-      }
-    }
-  }
-
-  return cards;
-}
-
-function showSentenceCard() {
-  answered = false;
-  clearExtraInputs();
-  elInput.value = '';
-  elInput.style.display = '';
-  elInput.disabled = false;
-  elInput.focus();
-  elCheck.disabled = false;
-  elNext.classList.remove('visible');
-  elCard.className = 'card';
-  elFeedback.className = 'feedback hidden';
-  elFeedback.textContent = '';
-
-  // Hide flashcard and grammar elements
-  elWord.style.display = 'none';
-  document.getElementById('category-badge').style.display = 'none';
-  document.getElementById('grammar-prompt').style.display = 'none';
-  document.getElementById('grammar-fields').style.display = 'none';
-  elMasteryDots.innerHTML = '';
-  elSentenceEn.style.display = 'none';
-
-  const card = deck[deckPos];
-  // Show prompt sentence based on direction
-  const showDe = langDir !== 'en-de';
-  elSentenceDe.style.display = showDe ? '' : 'none';
-  elSentenceDe.textContent = showDe ? card.de : card.en;
-  // Reuse elSentenceDe for EN sentence display in en-de mode
-  if (!showDe) { elSentenceDe.style.display = ''; }
-  elTenseBadge.className = `tense-badge ${card.tense}`;
-  const tenseLabel = card.tense.charAt(0).toUpperCase() + card.tense.slice(1);
-  elTenseBadge.textContent = card.pronoun === 'question' ? tenseLabel : tenseLabel + ' · ' + card.pronoun;
-  elTenseBadge.style.display = '';
-  // Gender hint: only for person nouns where both male+female forms exist in SENTENCES
-  // e.g. "Der Student" and "Die Studentin" both present → show (male) or (female)
-  const elGenderHint = document.getElementById('gender-hint');
-  const genderPair = SENTENCES ? getPersonGender(card.german) : null;
-  if (genderPair) {
-    elGenderHint.className = `gender-hint ${genderPair}`;
-    elGenderHint.textContent = genderPair === 'male' ? 'male' : 'female';
-    elGenderHint.style.display = '';
-  } else {
-    elGenderHint.style.display = 'none';
-  }
-  const sentenceWords = (SENTENCES_INDEX || SENTENCES)
-    ? Object.keys(SENTENCES_INDEX || SENTENCES).filter(w => getWordState(w).learned).length : 0;
-  const questionWords = QUESTIONS ? Object.keys(QUESTIONS).filter(w => getWordState(w).learned).length : 0;
-  const unlockedWords = Math.max(sentenceWords, questionWords);
-  elCounter.textContent = `${deckPos + 1} / ${deck.length} · ${unlockedWords} words unlocked`;
-  elProgress.style.width = `${((deckPos + 1) / deck.length) * 100}%`;
-}
-
-// Word-overlap fuzzy check for full sentences
-function isSentenceFuzzyMatch(input, reference) {
-  const norm = s => s.toLowerCase().replace(/[.,!?;:"'()[\]{}\-–—]/g, '').trim();
-  // Include 2-char words (du, er, es) so pronoun/article mistakes are caught
-  const words = s => norm(s).split(/\s+/).filter(w => w.length > 1);
-  const inputWords = new Set(words(input));
-  const refWords = words(reference);
-  if (refWords.length === 0) return false;
-  const matches = refWords.filter(w => {
-    if (inputWords.has(w)) return true;
-    // Only allow 1 typo for longer words (6+ chars) — short words like verb endings,
-    // articles and pronouns must be spelled exactly to catch grammar mistakes
-    if (w.length >= 6) {
-      for (const iw of inputWords) {
-        if (Math.abs(iw.length - w.length) <= 2 && levenshtein(iw, w) <= 1) return true;
-      }
-    }
-    return false;
-  });
-  return matches.length / refWords.length >= 0.85;
-}
-
-function checkSentenceAnswer() {
-  if (answered) return;
-  const card = deck[deckPos];
-  const input = elInput.value.trim();
-  if (!input) return;
-
-  answered = true;
-  elInput.disabled = true;
-  elCheck.disabled = true;
-
-  const target = langDir === 'en-de' ? card.de : card.en;
-  const isCorrect = isSentenceFuzzyMatch(input, target);
-
-  if (isCorrect) {
-    markSentenceCorrect(card);
-    const state = getSentenceState(card);
-    const suffix = state.learned ? ' 🎓 Mastered!' : ` (${state.consecutive}/3)`;
-    elCard.classList.add('correct');
-    elFeedback.className = 'feedback correct';
-    elFeedback.innerHTML = `<span class="feedback-icon">✓</span> Correct!${suffix} &nbsp;<strong>${target}</strong>`;
-  } else {
-    markSentenceWrong(card);
-    elCard.classList.add('wrong');
-    elFeedback.className = 'feedback wrong';
-    elFeedback.innerHTML = `<span class="feedback-icon">✗</span> Correct: <strong style="margin-left:4px">${target}</strong><button onclick="acceptSentence()" style="margin-left:12px;padding:3px 12px;border-radius:8px;border:1px solid rgba(255,255,255,0.4);background:rgba(255,255,255,0.12);color:#fff;font-size:0.82rem;font-weight:600;cursor:pointer">Accept my answer</button>`;
-  }
-  elNext.classList.add('visible');
-}
-
-function acceptSentence() {
-  elCard.className = 'card correct';
-  elFeedback.className = 'feedback correct';
-  const card = deck[deckPos];
-  markSentenceCorrect(card);
-  const state = getSentenceState(card);
-  const suffix = state.learned ? ' 🎓 Mastered!' : ` (${state.consecutive}/3)`;
-  const target = langDir === 'en-de' ? card.de : card.en;
-  elFeedback.innerHTML = `<span class="feedback-icon">✓</span> Accepted!${suffix} &nbsp;<strong>${target}</strong>`;
-}
-
 // ── Language direction ────────────────────────────────────────────────────────
 // ── Password gate ─────────────────────────────────────────────────────────────
 const PASSWORD = "999751";
@@ -4099,200 +3656,8 @@ function showTierSelect() {
   if (el) el.textContent = `${masteredCount} mastered`;
 }
 
-
-// ── Sentence Practice Mode ────────────────────────────────────────────────────
-
-let isSentenceMode    = false;
-let sentenceDeck      = [];   // all filtered sentences (loaded lazily)
-let sentenceChunksLoaded = 0;
-let sentenceCurrentCard  = null;
-let sentenceAnswered     = false;
-const SENTENCE_CHUNKS_TOTAL = 99;
-const SENTENCE_MIN_REFS     = 1;
-const SENTENCE_BASE_URL     = '/german-flashcards/sentences_100k/';
-
-function getSentenceSessionCount() {
-  return parseInt(sessionStorage.getItem('sentAttempted') || '0', 10);
-}
-function incSentenceSession() {
-  const n = getSentenceSessionCount() + 1;
-  sessionStorage.setItem('sentAttempted', n);
-  return n;
-}
 function getMasteredSet() {
   return new Set(Object.keys(progress).filter(k => progress[k] && progress[k].learned));
-}
-
-async function loadSentenceChunk(n) {
-  const pad = String(n).padStart(4, '0');
-  try {
-    const resp = await fetch(`${SENTENCE_BASE_URL}chunk_${pad}.json`);
-    if (!resp.ok) return [];
-    return await resp.json();
-  } catch { return []; }
-}
-
-async function loadMoreSentenceChunks(maxChunks) {
-  const mastered = getMasteredSet();
-  let loaded = 0;
-  while (sentenceChunksLoaded < SENTENCE_CHUNKS_TOTAL && loaded < maxChunks) {
-    const sentences = await loadSentenceChunk(sentenceChunksLoaded++);
-    for (const s of sentences) {
-      if (s.vocab_refs && s.vocab_refs.length > 0 && s.vocab_refs.every(w => mastered.has(w))) {
-        sentenceDeck.push(s);
-      }
-    }
-    loaded++;
-  }
-  updateSentenceCounter();
-}
-
-async function startSentencePractice() {
-  isSentenceMode   = true;
-  isMasteredMode   = false;
-  isCoreVerbMode   = false;
-  activeTier       = 0;
-  sentenceDeck     = [];
-  sentenceChunksLoaded = 0;
-  sessionStorage.setItem('sentAttempted', '0');
-
-  document.getElementById('tier-select-screen').style.display = 'none';
-  document.getElementById('sentence-counter-bar').style.display = 'flex';
-  document.getElementById('masterybar') && (document.getElementById('masterybar').style.display = 'none');
-
-  // Show card shell
-  document.getElementById('main-title').style.display = 'none';
-  document.getElementById('filters').style.display = 'none';
-  if (document.getElementById('tense-filters')) document.getElementById('tense-filters').style.display = 'none';
-  document.getElementById('card-wrap').style.display = '';
-  document.getElementById('input-area').style.display = '';
-  document.getElementById('umlaut-bar').classList.remove('hidden');
-  document.getElementById('btn-next').style.display = 'none';
-
-  // Set input to German direction
-  const inp = document.getElementById('answer-input');
-  inp.placeholder = 'Schreib den deutschen Satz…';
-  inp.value = '';
-
-  // Show loading card
-  document.getElementById('german-word').textContent = 'Loading sentences…';
-  document.getElementById('feedback').className = 'feedback hidden';
-  document.getElementById('mastery-dots').innerHTML = '';
-  document.getElementById('card-counter').textContent = '';
-  document.getElementById('category-badge').textContent = '';
-  document.getElementById('gender-hint').style.display = 'none';
-  document.getElementById('word-breakdown').style.display = 'none';
-
-  // Load first 10 chunks then show first card
-  await loadMoreSentenceChunks(10);
-  showNextSentenceCard();
-
-  // Continue loading rest in background
-  (async () => {
-    while (sentenceChunksLoaded < SENTENCE_CHUNKS_TOTAL) {
-      await loadMoreSentenceChunks(5);
-      await new Promise(r => setTimeout(r, 100));
-    }
-  })();
-}
-
-function showNextSentenceCard() {
-  if (!isSentenceMode) return;
-  if (sentenceDeck.length === 0) {
-    document.getElementById('german-word').textContent =
-      'No sentences match your mastered vocabulary yet. Keep learning words!';
-    return;
-  }
-
-  const idx = Math.floor(Math.random() * sentenceDeck.length);
-  sentenceCurrentCard = sentenceDeck[idx];
-  sentenceAnswered = false;
-
-  document.getElementById('card').classList.remove('correct', 'wrong');
-  document.getElementById('german-word').textContent = sentenceCurrentCard.english;
-  document.getElementById('feedback').className = 'feedback hidden';
-  document.getElementById('btn-next').style.display = 'none';
-  document.getElementById('mastery-dots').innerHTML = '';
-  document.getElementById('word-breakdown').style.display = 'none';
-  document.getElementById('category-badge').textContent = sentenceCurrentCard.type || '';
-  document.getElementById('card-counter').textContent = '';
-  elCheck.disabled = false;
-
-  const inp = document.getElementById('answer-input');
-  inp.value = '';
-  inp.placeholder = 'Schreib den deutschen Satz…';
-  inp.disabled = false;
-  inp.focus();
-}
-
-function checkSentenceAnswer() {
-  if (!isSentenceMode || !sentenceCurrentCard || sentenceAnswered) return;
-  const typed = document.getElementById('answer-input').value.trim();
-  if (!typed) return;
-
-  sentenceAnswered = true;
-  const count = incSentenceSession();
-  updateSentenceCounter();
-
-  // Fuzzy check: ≥60% word overlap (case-insensitive, ignore punctuation)
-  const norm = s => s.toLowerCase().replace(/[.,!?;:"""„''–-]/g, '').trim();
-  const typedSet  = new Set(norm(typed).split(/\s+/).filter(Boolean));
-  const expected  = norm(sentenceCurrentCard.german).split(/\s+/).filter(Boolean);
-  const matches   = expected.filter(w => typedSet.has(w)).length;
-  const correct   = matches / expected.length >= 0.6;
-
-  const missed = expected.filter(w => !typedSet.has(w));
-  const card = document.getElementById('card');
-  const fb = document.getElementById('feedback');
-  if (correct) {
-    card.classList.add('correct');
-    fb.className = 'feedback correct';
-    fb.innerHTML = `✓ <strong>${sentenceCurrentCard.german}</strong>`;
-  } else {
-    card.classList.add('wrong');
-    fb.className = 'feedback incorrect';
-    fb.innerHTML = `✗ Missing: <strong>${missed.join(', ')}</strong> · All: <strong>${sentenceCurrentCard.german}</strong>`;
-  }
-
-  elCheck.disabled = true;
-  document.getElementById('answer-input').disabled = true;
-  document.getElementById('btn-next').style.display = 'block';
-}
-
-function skipSentenceCard() {
-  if (!isSentenceMode || !sentenceCurrentCard || sentenceAnswered) return;
-  sentenceAnswered = true;
-
-  const card = document.getElementById('card');
-  card.classList.add('wrong');
-  const fb = document.getElementById('feedback');
-  fb.className = 'feedback incorrect';
-  fb.innerHTML = `⏭ <strong>${sentenceCurrentCard.german}</strong>`;
-
-  elCheck.disabled = true;
-  document.getElementById('answer-input').disabled = true;
-  document.getElementById('btn-next').style.display = 'block';
-}
-
-function exitSentenceMode() {
-  isSentenceMode = false;
-  sentenceDeck   = [];
-  sentenceChunksLoaded = 0;
-  document.getElementById('sentence-counter-bar').style.display = 'none';
-  document.getElementById('masterybar') && (document.getElementById('masterybar').style.display = '');
-  document.getElementById('main-title').style.display = '';
-  document.getElementById('card-wrap').style.display = 'none';
-  document.getElementById('input-area').style.display = 'none';
-  document.getElementById('umlaut-bar').classList.add('hidden');
-  document.getElementById('tier-select-screen').style.display = '';
-  document.getElementById('btn-next').style.display = 'none';
-}
-
-function updateSentenceCounter() {
-  const el = document.getElementById('sentence-attempted-count');
-  if (el) el.textContent = getSentenceSessionCount();
-  const tot = document.getElementById('sentence-total-count');
-  if (tot) tot.textContent = `${sentenceDeck.length.toLocaleString()} sentences available`;
 }
 
 function startAppWithTier(tier) {
@@ -4397,9 +3762,6 @@ function showCoreVerbCard() {
   document.getElementById('gender-hint').style.display = 'none';
   elTenseBadge.style.display = 'none';
   elMasteryDots.innerHTML = '';
-  elSentenceDe.style.display = 'none';
-  elSentenceEn.style.display = 'none';
-
   const verb = CORE_VERBS[coreVerbIndex];
   const elPrompt = document.getElementById('grammar-prompt');
   const elFields = document.getElementById('grammar-fields');

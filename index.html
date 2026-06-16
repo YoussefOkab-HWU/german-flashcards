@@ -827,7 +827,6 @@
 </div>
 
 <div class="filters" id="filters"></div>
-<div class="tense-filters" id="tense-filters"></div>
 <div class="tense-filters" id="grammar-type-filters" style="display:none">
   <button class="filter-btn active" data-gtype="noun">Nouns</button>
   <button class="filter-btn" data-gtype="verb">Verbs</button>
@@ -1586,7 +1585,6 @@ let deckPos = 0;
 let grammarQueue = [];     // active working window for grammar drill
 let grammarQueuePool = []; // remaining unseen grammar cards
 let activeFilter = 'all';
-let activeTense = 'all';
 let activeGrammarType = 'noun'; // 'noun', 'verb'
 let appMode = 'flashcards';
 let langDir = 'de-en'; // 'de-en' or 'en-de'
@@ -2866,24 +2864,6 @@ document.getElementById('mastered-tab-grammar').addEventListener('click', () => 
   startMasteredGrammarDrill();
 });
 
-// ── Tense filters ─────────────────────────────────────────────────────────────
-function buildTenseFilters() {
-  const tenses = ['all', 'present', 'past', 'future'];
-  const labels = { all: 'All', present: 'Present', past: 'Past', future: 'Future' };
-  tenses.forEach(t => {
-    const btn = document.createElement('button');
-    btn.className = 'filter-btn' + (t === 'all' ? ' active' : '');
-    btn.textContent = labels[t];
-    btn.dataset.tense = t;
-    btn.addEventListener('click', () => {
-      activeTense = t;
-      document.querySelectorAll('#tense-filters .filter-btn').forEach(b =>
-        b.classList.toggle('active', b.dataset.tense === t));
-      resetDeck();
-    });
-    elTenseFilters.appendChild(btn);
-  });
-}
 
 // Wire grammar type filter buttons
 document.querySelectorAll('#grammar-type-filters .filter-btn').forEach(btn => {
@@ -3861,7 +3841,6 @@ function startApp(dir) {
   // Update placeholder
   elInput.placeholder = dir === 'en-de' ? 'Schreib das deutsche Wort…' : 'Type English translation…';
   buildFilters();
-  buildTenseFilters();
   // Pull cloud progress then start (fall back immediately if offline)
   loadBreakdowns(); // fire and forget — available before first card is answered
   pullFromCloud().finally(() => {
